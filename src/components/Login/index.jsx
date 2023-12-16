@@ -10,11 +10,11 @@ import LoginFormContainer, {
   TitleLogin,
 } from "./login.styles";
 
-import {DivPass, DivTxtField} from "../../../components/shared/styles";
+import {DivPass, DivTxtField} from "../shared/styles";
 import {useLocation, useNavigate} from "react-router-dom";
-import Loader from "../../../components/Loader";
+import Loader from "../Loader";
 import {useTranslation} from "react-i18next";
-import {login} from "../utils";
+import {login} from "../../services/auth/utils";
 
 function Login() {
   const {t} = useTranslation();
@@ -128,5 +128,5 @@ function Login() {
     </LoginFormContainer>
   );
 }
- 
+
 export default Login;

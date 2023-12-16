@@ -35,7 +35,7 @@ import {ReactComponent as LogoutIcon} from "assets/icons/logout.svg";
 import Sidebar from "../Sidebar";
 import {arabicTheme, englishTheme} from "styles";
 import {useDashboardData} from "../../../util/routes-data";
-import {logout} from "../../../modules/auth/utils";
+import {logout} from "../../../services/auth/utils";
 
 function Nav({changeTheme, theme}) {
   const {currentUser} = useDashboardData();

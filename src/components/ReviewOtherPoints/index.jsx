@@ -4,17 +4,17 @@ import {DropDownDiv, DropdownList, TxtArea} from "./ReviewOtherPoints.styles";
 import {DropdownDivSelect as Box} from "../Groups/Groups.styles"
 import Tabs from "../shared/Tabs";
 import {H5} from "../Students/setPasswordStudent/SetPasswordStudent.styles";
-import {Span} from "../../modules/auth/Login/login.styles";
+import {Span} from "../Login/login.styles";
 import {
-    DivPass,
-    DivTxtField,
-    DivTxtFieldnumber,
-    DropdownListItem,
-    Form,
-    FormInput,
-    FormInputnumber,
-    InputSubmit,
-    Label
+  DivPass,
+  DivTxtField,
+  DivTxtFieldnumber,
+  DropdownListItem,
+  Form,
+  FormInput,
+  FormInputnumber,
+  InputSubmit,
+  Label
 } from "../shared/styles";
 import Container from '../Standards/Standards.styles';
 import {useNavigate} from "react-router-dom";

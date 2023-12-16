@@ -1,4 +1,4 @@
-import { doRequest } from "./doRequest";
+import {doRequest} from "./doRequest";
 import cookie from "react-cookies";
 
 export const retrieveAdmins = (
@@ -23,20 +23,6 @@ export const retrieveAdmins = (
   );
 };
 
-export const retrieveAdminInfo = (successCallback, faiCallback) => {
-  doRequest(
-    null,
-    `/current-user/`,
-    {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${cookie.load("token")}`,
-    },
-    "get",
-    successCallback,
-    faiCallback,
-    true
-  );
-};
 
 export const updateContestPeopleRole = (
   username,

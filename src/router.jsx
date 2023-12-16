@@ -1,6 +1,6 @@
 import {createBrowserRouter, Outlet, redirect} from "react-router-dom";
-import Login from "./modules/auth/Login";
-import {DashboardLayout} from "./modules/layout/DashboardLayout";
+import Login from "./components/Login";
+import {DashboardLayout} from "./components/layout/DashboardLayout";
 import Home from "./components/Home";
 import EditProfile from "./components/EditProfile";
 import ContestModerator from "./components/ContestModerator";
@@ -13,8 +13,9 @@ import ContestCriteria from "./components/ContestCriteria";
 import ReviewOtherPoints from "./components/ReviewOtherPoints";
 import ExportPoints from "./components/ExportPoints";
 import StudentsPoints from "./components/studentsPoints";
-import {getUser, isLogged} from "./modules/auth/utils";
+import {isLogged, saveUserToLocalStorage} from "./services/auth/utils";
 import {isSuperAdmin} from "./util/ContestPeople_Role";
+import * as AuthApi from "./services/auth/api";
 
 export const router = createBrowserRouter([
   {
@@ -44,11 +45,17 @@ export const router = createBrowserRouter([
             return redirect(`/login?redirectTo=${redirectTo}`);
           }
 
-          const user = await getUser();
-          return {
-            currentUser: user,
-            isSuperAdmin: isSuperAdmin(user)
-          };
+          try {
+            const user = await AuthApi.currentUserInfo();
+            saveUserToLocalStorage(user);
+
+            return {
+              currentUser: user,
+              isSuperAdmin: isSuperAdmin(user)
+            };
+          } catch (e) {
+            return redirect("/login");
+          }
         },
         element: <DashboardLayout/>,
         children: [

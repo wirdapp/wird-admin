@@ -3,7 +3,7 @@ import {
   DivCenter as DefaultDivCenter,
   Form as DefaultForm,
   InputSubmit as DefaultInputSubmit,
-} from "../../modules/auth/Login/login.styles";
+} from "../Login/login.styles";
 
 import {DivPass as DefaultDivPass} from "../shared/styles";
 

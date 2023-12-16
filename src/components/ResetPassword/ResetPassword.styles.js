@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import {DivCenter as DefaultDivCenter, TitleLogin as DefaultTitleLogin} from "../../modules/auth/Login/login.styles";
+import {DivCenter as DefaultDivCenter, TitleLogin as DefaultTitleLogin} from "../Login/login.styles";
 
 import {DivPass as DefaultDivPass,} from "../shared/styles";
 

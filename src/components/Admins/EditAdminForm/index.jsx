@@ -14,7 +14,7 @@ import {
 import {DropdownDiv, DropdownList} from "./EditAdminForm.styles";
 import {updateAdmin} from "../../../services/adminsServices";
 import {useDashboardData} from "../../../util/routes-data";
-import {saveUserToLocalStorage} from "../../../modules/auth/utils";
+import {saveUserToLocalStorage} from "../../../services/auth/utils";
 
 export default function EditGroupForm(props) {
   const {currentUser} = useDashboardData();

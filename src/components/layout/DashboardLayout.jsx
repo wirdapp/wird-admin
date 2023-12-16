@@ -1,7 +1,7 @@
 import React from 'react';
-import Sidebar from "../../components/shared/Sidebar";
+import Sidebar from "../shared/Sidebar";
 import {Container, MainContent} from "./layout.styles";
-import Navbar from "../../components/shared/Navbar";
+import Navbar from "../shared/Navbar";
 import {Outlet} from "react-router-dom";
 
 export const DashboardLayout = () => {

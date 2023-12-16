@@ -1,11 +1,7 @@
 import styled from "@emotion/styled";
-import {colors} from "../../../styles";
+import {colors} from "../../styles";
 
-import {
-  Form as DefaultForm,
-  FormInput as DefaultFormInput,
-  InputSubmit as DefaultInputSubmit,
-} from "../../../components/shared/styles";
+import {Form as DefaultForm, FormInput as DefaultFormInput, InputSubmit as DefaultInputSubmit,} from "../shared/styles";
 
 export default styled.div`
     display: flex;

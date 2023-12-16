@@ -19,6 +19,13 @@ export function saveUserToLocalStorage(user) {
   localStorage.setItem("user", JSON.stringify(user));
 }
 
+export function getTokens() {
+  return {
+    token: localStorage.getItem("token"),
+    refreshToken: localStorage.getItem("refreshToken")
+  };
+}
+
 export async function getUser() {
   if (!isLogged()) return null;
   let user = JSON.parse(localStorage.getItem("user") || "null");
@@ -40,3 +47,4 @@ export const login = async (username, password) => {
   const currentUserInfo = await AuthApi.currentUserInfo();
   saveUserToLocalStorage(currentUserInfo);
 }
+
