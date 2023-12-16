@@ -6,7 +6,6 @@ import {
   CloseIcon,
   Container,
   LeftNavItems,
-  LinkElement,
   List,
   ListItem,
   MenuIcon,
@@ -95,13 +94,11 @@ function Nav({changeTheme, theme}) {
               </LeftNavItems>
               <RightNavItems>
                 <NavItem>
-                  {" "}
-                  <LinkElement
-                    to="/competition/#create-contest"
+                  <a
                     title="Create Contest"
                   >
                     +
-                  </LinkElement>
+                  </a>
                 </NavItem>
                 <NavItem onClick={() => setShowUserInfo(!showUserInfo)}>
                   {currentUser?.username
