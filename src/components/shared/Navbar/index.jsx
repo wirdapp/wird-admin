@@ -1,47 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./NavStyle.css";
-import { FaTimes, FaLanguage } from "react-icons/fa";
-import HeaderNavContainer, {
+import {FaLanguage, FaTimes} from "react-icons/fa";
+import {
+  CloseIcon,
+  Container,
+  LeftNavItems,
+  LinkElement,
+  List,
+  ListItem,
+  MenuIcon,
+  MenuTitle,
+  Navbar,
   NavItem,
   PageTitle,
-  Container,
-  MenuIcon,
-  Navbar,
-  ListItem,
-  List,
-  LinkElement,
-  RightNavItems,
-  LeftNavItems,
-  SidebarMenu,
   PopupListWrapper,
-  MenuTitle,
-  CloseIcon,
-  ProfilePicture,
-  ProfileName,
   ProfileInfo,
+  ProfileName,
+  ProfilePicture,
+  RightNavItems,
+  SidebarMenu,
   UserInfoWrapper,
 } from "./navbar.styles";
 
 import Loader from "../../Loader";
-import { Link, useLocation } from "react-router-dom";
-import { useAdminContext } from "../../../contexts/AdminContext";
-import { changeLanguage, isSuperAdmin } from "../../../util/ContestPeople_Role";
-import { useTranslation } from "react-i18next";
+import {useLocation, useNavigate} from "react-router-dom";
+import {changeLanguage, isSuperAdmin} from "../../../util/ContestPeople_Role";
+import {useTranslation} from "react-i18next";
 import mapRoutesToPagesNames from "../../../data/pageNames";
-import { ReactComponent as SidebarIcon } from "assets/icons/sidebarIcon.svg";
-import { ReactComponent as MyAccountIcon } from "assets/icons/myAccount.svg";
-import { ReactComponent as HelpIcon } from "assets/icons/help.svg";
-import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
+import {ReactComponent as SidebarIcon} from "assets/icons/sidebarIcon.svg";
+import {ReactComponent as MyAccountIcon} from "assets/icons/myAccount.svg";
+import {ReactComponent as HelpIcon} from "assets/icons/help.svg";
+import {ReactComponent as LogoutIcon} from "assets/icons/logout.svg";
 import Sidebar from "../Sidebar";
-import { arabicTheme, englishTheme } from "styles";
-import { useNavigate } from "react-router-dom";
+import {arabicTheme, englishTheme} from "styles";
+import {useDashboardData} from "../../../util/routes-data";
+import {logout} from "../../../modules/auth/utils";
 
-function Nav({ changeTheme, theme }) {
-  const { t } = useTranslation();
+function Nav({changeTheme, theme}) {
+  const {currentUser} = useDashboardData();
+  const {t} = useTranslation();
   const [hasPermission, setPermission] = useState(false);
-  const context = useAdminContext();
-  const { pathname } = useLocation();
+  const {pathname} = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -60,9 +60,9 @@ function Nav({ changeTheme, theme }) {
 
   useEffect(() => {
     setPermission(
-      Object.keys(context.adminInfo).length > 0 && isSuperAdmin(context)
+      currentUser && isSuperAdmin(currentUser)
     );
-  }, [context.adminInfo]);
+  }, [currentUser]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -73,7 +73,7 @@ function Nav({ changeTheme, theme }) {
   if (loading) {
     return (
       <main>
-        <Loader />
+        <Loader/>
       </main>
     );
   }
@@ -85,7 +85,7 @@ function Nav({ changeTheme, theme }) {
             <Navbar>
               <LeftNavItems>
                 <MenuIcon onClick={handleToggle}>
-                  <SidebarIcon />
+                  <SidebarIcon/>
                 </MenuIcon>
                 <PageTitle>
                   {mapRoutesToPagesNames.hasOwnProperty(pathname)
@@ -104,9 +104,9 @@ function Nav({ changeTheme, theme }) {
                   </LinkElement>
                 </NavItem>
                 <NavItem onClick={() => setShowUserInfo(!showUserInfo)}>
-                  {context?.adminInfo?.username
-                    ? context?.adminInfo?.username[0] +
-                      context?.adminInfo?.username[1]
+                  {currentUser?.username
+                    ? currentUser?.username[0] +
+                    currentUser?.username[1]
                     : ""}
                 </NavItem>
                 <>
@@ -115,36 +115,36 @@ function Nav({ changeTheme, theme }) {
                       <UserInfoWrapper>
                         <ProfileInfo>
                           <ProfilePicture
-                            src={context?.adminInfo?.profile_photo}
+                            src={currentUser?.profile_photo}
                           >
-                            {context?.adminInfo?.profile_photo ??
-                              context?.adminInfo?.username?.[0] +
-                                context?.adminInfo?.username?.[1]}
+                            {currentUser?.profile_photo ??
+                              currentUser?.username?.[0] +
+                              currentUser?.username?.[1]}
                           </ProfilePicture>
                           {/* Show user name if no first name */}
                           <ProfileName>
-                            {context.adminInfo.first_name
-                              ? context.adminInfo.first_name +
-                                " " +
-                                context.adminInfo.last_name
-                              : context.adminInfo.username}
+                            {currentUser.first_name
+                              ? currentUser.first_name +
+                              " " +
+                              currentUser.last_name
+                              : currentUser.username}
                           </ProfileName>
                         </ProfileInfo>
                         <CloseIcon onClick={() => setShowUserInfo(false)}>
-                          <FaTimes />
+                          <FaTimes/>
                         </CloseIcon>
                       </UserInfoWrapper>
                       <List>
                         <ListItem>
-                          <MyAccountIcon />
+                          <MyAccountIcon/>
                           <MenuTitle>{t("my-account")}</MenuTitle>
                         </ListItem>
                         <ListItem>
-                          <HelpIcon />
+                          <HelpIcon/>
                           <MenuTitle>
                             <a
                               href="https://www.facebook.com/Wird.Competition"
-                              target="_blank"
+                              target="_blank" rel="noreferrer"
                             >
                               {t("help")}
                             </a>
@@ -162,18 +162,18 @@ function Nav({ changeTheme, theme }) {
                             setLoading(true);
                           }}
                         >
-                          <FaLanguage />
+                          <FaLanguage/>
                           <MenuTitle>{t("language")}</MenuTitle>
                         </ListItem>
 
                         <ListItem
                           onClick={() => {
                             setShowUserInfo(false);
-                            context.logout();
+                            logout();
                             navigate("/login");
                           }}
                         >
-                          <LogoutIcon />
+                          <LogoutIcon/>
                           <MenuTitle>{t("logout")}</MenuTitle>
                         </ListItem>
                       </List>
@@ -186,10 +186,10 @@ function Nav({ changeTheme, theme }) {
               className={isOpen ? "open" : ""}
               isArabicTheme={theme?.name === "ar"}
             >
-              <MenuIcon onClick={handleToggle} style={{ marginTop: "1rem" }}>
-                <SidebarIcon />
+              <MenuIcon onClick={handleToggle} style={{marginTop: "1rem"}}>
+                <SidebarIcon/>
               </MenuIcon>
-              <Sidebar setIsSideBarCollapsed={handleToggle} />
+              <Sidebar setIsSideBarCollapsed={handleToggle}/>
             </SidebarMenu>
           </Container>
         </header>

@@ -1,31 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import AddStandardForm from "./AddStandardForm";
 import EditStandardForm from "./EditStandardForm";
 import AddSectionForm from "./AddSectionForm";
 import EditSectionForm from "./EditSectionForm";
-import {
-  deleteSection,
-  deleteStandard,
-  // retrieveSections,
-  // retrieveStandards,
-} from "../../services/standardServices";
+import {deleteSection, deleteStandard,} from "../../services/standardServices";
 import Tabs from "../shared/Tabs";
-import Container, { StandardsDropDownList } from "./Standards.styles";
+import Container, {StandardsDropDownList} from "./Standards.styles";
 import Modal from "../shared/Modal";
-import {
-  Button,
-  DivPass,
-  DropdownListItem,
-  Span,
-} from "../Admins/Admins.styles";
-import { useAdminContext } from "../../contexts/AdminContext";
-import { H5 } from "../Students/setPasswordStudent/SetPasswordStudent.styles";
-import cookie from "react-cookies";
-import { useNavigate } from "react-router-dom";
+import {Button, DivPass, DropdownListItem, Span,} from "../Admins/Admins.styles";
+import {H5} from "../Students/setPasswordStudent/SetPasswordStudent.styles";
 import Loader from "../Loader";
-import { isSuperAdmin } from "../../util/ContestPeople_Role";
+import {isSuperAdmin} from "../../util/ContestPeople_Role";
+import {useDashboardData} from "../../util/routes-data";
 
 export default function Standards() {
+  const {currentUser} = useDashboardData();
+
   const [sections, setSections] = useState([]);
   const [standards, setStandards] = useState([]);
   const [openStandardModal, setOpenStandardModal] = useState(false);
@@ -43,26 +33,7 @@ export default function Standards() {
     useState(false);
   const [loading, setLoading] = useState(false);
 
-  const context = useAdminContext();
-  let navigate = useNavigate();
-
   useEffect(() => {
-    if (!cookie.load("token")) {
-      navigate("/login", { state: { redirectTo: "/contest-criteria" } });
-    }
-
-    setLoading(true);
-    if (Object.keys(context.adminInfo).length > 0) {
-      setPermission(isSuperAdmin(context));
-    } else {
-      setTimeout(() => {
-        if (Object.keys(context.adminInfo).length === 0) {
-          // permission will be updated once context.adminInfo is updated.
-          context.getAdminInfo();
-        }
-      }, 1000);
-    }
-
     // retrieveStandards(
     //   (res) => {
     //     setStandards(res.data.results);
@@ -92,7 +63,7 @@ export default function Standards() {
 
   useEffect(() => {
     setPermission(
-      Object.keys(context.adminInfo).length > 0 && isSuperAdmin(context)
+      currentUser && isSuperAdmin(currentUser)
     );
   }, [context.adminInfo]);
 
@@ -106,12 +77,12 @@ export default function Standards() {
       if (sections && sections.length > 0) {
         labelsArray.push("تعديل قسم");
         contentsArray.push(
-          <EditSectionForm sections={sections} setSections={setSections} />
+          <EditSectionForm sections={sections} setSections={setSections}/>
         );
       }
       labelsArray.push("إضافة قسم");
       contentsArray.push(
-        <AddSectionForm sections={sections} setSections={setSections} />
+        <AddSectionForm sections={sections} setSections={setSections}/>
       );
       if (standards && standards.length > 0) {
         labelsArray.push("تعديل معييار");
@@ -152,7 +123,7 @@ export default function Standards() {
                     <Span>{section.label}</Span>
                   </>
                 ) : (
-                  <Span style={{ width: "100%" }}>{section.label}</Span>
+                  <Span style={{width: "100%"}}>{section.label}</Span>
                 )}
               </DropdownListItem>
             );
@@ -187,7 +158,7 @@ export default function Standards() {
                     <Span>{standard.label}</Span>
                   </>
                 ) : (
-                  <Span style={{ width: "100%" }}>{standard.label}</Span>
+                  <Span style={{width: "100%"}}>{standard.label}</Span>
                 )}
               </DropdownListItem>
             );
@@ -288,7 +259,7 @@ export default function Standards() {
   if (loading) {
     return (
       <main>
-        <Loader />
+        <Loader/>
       </main>
     );
   }
@@ -331,7 +302,7 @@ export default function Standards() {
         }
 
         {currentLabels.length === 0 && labels.length === 0 && (
-          <Tabs labels={["المعايير"]} contents={[<H5>لا يوجد معايير</H5>]} />
+          <Tabs labels={["المعايير"]} contents={[<H5>لا يوجد معايير</H5>]}/>
         )}
         <Tabs
           labels={currentLabels}
@@ -339,7 +310,7 @@ export default function Standards() {
           contentClass=" no-padding"
         />
 
-        <Tabs labels={labels} contents={contents} />
+        <Tabs labels={labels} contents={contents}/>
       </Container>
     </>
   );

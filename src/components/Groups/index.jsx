@@ -1,44 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddGroupForm from "./AddGroupForm";
 import EditGroupForm from "./EditGroupForm";
-import { retrieveStudents } from "../../services/studentsServices";
-import { retrieveAdmins } from "../../services/adminsServices";
-import { deleteGroup, retrieveGroups } from "../../services/groupsServices";
+import {retrieveStudents} from "../../services/studentsServices";
+import {retrieveAdmins} from "../../services/adminsServices";
+import {deleteGroup, retrieveGroups} from "../../services/groupsServices";
 import Modal from "../shared/Modal";
-import {
-  DropdownListItem,
-  Span,
-} from "../Admins/Admins.styles";
-import { useAdminContext } from "../../contexts/AdminContext";
-import { H5 } from "../Students/setPasswordStudent/SetPasswordStudent.styles";
-import { useNavigate } from "react-router-dom";
-import cookie from "react-cookies";
-import { H3Pass } from "../shared/styles";
+import {DropdownListItem, Span,} from "../Admins/Admins.styles";
+import {H5} from "../Students/setPasswordStudent/SetPasswordStudent.styles";
+import {H3Pass} from "../shared/styles";
 import Loader from "../Loader";
-import { isSuperAdmin } from "../../util/ContestPeople_Role";
+import {isSuperAdmin} from "../../util/ContestPeople_Role";
 
 import GroupsContentDefault, {
-  GroupsTitleLine,
-  GroupCard,
-  NormalDiv,
+  ActionButton,
   AddEditFormContainer,
-  RowContainer,
-  IconBox,
-  ColumnContainer,
   BoldText,
+  ColumnContainer,
+  GroupCard,
+  GroupsTitleLine,
+  IconBox,
   LightText,
   MembersImg,
-  ActionButton,
+  NormalDiv,
+  RowContainer,
 } from "./Groups.styles";
 import MyOngoingContestTab from "../shared/MyOngoingContestTab/index";
-import { ReactComponent as GroupIcon } from "../../assets/icons/groupIcon.svg";
-import { ReactComponent as AddGroupIcon } from "../../assets/icons/addGroupIcon.svg";
-import { colors } from "styles";
-import { useTranslation } from "react-i18next";
+import {ReactComponent as GroupIcon} from "../../assets/icons/groupIcon.svg";
+import {ReactComponent as AddGroupIcon} from "../../assets/icons/addGroupIcon.svg";
+import {colors} from "styles";
+import {useTranslation} from "react-i18next";
+import {useDashboardData} from "../../util/routes-data";
 
 
 export default function Groups() {
+  const {currentUser} = useDashboardData();
+
   const [admins, setAdmins] = useState([]);
   const [groups, setGroups] = useState([]);
   const [students, setStudents] = useState([]);
@@ -50,29 +47,10 @@ export default function Groups() {
   const [addGroupFormOpen, setAddGroupFormOpen] = useState(false);
   const [editGroupFormOpen, setEditGroupFormOpen] = useState(false);
   const [groupIdToEdit, setGroupIdToEdit] = useState("");
-  const { t } = useTranslation();
-  const context = useAdminContext();
-  let navigate = useNavigate();
+  const {t} = useTranslation();
 
   useEffect(() => {
-    if (!cookie.load("token")) {
-      navigate("/login", { state: { redirectTo: "/Groups" } });
-      return;
-    }
-
     setLoading(true);
-
-    if (Object.keys(context.adminInfo).length > 0) {
-      setPermission(isSuperAdmin(context));
-    } else {
-      setTimeout(() => {
-        if (Object.keys(context.adminInfo).length === 0) {
-          // permission will be updated once context.adminInfo is updated.
-          context.getAdminInfo();
-        }
-      }, 1000);
-
-    }
     retrieveAdmins(
       (res) => {
         setAdmins(res.data);
@@ -97,16 +75,16 @@ export default function Groups() {
     );
 
     retrieveStudents(
-        (res) => {
-          setStudents(res.data);
-          setLoading(false);
-        },
-        (err) => {
-          console.log(
-              "Failed to retrieve students: " + JSON.stringify(err.response.data)
-          );
-          setLoading(false);
-        }
+      (res) => {
+        setStudents(res.data);
+        setLoading(false);
+      },
+      (err) => {
+        console.log(
+          "Failed to retrieve students: " + JSON.stringify(err.response.data)
+        );
+        setLoading(false);
+      }
     );
 
 
@@ -114,7 +92,6 @@ export default function Groups() {
 
   useEffect(() => {
     if (students && students.length > 0) {
-      console.log(students);
       students.map(
         (student) =>
           (student["full_name"] = student.person.first_name + " " + student.person.last_name)
@@ -124,9 +101,9 @@ export default function Groups() {
 
   useEffect(() => {
     setPermission(
-      Object.keys(context.adminInfo).length > 0 && isSuperAdmin(context)
+      currentUser && isSuperAdmin(currentUser)
     );
-  }, [context.adminInfo]);
+  }, [currentUser]);
 
   const handleOpenGroupModalChange = (groupId) => {
     setGroupIdToDelete(groupId);
@@ -144,7 +121,7 @@ export default function Groups() {
 
   const editGroupFormHandler = (groupId) => {
     setEditGroupFormOpen((prevState) => !prevState);
-    setGroupIdToEdit( groupId);
+    setGroupIdToEdit(groupId);
     setAddGroupFormOpen(false);
   };
 
@@ -180,7 +157,7 @@ export default function Groups() {
   if (loading) {
     return (
       <main>
-        <Loader />
+        <Loader/>
       </main>
     );
   }
@@ -190,7 +167,7 @@ export default function Groups() {
     <>
 
       <GroupsContentDefault>
-        <MyOngoingContestTab />
+        <MyOngoingContestTab/>
 
         <GroupsTitleLine>
           <BoldText>
@@ -202,8 +179,8 @@ export default function Groups() {
             width="130px"
             onClick={addGroupFormHandler}
           >
-            <span style={{ margin: "5px" }}>{t("add-group")}</span>
-            <AddGroupIcon />
+            <span style={{margin: "5px"}}>{t("add-group")}</span>
+            <AddGroupIcon/>
           </ActionButton>
 
           {addGroupFormOpen && (
@@ -242,9 +219,9 @@ export default function Groups() {
                   <NormalDiv>
                     <RowContainer>
                       <IconBox>
-                        <GroupIcon />
+                        <GroupIcon/>
                       </IconBox>
-                      <ColumnContainer style={{ marginLeft: "10px" }}>
+                      <ColumnContainer style={{marginLeft: "10px"}}>
                         <BoldText>{group.name}</BoldText>
                         <LightText>
                           {`${t("joined")} ${new Date(
@@ -295,7 +272,7 @@ export default function Groups() {
                     >
                       <EditGroupForm
                         studentsGroups={groups}
-                        selectedGroupId = {groupIdToEdit}
+                        selectedGroupId={groupIdToEdit}
                         setGroups={setGroups}
                         students={students}
                         admins={admins}
@@ -316,7 +293,7 @@ export default function Groups() {
                   )}
                 </>
               ) : (
-                <Span style={{ width: "100%" }}>{group.name}</Span>
+                <Span style={{width: "100%"}}>{group.name}</Span>
               )}
             </GroupCard>
           ))

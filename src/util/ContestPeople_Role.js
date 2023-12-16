@@ -9,8 +9,8 @@ export const Role = Object.freeze({
   DEACTIVATED: 6,
 });
 
-export const isSuperAdmin = (context) => {
-  return Role.SUPER_ADMIN === context?.adminInfo?.role;
+export const isSuperAdmin = (user) => {
+  return Role.SUPER_ADMIN === user?.role;
 };
 
 const VALID_LANGUAGES = ["ar", "en"];

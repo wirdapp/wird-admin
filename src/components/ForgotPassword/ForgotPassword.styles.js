@@ -1,12 +1,7 @@
 import styled from "@emotion/styled";
-import {
-    TitleLogin as DefaultTitleLogin,
-    DivCenter as DefaultDivCenter
-} from "../Login/login.styles";
+import {DivCenter as DefaultDivCenter, TitleLogin as DefaultTitleLogin} from "../../modules/auth/Login/login.styles";
 
-import {
-    DivPass as DefaultDivPass,
-} from "../shared/styles";
+import {DivPass as DefaultDivPass,} from "../shared/styles";
 
 export default styled.div`
 display:flex;

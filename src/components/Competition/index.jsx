@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { retrieveCurrentContestInfo } from "../../services/competitionsServices";
+import React, {useEffect, useState} from "react";
+import {retrieveCurrentContestInfo} from "../../services/competitionsServices";
 import EditCompetitionForm from "./EditCompetitionForm";
-import cookie from "react-cookies";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Loader from "../Loader";
 
 import MyOngoingContestTab from "../shared/MyOngoingContestTab";
@@ -16,10 +15,6 @@ export default function Competition() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    if (!cookie.load("token")) {
-      navigate("/login", { state: { redirectTo: "/competition" } });
-      return;
-    }
     setLoading(true);
     retrieveCurrentContestInfo(
       (res) => {
@@ -41,15 +36,15 @@ export default function Competition() {
   if (loading) {
     return (
       <main>
-        <Loader />
+        <Loader/>
       </main>
     );
   }
 
   return (
     <ContestModeratorDefault>
-      <MyOngoingContestTab competition={true} />
-      <ContestMembers contest={currentContest} />
+      <MyOngoingContestTab competition={true}/>
+      <ContestMembers contest={currentContest}/>
       <EditCompetitionForm
         contest={currentContest}
         setContest={setCurrentContest}

@@ -1,49 +1,27 @@
-import React, { useEffect, useState } from "react";
-import Tabs from "../shared/Tabs";
-import SetPasswordStudents from "./setPasswordStudent";
-import EditStudentForm from "./EditStudentForm";
-import {
-  deleteStudent,
-  retrieveDeactivatedMembers,
-  retrieveStudents,
-} from "../../services/studentsServices";
-import { H5 } from "./setPasswordStudent/SetPasswordStudent.styles";
-import Modal from "../shared/Modal";
-import {
-  Button,
-  DropdownList,
-  DropdownListItem,
-  Span,
-} from "../Admins/Admins.styles";
-import { useAdminContext } from "../../contexts/AdminContext";
-import { useNavigate } from "react-router-dom";
-import cookie from "react-cookies";
+import React, {useEffect, useState} from "react";
+import {deleteStudent, retrieveDeactivatedMembers, retrieveStudents,} from "../../services/studentsServices";
 import Loader from "../Loader";
-import { isSuperAdmin } from "../../util/ContestPeople_Role";
-import { ReactComponent as SearchIcons2 } from "assets/icons/search2.svg";
-import { ReactComponent as SearchIcons } from "assets/icons/search.svg";
-import { useTranslation } from "react-i18next";
+import {isSuperAdmin} from "../../util/ContestPeople_Role";
+import {ReactComponent as SearchIcons2} from "assets/icons/search2.svg";
+import {useTranslation} from "react-i18next";
 import MyOngoingContestTab from "../shared/MyOngoingContestTab/index";
 import StudentsContainer, {
+  AddParticipantContainer,
+  BoldText,
   ContentContainer,
   RowContainer,
-  BoldText,
-  StudentSearchContainer,
   SearchInput,
-  AddParticipantContainer,
-  AddParticipantSpan,
-  SearchInputContainer,
-  SearchContainerForm,
-  SearchIconButton,
-  SearchContainer,
-  GoBtn,
+  StudentSearchContainer,
 } from "./Students.styles";
 import ParticipantCard from "./ParticipantCard";
 import WaitingCard from "./WaitingCard";
 import Participants from "./ParticipantsMember";
+import {useDashboardData} from "../../util/routes-data";
 
 export default function Students() {
-  const { t } = useTranslation();
+  const {currentUser} = useDashboardData();
+
+  const {t} = useTranslation();
   const [students, setStudents] = useState([]);
   const [deactivatedStudents, setDeactivatedStudents] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -55,27 +33,8 @@ export default function Students() {
   const [membersNumber, setMembersNumber] = useState(0);
   const [searchText, setSearchText] = useState("");
 
-  const context = useAdminContext();
-  let navigate = useNavigate();
-
   useEffect(() => {
-    if (!cookie.load("token")) {
-      navigate("/login", { state: { redirectTo: "/Students" } });
-    }
-
     setLoading(true);
-
-    if (Object.keys(context.adminInfo).length > 0) {
-      setPermission(isSuperAdmin(context));
-    } else {
-      setTimeout(() => {
-        if (Object.keys(context.adminInfo).length === 0) {
-          // permission will be updated once context.adminInfo is updated.
-          context.getAdminInfo();
-        }
-      }, 1000);
-    }
-
     retrieveDeactivatedMembers(
       (res) => {
         if (res && res.status === 200) {
@@ -85,7 +44,7 @@ export default function Students() {
       (err) => {
         console.log(
           "Failed to retrieve deactivated students: " +
-            JSON.stringify(err?.response?.data)
+          JSON.stringify(err?.response?.data)
         );
       }
     );
@@ -106,9 +65,9 @@ export default function Students() {
 
   useEffect(() => {
     setPermission(
-      Object.keys(context.adminInfo).length > 0 && isSuperAdmin(context)
+      currentUser && isSuperAdmin(currentUser)
     );
-  }, [context.adminInfo]);
+  }, [currentUser]);
 
   useEffect(() => {
     setSearchText("");
@@ -158,7 +117,7 @@ export default function Students() {
         (err) => {
           console.log(
             "Failed to retrieve students: " +
-              JSON.stringify(err?.response?.data)
+            JSON.stringify(err?.response?.data)
           );
           setLoading(false);
         },
@@ -175,7 +134,7 @@ export default function Students() {
         (err) => {
           console.log(
             "Failed to retrieve deactivated students: " +
-              JSON.stringify(err?.response?.data)
+            JSON.stringify(err?.response?.data)
           );
           setLoading(false);
         },
@@ -187,7 +146,7 @@ export default function Students() {
   if (loading) {
     return (
       <main>
-        <Loader />
+        <Loader/>
       </main>
     );
   }
@@ -198,7 +157,7 @@ export default function Students() {
   return (
     <>
       <StudentsContainer>
-        <MyOngoingContestTab />
+        <MyOngoingContestTab/>
         <ContentContainer>
           <div
             style={{
@@ -213,8 +172,8 @@ export default function Students() {
                 {isStudentsDisplayed
                   ? `${t("students")}(${students.length})`
                   : `${t("deactivatedStudents")}(${
-                      deactivatedStudents.length
-                    })`}
+                    deactivatedStudents.length
+                  })`}
               </BoldText>
               <StudentSearchContainer>
                 <SearchInput
@@ -223,49 +182,49 @@ export default function Students() {
                   placeholder={t("search")}
                   isExpanded={isExpanded}
                 />
-                <SearchIcons2 onClick={handleSearchClick} />
+                <SearchIcons2 onClick={handleSearchClick}/>
               </StudentSearchContainer>
             </RowContainer>
 
             {isStudentsDisplayed
               ? students.map((student, idx) => {
-                  return (
-                    <ParticipantCard
-                      key={idx}
-                      name={
-                        student.person?.first_name?.length > 0
-                          ? student.person.first_name +
-                            " " +
-                            student.person.last_name
-                          : student.person.username
-                      }
-                      username={student.person.username}
-                      setStudents={setStudents}
-                      students={students}
-                      setDeactivatedStudents={setDeactivatedStudents}
-                      deactivatedStudents={deactivatedStudents}
-                    />
-                  );
-                })
+                return (
+                  <ParticipantCard
+                    key={idx}
+                    name={
+                      student.person?.first_name?.length > 0
+                        ? student.person.first_name +
+                        " " +
+                        student.person.last_name
+                        : student.person.username
+                    }
+                    username={student.person.username}
+                    setStudents={setStudents}
+                    students={students}
+                    setDeactivatedStudents={setDeactivatedStudents}
+                    deactivatedStudents={deactivatedStudents}
+                  />
+                );
+              })
               : deactivatedStudents.map((deactivatedStudent, idx) => {
-                  return (
-                    <WaitingCard
-                      key={idx}
-                      name={
-                        deactivatedStudent.person?.first_name?.length > 0
-                          ? deactivatedStudent.person.first_name +
-                            " " +
-                            deactivatedStudent.person.last_name
-                          : deactivatedStudent.person.username
-                      }
-                      username={deactivatedStudent.person.username}
-                      setStudents={setStudents}
-                      students={students}
-                      setDeactivatedStudents={setDeactivatedStudents}
-                      deactivatedStudents={deactivatedStudents}
-                    />
-                  );
-                })}
+                return (
+                  <WaitingCard
+                    key={idx}
+                    name={
+                      deactivatedStudent.person?.first_name?.length > 0
+                        ? deactivatedStudent.person.first_name +
+                        " " +
+                        deactivatedStudent.person.last_name
+                        : deactivatedStudent.person.username
+                    }
+                    username={deactivatedStudent.person.username}
+                    setStudents={setStudents}
+                    students={students}
+                    setDeactivatedStudents={setDeactivatedStudents}
+                    deactivatedStudents={deactivatedStudents}
+                  />
+                );
+              })}
           </div>
 
           <AddParticipantContainer>

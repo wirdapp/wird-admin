@@ -1,42 +1,32 @@
-import React, { useEffect, useState } from "react";
-import cookie from "react-cookies";
-import { useNavigate } from "react-router-dom";
-import { isSuperAdmin } from "../../util/ContestPeople_Role";
-import { useAdminContext } from "../../contexts/AdminContext";
+import React, {useEffect, useState} from "react";
 import Loader from "../Loader";
-import {
-  deleteSection,
-  deleteStandard,
-  retrieveSections,
-  retrieveStandards,
-} from "../../services/standardServices";
+import {deleteSection, deleteStandard, retrieveSections, retrieveStandards,} from "../../services/standardServices";
 
 import MainContainer, {
-  SectionsContainer,
-  CriteriaContainer,
+  AddButton,
+  ButtonsContainer,
   Criteria,
+  CriteriaContainer,
+  DeleteButton,
+  EditButton,
   HeadContent,
+  HeadText,
+  InnerText,
   Section,
   SectionAndCriteriaContainer,
-  HeadText,
-  AddButton,
-  EditButton,
-  DeleteButton,
-  InnerText,
-  ButtonsContainer,
+  SectionsContainer,
 } from "./ContestCriteria.styled";
 
 import MyOngoingContestTab from "components/shared/MyOngoingContestTab";
 import PopUpModal from "components/shared/PopUpModal";
 import CriteriaForm from "./CriteriaForm";
 import AddSectionForm from "./AddSectionForm";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import EditSectionForm from "./EditSectionForm";
 
 export default function ContestCriteria() {
   const [loading, setLoading] = useState(false);
   const [sections, setSections] = useState([]);
-  const [hasPermission, setPermission] = useState(false);
   const [standards, setStandards] = useState([]);
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
   const [showSectionModal, setShowSectionModal] = useState(false);
@@ -51,27 +41,9 @@ export default function ContestCriteria() {
   const [standardIdForUpdate, setStandardIdForUpdate] = useState("");
   const [currentSelectedDays, setCurrentSelectedDays] = useState([]);
 
-  const context = useAdminContext();
-  const { t } = useTranslation();
-  let navigate = useNavigate();
+  const {t} = useTranslation();
 
   useEffect(() => {
-    if (!cookie.load("token")) {
-      navigate("/login", { state: { redirectTo: "/ContestCriteria" } });
-    }
-
-    setLoading(true);
-
-    if (Object.keys(context.adminInfo).length > 0) {
-      setPermission(isSuperAdmin(context));
-    } else {
-      setTimeout(() => {
-        if (Object.keys(context.adminInfo).length === 0) {
-          // permission will be updated once context.adminInfo is updated.
-          context.getAdminInfo();
-        }
-      }, 1000);
-    }
 
     retrieveSections(
       (res) => {
@@ -86,17 +58,17 @@ export default function ContestCriteria() {
     );
 
     retrieveStandards(
-        (res) => {
-          setStandards(res.data);
-          setLoading(false);
-        },
-        (err) => {
-          console.log(
-              "Failed to retrieve standards, ERROR: ",
-              JSON.stringify(err.response.data)
-          );
-          setLoading(false);
-        }
+      (res) => {
+        setStandards(res.data);
+        setLoading(false);
+      },
+      (err) => {
+        console.log(
+          "Failed to retrieve standards, ERROR: ",
+          JSON.stringify(err.response.data)
+        );
+        setLoading(false);
+      }
     );
 
   }, []);
@@ -109,9 +81,9 @@ export default function ContestCriteria() {
       top: buttonPosition - event.target.getBoundingClientRect().height,
     });
     hideAllModals();
-    setTimeout(()=>{
+    setTimeout(() => {
       setShowCriteriaModal(true);
-    },100);
+    }, 100);
   }
 
   function handleSectionDelete(event, id) {
@@ -130,33 +102,33 @@ export default function ContestCriteria() {
 
   const handleConfirmDelete = () => {
     deleteSection(sectionIdForDelete,
-        (res)=>{
-          if(res && (res.status === 200 || res.status === 204)){
-            setSections(sections.filter(sec => sec.id !== sectionIdForDelete));
-          }
-          hideAllModals();
-        }, (err)=>{
-          console.log(
-              `Failed to delete section with id: ${sectionIdForDelete}: ${JSON.stringify(err.response.data)}`
-          );
-          hideAllModals();
+      (res) => {
+        if (res && (res.status === 200 || res.status === 204)) {
+          setSections(sections.filter(sec => sec.id !== sectionIdForDelete));
         }
-      );
+        hideAllModals();
+      }, (err) => {
+        console.log(
+          `Failed to delete section with id: ${sectionIdForDelete}: ${JSON.stringify(err.response.data)}`
+        );
+        hideAllModals();
+      }
+    );
   };
 
   const handleConfirmStandardDelete = () => {
     deleteStandard(standardIdForDelete,
-        (res)=>{
-          if(res && (res.status === 200 || res.status === 204)){
-            setSections(sections.filter(sec => sec.id !== standardIdForDelete));
-          }
-          hideAllModals();
-        }, (err)=>{
-          console.log(
-              `Failed to delete standard with id: ${standardIdForDelete}: ${JSON.stringify(err.response.data)}`
-          );
-          hideAllModals();
+      (res) => {
+        if (res && (res.status === 200 || res.status === 204)) {
+          setSections(sections.filter(sec => sec.id !== standardIdForDelete));
         }
+        hideAllModals();
+      }, (err) => {
+        console.log(
+          `Failed to delete standard with id: ${standardIdForDelete}: ${JSON.stringify(err.response.data)}`
+        );
+        hideAllModals();
+      }
     );
   };
 
@@ -181,11 +153,11 @@ export default function ContestCriteria() {
     setShowAddSectionModal(false);
   };
 
-  const hideEditSectionForm = ()=>{
+  const hideEditSectionForm = () => {
     setShowEditSectionModal(false);
   };
 
-  const hideEditStandardForm = ()=>{
+  const hideEditStandardForm = () => {
     setShowEditStandardModal(false);
   };
 
@@ -201,17 +173,17 @@ export default function ContestCriteria() {
     setShowEditStandardModal(true);
   };
 
-  if(loading) {
+  if (loading) {
     return (
-        <main>
-          <Loader />
-        </main>
+      <main>
+        <Loader/>
+      </main>
     );
   }
 
   return (
     <MainContainer>
-      <MyOngoingContestTab />
+      <MyOngoingContestTab/>
       <SectionAndCriteriaContainer>
         {/* all sections */}
         <SectionsContainer>
@@ -235,44 +207,46 @@ export default function ContestCriteria() {
           </HeadContent>
           {sections.map((section, index) => {
             return (
-                <>
-                  <Section key={index}>
-                    <InnerText>{section.label}</InnerText>
-                    <div>
-                      <ButtonsContainer>
-                        <EditButton onClick={()=>{handleEditSectionClick(section.id)}}>{t("edit")}</EditButton>
-                        <DeleteButton onClick={(e) => handleSectionDelete(e, section.id)}>
-                          {t("delete")}
-                        </DeleteButton>
-                      </ButtonsContainer>
-                      { showSectionModal && section.id === sectionIdForDelete &&
-                          <PopUpModal
-                              key={index}
-                              position={modalPosition}
-                              fixedTextFields={[<p>Are you sure you want to delete this section?</p>]}
-                              buttons={[
-                                <button onClick={handleCancel}>{t("cancel")}</button>,
-                                <button onClick={handleConfirmDelete}>
-                                  {t("delete")}
-                                </button>,
-                              ]}
-                          >
-                          </PopUpModal>
-                      }
-                    </div>
-                    {showEditSectionModal &&
-                        <EditSectionForm
-                            hideModalFunction={hideEditSectionForm}
-                            clickOverlay={() => {
-                              hideEditSectionForm();
-                            }}
-                            sectionId={selectedSectionId}
-                            sections={sections}
-                            setSections={setSections}
-                        />
+              <>
+                <Section key={index}>
+                  <InnerText>{section.label}</InnerText>
+                  <div>
+                    <ButtonsContainer>
+                      <EditButton onClick={() => {
+                        handleEditSectionClick(section.id)
+                      }}>{t("edit")}</EditButton>
+                      <DeleteButton onClick={(e) => handleSectionDelete(e, section.id)}>
+                        {t("delete")}
+                      </DeleteButton>
+                    </ButtonsContainer>
+                    {showSectionModal && section.id === sectionIdForDelete &&
+                      <PopUpModal
+                        key={index}
+                        position={modalPosition}
+                        fixedTextFields={[<p>Are you sure you want to delete this section?</p>]}
+                        buttons={[
+                          <button onClick={handleCancel}>{t("cancel")}</button>,
+                          <button onClick={handleConfirmDelete}>
+                            {t("delete")}
+                          </button>,
+                        ]}
+                      >
+                      </PopUpModal>
                     }
-                  </Section>
-                </>
+                  </div>
+                  {showEditSectionModal &&
+                    <EditSectionForm
+                      hideModalFunction={hideEditSectionForm}
+                      clickOverlay={() => {
+                        hideEditSectionForm();
+                      }}
+                      sectionId={selectedSectionId}
+                      sections={sections}
+                      setSections={setSections}
+                    />
+                  }
+                </Section>
+              </>
             );
           })}
         </SectionsContainer>
@@ -304,9 +278,13 @@ export default function ContestCriteria() {
                 <InnerText>{standard.label}</InnerText>
                 <div>
                   <ButtonsContainer>
-                    <EditButton onClick={()=>{handleEditStandardClick(standard.id)}}>{t("edit")}</EditButton>
+                    <EditButton onClick={() => {
+                      handleEditStandardClick(standard.id)
+                    }}>{t("edit")}</EditButton>
                     <DeleteButton
-                      onClick={(e) => {handleCriteriaDelete(e, standard.id)}}
+                      onClick={(e) => {
+                        handleCriteriaDelete(e, standard.id)
+                      }}
                     >
                       {t("delete")}
                     </DeleteButton>
@@ -325,17 +303,17 @@ export default function ContestCriteria() {
                     >
                     </PopUpModal>
                   )}
-                  { showEditStandardModal && standardIdForUpdate === standard.id &&
-                      <CriteriaForm
-                          hideModalFunction={hideEditStandardForm}
-                          clickOverlay={() => {
-                            setShowEditStandardModal(false);
-                          }}
-                          sections={sections}
-                          standards={standards}
-                          setStandards={setStandards}
-                          standardIdForUpdate={standardIdForUpdate}
-                      />
+                  {showEditStandardModal && standardIdForUpdate === standard.id &&
+                    <CriteriaForm
+                      hideModalFunction={hideEditStandardForm}
+                      clickOverlay={() => {
+                        setShowEditStandardModal(false);
+                      }}
+                      sections={sections}
+                      standards={standards}
+                      setStandards={setStandards}
+                      standardIdForUpdate={standardIdForUpdate}
+                    />
 
                   }
                 </div>

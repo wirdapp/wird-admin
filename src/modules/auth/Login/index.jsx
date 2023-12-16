@@ -1,93 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, {useState} from "react";
 import LoginFormContainer, {
   DivCenter,
-  SignupNowAccount,
-  InputSubmit,
   Form,
-  TitleLogin,
-  SignupNow,
-  MediaLogIn,
-  MediaOneLine,
-  OrWayToLogIn,
-  HeadLogIn,
   FormInput,
+  HeadLogIn,
+  InputSubmit,
+  SignupNow,
+  SignupNowAccount,
+  TitleLogin,
 } from "./login.styles";
 
-import { DivPass, DivTxtField } from "../shared/styles";
-import { useAdminContext } from "contexts/AdminContext";
-import { useNavigate, useLocation } from "react-router-dom";
-import cookie from "react-cookies";
-import Loader from "../Loader";
-
-import AppleLogo from "../../assets/icons/Login/apple.svg";
-import GoogleLogo from "../../assets/icons/Login/Google.svg";
-import FBLogo from "../../assets/icons/Login/FB.svg";
-import { useTranslation } from "react-i18next";
-
-// import WirdLogo from '../../assets/Logo/WirdLogoV2.svg';
+import {DivPass, DivTxtField} from "../../../components/shared/styles";
+import {useLocation, useNavigate} from "react-router-dom";
+import Loader from "../../../components/Loader";
+import {useTranslation} from "react-i18next";
+import {login} from "../utils";
 
 function Login() {
-  const { t } = useTranslation();
-  let Navigate = useNavigate();
-  const context = useAdminContext();
+  const {t} = useTranslation();
+  let navigate = useNavigate();
   const [username, setUsername] = useState(" ");
   const [password, setPassword] = useState(" ");
   const [loading, setLoading] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const location = useLocation();
 
-  useEffect(() => {
-    // setloading(true); // noooooooooooooooot nessesry but because of Amin's mostach lol
-    // console.log("inside the login useeffect");
-    if (cookie.load("token")) {
-      Navigate("/");
-    }
-  }, []);
-
-  // useEffect(() => {
-  //   console.log("inside the listener of the IsLogdedIn");
-  //   if (context.IsLogdedIn) Navigate("/");
-  //   // else Navigate("/login");
-  // }, [context.IsLogdedIn]);
-
-  function handleSubmit(e) {
+  const handleSubmit = async e => {
     e.preventDefault();
-
-    setLoading(true);
-
-    context.useLogin(username, password).then(
-      (isUsersLoggedIn) => {
-        if (isUsersLoggedIn === true) {
-          Navigate(
-            location?.state?.redirectTo?.length > 0
-              ? location.state.redirectTo
-              : "/"
-          );
-          context.getAdminInfo();
-        } else {
-          setShowErrorMessage(true);
-          e.target.reset();
-        }
-        setLoading(false);
-      },
-      (err) => {
-        setLoading(false);
-        console.log("Failed to login : ", err?.response?.data);
-      }
-    );
-
-    // setTimeout(() => {
-    // }, 1000);
-  }
-
-  // function handleChange(e) {
-  //   const { name, value } = e.target;
-  //   if (name === "username") {
-  //     setUsername(value);
-  //   } else if (name === "password") {
-  //     setPassword(value);
-  //   }
-  // }
+    try {
+      await login(username, password);
+      navigate(
+        location?.state?.redirectTo?.length > 0
+          ? location.state.redirectTo
+          : "/"
+      );
+    } catch (err) {
+      console.log("Failed to login : ", err?.response?.data || err);
+    }
+  };
 
   const handleChangeUsername = (e) => {
     setUsername(e.target.value);
@@ -97,10 +47,9 @@ function Login() {
   };
 
   if (loading) {
-    // to render loading if the 'loading' true and to be unreadable if it false
     return (
       <main>
-        <Loader />
+        <Loader/>
       </main>
     );
   }
@@ -111,7 +60,6 @@ function Login() {
         <HeadLogIn>
           <TitleLogin>
             {`${t("login")}`}
-            {/* <Wird>وِرد</Wird>{" "} */}
           </TitleLogin>
           <SignupNowAccount>
             Don’t have an account?{" "}
@@ -180,4 +128,5 @@ function Login() {
     </LoginFormContainer>
   );
 }
+ 
 export default Login;

@@ -1,37 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import cookie from "react-cookies";
+import React, {useEffect, useState} from "react";
 import Loader from "components/Loader";
 import MyOngoingContestTab from "components/shared/MyOngoingContestTab";
-import { useAdminContext } from "contexts/AdminContext";
-import { retrieveAdmins } from "services/adminsServices";
-import { ReactComponent as SearchIcons2 } from "assets/icons/search2.svg";
-import { useTranslation } from "react-i18next";
+import {retrieveAdmins} from "services/adminsServices";
+import {ReactComponent as SearchIcons2} from "assets/icons/search2.svg";
+import {useTranslation} from "react-i18next";
 
 import ContestModeratorDefault, {
-  ContentContainer,
-  GoBtn,
-  SearchContainer,
-  SearchInputContainer,
-  SearchContainerForm,
   AddModeratorContainer,
   AddModeratorSpan,
-  RowContainer,
   BoldText,
-  SearchInput,
+  ContentContainer,
+  GoBtn,
   ModeratorSearchContainer,
+  RowContainer,
+  SearchContainer,
+  SearchContainerForm,
+  SearchInput,
+  SearchInputContainer,
 } from "./ContestModerator.styles";
 
 import ModeratorCard from "./ModeratorCard";
 // import {retrieveContestInfo} from "../../services/competitionsServices";
 import {DivPass} from "../ResetPassword/ResetPassword.styles";
 import AddAdminModal from "./AddAdminModal";
+import {useDashboardData} from "../../util/routes-data";
 
 const ContestModerator = () => {
-  const { t } = useTranslation();
-  let navigate = useNavigate();
+  const {currentUser} = useDashboardData();
+
+  const {t} = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
-  const context = useAdminContext();
 
   const [loading, setLoading] = useState(false);
   const [admins, setAdmins] = useState([]);
@@ -45,17 +43,6 @@ const ContestModerator = () => {
 
 
   useEffect(() => {
-    if (!cookie.load("token")) {
-      navigate("/login");
-      return;
-    }
-
-    if(Object.keys(context.adminInfo).length === 0){
-      context.getAdminInfo();
-    }
-
-    setLoading(true);
-
 
     // retrieveContestInfo((res)=>{
     //   setCurrentContest(res?.data?.filter(contest => contest.id ===  context.getAdminInfo().contest?.id));
@@ -76,52 +63,52 @@ const ContestModerator = () => {
 
   }, []);
 
-  const handleAdminSearchTextChange = (e) =>{
+  const handleAdminSearchTextChange = (e) => {
     setAdminSearchText(e.target.value);
   }
 
-  const handleAdminSearchClick = ()=>{
+  const handleAdminSearchClick = () => {
     setLoading(true);
     retrieveAdmins(
-        (res) => {
-          setAdmins(res?.data);
-          setLoading(false);
-        },
-        (err) => {
-          setLoading(false);
-          console.log("Failing", err);
-        },
-        adminSearchText);
+      (res) => {
+        setAdmins(res?.data);
+        setLoading(false);
+      },
+      (err) => {
+        setLoading(false);
+        console.log("Failing", err);
+      },
+      adminSearchText);
     setIsExpanded(false);
   };
 
-  const handleNonAdminTextChange = (e)=>{
+  const handleNonAdminTextChange = (e) => {
     setNewAdminUsername(e.target.value);
   };
 
-  const handleAddAdminManuallyClick = () =>{
-    if(newAdminUsername.length === 0){
+  const handleAddAdminManuallyClick = () => {
+    if (newAdminUsername.length === 0) {
       return;
     }
     setModalState(true);
   }
 
-  const getAdminsNumber = ()=>{
-    return admins.some(admin => admin.person.username === context?.adminInfo?.person?.username)
-        ? admins.length - 1 : admins.length;
+  const getAdminsNumber = () => {
+    return admins.some(admin => admin.person.username === currentUser?.person?.username)
+      ? admins.length - 1 : admins.length;
   }
 
   if (loading) {
     return (
       <main>
-        <Loader />
+        <Loader/>
       </main>
     );
   }
   console.log(admins);
   return (
     <ContestModeratorDefault>
-      <MyOngoingContestTab />
+      <MyOngoingContestTab/>
 
       <ContentContainer>
         <div
@@ -154,7 +141,7 @@ const ContestModerator = () => {
             </ModeratorSearchContainer>
           </RowContainer>
 
-          {admins.filter(admin => admin.person.username !== context.adminInfo.username).map((person, idx) => {
+          {admins.filter(admin => admin.person.username !== currentUser.username).map((person, idx) => {
             return <ModeratorCard key={idx} person={person.person} admins={admins} setAdmins={setAdmins}/>;
           })}
         </div>
@@ -163,26 +150,27 @@ const ContestModerator = () => {
           <AddModeratorSpan>{t("add-moderator-manually")}</AddModeratorSpan>
           <SearchInputContainer>
             <SearchContainerForm>
-              <SearchContainer placeholder={t("username")} type="text" onChange={handleNonAdminTextChange}/>
+              <SearchContainer placeholder={t("username")} type="text"
+                               onChange={handleNonAdminTextChange}/>
             </SearchContainerForm>
 
             <GoBtn onClick={handleAddAdminManuallyClick}>{t("add-admin")}</GoBtn>
           </SearchInputContainer>
           {showErrorMessage && (
-              <DivPass className="red">{errorMessage}</DivPass>
+            <DivPass className="red">{errorMessage}</DivPass>
           )}
           {modalState && (
-              <AddAdminModal
-                  clickOverlay={() => {
-                    setModalState(false);
-                  }}
-                  turnOff={() => {
-                    setModalState(false);
-                  }}
-                  newAdminUsername = {newAdminUsername}
-                  setShowErrorMessage={setShowErrorMessage}
-                  setErrorMessage={setErrorMessage}
-              />
+            <AddAdminModal
+              clickOverlay={() => {
+                setModalState(false);
+              }}
+              turnOff={() => {
+                setModalState(false);
+              }}
+              newAdminUsername={newAdminUsername}
+              setShowErrorMessage={setShowErrorMessage}
+              setErrorMessage={setErrorMessage}
+            />
           )}
         </AddModeratorContainer>
       </ContentContainer>

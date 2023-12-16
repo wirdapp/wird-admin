@@ -1,18 +1,11 @@
 import styled from "@emotion/styled";
-import { colors } from "styles";
-import {
-  TitleLogin as DefaultTitleLogin,
-  DivCenter as DefaultDivCenter,
-} from "../../Login/login.styles";
+import {colors} from "styles";
+
+import {Form as DefaultForm,} from "../../shared/styles";
 
 import {
-  DivPass as DefaultDivPass,
-  Form as DefaultForm,
-} from "../../shared/styles";
-
-import {
-  ParticipantsNumbers as DefaultParticipantsNumbers,
   ParticipantsMember as DefaultParticipantsMember,
+  ParticipantsNumbers as DefaultParticipantsNumbers,
   ParticipantsTitels as DefaultParticipantsTitels,
   SeeAllP as DefaultSeeAllP,
 } from "../ContestMembers/ContestMembers.styles";
@@ -185,7 +178,7 @@ export const ReadOnly = styled.div`
   }
 `;
 
-export const  DeleteAnnouncementBtn = styled.button`
+export const DeleteAnnouncementBtn = styled.button`
   margin: 15 px;
   background: ${colors.red};
   color: ${colors.white};

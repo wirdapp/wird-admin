@@ -1,20 +1,11 @@
-import React, { useEffect, useState } from "react";
-import cookie from "react-cookies";
-import { useNavigate } from "react-router-dom";
-import { Form, InputSubmit, DropdownListItem as Item } from "../shared/styles";
-import Container, {
-  DropdownList,
-  Span,
-  DivPass,
-  DropdownListItem,
-} from "../Admins/Admins.styles";
-import { ReactComponent as FileDownload } from "assets/icons/fileDownload.svg";
-import { exportPoints } from "../../services/adminsServices";
-import {
-  DropDownDiv,
-  DropdownList as List,
-} from "../ReviewOtherPoints/ReviewOtherPoints.styles";
-import { saveAs } from "file-saver";
+import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {DropdownListItem as Item, Form, InputSubmit} from "../shared/styles";
+import Container, {DivPass, DropdownList, DropdownListItem, Span,} from "../Admins/Admins.styles";
+import {ReactComponent as FileDownload} from "assets/icons/fileDownload.svg";
+import {exportPoints} from "../../services/adminsServices";
+import {DropDownDiv, DropdownList as List,} from "../ReviewOtherPoints/ReviewOtherPoints.styles";
+import {saveAs} from "file-saver";
 import Loader from "../Loader";
 
 export default function ExportPoints() {
@@ -30,10 +21,6 @@ export default function ExportPoints() {
   useEffect(() => {
     setFromArray([...Array(30).keys()].map((i) => i + 1));
     setToArray([...Array(30).keys()].map((i) => i + 1));
-
-    if (!cookie.load("token")) {
-      navigate("/login", { state: { redirectTo: "/export-points" } });
-    }
   }, []);
 
   useEffect(() => {
@@ -109,7 +96,7 @@ export default function ExportPoints() {
   if (loading) {
     return (
       <main>
-        <Loader />
+        <Loader/>
       </main>
     );
   }
@@ -132,7 +119,7 @@ export default function ExportPoints() {
               >
                 <DropDownDiv
                   className="DropdownDiv"
-                  style={{ display: "inline", margin: "10px" }}
+                  style={{display: "inline", margin: "10px"}}
                 >
                   <List
                     className="DropdownList"
@@ -152,7 +139,7 @@ export default function ExportPoints() {
                 </DropDownDiv>
                 <DropDownDiv
                   className="DropdownDiv"
-                  style={{ display: "inline", margin: "10px" }}
+                  style={{display: "inline", margin: "10px"}}
                 >
                   <List
                     className="DropdownList"
@@ -182,12 +169,12 @@ export default function ExportPoints() {
                 })}
               {fromDay !== "" && toDay !== "" && (
                 <>
-                  <DivPass style={{ color: "#000" }}>
+                  <DivPass style={{color: "#000"}}>
                     يمكنك استخراج النتائج مرة واحدة يوميا
                   </DivPass>
                   <InputSubmit type="submit" value="exportPoints">
                     {" "}
-                    استخراج <FileDownload style={{ fill: "white" }} />
+                    استخراج <FileDownload style={{fill: "white"}}/>
                   </InputSubmit>
                 </>
               )}

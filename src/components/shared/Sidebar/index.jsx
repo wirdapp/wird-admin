@@ -1,32 +1,26 @@
-import React, { useEffect, useState } from "react";
-import {
-  SideBarContainer,
-  MenuContainer,
-  MenuLink,
-  MenuItem,
-  WirdLogoContainer,
-} from "./sidebar.styles";
-import { ReactComponent as WirdLogo } from "assets/icons/Shared/wirdLogo.svg";
-import { ReactComponent as HomeIcon } from "assets/icons/home.svg";
-import { ReactComponent as CompInfoIcon } from "assets/icons/competition-information.svg";
-import { ReactComponent as ContestModeratorsIcon } from "assets/icons/admin.svg";
-import { ReactComponent as CriteriaIcon } from "assets/icons/criterias.svg";
-import { ReactComponent as ParticipantsIcon } from "assets/icons/students.svg";
-import { ReactComponent as FileTxtIcon } from "assets/icons/file-text.svg";
-import { ReactComponent as ResultsIcon } from "assets/icons/results.svg";
-import { ReactComponent as LeaderBoard } from "assets/icons/leaderBoard.svg";
-import { ReactComponent as FileDownload } from "assets/icons/fileDownload.svg";
-import { ReactComponent as GroupsIcon } from "assets/icons/group.svg";
-import { useAdminContext } from "../../../contexts/AdminContext";
-import { isSuperAdmin } from "../../../util/ContestPeople_Role";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {MenuContainer, MenuItem, MenuLink, SideBarContainer, WirdLogoContainer,} from "./sidebar.styles";
+import {ReactComponent as WirdLogo} from "assets/icons/Shared/wirdLogo.svg";
+import {ReactComponent as HomeIcon} from "assets/icons/home.svg";
+import {ReactComponent as CompInfoIcon} from "assets/icons/competition-information.svg";
+import {ReactComponent as ContestModeratorsIcon} from "assets/icons/admin.svg";
+import {ReactComponent as CriteriaIcon} from "assets/icons/criterias.svg";
+import {ReactComponent as ParticipantsIcon} from "assets/icons/students.svg";
+import {ReactComponent as FileTxtIcon} from "assets/icons/file-text.svg";
+import {ReactComponent as ResultsIcon} from "assets/icons/results.svg";
+import {ReactComponent as LeaderBoard} from "assets/icons/leaderBoard.svg";
+import {ReactComponent as FileDownload} from "assets/icons/fileDownload.svg";
+import {ReactComponent as GroupsIcon} from "assets/icons/group.svg";
+import {isSuperAdmin} from "../../../util/ContestPeople_Role";
+import {useTranslation} from "react-i18next";
+import {useLocation} from "react-router-dom";
+import {useDashboardData} from "../../../util/routes-data";
 
-function Sidebar({ setIsSideBarCollapsed }) {
-  const { t } = useTranslation();
-  const context = useAdminContext();
+function Sidebar({setIsSideBarCollapsed}) {
+  const {currentUser} = useDashboardData();
+  const {t} = useTranslation();
   const [hasPermission, setPermission] = useState(false);
-  const { pathname } = useLocation();
+  const {pathname} = useLocation();
 
   const showNavbarAndSidebar = ![
     "/login",
@@ -36,84 +30,77 @@ function Sidebar({ setIsSideBarCollapsed }) {
   ].includes(pathname);
 
   useEffect(() => {
-    if (Object.keys(context.adminInfo).length > 0) {
-      setPermission(isSuperAdmin(context));
-    } else {
-      setTimeout(() => {
-        if (Object.keys(context.adminInfo).length === 0) {
-          // permission will be updated once context.adminInfo is updated.
-          context.getAdminInfo();
-        }
-      }, 1000);
+    if (currentUser) {
+      setPermission(isSuperAdmin(currentUser));
     }
-  }, [context.adminInfo]);
+  }, [currentUser]);
 
   return (
     <div>
       {showNavbarAndSidebar && (
         <SideBarContainer>
           <WirdLogoContainer>
-            <WirdLogo />
+            <WirdLogo/>
           </WirdLogoContainer>
 
           <MenuContainer>
-            <MenuLink onClick={() => setIsSideBarCollapsed()} to="/">
-              <HomeIcon />
+            <MenuLink onClick={() => setIsSideBarCollapsed()} to="/dashboard/">
+              <HomeIcon/>
               <MenuItem>{t("home-page")}</MenuItem>
             </MenuLink>
             {/* { hasPermission && */}
-            <MenuLink onClick={() => setIsSideBarCollapsed()} to="/competition">
-              <CompInfoIcon />
+            <MenuLink onClick={() => setIsSideBarCollapsed()} to="/dashboard/competition">
+              <CompInfoIcon/>
               <MenuItem>{t("contest-information")}</MenuItem>
             </MenuLink>
             {/* } */}
             <MenuLink
               onClick={() => setIsSideBarCollapsed()}
-              to="/top-students"
+              to="/dashboard/top-students"
             >
-              <LeaderBoard />
+              <LeaderBoard/>
               <MenuItem>{t("leaders-board")}</MenuItem>
             </MenuLink>
-            <MenuLink onClick={() => setIsSideBarCollapsed()} to="/admins">
-              <ContestModeratorsIcon />
+            <MenuLink onClick={() => setIsSideBarCollapsed()} to="/dashboard/admins">
+              <ContestModeratorsIcon/>
               <MenuItem>{t("admins")}</MenuItem>
             </MenuLink>
-            <MenuLink onClick={() => setIsSideBarCollapsed()} to="/students">
-              <ParticipantsIcon />
+            <MenuLink onClick={() => setIsSideBarCollapsed()} to="/dashboard/students">
+              <ParticipantsIcon/>
               <MenuItem>{t("students")}</MenuItem>
             </MenuLink>
             <MenuLink
               onClick={() => setIsSideBarCollapsed()}
-              to="/contest-criteria"
+              to="/dashboard/contest-criteria"
             >
-              <CriteriaIcon />
+              <CriteriaIcon/>
               <MenuItem>{t("criterias")}</MenuItem>
             </MenuLink>
             <MenuLink
               onClick={() => setIsSideBarCollapsed()}
-              to="/review-other-points"
+              to="/dashboard/review-other-points"
             >
-              <FileTxtIcon />
+              <FileTxtIcon/>
               <MenuItem>{t("text-inputs")}</MenuItem>
             </MenuLink>
             <MenuLink
               onClick={() => setIsSideBarCollapsed()}
-              to="/students-points"
+              to="/dashboard/students-points"
             >
-              <ResultsIcon />
+              <ResultsIcon/>
               <MenuItem>{t("results-page")}</MenuItem>
             </MenuLink>
             {hasPermission && (
               <MenuLink
                 onClick={() => setIsSideBarCollapsed()}
-                to="/export-points"
+                to="/dashboard/export-points"
               >
-                <FileDownload />
+                <FileDownload/>
                 <MenuItem>{t("extract-results")}</MenuItem>
               </MenuLink>
             )}
-            <MenuLink onClick={() => setIsSideBarCollapsed()} to="/groups">
-              <GroupsIcon />
+            <MenuLink onClick={() => setIsSideBarCollapsed()} to="/dashboard/groups">
+              <GroupsIcon/>
               <MenuItem>{t("groups-page")}</MenuItem>
             </MenuLink>
           </MenuContainer>

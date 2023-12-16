@@ -1,24 +1,18 @@
 import React from "react";
 import "./App.css";
-import AuthProvider from "./contexts/AdminContext";
-import AppBrowserRouter from "./components/AppBrowserRouter";
-import { Global } from "@emotion/react";
-import { ThemeProvider } from "@emotion/react";
+import {Global, ThemeProvider} from "@emotion/react";
 import getStyles from "./styles/global";
 import useTheme from "./hooks/index";
-import { arabicTheme, englishTheme } from "styles";
+import {RouterProvider} from "react-router-dom";
+import {router} from "./router";
 
 function App() {
-  const { changeTheme, theme } = useTheme();
+  const {changeTheme, theme} = useTheme();
   return (
-    <>
-      <AuthProvider>
-        <ThemeProvider theme={theme}>
-          <Global styles={getStyles(theme)} />
-          <AppBrowserRouter changeTheme={changeTheme} theme={theme} />
-        </ThemeProvider>
-      </AuthProvider>
-    </>
+    <ThemeProvider theme={theme}>
+      <Global styles={getStyles(theme)}/>
+      <RouterProvider router={router}/>
+    </ThemeProvider>
   );
 }
 

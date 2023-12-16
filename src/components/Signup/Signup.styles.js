@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 import {
-  InputSubmit as DefaultInputSubmit,
-  Form as DefaultForm,
   DivCenter as DefaultDivCenter,
-} from "../Login/login.styles";
+  Form as DefaultForm,
+  InputSubmit as DefaultInputSubmit,
+} from "../../modules/auth/Login/login.styles";
 
-import { DivPass as DefaultDivPass } from "../shared/styles";
+import {DivPass as DefaultDivPass} from "../shared/styles";
 
 import {
   DivFileField as DefaultDivFileField,

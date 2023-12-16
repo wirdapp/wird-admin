@@ -1,34 +1,21 @@
-import React, { useEffect, useState } from "react";
-import cookie from "react-cookies";
-import { useNavigate } from "react-router-dom";
-import { HomeContainer, Div } from "./home.styles";
+import React, {useEffect, useState} from "react";
+import {Div, HomeContainer} from "./home.styles";
 
-import { retrieveTopMembers } from "../../services/competitionsServices";
+import {retrieveTopMembers} from "../../services/competitionsServices";
 import Loader from "../Loader";
 import HomeBanner from "./HomeBanner";
-import DaysSlider from "./DaysSlider";
 import TopRanks from "./TopRanks";
-import { useAdminContext } from "../../contexts/AdminContext";
-import { retrieveStudents } from "../../services/studentsServices";
+import {retrieveStudents} from "../../services/studentsServices";
+import {useDashboardData} from "../../util/routes-data";
 
 function Home() {
+  const {currentUser} = useDashboardData();
+
   const [loading, setLoading] = useState(false);
-  const context = useAdminContext();
   const [students, setStudents] = useState([]);
   const [topMembers, setTopMembers] = useState([]);
 
-  let navigate = useNavigate();
-
   useEffect(() => {
-    if (!cookie.load("token")) {
-      navigate("/login");
-      return;
-    }
-
-    if (Object.keys(context.adminInfo).length === 0) {
-      context.getAdminInfo();
-    }
-
     setLoading(true);
 
     retrieveTopMembers(
@@ -59,7 +46,7 @@ function Home() {
   if (loading) {
     return (
       <main>
-        <Loader />
+        <Loader/>
       </main>
     );
   }
@@ -70,16 +57,16 @@ function Home() {
         <Div>
           <HomeBanner
             name={
-              context.adminInfo?.first_name?.length > 0
-                ? context.adminInfo.first_name +
-                  " " +
-                  context.adminInfo.last_name
+              currentUser?.first_name?.length > 0
+                ? currentUser.first_name +
+                " " +
+                currentUser.last_name
                 : "Admin"
             }
             dayNumber={"1"}
           />
           {/* <DaysSlider /> */}
-          <TopRanks students={students} topMembers={topMembers} />
+          <TopRanks students={students} topMembers={topMembers}/>
         </Div>
       </HomeContainer>
     </>
