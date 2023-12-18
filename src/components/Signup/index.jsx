@@ -262,7 +262,7 @@ function Signup() {
           </DivTxtField>
           {showErrorMessageMatch && (
             <DivPass className="red">
-          {translate("passwordDisclimar")}
+          {translate("retypePasswordDisclimar")}
             </DivPass>
           )}
 
