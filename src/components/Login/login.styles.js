@@ -101,7 +101,6 @@ export const TitleLogin = styled.div`
     width: auto;
     height: 2.25rem;
 
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 700;
     font-size: 1.875rem;
@@ -116,7 +115,6 @@ export const SignupNowAccount = styled.p`
     width: 17.9375rem;
     height: 1.1875rem;
 
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 400;
     font-size: 1rem;
@@ -131,7 +129,6 @@ export const SignupNow = styled.a`
     outline: none;
     width: 17.9375rem;
     height: 1.1875rem;
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 500;
     font-size: 1rem;
@@ -188,7 +185,6 @@ export const MediaOneLine = styled.div`
 export const OrWayToLogIn = styled.span`
     width: 1.25rem;
     height: 1.1875rem;
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 400;
     font-size: 1rem;

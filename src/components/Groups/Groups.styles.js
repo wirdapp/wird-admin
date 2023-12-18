@@ -10,7 +10,6 @@ import {
 
 export const Span = styled.div`
     text-align: center;
-    font-family: "Noto Kufi Arabic", sans-serif;
     color: #213c64;
     font-size: 1.2rem;
 `;
@@ -233,7 +232,6 @@ export const MembersImg = styled.div`
     align-items: center;
     justify-content: center;
 
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 700;
     font-size: 0.875rem;

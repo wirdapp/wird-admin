@@ -26,7 +26,6 @@ export const TopStudentsSpan = styled(Span)`
     width: 30px;
     height: 19px;
 
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -163,7 +162,6 @@ export const LeaderBoardMainTitel = styled.div`
     margin-left: 0;
     margin-bottom: 1rem;
     align-items: flex-start;
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -203,7 +201,6 @@ export const Top2Img = styled(DefaultTop2Img)`
 export const DayInAverageWrapper = styled.div`
     width: 87px;
     height: 17px;
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -214,7 +211,6 @@ export const DayInAverageWrapper = styled.div`
 export const PAverageWrapper = styled.div`
     width: auto;
     height: 17px;
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -226,7 +222,6 @@ export const AverageParsents = styled.div`
     width: 55px;
     height: 19px;
 
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 500;
     font-size: 16px;

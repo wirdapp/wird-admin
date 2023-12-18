@@ -38,7 +38,7 @@ function HomeBanner(props) {
         <ContentBanner>
           <TitleContent>
             <WelcomeName>
-              {t("welcome")}, <br/>
+              {t("welcome")},{' '}
               {props.name}!
             </WelcomeName>
             <DayContent>

@@ -10,8 +10,14 @@ export const HomeContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 0 32px 32px;
-    gap: 32px;
+    padding: 16px;
+    gap: 16px;
+    
+    @media (min-width: 900px) {
+        padding: 32px;
+        gap: 32px;
+
+    }
 `;
 
 // **************** First section **********************
@@ -20,7 +26,6 @@ export const StatisticItemBody = styled.div`
     font-weight: bold;
     text-align: center;
     padding: 2rem 0 10px 0;
-    font-family: "Noto Kufi Arabic", sans-serif;
     font-size: 0.9rem;
     border-bottom: 0.1px solid silver;
     @media (max-width: 1100px) {
@@ -131,7 +136,6 @@ export const Wird = styled.h1`
     min-height: 55px;
     margin-top: 2rem;
     text-align: center;
-    font-family: "Noto Kufi Arabic", sans-serif;
     font-size: 1.5rem;
     color: orange;
     @media (max-width: 1100px) {

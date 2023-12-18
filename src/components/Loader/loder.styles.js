@@ -43,7 +43,6 @@ display:flex;
 `;
 
 export const H1 = styled.h1`
-font-family: 'Noto Kufi Arabic', sans-serif;
 color: #213C64;
 font-size: 3rem;
 align-items: center;
@@ -53,7 +52,6 @@ margin-left: 2rem;
   margin-top: 2rem;
   font-size: 2rem;
   margin-right: 1rem;
-  font-family: 'Noto Kufi Arabic', sans-serif;
   color: #213C64;
 }
 `;

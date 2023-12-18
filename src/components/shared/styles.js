@@ -42,7 +42,6 @@ export const DivTxtFieldnumber = styled.div`
 
 export const Span = styled.span`
     text-align: center;
-    font-family: "Noto Kufi Arabic", sans-serif;
     color: #213c64;
     font-size: 1.2rem;
     @media (max-width: 500px) {
@@ -164,7 +163,6 @@ export const DivForDropdownList = styled.div`
     width: 25rem;
     margin: auto;
     justify-content: center;
-    font-family: "Noto Kufi Arabic", sans-serif;
     color: #213c64;
     font-size: 1.3rem;
     /* box-shadow: 1px 3px 12px 0px #0000007a; */
@@ -178,7 +176,6 @@ export const DropdownListStanderd = styled.select`
     @media (max-width: 550px) {
         width: 100%;
     }
-    font-family: "Noto Kufi Arabic", sans-serif;
     color: white;
     font-size: 1rem;
     padding: 1rem;
@@ -312,7 +309,6 @@ export const WirdMinIntroduction = styled.div`
     padding-right: 2rem;
     text-align: right;
     font-weight: bolder;
-    font-family: "Noto Kufi Arabic", sans-serif;
     font-size: 1.8rem;
     color: #2980b9;
 `;
@@ -320,7 +316,6 @@ export const WirdMinIntroduction = styled.div`
 export const Introduction = styled.div`
     margin-top: 2rem;
     text-align: right;
-    font-family: "Noto Kufi Arabic", sans-serif;
     font-size: 1.4rem;
     color: orange;
 `;
@@ -379,7 +374,6 @@ export const DropdownListItem = styled.option`
 
 export const DropdownList = styled.select`
     text-align: center;
-    font-family: "Noto Kufi Arabic", sans-serif;
     color: #213c64;
     font-size: 1.3rem;
     padding: 1rem;
@@ -401,7 +395,6 @@ export const DropdownList = styled.select`
 export const Wird = styled.h1`
     margin-top: 0.2rem;
     text-align: center;
-    font-family: "Noto Kufi Arabic", sans-serif;
     font-size: 2.3rem;
     color: orange;
 `;

@@ -112,7 +112,6 @@ export const ParticipantsNumbers = styled.div`
 export const ParticipantsTitelsAtHome = styled.div`
   height: 1.1875rem;
 
-  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
   font-size: 1rem;
@@ -143,7 +142,6 @@ export const SeeAllP = styled.div`
   width: 3.25rem;
   height: 1.1875rem;
 
-  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 1rem;
@@ -165,7 +163,6 @@ export const TotalOfMembers = styled.div`
   width: 4.875rem;
   height: 3.625rem;
 
-  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
   font-size: 3rem;
@@ -212,7 +209,6 @@ export const MemberNumbers = styled.div`
   width: 2.125rem;
   height: 1.0625rem;
 
-  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
   font-size: 0.875rem;
@@ -237,7 +233,6 @@ export const MembersImg = styled.div`
   align-items: center;
   justify-content: center;
 
-  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
   font-size: 0.875rem;

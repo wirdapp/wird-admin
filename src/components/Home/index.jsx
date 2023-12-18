@@ -54,20 +54,18 @@ function Home() {
   return (
     <>
       <HomeContainer>
-        <div>
-          <HomeBanner
-            name={
-              currentUser?.first_name?.length > 0
-                ? currentUser.first_name +
-                " " +
-                currentUser.last_name
-                : "Admin"
-            }
-            dayNumber={"1"}
-          />
-          {/* <DaysSlider /> */}
-          <TopRanks students={students} topMembers={topMembers}/>
-        </div>
+        <HomeBanner
+          name={
+            currentUser?.first_name?.length > 0
+              ? currentUser.first_name +
+              " " +
+              currentUser.last_name
+              : "Admin"
+          }
+          dayNumber={"1"}
+        />
+        {/* <DaysSlider /> */}
+        <TopRanks students={students} topMembers={topMembers}/>
       </HomeContainer>
     </>
   );

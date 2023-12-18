@@ -104,7 +104,6 @@ export const ParticipantsTitels = styled(DefaultParticipantsTitels)`
 export const PublishedDate = styled.div`
   margin: auto;
   margin-top: 1rem;
-  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -141,7 +140,6 @@ export const ButtonStyle = styled.div`
 
   background: #fdd561;
   border-radius: 6.25rem;
-  font-family: "Montserrat";
   font-style: normal;
   font-weight: 500;
   font-size: 0.875rem;
