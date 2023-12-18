@@ -18,7 +18,9 @@ export const DashboardLayout = () => {
       <Sidebar/>
       <MainContent>
         <Navbar/>
-        <Outlet/>
+        <div className="page-content">
+          <Outlet/>
+        </div>
       </MainContent>
     </Container>
   );

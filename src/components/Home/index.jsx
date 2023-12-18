@@ -7,9 +7,12 @@ import HomeBanner from "./HomeBanner";
 import TopRanks from "./TopRanks";
 import {retrieveStudents} from "../../services/studentsServices";
 import {useDashboardData} from "../../util/routes-data";
+import {PageTitle} from "../shared/page-title";
+import {useTranslation} from "react-i18next";
 
 function Home() {
   const {currentUser} = useDashboardData();
+  const {t} = useTranslation();
 
   const [loading, setLoading] = useState(false);
   const [students, setStudents] = useState([]);
@@ -53,6 +56,7 @@ function Home() {
 
   return (
     <>
+      <PageTitle>{t('home-page')}</PageTitle>
       <HomeContainer>
         <HomeBanner
           name={

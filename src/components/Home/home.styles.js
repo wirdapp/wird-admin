@@ -10,11 +10,9 @@ export const HomeContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 16px;
     gap: 16px;
-    
+
     @media (min-width: 900px) {
-        padding: 32px;
         gap: 32px;
 
     }

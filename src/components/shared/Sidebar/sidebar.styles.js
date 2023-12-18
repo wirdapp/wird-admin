@@ -1,14 +1,15 @@
 import styled from "@emotion/styled";
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {colors} from "styles";
 
-export const SideBarContainer = styled.div`
+export const SideBarContainer = styled.aside`
     animation-duration: 0.2s;
     background-color: ${colors.warmWheat};
     height: 100%;
     text-align: center;
     border-radius: 1.5rem;
     width: 19.0625rem;
+    margin: 8px;
 
     & svg {
         min-width: 1.2rem;
@@ -36,7 +37,7 @@ export const WirdLogoContainer = styled.div`
     padding: 1rem;
 `;
 
-export const MenuLink = styled(Link)`
+export const MenuLink = styled(NavLink)`
     display: flex;
     text-decoration: none;
     justify-content: flex-end;
@@ -59,7 +60,7 @@ export const MenuLink = styled(Link)`
         color: ${colors.black};
     }
 
-    :focus {
+    :focus, &.active {
         background-color: ${colors.lightRed};
         color: ${colors.black};
     }

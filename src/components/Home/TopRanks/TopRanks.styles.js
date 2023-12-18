@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 export default styled.div`
     display: flex;
     width: 100%;
-    max-width: 59.375rem;
     margin: auto;
 
     background: #fbf9f7;

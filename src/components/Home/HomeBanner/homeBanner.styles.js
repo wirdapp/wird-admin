@@ -9,7 +9,6 @@ export default styled.div`
     height: 19.5rem;
     background: #FF5367;
     border-radius: 1.5rem;
-    max-width: 59.375rem;
 
     @media (max-width: 37.5625rem) {
         height: 15.75rem;
@@ -173,7 +172,7 @@ export const ResultButton = styled.button`
     align-items: center;
     padding: 1.25rem 1.5rem 1.3125rem;
     gap: .625rem;
-    
+
     background: #FDD561;
     border-radius: 6.25rem;
 

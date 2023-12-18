@@ -42,7 +42,7 @@ function HomeBanner(props) {
               {props.name}!
             </WelcomeName>
             <DayContent>
-              {t("today-is")}
+              {t("today-is")}{' '}
               {props.dayNumber} {t("ramadan")}
             </DayContent>
           </TitleContent>

@@ -52,50 +52,37 @@ export const H5 = styled.h4`
         display: flex;
         justify-content: center;
         align-items: center;
-        display: flex;
         font-size: 1rem;
     }
 `;
 
-export const PageTitle = styled.h1`
+export const StyledPageTitle = styled.h1`
     font-style: normal;
     font-weight: 700;
-    font-size: 1.8rem;
-    margin: 0;
+    font-size: 30px;
     text-align: start;
     @media (max-width: 550px) {
-        margin-bottom: 1rem;
-        font-size: larger;
-        padding: 0 0.7rem;
+        font-size: 30px;
+    }
+
+    &:empty {
+        display: none;
     }
 `;
 
 export const RightNavItems = styled.div`
     display: flex;
     flex-direction: row;
-    gap: 1rem;
-    @media (max-width: 550px) {
-        margin: -1.5rem 1rem 0 1rem;
-    }
+    gap: 16px;
+    align-items: center;
+    justify-content: flex-end;
 `;
 
 export const LeftNavItems = styled.div`
     display: flex;
+    align-items: start;
     flex-direction: column;
-`;
-
-export const NavItem = styled.div`
-    padding: 1rem;
-    width: 3.5rem;
-    background-color: ${colors.yellow};
-    color: ${colors.black};
-    border-radius: 1.5rem;
-    text-align: center;
-    cursor: pointer;
-    max-height: 3.5rem;
-    font-weight: 600;
-    font-style: normal;
-    text-transform: uppercase;
+    gap: 20px;
 `;
 
 export const Container = styled.div`
@@ -107,91 +94,80 @@ export const UserName = styled.p`
 `;
 
 export const Navbar = styled.div`
-    top: 0;
-    left: 0;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    flex-direction: row;
-    padding: 1rem;
-    @media (max-width: 550px) {
-        /* position: fixed; */
-        padding: 0;
-        z-index: 999;
+    flex-direction: column-reverse;
+    padding: 16px 16px 0;
+    gap: 16px;
+
+    @media (min-width: 768px) {
+        flex-direction: row;
+    }
+
+    .menu-button {
+        padding: 0.625rem;
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        position: absolute;
+        top: 16px;
+        inset-inline-start: 16px;
+        @media (min-width: 768px) {
+            display: none;
+        }
     }
 `;
 
 export const MenuIcon = styled.a`
-    display: inline-block;
     padding: 0.625rem;
     cursor: pointer;
-    margin-top: 1rem;
     display: flex;
     flex-direction: row;
+    position: absolute;
+    top: 0;
+    inset-inline-start: 0;
     @media (min-width: 768px) {
         display: none;
     }
 `;
 
 export const SidebarMenu = styled.div`
+    visibility: hidden;
+    pointer-events: none;
     position: fixed;
+    inset-inline-start: 0;
     top: 0;
-    ${({isArabicTheme}) => {
-        if (isArabicTheme) return "right:-100%";
-        return "left: -100%;";
-    }};
     width: 100%;
     height: 100%;
-    background-color: #fff;
+    background-color: transparent;
     z-index: 998;
     transition: all 0.3s ease-in-out;
-    overflow-x: scroll;
 
     &::-webkit-scrollbar {
         display: none;
     }
 
-    &.open {
-        ${({isArabicTheme}) => {
-            if (isArabicTheme) return "right:0;";
-            return "left: 0;";
-        }}
-    }
-
-    div {
+    aside {
+        margin: 0;
+        position: absolute;
+        transition: all 0.3s ease-in-out;
+        inset-inline-start: -100%;
         display: block;
-
-        div {
-            width: 100%;
-        }
-
-        & svg {
-            display: inline;
-        }
+        border-radius: 0;
+        height: 100%;
+        overflow-x: scroll;
+        width: 75vw;
     }
-`;
 
-export const PopupListWrapper = styled.div`
-    z-index: 100;
-    top: 5rem;
-    position: absolute;
-    background-color: ${colors.lightGrey};
-    padding: 1rem;
-    ${({isArabicTheme}) => {
-        if (isArabicTheme) return "left:0;";
-        return "right: 0;";
-    }}
-    width: 18rem;
-    border-radius: 1rem;
+    &.open {
+        visibility: visible;
+        pointer-events: auto;
+        background-color: rgba(150, 150, 150, 0.5);
 
-    @media (max-width: 550px) {
-        width: 100%;
-        height: 100vh;
-        ${({isArabicTheme}) => {
-            if (isArabicTheme) return "right:0;";
-            return "left: 0;";
-        }}
-        top: 0;
+        aside {
+            inset-inline-start: 0;
+            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
+        }
     }
 `;
 
