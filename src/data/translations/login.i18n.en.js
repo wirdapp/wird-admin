@@ -18,8 +18,4 @@ export default {
   passwordValidation: "The password must be at least 8 characters long",
   confirmPassword: "confirm password",
   matchPassword: "For an incorrect entry, make sure the password matches",
-  addAdmin: "Add it as main administrator",
-  addNewAdmin: "Add a new administrator",
-  notAddAdminMSG: "Administrator not added",
-  addAdminSuccess: "Administrator added successfully",
 };

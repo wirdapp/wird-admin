@@ -19,8 +19,4 @@ export default {
   passwordValidation: "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
   confirmPassword: "تأكيد كلمة المرور",
   matchPassword: "لإدخال غير صحيح، تأكد من مطابقة كلمة المرور",
-  addAdmin: "إضافته كمسؤول رئيسي",
-  addNewAdmin: "إضافة مسؤول جديد",
-  notAddAdminMSG: "لم تمت إضافة المسؤول",
-  addAdminSuccess: "تمت إضافة المسؤول بنجاح",
 };
