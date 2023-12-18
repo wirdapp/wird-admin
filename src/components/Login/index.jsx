@@ -14,7 +14,7 @@ import {DivPass, DivTxtField} from "../shared/styles";
 import {useLocation, useNavigate} from "react-router-dom";
 import Loader from "../Loader";
 import {useTranslation} from "react-i18next";
-import {login} from "../../services/auth/utils";
+import {login} from "../../services/auth/session";
 
 function Login() {
   const {t} = useTranslation();
@@ -32,7 +32,7 @@ function Login() {
       navigate(
         location?.state?.redirectTo?.length > 0
           ? location.state.redirectTo
-          : "/"
+          : "/dashboard"
       );
     } catch (err) {
       console.log("Failed to login : ", err?.response?.data || err);

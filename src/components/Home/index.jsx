@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Div, HomeContainer} from "./home.styles";
+import {HomeContainer} from "./home.styles";
 
 import {retrieveTopMembers} from "../../services/competitionsServices";
 import Loader from "../Loader";
@@ -54,7 +54,7 @@ function Home() {
   return (
     <>
       <HomeContainer>
-        <Div>
+        <div>
           <HomeBanner
             name={
               currentUser?.first_name?.length > 0
@@ -67,7 +67,7 @@ function Home() {
           />
           {/* <DaysSlider /> */}
           <TopRanks students={students} topMembers={topMembers}/>
-        </Div>
+        </div>
       </HomeContainer>
     </>
   );

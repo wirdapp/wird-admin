@@ -14,7 +14,7 @@ import {
 import {DropdownDiv, DropdownList} from "./EditAdminForm.styles";
 import {updateAdmin} from "../../../services/adminsServices";
 import {useDashboardData} from "../../../util/routes-data";
-import {saveUserToLocalStorage} from "../../../services/auth/utils";
+import {updateSessionUserDetails} from "../../../services/auth/session";
 
 export default function EditGroupForm(props) {
   const {currentUser} = useDashboardData();
@@ -66,7 +66,7 @@ export default function EditGroupForm(props) {
           setTimeout(() => {
             props.setAdmins([...props.admins.filter(admin => admin.username !== selectedUserName), updatedAdmin]);
             if (currentUser > 0 && currentUser.username === selectedUserName) {
-              saveUserToLocalStorage(updatedAdmin)
+              updateSessionUserDetails(updatedAdmin)
             }
             setClassColor("");
             setMessages([]);

@@ -1,5 +1,5 @@
 import Axios from "axios";
-import {deleteSession, getSessionFromLocalStorage, saveSessionToLocalStorage} from "../services/auth/utils";
+import {destroySession, getSession, updateSessionToken} from "../services/auth/session";
 
 const apiUrl = process.env.REACT_APP_BASE_URL;
 
@@ -8,55 +8,60 @@ const axios = Axios.create({
   withCredentials: true,
   defaults: {
     headers: {
-      'Access-Control-Allow-Origin': '*',
       "Content-Type": "application/json",
     },
   }
 });
 
-export const SkipAuthHeader = ['/auth/login/', '/auth/registration/', '/auth/token/refresh/'];
+export const SkipAuthHeader = ['/auth/login/', '/auth/registration/', "/auth/token/refresh/"];
 
 export async function tryRefreshTokens(refreshToken) {
-  const {data} = await axios.post("/token/refresh/", {
+  const {data} = await axios.post("/auth/token/refresh/", {
     refresh: refreshToken
   });
+  updateSessionToken(data.access);
 
-  return {token: data.access, refreshToken: data.refresh};
+  return data.access;
 }
 
 export const requestInterceptor = (config) => {
-  if (SkipAuthHeader.includes(config.url)) return config;
+  if (SkipAuthHeader.includes(config.url)) {
+    config.withCredentials = false;
+    return config;
+  }
 
-  const {token} = getSessionFromLocalStorage();
-  config.headers["Authorization"] = `Bearer ${token}`;
+  const {token} = getSession();
+  config.withCredentials = true;
+  if (token) {
+    config.headers["Authorization"] = `Bearer ${token}`;
+  }
   return config;
 }
 
 export const errorInterceptor = async (error) => {
-  // if not 401 error, reject normaly
+  // if error is not about token invalid, reject normally
   if (error.response.data?.code !== 'token_not_valid') return Promise.reject(error);
 
-  // if not in SkipAuthHeader, reject normaly
+  // if not in SkipAuthHeader, reject normally
   if (SkipAuthHeader.includes(error.config.url)) return Promise.reject(error);
 
-  // if no refresh token, reject normaly
-  const {refreshToken} = getSessionFromLocalStorage();
+  // if no refresh token, reject normally
+  const {refreshToken} = getSession();
   if (!refreshToken) return Promise.reject(error);
 
   // if refresh token, try to refresh token
   try {
-    const {token, refreshToken: newRefreshToken} = await tryRefreshTokens(refreshToken);
-    saveSessionToLocalStorage(token, newRefreshToken);
+    const token = await tryRefreshTokens(refreshToken);
     error.config.headers["Authorization"] = `Bearer ${token}`;
     return axios.request(error.config);
   } catch (e) {
-    deleteSession();
+    destroySession();
     return Promise.reject(error);
   }
 }
 
 
-// axios.interceptors.request.use(requestInterceptor);
-// axios.interceptors.response.use(undefined, errorInterceptor);
+axios.interceptors.request.use(requestInterceptor);
+axios.interceptors.response.use(undefined, errorInterceptor);
 
 export default axios;

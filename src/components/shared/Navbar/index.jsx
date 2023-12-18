@@ -33,7 +33,7 @@ import {ReactComponent as HelpIcon} from "assets/icons/help.svg";
 import {ReactComponent as LogoutIcon} from "assets/icons/logout.svg";
 import Sidebar from "../Sidebar";
 import {useDashboardData} from "../../../util/routes-data";
-import {deleteSession} from "../../../services/auth/utils";
+import {destroySession} from "../../../services/auth/session";
 
 function Nav() {
   const {i18n} = useTranslation();
@@ -155,7 +155,7 @@ function Nav() {
                         <ListItem
                           onClick={() => {
                             setShowUserInfo(false);
-                            deleteSession();
+                            destroySession();
                             navigate("/login");
                           }}
                         >

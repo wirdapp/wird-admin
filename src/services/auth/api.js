@@ -1,15 +1,13 @@
 import axios from "../../util/axios";
 
 
-export async function getTokens(username, password) {
-  // const {data} = await axios.post("/auth/login/", {
-  //   username,
-  //   password
-  // });
-  //
-  // return {token: data.access, refreshToken: data.refresh, user: data.user};
+export async function doLogin(username, password) {
+  const res = await axios.post("/auth/login/", {
+    username,
+    password
+  });
 
-  return {token: 'a', refreshToken: 'b', user: {id: 1, username: 'test'}};
+  return {token: res.data.access, refreshToken: res.data.refresh, user: res.data.user};
 }
 
 export async function signup(formData, isCreator) {
@@ -23,8 +21,7 @@ export async function signup(formData, isCreator) {
 }
 
 export async function currentUserInfo() {
-  // const {data} = await axios.get("/auth/user/");
-  //
-  // return data;
-  return {id: 1, username: 'test'};
+  const {data} = await axios.get("/auth/user/");
+
+  return data;
 }

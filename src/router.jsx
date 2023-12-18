@@ -13,7 +13,7 @@ import ContestCriteria from "./components/ContestCriteria";
 import ReviewOtherPoints from "./components/ReviewOtherPoints";
 import ExportPoints from "./components/ExportPoints";
 import StudentsPoints from "./components/studentsPoints";
-import {isLogged, saveUserToLocalStorage} from "./services/auth/utils";
+import {destroySession, isLogged, updateSessionUserDetails} from "./services/auth/session";
 import {isSuperAdmin} from "./util/ContestPeople_Role";
 import * as AuthApi from "./services/auth/api";
 import Signup from "./components/Signup";
@@ -55,21 +55,23 @@ export const router = createBrowserRouter([
         id: "dashboard",
         path: "dashboard",
         loader: async ({request}) => {
+          const redirectTo = new URL(request.url).pathname;
           if (!isLogged()) {
-            const redirectTo = new URL(request.url).pathname;
             return redirect(`/login?redirectTo=${redirectTo}`);
           }
 
           try {
+            // make sure session still valid
             const user = await AuthApi.currentUserInfo();
-            saveUserToLocalStorage(user);
+            updateSessionUserDetails(user);
 
             return {
               currentUser: user,
               isSuperAdmin: isSuperAdmin(user)
             };
           } catch (e) {
-            return redirect("/login");
+            destroySession();
+            return redirect(`/login?redirectTo=${redirectTo}`);
           }
         },
         element: <DashboardLayout/>,
