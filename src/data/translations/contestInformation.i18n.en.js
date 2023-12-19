@@ -19,6 +19,7 @@ export default {
   "no-contest-yet-msg": "You don't have any active contests",
   "delete-this-announcement": "Delete this announcement",
   "name-label": "Name",
+  "code-label": "Code",
   "description-label": "Description",
   update: "Update"
 };

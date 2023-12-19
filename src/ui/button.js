@@ -38,9 +38,15 @@ export const Button = styled.button`
             display: flex;
             justify-content: center;
             align-items: center;
+            gap: 8px;
 
             &:hover {
                 background-color: ${styles.hoverBgColor};
+            }
+
+            svg {
+                width: 20px;
+                height: 20px;
             }
         `
     }}`;

@@ -1,4 +1,5 @@
 import {doRequest} from "./doRequest";
+import axios from "../util/axios";
 
 export const retrieveContestsInfo = (successCallback, faiCallback) => {
   doRequest(null, "/contests/",
@@ -36,27 +37,14 @@ export const switchContest = (data, successCallback, faiCallback) => {
     true);
 };
 
-export const createContent = (data, successCallback, faiCallback) => {
-  doRequest(data, "/contests/",
-    {
-      "Content-Type": "application/json",
-    },
-    "post",
-    successCallback,
-    faiCallback,
-    true);
+export const createContest = async (formData) => {
+  const {data} = await axios.post("/contests/", formData)
+  return data;
 };
 
-export const joinContest = (data, successCallback, faiCallback) => {
-  doRequest(data, "/join-contest/",
-    {
-      "Content-Type": "application/json",
-
-    },
-    "post",
-    successCallback,
-    faiCallback,
-    true);
+export const joinContest = async (formData) => {
+  const {data} = await axios.post("/join-contest/", formData)
+  return data;
 };
 
 export const retrieveCompetitions = (successCallback, faiCallback) => {

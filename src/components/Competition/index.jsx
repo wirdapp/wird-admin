@@ -9,8 +9,9 @@ import ContestModeratorDefault from "../ContestModerator/ContestModerator.styles
 import {PageTitle} from "../shared/page-title";
 import {useTranslation} from "react-i18next";
 import {css} from "@emotion/css";
-import {Button} from "../../ui/button";
 import {ExclamationCircleIcon} from "@heroicons/react/24/outline";
+import {CreateContestPopup} from "./create-contest-popup";
+import {JoinContestPopup} from "./join-contest-popup";
 
 export default function Competition() {
   const [currentContest, setCurrentContest] = useState(null);
@@ -76,12 +77,8 @@ export default function Competition() {
               justify-content: center;
               padding: 24px;
           `}>
-            <Button variant="primary">
-              + {t('create-contest')}
-            </Button>
-            <Button>
-              {t('join-contest')}
-            </Button>
+            <CreateContestPopup/>
+            <JoinContestPopup/>
           </div>
 
         </div>

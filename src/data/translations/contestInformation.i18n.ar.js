@@ -19,6 +19,7 @@ export default {
   "no-contest-yet-msg": "ليس لديك أي مسابقات نشطة",
   "delete-this-announcement": "حذف هذا الإعلان",
   "name-label": "الاسم",
+  "code-label": "الكود",
   "description-label": "الوصف",
   update: "تعديل"
 };
