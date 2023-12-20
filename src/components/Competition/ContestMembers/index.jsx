@@ -21,12 +21,13 @@ import Loader from "../../Loader";
 import {retrieveAdmins} from "../../../services/adminsServices";
 import {retrieveStudents} from "../../../services/studentsServices";
 import NumberAndAbbreviationOfNames from "../../shared/NumberAndAbbreviationOfNames";
+import { useTranslation } from "react-i18next";
 
 function ContestMembers({contest}) {
   const [admins, setAdmins] = useState([]);
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const {t} = useTranslation();
 
   useEffect(()=>{
     setLoading(true);
@@ -62,10 +63,10 @@ function ContestMembers({contest}) {
       <TopRanksAndParticipants>
         <ParticipantsMember>
           <ParticipantsTitels>
-            <ParticipantsTitelsAtHome>Moderators</ParticipantsTitelsAtHome>
+            <ParticipantsTitelsAtHome>{t(moderatorsKey)}</ParticipantsTitelsAtHome>
 
             <SeeAll href="/Admins" target="_blank">
-              <SeeAllP>See all</SeeAllP>
+              <SeeAllP>{t("seeAll")}</SeeAllP>
               <SeeAllIcon src={SeeMore} Alt="" />
             </SeeAll>
           </ParticipantsTitels>
@@ -79,10 +80,10 @@ function ContestMembers({contest}) {
 
         <ParticipantsMember>
           <ParticipantsTitels>
-            <ParticipantsTitelsAtHome>Participants</ParticipantsTitelsAtHome>
+            <ParticipantsTitelsAtHome>{t("participantsKey")}</ParticipantsTitelsAtHome>
 
             <SeeAll href="/Students" target="_blank">
-              <SeeAllP>See all</SeeAllP>
+              <SeeAllP>{t("seeAll")}</SeeAllP>
               <SeeAllIcon src={SeeMore} Alt="" />
             </SeeAll>
           </ParticipantsTitels>
@@ -95,10 +96,10 @@ function ContestMembers({contest}) {
 
         <ParticipantsMember>
           <ParticipantsTitels>
-            <ParticipantsTitelsAtHome>Groups</ParticipantsTitelsAtHome>
+            <ParticipantsTitelsAtHome>{t("groupsKey")}</ParticipantsTitelsAtHome>
 
             <SeeAll href="/Groups" target="_blank">
-              <SeeAllP>See all</SeeAllP>
+              <SeeAllP>{t("seeAll")}</SeeAllP>
               <SeeAllIcon src={SeeMore} Alt="" />
             </SeeAll>
           </ParticipantsTitels>
