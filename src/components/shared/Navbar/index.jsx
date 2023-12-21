@@ -31,9 +31,7 @@ import {useDashboardData} from "../../../util/routes-data";
 import {destroySession} from "../../../services/auth/session";
 import {Dropdown} from "../../../ui/dropdown";
 import {Button} from "../../../ui/button";
-import {PlusCircleIcon, PlusIcon, UserPlusIcon} from "@heroicons/react/24/solid";
-import {CreateContestPopup} from "../../Competition/create-contest-popup";
-import {JoinContestPopup} from "../../Competition/join-contest-popup";
+import {CurrentContestInfo} from "../../Competition/current-contest-info";
 
 function Nav() {
   const {i18n} = useTranslation();
@@ -44,9 +42,7 @@ function Nav() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [createContestOpen, setCreateContestOpen] = useState(false);
-  const [joinContestOpen, setJoinContestOpen] = useState(false);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleToggle = () => {
     setSidebarOpen(!sidebarOpen);
@@ -76,20 +72,7 @@ function Nav() {
             <StyledPageTitle id="dashboard-page-title"/>
           </LeftNavItems>
           <RightNavItems>
-            <Dropdown title={<PlusIcon/>}>
-              <List>
-                <ListItem onClick={() => setCreateContestOpen(true)}>
-                  <PlusCircleIcon/>
-                  <MenuTitle>{t("create-contest")}</MenuTitle>
-                </ListItem>
-                <ListItem onClick={() => setJoinContestOpen(true)}>
-                  <UserPlusIcon/>
-                  <MenuTitle>{t("join-contest")}</MenuTitle>
-                </ListItem>
-              </List>
-            </Dropdown>
-            <CreateContestPopup visible={createContestOpen} onClose={() => setCreateContestOpen(false)}/>
-            <JoinContestPopup visible={joinContestOpen} onClose={() => setJoinContestOpen(false)}/>
+            <CurrentContestInfo/>
             <Dropdown variant="primary" title={currentUser?.username
               ? currentUser?.username[0] +
               currentUser?.username[1]

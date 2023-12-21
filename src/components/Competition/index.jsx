@@ -2,8 +2,6 @@ import React, {useEffect, useState} from "react";
 import {retrieveCurrentContestInfo} from "../../services/competitionsServices";
 import EditCompetitionForm from "./EditCompetitionForm";
 import Loader from "../Loader";
-
-import MyOngoingContestTab from "../shared/MyOngoingContestTab";
 import ContestMembers from "./ContestMembers";
 import ContestModeratorDefault from "../ContestModerator/ContestModerator.styles";
 import {PageTitle} from "../shared/page-title";
@@ -49,7 +47,6 @@ export default function Competition() {
       <PageTitle>{t('contest-information')}</PageTitle>
       {currentContest ? (
         <>
-          <MyOngoingContestTab competition={true}/>
           <ContestMembers contest={currentContest}/>
           <EditCompetitionForm
             contest={currentContest}

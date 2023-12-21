@@ -25,7 +25,6 @@ import GroupsContentDefault, {
   NormalDiv,
   RowContainer,
 } from "./Groups.styles";
-import MyOngoingContestTab from "../shared/MyOngoingContestTab/index";
 import {ReactComponent as GroupIcon} from "../../assets/icons/groupIcon.svg";
 import {ReactComponent as AddGroupIcon} from "../../assets/icons/addGroupIcon.svg";
 import {colors} from "styles";
@@ -167,7 +166,6 @@ export default function Groups() {
     <>
 
       <GroupsContentDefault>
-        <MyOngoingContestTab/>
 
         <GroupsTitleLine>
           <BoldText>

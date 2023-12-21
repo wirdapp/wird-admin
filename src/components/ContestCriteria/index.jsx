@@ -16,8 +16,6 @@ import MainContainer, {
   SectionAndCriteriaContainer,
   SectionsContainer,
 } from "./ContestCriteria.styled";
-
-import MyOngoingContestTab from "components/shared/MyOngoingContestTab";
 import PopUpModal from "components/shared/PopUpModal";
 import CriteriaForm from "./CriteriaForm";
 import AddSectionForm from "./AddSectionForm";
@@ -183,7 +181,6 @@ export default function ContestCriteria() {
 
   return (
     <MainContainer>
-      <MyOngoingContestTab/>
       <SectionAndCriteriaContainer>
         {/* all sections */}
         <SectionsContainer>

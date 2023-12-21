@@ -21,5 +21,8 @@ export default {
   "name-label": "الاسم",
   "code-label": "الكود",
   "description-label": "الوصف",
-  update: "تعديل"
+  update: "تعديل",
+  "join-code": "رمز الانضمام",
+  "copy-link": "نسخ رابط الدعوة",
+  "switch-contest": "تبديل المسابقة",
 };

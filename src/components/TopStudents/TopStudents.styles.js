@@ -150,11 +150,11 @@ export const AverageWrapper = styled.div`
 export const LeaderBoardMain = styled.div`
     /* display: flex; */
     margin: auto;
-    width: auto;
     flex-direction: column;
     max-width: 961px;
-    align-items: flex-start;
     width: 90%;
+    display: flex;
+    gap: 32px;
 `;
 export const LeaderBoardMainTitel = styled.div`
     height: 19px;

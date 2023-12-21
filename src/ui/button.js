@@ -13,6 +13,13 @@ const buttonStyles = {
     bgColor: colors.lightRed,
     hoverBgColor: colors.lightRedHover,
   },
+  link: {
+    color: colors.red,
+    bgColor: "transparent",
+    hoverBgColor: "transparent",
+    padding: "0",
+    height: "auto",
+  }
 }
 
 function getButtonStyles(variant = "default") {
@@ -23,7 +30,7 @@ export const Button = styled.button`
     ${({variant}) => {
         const styles = getButtonStyles(variant);
         return css`
-            padding: 12px 18px;
+            padding: ${styles.padding || "12px 18px"};
             background-color: ${styles.bgColor};
             color: ${styles.color};
             border-radius: 22px;
@@ -33,7 +40,7 @@ export const Button = styled.button`
             font-style: normal;
             text-transform: uppercase;
             transition: background-color 0.2s ease-in-out;
-            height: 52px;
+            height: ${styles.height || "52px"};
             min-width: 52px;
             display: flex;
             justify-content: center;

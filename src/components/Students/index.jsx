@@ -4,7 +4,6 @@ import Loader from "../Loader";
 import {isSuperAdmin} from "../../util/ContestPeople_Role";
 import {ReactComponent as SearchIcons2} from "assets/icons/search2.svg";
 import {useTranslation} from "react-i18next";
-import MyOngoingContestTab from "../shared/MyOngoingContestTab/index";
 import StudentsContainer, {
   AddParticipantContainer,
   BoldText,
@@ -157,7 +156,6 @@ export default function Students() {
   return (
     <>
       <StudentsContainer>
-        <MyOngoingContestTab/>
         <ContentContainer>
           <div
             style={{

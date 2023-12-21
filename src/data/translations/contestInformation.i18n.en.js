@@ -21,5 +21,8 @@ export default {
   "name-label": "Name",
   "code-label": "Code",
   "description-label": "Description",
-  update: "Update"
+  update: "Update",
+  "join-code": "Join Code",
+  "copy-link": "Copy Invite Link",
+  "switch-contest": "Switch Contest",
 };
