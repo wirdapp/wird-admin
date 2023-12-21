@@ -37,16 +37,11 @@ export const retrieveCurrentContestInfo = async () => {
   }
 };
 
-export const switchContest = (data, successCallback, faiCallback) => {
-  doRequest(data, "/contests/switch_contest/",
-    {
-      "Content-Type": "application/json",
-
-    },
-    "post",
-    successCallback,
-    faiCallback,
-    true);
+export const changeCurrentContest = async (contestId) => {
+  const {data} = await axios.post("/contests/switch_contest/", {
+    contest_id: contestId
+  })
+  return data;
 };
 
 export const createContest = async (formData) => {

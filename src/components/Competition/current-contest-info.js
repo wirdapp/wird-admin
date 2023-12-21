@@ -11,7 +11,7 @@ import {JoinContestPopup} from "./join-contest-popup";
 import React, {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {Button} from "../../ui/button";
-import {retrieveContestsInfo} from "../../services/competitionsServices";
+import {changeCurrentContest, retrieveContestsInfo} from "../../services/competitionsServices";
 
 const StyledContestName = styled.span`
     @media (max-width: 500px) {
@@ -85,6 +85,15 @@ export const CurrentContestInfo = () => {
     });
   }, [currentContest]);
 
+  const switchContest = async (contestId) => {
+    try {
+      await changeCurrentContest(contestId);
+      window.location.reload();
+    } catch (err) {
+      console.log(`Failed to switch contest: ${err}`);
+    }
+  }
+
   return (
     <>
       <Dropdown title={<>
@@ -110,7 +119,7 @@ export const CurrentContestInfo = () => {
               <div className="menu-group-title">{t('switch-contest')}</div>
               <List>
                 {userContests.map((contest) => (
-                  <ListItem key={contest.id}>
+                  <ListItem key={contest.id} onClick={() => switchContest(contest.id)}>
                     <MenuTitle>{contest.name}</MenuTitle>
                   </ListItem>
                 ))}

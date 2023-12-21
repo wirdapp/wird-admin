@@ -1,6 +1,7 @@
 import {AnimatePresence, motion} from "framer-motion";
 import {css} from "@emotion/css";
 import {XMarkIcon} from "@heroicons/react/20/solid";
+import {useEffect} from "react";
 
 const modalOverlayStyles = css`
     position: fixed;
@@ -12,15 +13,15 @@ const modalOverlayStyles = css`
     display: flex;
     justify-content: center;
     z-index: 1000; /* Ensure the modal is on top of other elements */
+    overflow: auto;
+    padding-bottom: 16px;
 `;
 
 const modalStyles = css`
     background: #fff;
     padding: 20px;
     border-radius: 8px;
-    max-width: 80%;
-    max-height: 80%;
-    overflow: auto;
+    max-width: 90%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     width: 400px;
     height: fit-content;
@@ -60,6 +61,31 @@ export const Modal = ({visible, title, onClose, children}) => {
     hidden: {opacity: 0},
     visible: {opacity: 1},
   };
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    if (visible) {
+      document.addEventListener("keydown", handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [onClose, visible]);
+
+  useEffect(() => {
+    // remove scrollbar from body
+    if (visible) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [visible]);
 
   return (
     <AnimatePresence>
