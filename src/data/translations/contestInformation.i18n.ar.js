@@ -31,4 +31,6 @@ export default {
   seeAll: "اظهار الكل",
   groupsKey: "مجموعات",
   participantsKey: "مشاركون",
+  accessCode: "رمز الدخول:",
+  selectKey: "يختار",
 };

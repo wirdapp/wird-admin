@@ -70,7 +70,7 @@ const MyOngoingContestItem = ({ contest, index }) => {
 
           <MyOngoingContestsCodes>
             <MyOngoingContestsLabels>
-              <MyOngoingContestsLabel>Access Code:  </MyOngoingContestsLabel>
+              <MyOngoingContestsLabel>{t("accessCode")}  </MyOngoingContestsLabel>
               <ContestsCode>
                 &nbsp; {contest.access_code} &nbsp;
               </ContestsCode>
@@ -81,7 +81,7 @@ const MyOngoingContestItem = ({ contest, index }) => {
       </ContestIconDescriptionContainer>
 
       {index !== 0 &&
-        <ActionBtn onClick={()=>{handleSwitchContest(contest.id)}}>Select</ActionBtn>
+        <ActionBtn onClick={()=>{handleSwitchContest(contest.id)}}>{t("selectKey")}</ActionBtn>
       }
     </MyOngoingContestIn>
   );

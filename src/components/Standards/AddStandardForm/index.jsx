@@ -21,8 +21,10 @@ import {
 } from "../../shared/styles";
 import { DivPass } from "../../Admins/Admins.styles";
 import { addStandard } from "../../../services/standardServices";
+import { useTranslation } from "react-i18next";
 
 export default function AddStandardForm(props) {
+  const {t} = useTranslation();
   const [selectedSection, setSelectedSection] = useState({});
   const [label, setLabel] = useState("");
   const [order, setOrder] = useState(-1);
@@ -44,7 +46,7 @@ export default function AddStandardForm(props) {
   useEffect(() => {
     let array = [];
     for (let i = 1; i <= 30; i++) {
-      array.push({ id: i, label: `${i} رمضان ` });
+      array.push({ id: i, label: `${i} ${t("ramadan-word")} ` });
     }
     setDays(array);
   }, []);
@@ -114,7 +116,7 @@ export default function AddStandardForm(props) {
           resetAddStandardForm();
 
           setClassColor("green");
-          setMessages(["تم إضافة المعيار بنجاح"]);
+          setMessages([t("criteriaAdd")]);
 
           setTimeout(() => {
             props.setStandards([...props.standards, data]);
@@ -125,7 +127,7 @@ export default function AddStandardForm(props) {
       },
       (err) => {
         let errMessages = [];
-        errMessages.push("لم يتم إضافة المعيار");
+        errMessages.push(t("notCriteriaAdd"));
         if (err.response.data) {
           let obj = err.response.data;
           Object.keys(obj).forEach((e) => {
@@ -216,7 +218,7 @@ export default function AddStandardForm(props) {
             onChange={handleSelectedSectionChange}
           >
             <DropdownListItemStanderd key={0} value="">
-              اختر القسم{" "}
+              {t("choose-section")}{" "}
             </DropdownListItemStanderd>
             {props.sections.map((section, index) => {
               return (
@@ -228,13 +230,13 @@ export default function AddStandardForm(props) {
           </DropdownListStanderd>
         </DropdownDiv>
       ) : (
-        <Span>لا يوجد أقسام لعرضها</Span>
+        <Span> {t("displaySection")} </Span>
       )}
 
       <DivTxtField>
         <Span />
         <FormInput
-          placeholder="ادخل العنوان "
+          placeholder={t("enter-title")}
           value={label}
           type="text"
           required
@@ -251,7 +253,7 @@ export default function AddStandardForm(props) {
           required
           onChange={handleOrderChange}
         />
-        <Label>ترتيب المعيار داخل القسم</Label>
+        <Label>  {t("criteria-order")} </Label>
       </DivTxtFieldnumber>
 
       <DropdownListStanderd
@@ -260,21 +262,21 @@ export default function AddStandardForm(props) {
         onChange={handleFormTypeChange}
       >
         <DropdownListItemStanderd value="">
-          اختر نوع النموذج
+          {t("choose-type")}
         </DropdownListItemStanderd>
-        <DropdownListItemStanderd value="num">رقمي</DropdownListItemStanderd>
+        <DropdownListItemStanderd value="num">{t("digital")}</DropdownListItemStanderd>
         <DropdownListItemStanderd value="chk">
-          خانة إختيار - صح أو خطأ
-        </DropdownListItemStanderd>
+         {t("checkBoxChecker")}
+                 </DropdownListItemStanderd>
         <DropdownListItemStanderd value="oth">
-          نصي - يحتاج مراجعة من المسؤول
+           {t("textReview")}
         </DropdownListItemStanderd>
       </DropdownListStanderd>
 
       <DivTxtField>
         <Span />
         <FormInput
-          placeholder="وصف النقاط - مثال : نقطتان لكل صفحة "
+          placeholder={t("points-description")}
           type="text"
           required
           value={description}
@@ -293,7 +295,7 @@ export default function AddStandardForm(props) {
               value={lowerUnitsBound !== -1 ? "" + lowerUnitsBound : ""}
               onChange={handleLowerBoundPointUnitsChange}
             />
-            <Label>الحد الأدنى للتكرار</Label>
+            <Label> {t("minimum-repeat")}  </Label>
           </DivTxtFieldnumber>
 
           <DivTxtFieldnumber>
@@ -305,7 +307,7 @@ export default function AddStandardForm(props) {
               required
               onChange={handleUpperBoundPointUnitsChange}
             />
-            <Label>الحد الأعلى للتكرار</Label>
+            <Label>{t("maximum-repeat")}</Label>
           </DivTxtFieldnumber>
         </>
       )}
@@ -321,8 +323,8 @@ export default function AddStandardForm(props) {
         />
         <Label>
           {formType !== "chk"
-            ? "ادخل عدد نقاط لكل تكرار"
-            : "ادخل النقاط لهذا المعييار"}
+            ? t("enter-repetition")
+            : t("enterCreterion")}
         </Label>
       </DivTxtFieldnumber>
 
@@ -332,14 +334,14 @@ export default function AddStandardForm(props) {
           onChange={handleCustomDaysCheckboxChange}
           checked={isCustomDaysChecked}
         />{" "}
-        <LabelSoper>متاح لأيام محددة</LabelSoper>
+        <LabelSoper>{t("limited")} </LabelSoper>
       </DivTxtFieldnumber>
       {isCustomDaysChecked && (
         <DivMultiselect>
           <Multiselect
             onSelect={handleCustomDaysChange}
             onRemove={handleCustomDaysChange}
-            placeholder="اختر الايام ليكون متاحا"
+            placeholder={t("chooseDay")}
             options={days}
             ref={multiselectRef}
             selectedValues={currentDays}
@@ -356,7 +358,7 @@ export default function AddStandardForm(props) {
           checked={isShown}
           onChange={handleShownCheckboxChange}
         />{" "}
-        <LabelSoper>عرض المعييار</LabelSoper>
+        <LabelSoper>{t("show-criteria")}</LabelSoper>
       </DivTxtFieldnumber>
 
       {isShown ? (
@@ -366,12 +368,12 @@ export default function AddStandardForm(props) {
             checked={isActive}
             onChange={handleActiveCheckboxChange}
           />{" "}
-          <LabelSoper>تفعيل المعييار</LabelSoper>
+          <LabelSoper>{t("activate-criteria")}</LabelSoper>
         </DivTxtFieldnumber>
       ) : (
         <DivTxtFieldnumber>
           <Checkboxes type="checkbox" disabled={true} checked={false} />{" "}
-          <LabelSoper>تفعيل المعييار</LabelSoper>
+          <LabelSoper>{t("activate-criteria")}</LabelSoper>
         </DivTxtFieldnumber>
       )}
 
@@ -384,7 +386,7 @@ export default function AddStandardForm(props) {
           );
         })}
       <InputSubmit type="submit" value="login">
-        إضافة المعيار
+        {t("add-criteria")}
       </InputSubmit>
     </Formm>
   );

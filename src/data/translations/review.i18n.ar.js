@@ -15,4 +15,7 @@ export default {
   notAddResult: "لم يتم إضافة النتيجة",
   succussResult: "تم إضافة النتيجة بنجاح'",
   mustEnter: "يجب عليك إدخال نتيجة لإضافتها'",
+  createKey: "يخلق",
+  joinKey: "ينضم",
+  newContest: "اسم المسابقة الجديد",
 };

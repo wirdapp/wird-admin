@@ -11,6 +11,7 @@ import {
     H3Pass
 } from "../../shared/styles";
 import {addSection} from "../../../services/standardServices";
+import { useTranslation } from 'react-i18next';
 
 export default function AddSectionForm(props){
 
@@ -18,7 +19,7 @@ export default function AddSectionForm(props){
     const [position, setPosition] = useState(-1);
     const [messages, setMessages] = useState([]);
     const [classColor, setClassColor] = useState("");
-
+    const {t} = useTranslation();
     useEffect(()=>{
         resetAddSectionForm();
     },[props.reset]);
@@ -48,7 +49,7 @@ export default function AddSectionForm(props){
                     resetAddSectionForm();
 
                     setClassColor("green");
-                    setMessages(['تم إضافة القسم بنجاح']);
+                    setMessages([t("success-add-section-msg")]);
 
                     setTimeout(()=>{
                         props.setSections([...props.sections, {label: label, position: position, id : res.data.id}]);
@@ -59,7 +60,7 @@ export default function AddSectionForm(props){
             },
             (err) => {
                 let errMessages =[];
-                errMessages.push(["لم يتم إضافة القسم"]);
+                errMessages.push([t("fail-add-section-msg")]);
                 if(err.response.data){
                     let obj = err.response.data;
                     Object.keys(obj).forEach(e => {
@@ -78,13 +79,13 @@ export default function AddSectionForm(props){
         <Formm onSubmit={handleAddSectionSubmit}>
             <DivTxtField>
                 <Span/>
-                <FormInput placeholder='ادخل العنوان' type="text" required value={label} onChange={handleLabelChange}/>
+                <FormInput placeholder={t("enter-title")} type="text" required value={label} onChange={handleLabelChange}/>
             </DivTxtField>
 
             <DivTxtFieldnumber>
                 <Span/>
                 <FormInputnumber type="number"  min='1' value={position !== -1 ? (position+"") : "" } required onChange={handlePositionChange}/>
-                <Label>ترتيب القسم داخل المسابقة</Label>
+                <Label>   {t("section-order")}</Label>
             </DivTxtFieldnumber>
 
             {messages.length > 0 &&
@@ -92,7 +93,7 @@ export default function AddSectionForm(props){
                     return <H3Pass className={classColor} key={index}>{message}</H3Pass>
                 })
             }
-            <InputSubmit type="submit">إضافة قسم جديد</InputSubmit>
+            <InputSubmit type="submit">{t("add-section")}</InputSubmit>
         </Formm>
     );
 };

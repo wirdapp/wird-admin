@@ -31,4 +31,6 @@ export default {
   seeAll: "See all",
   groupsKey: "Groups",
   participantsKey: "Participants",
+  accessCode: "Access Code:",
+  selectKey: "Select",
 };

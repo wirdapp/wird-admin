@@ -93,7 +93,7 @@ export default function Admins() {
   return (
     <AdminsDefault>
       {openModal &&
-        <Modal title= {t("deleteAdmin")} content={t("deleteAdminDisclimar")} deleteBtn={t("deleteBtn")} cancelBtn={t("cancelBtn")}
+        <Modal title= {t("delete-confirm")} content={t("deleteAdminDisclimar")} deleteBtn={t("deleteBtn")} cancelBtn={t("cancelBtn")}
                setOpenModal={setOpenModal} deleteFunction={deleteFunction}/>
       }
 

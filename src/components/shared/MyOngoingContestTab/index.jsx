@@ -21,6 +21,7 @@ import {
 } from "../../../services/competitionsServices";
 
 import { DivPass } from "../../ResetPassword/ResetPassword.styles";
+import { useTranslation } from "react-i18next";
 
 function MyOngoingContestTab({ competition }) {
   const [openContests, setOpenContests] = useState(false);
@@ -33,7 +34,7 @@ function MyOngoingContestTab({ competition }) {
   const [createErrorMessage, setCreateErrorMessage] = useState("");
   const [joinErrorMessage, setJoinErrorMessage] = useState("");
   const { hash } = useLocation();
-
+  const {t} = useTranslation();
   // const [selectChange, setSelectChange] = useState(false);
 
   // const changeSelectHandler = () => {
@@ -192,23 +193,23 @@ function MyOngoingContestTab({ competition }) {
             <DefaultForm>
               <SearchContainer
                 id="create-contest"
-                placeholder="New Contest Name"
+                placeholder={t("newContest")}
                 type="text"
                 onChange={handleNewContestNameChange}
               />
             </DefaultForm>
-            <ActionBtn onClick={createContestHandler}>Create</ActionBtn>
+            <ActionBtn onClick={createContestHandler}>{t("createKey")}</ActionBtn>
           </JoinAndCreateInputContainer>
           {/* Join Contest Form  */}
           <JoinAndCreateInputContainer>
             <DefaultForm>
               <SearchContainer
-                placeholder="Access code"
+                placeholder={t("accessCode")}
                 type="text"
                 onChange={handleContestCodeChange}
               />
             </DefaultForm>
-            <ActionBtn onClick={joinContestHandler}>Join</ActionBtn>
+            <ActionBtn onClick={joinContestHandler}>{t("joinKey")}</ActionBtn>
           </JoinAndCreateInputContainer>
         </FormsContainer>
         {createErrorMessage.length > 0 && (

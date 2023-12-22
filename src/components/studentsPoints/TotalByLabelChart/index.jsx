@@ -11,11 +11,12 @@ import {
 import { Animation } from "@devexpress/dx-react-chart";
 import { H5 } from "../../Students/setPasswordStudent/SetPasswordStudent.styles";
 import { EventTracker } from '@devexpress/dx-react-chart';
+import { useTranslation } from "react-i18next";
 
 export default function TotalByLabelChart({ selectedUser }) {
   const [chartData, setChartData] = useState([]);
   const [targetItem, setTargetItem] = useState(undefined);
-
+  const {t} = useTranslation();
   function Content({ text, targetItem, ...restProps }) {
     const displayText = chartData[targetItem?.point]?.point_template__label;
 
@@ -46,7 +47,7 @@ export default function TotalByLabelChart({ selectedUser }) {
   if (selectedUser === "") {
     return (
       <div style={{ width: "100%" }} className="table-msg-text-section">
-        <H5>اختر الطالب لعرض الإحصائيات لكل معييار</H5>
+        <H5>{t("statisticsEach")}</H5>
       </div>
     );
   }
@@ -54,7 +55,7 @@ export default function TotalByLabelChart({ selectedUser }) {
   if (chartData.length === 0) {
     return (
       <div style={{ width: "100%" }} className="table-msg-text-section">
-        <H5>لا يوجد نقاط لعرض الإحصائيات لكل معييار</H5>
+        <H5>{t("statisticsCriterion")}</H5>
       </div>
     );
   }
@@ -72,7 +73,7 @@ export default function TotalByLabelChart({ selectedUser }) {
 
         <EventTracker />
 
-        <Title text="الإحصائيات لكل معييار" />
+        <Title text={t("statisticsEachStandard")} />
 
         <Animation />
 

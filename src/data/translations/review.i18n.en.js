@@ -15,4 +15,7 @@ export default {
   notAddResult: "The result has not been added",
   succussResult: "The result has been added successfully",
   mustEnter: "You must enter a result to add it",
+  createKey: "Create",
+  joinKey: "Join",
+  newContest: "New Contest Name",
 };

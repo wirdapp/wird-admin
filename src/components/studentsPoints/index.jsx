@@ -21,6 +21,7 @@ import cookie from "react-cookies";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Loader";
 import MyOngoingContestTab from "components/shared/MyOngoingContestTab";
+import { useTranslation } from "react-i18next";
 
 export default function StudentsPoints() {
   const [Students, setStudents] = useState(null);
@@ -29,6 +30,7 @@ export default function StudentsPoints() {
   const [studentsResultsFlag, SetStudentsResultsFlag] = useState(true);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const {t} = useTranslation();
   useEffect(() => {
     if (!cookie.load("token")) {
       navigate("/login", { state: { redirectTo: "/students-points" } });
@@ -72,7 +74,7 @@ export default function StudentsPoints() {
           {Students?.length === 0 || !Students ? (
             <p style={{ textAlign: "center", margin: 0 }}>
               {" "}
-              لا يوجد طلاب لعرضهم{" "}
+              {t("noStudentDiplay")}{" "}
             </p>
           ) : (
             <>
@@ -80,14 +82,12 @@ export default function StudentsPoints() {
                 <Wird
                   onClick={() => SetStudentsResultsFlag(!studentsResultsFlag)}
                 >
-                  اضغط لعرض الجدول
-                </Wird>
+                  {t("clickView")}                </Wird>
               ) : (
                 <Wird
                   onClick={() => SetStudentsResultsFlag(!studentsResultsFlag)}
                 >
-                  اضغط لعرض الرسم البياني
-                </Wird>
+                  {t("viewChart")}                </Wird>
               )}
               <SelectInputContainer>
                 <DropdownDiv className="DropdownDiv">
@@ -96,7 +96,7 @@ export default function StudentsPoints() {
                     onChange={handleSelectedUser}
                   >
                     <DropdownListItem key={0} value="">
-                      اختر المتسابق{" "}
+                      {t("chooseContestant")}{" "}
                     </DropdownListItem>
                     {Students && (
                       <>
@@ -120,14 +120,12 @@ export default function StudentsPoints() {
                       onChange={handleDayChange}
                     >
                       <DropdownListItem key={0} value="">
-                        اختر اليوم من رمضان
-                      </DropdownListItem>
+                        {t("chooseRamdan")}                      </DropdownListItem>
                       {Array(30)
                         .fill(undefined)
                         .map((val, idx) => (
                           <DropdownListItem key={idx + 1} value={idx + 1}>
-                            {idx + 1} رمضان
-                          </DropdownListItem>
+                            {idx + 1} {t("ramadan-word")}                          </DropdownListItem>
                         ))}
                     </DropdownList>
                   </DropdownDiv>

@@ -21,6 +21,7 @@ import {
 } from "../../shared/styles";
 import {DivPass} from "../../Admins/Admins.styles";
 import { updateStandard} from "../../../services/standardServices";
+import { useTranslation } from 'react-i18next';
 
 
 export default function EditStandardForm(props) {
@@ -43,11 +44,11 @@ export default function EditStandardForm(props) {
     const [days, setDays] = useState([]);
     const [currentSelectedDays, setCurrentSelectedDays] = useState([]);
     const multiselectRef = React.createRef();
-
+    const {t} = useTranslation();
     useEffect(()=>{
         let array = [];
         for(let i = 1 ; i<=30 ; i++){
-            array.push({id:i, label: `${i} رمضان `});
+            array.push({id:i, label: `${i} ${t("ramadan-word")} `});
         }
         setDays(array);
     }, []);
@@ -130,7 +131,7 @@ export default function EditStandardForm(props) {
                     resetEditStandardForm();
 
                     setClassColor("green");
-                    setMessages(['تم تعديل المعيار بنجاح']);
+                    setMessages([t("modifySuccess")]);
 
                     setTimeout(()=>{
                         props.setStandards(
@@ -143,7 +144,7 @@ export default function EditStandardForm(props) {
             },
             (err) => {
                 let errMessages = [];
-                errMessages.push('لم يتم تعديل المعيار');
+                errMessages.push(t('notModifySuccess'));
                 if (err.response.data) {
                     let obj = err.response.data;
                     Object.keys(obj).forEach(e => {
@@ -256,7 +257,7 @@ export default function EditStandardForm(props) {
                     <DropdownDiv >
                         <DropdownListStanderd className='DropdownList' onChange={handleSelectedStandardChange}
                                               value={Object.keys(selectedStandard).length > 0 ? selectedStandard.id : ""}>
-                            <DropdownListItemStanderd key={0} value="">اختر المعيار </DropdownListItemStanderd>
+                            <DropdownListItemStanderd key={0} value="">{t("standardKey")} </DropdownListItemStanderd>
                             { props.standards.map((standard, index) => {
                                 return <DropdownListItemStanderd key={index + 1}  value={standard.id}>{standard.label}</DropdownListItemStanderd>
                                 })
@@ -264,7 +265,7 @@ export default function EditStandardForm(props) {
                         </DropdownListStanderd>
                     </DropdownDiv>
                 :
-                    <Span>لا يوجد معايير لعرضها</Span>
+                    <Span>{t("criteriaDisplay")}</Span>
             }
 
             { props.sections && props.sections.length > 0
@@ -272,7 +273,7 @@ export default function EditStandardForm(props) {
                 <DropdownDiv>
                     <DropdownListStanderd className='DropdownList'
                                           value={Object.keys(selectedSection).length > 0 ? selectedSection.id : ""}  onChange={handleSelectedSectionChange}>
-                        <DropdownListItemStanderd key={0} value="">اختر القسم </DropdownListItemStanderd>
+                        <DropdownListItemStanderd key={0} value="">{t("choose-section")}</DropdownListItemStanderd>
                         { props.sections.map((section, index) => {
                             return <DropdownListItemStanderd key={index + 1} value={section.id}>{section.label}</DropdownListItemStanderd>
                         })
@@ -280,31 +281,31 @@ export default function EditStandardForm(props) {
                     </DropdownListStanderd>
                 </DropdownDiv>
                 :
-                <Span>لا يوجد أقسام لعرضها</Span>
+                <Span>{t("displaySection")}</Span>
             }
 
             <DivTxtField>
                 <Span/>
-                <FormInput placeholder='ادخل العنوان ' type="text" value={label} onChange={handleLabelChange} required/>
+                <FormInput placeholder={t("enter-title")} type="text" value={label} onChange={handleLabelChange} required/>
             </DivTxtField>
 
             <DivTxtFieldnumber>
                 <Span/>
                 <FormInputnumber type="number"  min='1' value={order!== -1 ? (order+"") : ""} onChange={handleOrderChange} required/>
-                <Label>ترتيب المعيار داخل القسم</Label>
+                <Label>{t("criteria-order")}</Label>
             </DivTxtFieldnumber>
 
             <DropdownListStanderd className='DropdownList' value={formType} onChange={handleFormTypeChange} >
-                <DropdownListItemStanderd value="">اختر نوع النموذج</DropdownListItemStanderd>
-                <DropdownListItemStanderd value="NumberPointTemplate">رقمي</DropdownListItemStanderd>
-                <DropdownListItemStanderd value="CheckboxPointTemplate">خانة إختيار - صح أو خطأ</DropdownListItemStanderd>
-                <DropdownListItemStanderd value="PointTemplate">نصي - يحتاج مراجعة من المسؤول</DropdownListItemStanderd>
+                <DropdownListItemStanderd value="">{t("choose-type")} </DropdownListItemStanderd>
+                <DropdownListItemStanderd value="NumberPointTemplate">{t("digital")}</DropdownListItemStanderd>
+                <DropdownListItemStanderd value="CheckboxPointTemplate">{t("checkBoxChecker")}</DropdownListItemStanderd>
+                <DropdownListItemStanderd value="PointTemplate">{t("textReview")}</DropdownListItemStanderd>
             </DropdownListStanderd>
 
 
             <DivTxtField>
                 <Span/>
-                <FormInput placeholder='وصف النقاط - مثال : نقطتان لكل صفحة ' type="text" value={description} onChange={handleDescriptionChange} required/>
+                <FormInput placeholder={t('points-description')} type="text" value={description} onChange={handleDescriptionChange} required/>
             </DivTxtField>
 
             { formType !== 'chk' &&
@@ -312,14 +313,14 @@ export default function EditStandardForm(props) {
                     <DivTxtFieldnumber>
                         <Span/>
                         <FormInputnumber min="0" type="number" value={lowerUnitsBound !== -1 ? (""+lowerUnitsBound) : ""} onChange={handleLowerBoundPointUnitsChange} required/>
-                        <Label>الحد الأدنى للتكرار</Label>
+                        <Label> {t("minimum-repeat")} </Label>
                     </DivTxtFieldnumber>
 
                     <DivTxtFieldnumber>
                         <Span/>
                         <FormInputnumber min={lowerUnitsBound !== -1 ? lowerUnitsBound : (0 + "")} type="number"
                                          value={upperUnitsBound !==-1 ? (upperUnitsBound+"") : ""} onChange={handleUpperBoundPointUnitsChange} required/>
-                        <Label>الحد الأعلى للتكرار</Label>
+                        <Label>{t("maximum-repeat")}</Label>
                     </DivTxtFieldnumber>
                 </>
             }
@@ -327,18 +328,18 @@ export default function EditStandardForm(props) {
             <DivTxtFieldnumber>
                 <Span/>
                 <FormInputnumber type="number" min="1" value={pointsPerUnit !==-1 ? (pointsPerUnit+"") : ""} onChange={handlePointUnitChange} required/>
-                <Label>{formType !== 'chk' ? 'ادخل عدد نقاط لكل تكرار' : 'ادخل النقاط لهذا المعييار'}</Label>
+                <Label>{formType !== 'chk' ? t('enter-repetition') : t('enterCreterion')}</Label>
             </DivTxtFieldnumber>
 
             <DivTxtFieldnumber>
-                <Checkboxes type="checkbox" checked={isCustomDaysChecked} onChange={handleCustomDaysCheckboxChange}/> <LabelSoper>متاح لأيام محددة</LabelSoper>
+                <Checkboxes type="checkbox" checked={isCustomDaysChecked} onChange={handleCustomDaysCheckboxChange}/> <LabelSoper>{t("limited")}</LabelSoper>
             </DivTxtFieldnumber>
             { isCustomDaysChecked &&
                 <DivMultiselect>
                     <Multiselect
                         onSelect={handleCustomDaysChange}
                         onRemove={handleCustomDaysChange}
-                        placeholder='اختر الايام ليكون متاحا'
+                        placeholder={t("chooseDay")}
                         options={days}
                         ref={multiselectRef}
                         selectedValues={currentSelectedDays}
@@ -350,17 +351,17 @@ export default function EditStandardForm(props) {
             }
 
             <DivTxtFieldnumber>
-                <Checkboxes type="checkbox" checked={isShown} onChange={handleShownCheckboxChange}/> <LabelSoper>عرض المعييار</LabelSoper>
+                <Checkboxes type="checkbox" checked={isShown} onChange={handleShownCheckboxChange}/> <LabelSoper>{t("show-criteria")}</LabelSoper>
             </DivTxtFieldnumber>
 
             { isShown
                 ?
                 <DivTxtFieldnumber>
-                    <Checkboxes type="checkbox" checked={isActive} onChange={handleActiveCheckboxChange}/> <LabelSoper>تفعيل المعييار</LabelSoper>
+                    <Checkboxes type="checkbox" checked={isActive} onChange={handleActiveCheckboxChange}/> <LabelSoper>{t("activate-criteria")}</LabelSoper>
                 </DivTxtFieldnumber>
                 :
                 <DivTxtFieldnumber>
-                    <Checkboxes type="checkbox" disabled={true} checked={false}/> <LabelSoper>تفعيل المعييار</LabelSoper>
+                    <Checkboxes type="checkbox" disabled={true} checked={false}/> <LabelSoper>{t("activate-criteria")}</LabelSoper>
                 </DivTxtFieldnumber>
             }
 
@@ -369,7 +370,7 @@ export default function EditStandardForm(props) {
                     return <DivPass className={classColor} key={index}>{message}</DivPass>
                 })
             }
-            <InputSubmit type="submit" value='login'>تعديل المعيار</InputSubmit>
+            <InputSubmit type="submit" value='login'>{t("edit-criteria")}</InputSubmit>
         </Formm>
     )
 };

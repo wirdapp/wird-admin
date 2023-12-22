@@ -8,6 +8,7 @@ import {kaPropsUtils} from 'ka-table/utils';
 import Modal from "../../shared/Modal";
 import {H5} from "../../Students/setPasswordStudent/SetPasswordStudent.styles";
 import {H3Pass} from '../../shared/styles';
+import { useTranslation } from 'react-i18next';
 
 // get the table component the 
 function getTableProps(studentData) {
@@ -23,8 +24,8 @@ function getTableProps(studentData) {
 
   return {
       columns: [
-        {key: 'standard', title: 'عنوان المعييار', dataType: DataType.String},
-        {key: 'point', title: 'النتيجة', dataType: DataType.String},
+        {key: 'standard', title: t('standardTitle'), dataType: DataType.String},
+        {key: 'point', title: t('result'), dataType: DataType.String},
         {key: 'delete', style: {textAlign: 'center'}},
       ],
       data: dataArray,
@@ -58,6 +59,7 @@ function TableData({selectedUser, selectedDay}) {
     const [rowToDelete, setRowToDelete] = useState(-1);
     const [messages, setMessages] = useState([]);
     const [classColor, setClassColor] = useState("");
+    const {t} = useTranslation();
     let flag = true;
     let tempPrevArr;
 
@@ -96,7 +98,7 @@ function TableData({selectedUser, selectedDay}) {
                         if (res && res.status === 200) {
 
                             dispatch(saveAllEditors());
-                            setMessages(['تم حفظ التغيرات بنجاح']);
+                            setMessages([t("saveSuccess")]);
                             setClassColor('green');
 
                             setTimeout(()=>{
@@ -108,7 +110,7 @@ function TableData({selectedUser, selectedDay}) {
                     (err) => {
                         dispatch(validate());
                         let errMessages = [];
-                        errMessages.push(["لم يتم حفظ التغيرات"]);
+                        errMessages.push([t("notSaveSuccess")]);
                         if(err.response.data){
                             let obj = err.response.data;
                             Object.keys(obj).forEach(e => {
@@ -127,7 +129,7 @@ function TableData({selectedUser, selectedDay}) {
                     }
                 )
             }else{
-                setMessages(['لم يحدث تغيير لحفظه']);
+                setMessages([t("noChange")]);
                 setTimeout(()=>{
                     setMessages([]);
                 },3000);
@@ -162,7 +164,7 @@ function TableData({selectedUser, selectedDay}) {
             (res) => {
                 if(res.status === 204){
                     dispatch(deleteRow(rowToDelete));
-                    setMessages(['تم الحذف بنجاح']);
+                    setMessages([t("deleteSuccess")]);
                     setClassColor('green');
 
                     setTimeout(()=>{
@@ -173,7 +175,7 @@ function TableData({selectedUser, selectedDay}) {
             },
             (err) => {
                 let errMessages = [];
-                errMessages.push(["لم يتم الحذف"]);
+                errMessages.push([t("notDelete")]);
                 if(err.response.data){
                     let obj = err.response.data;
                     Object.keys(obj).forEach(e => {
@@ -194,13 +196,13 @@ function TableData({selectedUser, selectedDay}) {
     };
 
     if(selectedUser === "" && selectedDay === ""){
-        return <div className="table-msg-text-section"><H5>اختر اليوم والطالب</H5></div>;
+        return <div className="table-msg-text-section"><H5>{t("selectStudentAndDay")}</H5></div>;
     } else if (selectedUser === ""){
-        return <div className="table-msg-text-section"><H5>اختر الطالب</H5></div>;
+        return <div className="table-msg-text-section"><H5>{t("selectStudent")} </H5></div>;
     } else if(selectedDay === ""){
-        return <div className="table-msg-text-section"><H5>اختر اليوم</H5></div>;
+        return <div className="table-msg-text-section"><H5>{t("chooseDay")}</H5></div>;
     } else if(!isTableShown){
-        return <div className="table-msg-text-section"><H5>لا يوجد نقاط لهذا اليوم</H5></div>;
+        return <div className="table-msg-text-section"><H5>{t("noPoints")}</H5></div>;
     }
 
     return (
@@ -208,7 +210,7 @@ function TableData({selectedUser, selectedDay}) {
         // ******** TODO : and to limit the minimum to not be negative ***************************
         <>
             { openModal &&
-                <Modal title="تأكيد الحذف" content="هل تريد حذف هذه النتيجة؟" deleteBtn="حذف" cancelBtn="إلغاء"
+                <Modal title={t("deleteAdmin")} content={t("deleteResult")} deleteBtn={t("delete")} cancelBtn={t("cancel")}
                        setOpenModal={setOpenModal} deleteFunction={deleteFunction} />
             }
             <>
@@ -242,8 +244,7 @@ function TableData({selectedUser, selectedDay}) {
                     })
                 }
                 <button onClick={updateCells} className='save-changes'>
-                    حفظ التغيرات
-                </button>
+                    {t("save-changes")}               </button>
             </>
         </>
     );

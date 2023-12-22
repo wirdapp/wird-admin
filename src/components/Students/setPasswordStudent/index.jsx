@@ -15,6 +15,7 @@ import {
 } from "../../shared/styles";
 import "./Setpass.css";
 import {setStudentPassword} from "../../../services/studentsServices";
+import { useTranslation } from "react-i18next";
 
 export default function SetPasswordStudents(props) {
     const [userName, setUserName] = useState("");
@@ -24,7 +25,7 @@ export default function SetPasswordStudents(props) {
     const [messages, setMessages] = useState([]);
     const [classColor, setClassColor] = useState("");
     const [isValidPassword, setValidPassword] = useState(true);
-
+    const {t} = useTranslation();
 
     useEffect(() => {
         setMessages([]);
@@ -83,7 +84,7 @@ export default function SetPasswordStudents(props) {
         }
 
         if (userName === "") {
-            setMessages(["يجب عليك اختيار متسابق لتغيير كلمة المرور"]);
+            setMessages([t("mustSelect")]);
             setClassColor("red");
             return;
         }
@@ -99,13 +100,13 @@ export default function SetPasswordStudents(props) {
                 if(res && res.status === 200){
                     resetStudentChangePasswordForm();
 
-                    setMessages(['تم تغيير كلمة المرور بنجاح']);
+                    setMessages([t("changePassword")]);
                     setClassColor("green");
                 }
             },
             (err) => {
                 let errMessages = [];
-                errMessages.push('لم يتم تغيير كلمة المرور');
+                errMessages.push(t("notChangePassword"));
                 if (err.response.data) {
                     let obj = err.response.data;
                     Object.keys(obj).forEach(e => {
@@ -125,7 +126,7 @@ export default function SetPasswordStudents(props) {
 
             <DropdownDiv className="DropdownDiv">
                 <DropdownList className="DropdownList" onChange={selectedUser} value={userName}>
-                    <DropdownListItem key={0} value="">اختر الطالب</DropdownListItem>
+                    <DropdownListItem key={0} value="">{t("selectStudent")} </DropdownListItem>
                     {
                         props.students.map((student, index) => (
                             <DropdownListItem key={index + 1}
@@ -140,20 +141,20 @@ export default function SetPasswordStudents(props) {
                 <FormInput
                     onChange={handleChangeStudentPassword1}
                     type="password"
-                    placeholder="ادخل كلمة مرور جديدة"
+                    placeholder={t("enterPassword")}
                     value={PasswordStudent1}
                     required
                 />
             </DivTxtField>
             {!isValidPassword &&
-                <DivPass className={classColor}>يجب أن تتكون كلمة المرور من 8 أحرف على الأقل</DivPass>
+                <DivPass className={classColor}> {t("passwordValidation")}</DivPass>
             }
 
             <DivTxtField>
                 <Span/>
                 <FormInput
                     onChange={handleChangeStudentPassword2}
-                    placeholder="تأكيد كلمة المرور"
+                    placeholder={t("confirm-new-password")}
                     type="password"
                     value={PasswordStudent2}
                     required
@@ -162,7 +163,7 @@ export default function SetPasswordStudents(props) {
 
             {!PasswordStudentEqual &&
                 <DivPass className={classColor}>
-                    الإدخال غير صحيح، تأكد من مطابقة كلمة المرور
+               {t("matchPassword")}
                 </DivPass>
             }
 
@@ -172,7 +173,7 @@ export default function SetPasswordStudents(props) {
                 })
             }
             <InputSubmit type="submit" value="login">
-                تغيير كلمة المرور
+                {t("change-password")}
             </InputSubmit>
         </Form>
     );

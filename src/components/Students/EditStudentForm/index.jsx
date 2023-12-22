@@ -20,6 +20,7 @@ import {
 } from "../../shared/styles";
 import {DropdownDivSelect as Box} from '../../Groups/Groups.styles';
 import {updateStudent} from "../../../services/studentsServices";
+import { useTranslation } from "react-i18next";
 
 export default function EditStudentForm(props){
     const [messages, setMessages] = useState([]);
@@ -29,7 +30,7 @@ export default function EditStudentForm(props){
     const [lastName, setLastName] = useState("");
     const [photo, setPhoto] = useState(null);
     const [isReadOnly, setReadOnly] = useState(false);
-
+    const {t} = useTranslation();
     useEffect(()=>{
         resetEditStudentsForm();
     },[props.reset]);
@@ -51,7 +52,7 @@ export default function EditStudentForm(props){
         e.preventDefault();
 
         if(selectedUsername === ""){
-            setMessages(['يجب عليك إختيار طالب للتعديل']);
+            setMessages([t('editStudent')]);
             setClassColor("red");
             return;
         }
@@ -73,7 +74,7 @@ export default function EditStudentForm(props){
                     updatedStudent.read_only = isReadOnly;
                     resetEditStudentsForm();
 
-                    setMessages(['تم تعديل الطالب بنجاح']);
+                    setMessages([t("successEdit")]);
                     setClassColor("green");
 
                     setTimeout(()=>{
@@ -84,7 +85,7 @@ export default function EditStudentForm(props){
                 }
             },(err)=>{
                 let errMessages = [];
-                errMessages.push(["لم يتم تعديل الطالب"]);
+                errMessages.push([t("notSuccessEdit")]);
                 if(err && err.response && err.response.data){
                     let obj = err.response.data;
                     Object.keys(obj).forEach(e => {
@@ -132,7 +133,7 @@ export default function EditStudentForm(props){
 
             <DropdownDiv className="DropdownDiv">
                 <DropdownList onChange={handleSelectedUserChange} value={selectedUsername}>
-                    <DropdownListItem key={0} value="">اختر الطالب</DropdownListItem>
+                    <DropdownListItem key={0} value="">{t("selectStudent")}</DropdownListItem>
                     {
                         props.students.map((student, index) => (
                             <DropdownListItem key={index + 1}
@@ -144,20 +145,20 @@ export default function EditStudentForm(props){
 
             <DivTxtField>
                 <Span />
-                <FormInput onChange={handleFirstNameChange} placeholder='الاسم الأول' type="text" value={firstName} required />
+                <FormInput onChange={handleFirstNameChange} placeholder={t('first-name')} type="text" value={firstName} required />
             </DivTxtField>
 
             <DivTxtField>
                 <Span />
-                <FormInput onChange={handleLastNameChange} placeholder='اسم العائلة' type="text" value={lastName } required />
+                <FormInput onChange={handleLastNameChange} placeholder={t('familyName')} type="text" value={lastName } required />
             </DivTxtField>
 
             <DivTxtFieldnumber>
-                <Checkboxes type="checkbox" checked={isReadOnly} onChange={handleReadOnlyCheckboxChange}/> <LabelSoper>إضافته كطالب يستطيع المشاهدة فقط</LabelSoper>
+                <Checkboxes type="checkbox" checked={isReadOnly} onChange={handleReadOnlyCheckboxChange}/> <LabelSoper>{t("addStudent")}</LabelSoper>
             </DivTxtFieldnumber>
 
             <Box>
-                <H5>تحميل صورة شخصية</H5>
+                <H5>{t("photoUpdate")}  </H5>
                 <DivFileField>
                     <FileFormInput type="file" onChange={handlePhotoChange}/>
                 </DivFileField>
@@ -169,7 +170,7 @@ export default function EditStudentForm(props){
                 })
             }
             <InputSubmit type="submit" value="login">
-                تعديل الطالب
+               {t("studentModify")} 
             </InputSubmit>
         </Form>
     );

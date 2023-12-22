@@ -7,7 +7,6 @@ export default {
   modifyAdmin: "Edit Administrator ",
   notModifyAdminMSG: "The administrator has not been modified",
   modifyAdminMSG: "Administrator has been modified.",
-  deleteAdmin: "Confirm deletion",
   deleteAdminDisclimar: "Do you want to delete this admin?",
   deleteBtn: "delete",
   cancelBtn: "cancel",

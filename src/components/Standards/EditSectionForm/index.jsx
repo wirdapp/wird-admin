@@ -18,6 +18,7 @@ import {
 } from "../../shared/styles";
 
 import {updateSection} from "../../../services/standardServices";
+import { useTranslation } from 'react-i18next';
 
 export default function EditSectionForm(props){
 
@@ -26,7 +27,7 @@ export default function EditSectionForm(props){
     const [position, setPosition] = useState(-1);
     const [messages, setMessages] = useState([]);
     const [classColor, setClassColor] = useState("");
-
+    const {t} = useTranslation();
     useEffect(()=>{
         resetEditSectionForm();
     },[props.reset]);
@@ -60,7 +61,7 @@ export default function EditSectionForm(props){
         e.preventDefault();
 
         if(Object.keys(selectedSection).length === 0){
-            setMessages(['يجب عليك إختيار قسم لتعديله']);
+            setMessages([t('mustEdit')]);
             setClassColor("red");
             return;
         }
@@ -78,7 +79,7 @@ export default function EditSectionForm(props){
                     resetEditSectionForm();
 
                     setClassColor("green");
-                    setMessages(['تم تعديل القسم بنجاح']);
+                    setMessages([t('success-edit-section-msg')]);
 
                     setTimeout(()=>{
                         props.setSections(
@@ -91,7 +92,7 @@ export default function EditSectionForm(props){
             },
             (err) => {
                 let errMessages =[];
-                errMessages.push(["لم يتم تعديل القسم"]);
+                errMessages.push([t("fail-edit-section-msg")]);
                 if(err.response.data){
                     let obj = err.response.data;
                     Object.keys(obj).forEach(e => {
@@ -114,7 +115,7 @@ export default function EditSectionForm(props){
                 <DropdownDiv >
                     <DropdownListStanderd className='DropdownList' onChange={handleSelectedSectionChange}
                                           value={Object.keys(selectedSection).length ===0 ? "" : setSelectedSection.id}>
-                        <DropdownListItemStanderd key={0} value="">اختر القسم </DropdownListItemStanderd>
+                        <DropdownListItemStanderd key={0} value="">{t("choose-section")}</DropdownListItemStanderd>
                         { props.sections.map((section, index) => {
                             return <DropdownListItemStanderd key={index + 1} value={section.id}>{section.label}</DropdownListItemStanderd>
                         })
@@ -122,19 +123,19 @@ export default function EditSectionForm(props){
                     </DropdownListStanderd>
                 </DropdownDiv>
                 :
-                <Span>لا يوجد أقسام لعرضها</Span>
+                <Span>{t("displaySection")}</Span>
 
             }
 
             <DivTxtField>
                 <Span/>
-                <FormInput placeholder='ادخل العنوان' type="text" value={label} onChange={handleLabelChange} required/>
+                <FormInput placeholder={t("enter-title")} type="text" value={label} onChange={handleLabelChange} required/>
             </DivTxtField>
 
             <DivTxtFieldnumber>
                 <Span/>
                 <FormInputnumber type="number"  min='1' value={position !== -1 ? (position+"") : "" } onChange={handlePositionChange} required/>
-                <Label>ترتيب القسم داخل المسابقة</Label>
+                <Label> {t("section-order")}</Label>
             </DivTxtFieldnumber>
 
             {messages.length > 0 &&
@@ -142,7 +143,7 @@ export default function EditSectionForm(props){
                     return <H3Pass className={classColor} key={index}>{message}</H3Pass>
                 })
             }
-            <InputSubmit type="submit">تعديل القسم</InputSubmit>
+            <InputSubmit type="submit">{t("edit-section")}</InputSubmit>
         </Formm>
     );
 };

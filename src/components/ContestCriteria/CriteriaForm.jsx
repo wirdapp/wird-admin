@@ -367,7 +367,7 @@ export default function PopUpModal({
 
                 { templateType !== "PointTemplate" &&
                     <NumInputContainer>
-                        <TextLabel>{t("enter-the-number-of-points-for-each-repetition")}</TextLabel>
+                        <TextLabel>{t("enter-repetition")}</TextLabel>
                         <NumInputField
                             type="number"
                             min="1"

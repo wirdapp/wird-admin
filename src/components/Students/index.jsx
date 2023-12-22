@@ -229,7 +229,7 @@ export default function Students() {
 
           <AddParticipantContainer>
             <Participants
-              title={isStudentsDisplayed ? "deactivatedStudents" : "students"}
+              title={isStudentsDisplayed ? t("deactivatedStudents") : t("students")}
               showButton
               onClick={showDeactivatedStudents}
               length={
