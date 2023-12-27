@@ -114,13 +114,13 @@ export const ContestInfoMenu = () => {
             <div className="menu-group">
               <div className="menu-group-title">{t("switch-contest")}</div>
               <List>
-                {otherContests.map((contest) =>{
+                {otherContests?.map?.((contest) =>{
                   return (
                   <ListItem
-                    key={contest.id}
+                    key={contest?.id}
                     onClick={() => switchContest(contest)}
                   >
-                    <MenuTitle>{contest.name}</MenuTitle>
+                    <MenuTitle>{contest?.name}</MenuTitle>
                   </ListItem>
                 )})}
               </List>
