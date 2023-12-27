@@ -1,11 +1,12 @@
 import React from "react";
-import { Container, InputField, TextLabel } from "./InputField.styled";
+import {Container, TextLabel} from "./InputField.styled";
+import {Input} from "../../ui/input";
 
-const NumberInputField = ({ type, label, onChange, checked, value, disabled, onClick}) => {
+const InputField = ({type, label, onChange, checked, value, disabled, onClick}) => {
   return (
     <Container>
-      <TextLabel>{label}</TextLabel>
-      <InputField
+      <TextLabel>{label}:</TextLabel>
+      <Input
         type={type}
         placeholder={type === "number" ? 0 : undefined}
         min={type === "number" ? 0 : undefined}
@@ -19,4 +20,4 @@ const NumberInputField = ({ type, label, onChange, checked, value, disabled, onC
   );
 };
 
-export default NumberInputField;
+export default InputField;

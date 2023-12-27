@@ -1,25 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { updateContest } from "../../../services/competitionsServices";
+import React, {useEffect, useState} from "react";
+import {useTranslation} from "react-i18next";
+import {updateContest} from "../../../services/competitionsServices";
 
-import { ParticipantsTitelsAtHome } from "../ContestMembers/ContestMembers.styles";
-import CompositionDefault, {
-  Form,
-  TypeSpace,
-  ParticipantsNumbers,
-  ParticipantsMember2,
-  OverflowScrolling,
-  TextAreaSpace,
-  ButtonStyle,
-  PublishedDate,
-  DeleteAnnouncementBtn,
-} from "./EditCompetition.styles";
+import {ParticipantsTitelsAtHome} from "../ContestMembers/ContestMembers.styles";
+import CompositionDefault, {ButtonStyle, Form, OverflowScrolling, ParticipantsNumbers,} from "./EditCompetition.styles";
 
-import { DivPass } from "../../Admins/Admins.styles";
+import {DivPass} from "../../Admins/Admins.styles";
 import InputField from "../../ContestCriteria/InputField";
+import {Checkbox} from "../../../ui/checkbox";
+import {css} from "@emotion/css";
+import {ManageAnnouncements} from "../manage-announcements";
 
-export default function EditCompetitionForm({ contest, setContest }) {
-  const { t } = useTranslation();
+export default function EditCompetitionForm({contest}) {
+  const {t} = useTranslation();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [showStanding, setShowStanding] = useState(true);
@@ -78,9 +71,6 @@ export default function EditCompetitionForm({ contest, setContest }) {
           setClassColor("green");
           setMessages([t("contest-has-been-edited-successfully")]);
 
-          setTimeout(() => {
-            setContest(contest);
-          }, 2000);
         }
       },
       (err) => {
@@ -125,9 +115,6 @@ export default function EditCompetitionForm({ contest, setContest }) {
             t("contest-has-been-edited-successfully"),
           ]);
 
-          setTimeout(() => {
-            setContest(contest);
-          }, 2000);
         }
       },
       (err) => {
@@ -156,7 +143,8 @@ export default function EditCompetitionForm({ contest, setContest }) {
     setNewAnnouncement(e.target.value);
   };
 
-  const readOnlyChangeHandler = () => {};
+  const readOnlyChangeHandler = () => {
+  };
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -176,112 +164,53 @@ export default function EditCompetitionForm({ contest, setContest }) {
   return (
     <CompositionDefault>
       <Form>
-        <ParticipantsMember2>
-          <ParticipantsNumbers>
-            <ParticipantsTitelsAtHome>
-              {t("make-an-announcement")}
-            </ParticipantsTitelsAtHome>
-            <TextAreaSpace
-              onChange={handleNewAnnouncementOnChange}
-              placeholder={t("new-announcement")}
-            />
-            {newAnnouncement.length > 0 && (
-              <ButtonStyle onClick={handleAddNewAnnouncementClick}>
-                {" "}
-                {t("add")}
-              </ButtonStyle>
-            )}
-            {newAnnouncementMessages.length > 0 &&
-              newAnnouncementMessages.map((message, index) => {
-                return (
-                  <DivPass
-                    className={classNewAnnouncementMessagesColor}
-                    key={index}
-                  >
-                    {message}
-                  </DivPass>
-                );
-              })}
-          </ParticipantsNumbers>
-        </ParticipantsMember2>
-        <ParticipantsMember2>
-          <ParticipantsNumbers>
-            <ParticipantsTitelsAtHome>
-              {t("contest-information")}
-            </ParticipantsTitelsAtHome>
 
-            <OverflowScrolling>
-              <InputField
-                type={"text"}
-                label={t("name-label")}
-                onChange={handleNameChange}
-                value={name}
-              />
-              <InputField
-                type={"text"}
-                label={t("description-label")}
-                onChange={handleDescriptionChange}
-                value={description}
-              />
-              <InputField
-                type={"checkbox"}
+        <ManageAnnouncements/>
+        <ParticipantsNumbers>
+          <ParticipantsTitelsAtHome>
+            {t("contest-information")}
+          </ParticipantsTitelsAtHome>
+
+          <OverflowScrolling>
+            <InputField
+              type="text"
+              label={t("name-label")}
+              onChange={handleNameChange}
+              value={name}
+            />
+            <InputField
+              type={"text"}
+              label={t("description-label")}
+              onChange={handleDescriptionChange}
+              value={description}
+            />
+            <div className={css`padding-inline-start: 90px`}>
+              <Checkbox
                 label={t("active-announcements")}
                 checked={showStanding}
                 onChange={handleShowStandingChange}
               />
-              <InputField
-                type={"checkbox"}
+              <Checkbox
                 label={t("readonly")}
                 checked={readOnlyMode}
                 onChange={handleReadOnlyChange}
               />
+            </div>
 
-              {announcements && announcements.length > 0 ? (
-                <div style={{ width: "100%" }}>
-                  {announcements.map((announcement, index) => (
-                    <TypeSpace key={index} inside={true}>
-                      <DeleteAnnouncementBtn
-                        onClick={() => deleteAnnouncementHandler(index)}
-                        title={t("delete-this-announcement")}
-                      >
-                        {" "}
-                        &#10005;
-                      </DeleteAnnouncementBtn>
+            {messages.length > 0 &&
+              messages.map((message, index) => {
+                return (
+                  <DivPass className={classColor} key={index}>
+                    {message}
+                  </DivPass>
+                );
+              })}
 
-                      <TextAreaSpace
-                        onClick={readOnlyChangeHandler}
-                        onChange={(e, index) =>
-                          changeAnnouncementTextHandler(e, index)
-                        }
-                      >
-                        {announcement}
-                      </TextAreaSpace>
-                      <PublishedDate>
-                        {t("announcement") + " " + (index + 1)}
-                      </PublishedDate>
-                    </TypeSpace>
-                  ))}
-                </div>
-              ) : (
-                <ParticipantsTitelsAtHome>
-                  {t("no-announcements-yet")}
-                </ParticipantsTitelsAtHome>
-              )}
-              {messages.length > 0 &&
-                messages.map((message, index) => {
-                  return (
-                    <DivPass className={classColor} key={index}>
-                      {message}
-                    </DivPass>
-                  );
-                })}
-
-              <ButtonStyle onClick={handleUpdateContest}>
-                {t("update")}
-              </ButtonStyle>
-            </OverflowScrolling>
-          </ParticipantsNumbers>
-        </ParticipantsMember2>
+            <ButtonStyle onClick={handleUpdateContest}>
+              {t("update")}
+            </ButtonStyle>
+          </OverflowScrolling>
+        </ParticipantsNumbers>
       </Form>
     </CompositionDefault>
   );

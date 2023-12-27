@@ -113,7 +113,8 @@ function Signup() {
     }
 
     let formData = new FormData();
-    formData.append("password", password);
+    formData.append("password1", password);
+    formData.append("password2", retypePassword);
     formData.append("username", username);
     formData.append("first_name", firstName);
     formData.append("last_name", lastName);

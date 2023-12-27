@@ -1,11 +1,14 @@
 import React from "react";
-import Container, { DivCenter, H1 } from "./loder.styles";
+import Container, {LoaderAnimation} from "./loder.styles";
+import {useTranslation} from "react-i18next";
+
 export default function Loader() {
+  const {t} = useTranslation();
 
   return (
     <Container>
-      <DivCenter/>
-      <H1>{t("loading")}</H1>
+      <LoaderAnimation/>
+      <span>{t("loading")}</span>
     </Container>
   );
 }

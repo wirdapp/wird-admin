@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors } from "styles";
+import {colors} from "styles";
 
 export default styled.div`
   /* position: absolute; */
@@ -30,13 +30,13 @@ export default styled.div`
 
 export const ButtonsContainer = styled.div`
   display: flex;
-  flex-direction: var(--flex-direction);
+  flex-direction: row;
   justify-content: space-around;
 `;
 
 export const FixedTextContainer = styled.div`
   display: flex;
-  flex-direction: var(--flex-direction);
+  flex-direction: row;
   justify-content: space-around;
 `;
 

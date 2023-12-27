@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import Loader from "components/Loader";
-import MyOngoingContestTab from "components/shared/MyOngoingContestTab";
 import {retrieveAdmins} from "services/adminsServices";
 import {ReactComponent as SearchIcons2} from "assets/icons/search2.svg";
 import {useTranslation} from "react-i18next";
@@ -105,11 +104,9 @@ const ContestModerator = () => {
       </main>
     );
   }
-  console.log(admins);
+
   return (
     <ContestModeratorDefault>
-      <MyOngoingContestTab/>
-
       <ContentContainer>
         <div
           style={{

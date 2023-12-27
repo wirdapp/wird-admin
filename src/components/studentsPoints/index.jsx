@@ -1,26 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Sidebar from "components/shared/Sidebar";
 
-import { retrieveStudents } from "../../services/studentsServices";
+import {retrieveStudents} from "../../services/studentsServices";
 import TotalByPoints from "./TotalByDayChart";
 import TotalByLabelChars from "./TotalByLabelChart";
 import LoginFormContainer, {
-  PointShow,
-  LoginForm,
-  DropdownList,
-  DropdownDiv,
-  Wird,
-  SelectInputContainer,
   ChartsContainer,
+  DropdownDiv,
+  DropdownList,
+  LoginForm,
+  PointShow,
+  SelectInputContainer,
+  Wird,
 } from "../studentsPoints/StudentsPoints.styles";
-import { DropdownListItem } from "../shared/styles";
+import {DropdownListItem} from "../shared/styles";
 
 import TableData from "./table";
-import cookie from "react-cookies";
-import { useNavigate } from "react-router-dom";
 import Loader from "../Loader";
-import MyOngoingContestTab from "components/shared/MyOngoingContestTab";
 import { useTranslation } from "react-i18next";
 
 export default function StudentsPoints() {
@@ -29,14 +25,9 @@ export default function StudentsPoints() {
   const [day, setDay] = useState("");
   const [studentsResultsFlag, SetStudentsResultsFlag] = useState(true);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const {t} = useTranslation();
-  useEffect(() => {
-    if (!cookie.load("token")) {
-      navigate("/login", { state: { redirectTo: "/students-points" } });
-      return;
-    }
 
+  useEffect(() => {
     setLoading(true);
     retrieveStudents(
       (res) => {
@@ -61,18 +52,17 @@ export default function StudentsPoints() {
   if (loading) {
     return (
       <main>
-        <Loader />
+        <Loader/>
       </main>
     );
   }
 
   return (
     <LoginFormContainer>
-      <MyOngoingContestTab />
       <PointShow>
         <LoginForm>
           {Students?.length === 0 || !Students ? (
-            <p style={{ textAlign: "center", margin: 0 }}>
+            <p style={{textAlign: "center", margin: 0}}>
               {" "}
               {t("noStudentDiplay")}{" "}
             </p>
@@ -133,13 +123,13 @@ export default function StudentsPoints() {
               </SelectInputContainer>
               {studentsResultsFlag && (
                 <ChartsContainer>
-                  <TotalByPoints selectedUser={username} />
-                  <TotalByLabelChars selectedUser={username} />
+                  <TotalByPoints selectedUser={username}/>
+                  <TotalByLabelChars selectedUser={username}/>
                 </ChartsContainer>
               )}
 
               {!studentsResultsFlag && (
-                <TableData selectedUser={username} selectedDay={day} />
+                <TableData selectedUser={username} selectedDay={day}/>
               )}
             </>
           )}

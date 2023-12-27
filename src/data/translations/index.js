@@ -18,10 +18,9 @@ import sidebarI18nAr from "./sidebar.i18n.ar";
 import sidebarI18nEn from "./sidebar.i18n.en";
 import adminI18nAr from "./admin.i18n.ar";
 import adminI18nEn from "./admin.i18n.en";
-import competitionI18Ar from "./competition.i18n.ar";
-import competitionI18nEn from "./competition.i18n.en";
 import reviewI18nAr from "./review.i18n.ar";
 import reviewI18nEn from "./review.i18n.en";
+
 export default {
   en: {
     translation: {
@@ -35,7 +34,6 @@ export default {
       ...sidebarI18nEn,
       ...sharedEN,
       ...adminI18nEn,
-      ...competitionI18nEn,
       ...reviewI18nEn,
     },
   },
@@ -51,7 +49,6 @@ export default {
       ...sidebarI18nAr,
       ...sharedAR,
       ...adminI18nAr,
-      ...competitionI18Ar,
       ...reviewI18nAr,
     },
   },

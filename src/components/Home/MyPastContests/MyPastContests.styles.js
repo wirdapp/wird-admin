@@ -1,17 +1,17 @@
 import styled from "@emotion/styled";
 
-import { RightLeftArrow as DefaultRightLeftArrow } from "../DaysSlider/DaysSlider.styles";
+import {RightLeftArrow as DefaultRightLeftArrow} from "../DaysSlider/DaysSlider.styles";
 
 import {
-  TopRanksAndParticipants as DefaultTopRanksAndParticipants,
+  ParticipantsMember as DefaultParticipantsMember,
+  ParticipantsNumbers as DefaultParticipantsNumbers,
   ParticipantsNumbersRanks as DefaultParticipantsNumbersRanks,
   Top1Img as DefaultTop1Img,
   Top1Name as DefaultTop1Name,
   Top2Name as DefaultTop2Name,
   Top3RankDiv as DefaultTop3RankDiv,
-  ParticipantsMember as DefaultParticipantsMember,
+  TopRanksAndParticipants as DefaultTopRanksAndParticipants,
   TopRanksSection as DefaultTopRanksSection,
-  ParticipantsNumbers as DefaultParticipantsNumbers,
 } from "../TopRanks/TopRanks.styles";
 
 export default styled.div`
@@ -153,7 +153,6 @@ export const LeftPastContests = styled.div`
 `;
 
 export const TitelPastContests = styled.div`
-  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 1rem;
@@ -184,7 +183,6 @@ export const SeeContestResult = styled.button`
   background: #fdd561;
   border-radius: 6.25rem;
 
-  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
   font-size: 1rem;

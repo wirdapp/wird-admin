@@ -2,26 +2,21 @@ import React, {useEffect, useState} from "react";
 import SeeMore from "../../../assets/icons/Home/SeeMore.svg";
 
 import TopRank, {
-  TopRanksAndParticipants,
   ParticipantsMember,
-  TopRanksSection,
-  ParticipantsTitels,
   ParticipantsNumbers,
+  ParticipantsTitels,
   ParticipantsTitelsAtHome,
   SeeAll,
-  SeeAllP,
   SeeAllIcon,
+  SeeAllP,
+  TopRanksAndParticipants,
   TotalOfMembers,
-  MemberImgsAndNumNumbers,
-  MembersImgs,
-  MemberNumbers,
-  MembersImg,
 } from "./ContestMembers.styles";
-import Loader from "../../Loader";
 import {retrieveAdmins} from "../../../services/adminsServices";
 import {retrieveStudents} from "../../../services/studentsServices";
 import NumberAndAbbreviationOfNames from "../../shared/NumberAndAbbreviationOfNames";
-import { useTranslation } from "react-i18next";
+import {EllipsisHorizontalIcon} from "@heroicons/react/24/outline";
+import {useTranslation} from "react-i18next";
 
 function ContestMembers({contest}) {
   const [admins, setAdmins] = useState([]);
@@ -29,50 +24,42 @@ function ContestMembers({contest}) {
   const [loading, setLoading] = useState(false);
   const {t} = useTranslation();
 
-  useEffect(()=>{
+  useEffect(() => {
     setLoading(true);
 
     retrieveAdmins(
-        (res) => {
-          setAdmins([...res.data]);
-        }, (err) => {
-          console.log("Failed to retrieve admins: " + JSON.stringify(err.response.data));
-        }
+      (res) => {
+        setAdmins([...res.data]);
+      }, (err) => {
+        console.log("Failed to retrieve admins: " + JSON.stringify(err.response.data));
+      }
     );
 
     retrieveStudents(
-        (res) => {
-          setStudents(res.data);
-          setLoading(false);
-        }, (err) => {
-          console.log("Failed to retrieve students: " + JSON.stringify(err.response.data));
-          setLoading(false);
-        });
-  },[]);
-
-  if (loading) {
-    return (
-        <main>
-          <Loader />
-        </main>
-    );
-  }
+      (res) => {
+        setStudents(res.data);
+        setLoading(false);
+      }, (err) => {
+        console.log("Failed to retrieve students: " + JSON.stringify(err.response.data));
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <TopRank>
       <TopRanksAndParticipants>
         <ParticipantsMember>
           <ParticipantsTitels>
-            <ParticipantsTitelsAtHome>{t(moderatorsKey)}</ParticipantsTitelsAtHome>
+            <ParticipantsTitelsAtHome>{t('moderatorsKey')}</ParticipantsTitelsAtHome>
 
             <SeeAll href="/Admins" target="_blank">
               <SeeAllP>{t("seeAll")}</SeeAllP>
-              <SeeAllIcon src={SeeMore} Alt="" />
+              <SeeAllIcon src={SeeMore} Alt=""/>
             </SeeAll>
           </ParticipantsTitels>
 
           <ParticipantsNumbers>
-            <TotalOfMembers>{admins.length}</TotalOfMembers>
+            <TotalOfMembers>{loading ? <EllipsisHorizontalIcon/> : admins.length}</TotalOfMembers>
 
             <NumberAndAbbreviationOfNames users={admins}/>
           </ParticipantsNumbers>
@@ -84,12 +71,12 @@ function ContestMembers({contest}) {
 
             <SeeAll href="/Students" target="_blank">
               <SeeAllP>{t("seeAll")}</SeeAllP>
-              <SeeAllIcon src={SeeMore} Alt="" />
+              <SeeAllIcon src={SeeMore} Alt=""/>
             </SeeAll>
           </ParticipantsTitels>
 
           <ParticipantsNumbers>
-            <TotalOfMembers>{students.length}</TotalOfMembers>
+            <TotalOfMembers>{loading ? <EllipsisHorizontalIcon/> : students.length}</TotalOfMembers>
             <NumberAndAbbreviationOfNames users={students}/>
           </ParticipantsNumbers>
         </ParticipantsMember>
@@ -100,16 +87,17 @@ function ContestMembers({contest}) {
 
             <SeeAll href="/Groups" target="_blank">
               <SeeAllP>{t("seeAll")}</SeeAllP>
-              <SeeAllIcon src={SeeMore} Alt="" />
+              <SeeAllIcon src={SeeMore} Alt=""/>
             </SeeAll>
           </ParticipantsTitels>
 
           <ParticipantsNumbers>
-            <TotalOfMembers>{contest.group_count}</TotalOfMembers>
+            <TotalOfMembers>{loading ? <EllipsisHorizontalIcon/> : contest.group_count}</TotalOfMembers>
           </ParticipantsNumbers>
         </ParticipantsMember>
       </TopRanksAndParticipants>
     </TopRank>
   );
 }
+
 export default ContestMembers;

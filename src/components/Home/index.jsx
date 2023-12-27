@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Div, HomeContainer} from "./home.styles";
+import {HomeContainer} from "./home.styles";
 
 import {retrieveTopMembers} from "../../services/competitionsServices";
 import Loader from "../Loader";
@@ -7,9 +7,12 @@ import HomeBanner from "./HomeBanner";
 import TopRanks from "./TopRanks";
 import {retrieveStudents} from "../../services/studentsServices";
 import {useDashboardData} from "../../util/routes-data";
+import {PageTitle} from "../shared/page-title";
+import {useTranslation} from "react-i18next";
 
 function Home() {
   const {currentUser} = useDashboardData();
+  const {t} = useTranslation();
 
   const [loading, setLoading] = useState(false);
   const [students, setStudents] = useState([]);
@@ -45,29 +48,26 @@ function Home() {
 
   if (loading) {
     return (
-      <main>
-        <Loader/>
-      </main>
+      <Loader/>
     );
   }
 
   return (
     <>
+      <PageTitle>{t('home-page')}</PageTitle>
       <HomeContainer>
-        <Div>
-          <HomeBanner
-            name={
-              currentUser?.first_name?.length > 0
-                ? currentUser.first_name +
-                " " +
-                currentUser.last_name
-                : "Admin"
-            }
-            dayNumber={"1"}
-          />
-          {/* <DaysSlider /> */}
-          <TopRanks students={students} topMembers={topMembers}/>
-        </Div>
+        <HomeBanner
+          name={
+            currentUser?.first_name?.length > 0
+              ? currentUser.first_name +
+              " " +
+              currentUser.last_name
+              : "Admin"
+          }
+          dayNumber={"1"}
+        />
+        {/* <DaysSlider /> */}
+        <TopRanks students={students} topMembers={topMembers}/>
       </HomeContainer>
     </>
   );

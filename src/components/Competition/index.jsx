@@ -1,37 +1,24 @@
-import React, {useEffect, useState} from "react";
-import {retrieveCurrentContestInfo} from "../../services/competitionsServices";
+import React, {useState} from "react";
 import EditCompetitionForm from "./EditCompetitionForm";
-import {useNavigate} from "react-router-dom";
 import Loader from "../Loader";
-
-import MyOngoingContestTab from "../shared/MyOngoingContestTab";
 import ContestMembers from "./ContestMembers";
 import ContestModeratorDefault from "../ContestModerator/ContestModerator.styles";
+import {PageTitle} from "../shared/page-title";
+import {useTranslation} from "react-i18next";
+import {css} from "@emotion/css";
+import {ExclamationCircleIcon} from "@heroicons/react/24/outline";
+import {CreateContestPopup} from "./create-contest-popup";
+import {JoinContestPopup} from "./join-contest-popup";
+import {Button} from "../../ui/button";
+import {PlusCircleIcon} from "@heroicons/react/20/solid";
+import {useDashboardData} from "../../util/routes-data";
 
 export default function Competition() {
-  const [competitions, setCompetitions] = useState([]);
-  const [currentContest, setCurrentContest] = useState({});
+  const {currentContest} = useDashboardData();
   const [loading, setLoading] = useState(false);
-  let navigate = useNavigate();
-
-  useEffect(() => {
-    setLoading(true);
-    retrieveCurrentContestInfo(
-      (res) => {
-        if (res && res.status === 200) {
-          setCurrentContest(res.data);
-          setLoading(false);
-        }
-      },
-      (err) => {
-        console.log(
-          "Failed to retrieve current contest: ",
-          err?.response?.data
-        );
-        setLoading(false);
-      }
-    );
-  }, []);
+  const {t} = useTranslation();
+  const [createContestOpen, setCreateContestOpen] = useState(false);
+  const [joinContestOpen, setJoinContestOpen] = useState(false);
 
   if (loading) {
     return (
@@ -43,12 +30,47 @@ export default function Competition() {
 
   return (
     <ContestModeratorDefault>
-      <MyOngoingContestTab competition={true}/>
-      <ContestMembers contest={currentContest}/>
-      <EditCompetitionForm
-        contest={currentContest}
-        setContest={setCurrentContest}
-      />
+      <PageTitle>{t('contest-information')}</PageTitle>
+      {currentContest ? (
+        <>
+          <ContestMembers contest={currentContest}/>
+          <EditCompetitionForm
+            contest={currentContest}
+          />
+        </>) : (
+        <div className={css`
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            height: 100%;
+            width: 100%;
+            margin-top: 48px;
+        `}>
+          <ExclamationCircleIcon className={css`width: 64px;
+              height: 64px;`}/>
+          <h3>{t('no-contest-yet-msg')}</h3>
+          <div className={css`
+              display: flex;
+              gap: 24px;
+              align-items: center;
+              justify-content: center;
+              padding: 24px;
+          `}>
+            <Button variant="primary" onClick={() => setCreateContestOpen(true)}>
+              {t('create-contest')}
+              <PlusCircleIcon/>
+            </Button>
+            <Button onClick={() => setJoinContestOpen(true)}>
+              {t('join-contest')}
+            </Button>
+            <CreateContestPopup visible={createContestOpen} onClose={() => setCreateContestOpen(false)}/>
+            <JoinContestPopup visible={joinContestOpen} onClose={() => setJoinContestOpen(false)}/>
+          </div>
+
+        </div>
+      )}
     </ContestModeratorDefault>
   );
 }

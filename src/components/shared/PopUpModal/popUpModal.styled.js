@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
-import { colors } from "styles";
-import { css } from "@emotion/react";
+import {colors} from "styles";
+import {css} from "@emotion/react";
 
 export default styled.div`
   position: absolute;
   padding: 2rem;
-  ${({ position }) => css`
+  ${({position}) => css`
     top: ${position.top}px;
     left: ${position.left}px;
   `}
@@ -20,13 +20,13 @@ export default styled.div`
 
 export const ButtonsContainer = styled.div`
   display: flex;
-  flex-direction: var(--flex-direction);
+  flex-direction: row;
   justify-content: space-around;
 `;
 
 export const FixedTextContainer = styled.div`
   display: flex;
-  flex-direction: var(--flex-direction);
+  flex-direction: row;
   justify-content: space-around;
 `;
 

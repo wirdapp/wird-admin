@@ -7,7 +7,6 @@ export default styled.div`
     display: flex;
     margin: 0;
     padding: 0;
-    font-family: var(--font-family-main);
     background: ${colors.lightWheat};
     height: 100vh;
     overflow: hidden;
@@ -62,7 +61,7 @@ export const FormInput = styled(DefaultFormInput)`
     border: 0.0625rem solid #f9eaea;
     border-radius: 0.75rem;
 
-    text-align: var(--text-align);
+    text-align: start;
 
     @media (max-width: 43.75rem) {
         width: 14.375rem;
@@ -102,7 +101,6 @@ export const TitleLogin = styled.div`
     width: auto;
     height: 2.25rem;
 
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 700;
     font-size: 1.875rem;
@@ -117,7 +115,6 @@ export const SignupNowAccount = styled.p`
     width: 17.9375rem;
     height: 1.1875rem;
 
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 400;
     font-size: 1rem;
@@ -132,7 +129,6 @@ export const SignupNow = styled.a`
     outline: none;
     width: 17.9375rem;
     height: 1.1875rem;
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 500;
     font-size: 1rem;
@@ -189,7 +185,6 @@ export const MediaOneLine = styled.div`
 export const OrWayToLogIn = styled.span`
     width: 1.25rem;
     height: 1.1875rem;
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 400;
     font-size: 1rem;

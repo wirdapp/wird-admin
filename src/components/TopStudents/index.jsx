@@ -1,208 +1,159 @@
-import React, { useEffect, useState } from "react";
-import cookie from "react-cookies";
-import { useNavigate } from "react-router-dom";
-import { retrieveTopMembers } from "../../services/competitionsServices";
+import React, {useState} from "react";
 import Loader from "../Loader";
-import { H5 } from "../Students/setPasswordStudent/SetPasswordStudent.styles";
 import {
-  TopStudentsSpan,
-  LeaderBoardContainer,
-  StudentPointsWrapper,
-  SecondaryWrapper,
-  AverageWrapper,
-  Top3RankDiv,
-  Top2Img,
-  DayInAverageWrapper,
   AverageParsents as AverageParents,
+  AverageWrapper,
+  AverageWrapperButon,
+  DayInAverageWrapper,
   DivLine,
-  WarbSlider,
-  PAverageWrapper,
+  LeaderBoardContainer,
   LeaderBoardMain,
   LeaderBoardMainTitel,
+  PAverageWrapper,
+  SecondaryWrapper,
+  StudentPointsWrapper,
+  Top2Img,
   Top2Name,
-  AverageWrapperButon,
+  Top3RankDiv,
+  TopStudentsSpan,
+  WarbSlider,
 } from "./TopStudents.styles";
+import {PageTitle} from "../shared/page-title";
+import {useTranslation} from "react-i18next";
+import {useDashboardData} from "../../util/routes-data";
+import {getFullName, getInitials} from "../../util/user-utils";
+
+const colors = [
+  "#503E9D",
+  "#FB862C",
+  "#FF5367",
+  "#FDD561",
+  "#FFBAC2",
+];
+
+function getColor(index) {
+  return colors[index % colors.length];
+}
+
+const dummyData = [
+  {
+    id: 1,
+    total_points: 25,
+    first_name: "mohammad",
+    last_name: "almokdad",
+    username: "modad",
+    scores: [
+      {day: 12, points: 80},
+      {day: 13, points: 20},
+      {day: 14, points: 100},
+      {day: 15, points: 100},
+      {day: 16, points: 32},
+      {day: 17, points: 40},
+      {day: 18, points: 80},
+      {day: 19, points: 90},
+      {day: 20, points: 80},
+    ],
+  },
+  {
+    id: 2,
+    total_points: 20,
+    first_name: "ameen",
+    last_name: "albetawi",
+    username: "ameeno",
+    scores: [
+      {day: 12, points: 80},
+      {day: 13, points: 20},
+      {day: 14, points: 100},
+      {day: 15, points: 100},
+      {day: 16, points: 32},
+      {day: 17, points: 40},
+      {day: 18, points: 80},
+      {day: 19, points: 90},
+      {day: 20, points: 80},
+    ],
+  },
+  {
+    id: 3,
+    total_points: 25,
+    first_name: "bassam",
+    last_name: "saleh",
+    username: "bassamo",
+    scores: [
+      {day: 12, points: 80},
+      {day: 13, points: 20},
+      {day: 14, points: 100},
+      {day: 15, points: 100},
+      {day: 16, points: 32},
+      {day: 17, points: 40},
+      {day: 18, points: 80},
+      {day: 19, points: 90},
+      {day: 20, points: 80},
+    ],
+  },
+];
+
 export default function TopStudents() {
-  const [topStudents, setTopStudents] = useState([]);
+  const [topStudents, setTopStudents] = useState(dummyData);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const [color, setColor] = useState();
-
-  const [visible, setVisible] = useState("flex");
-
-  function willvisible(e) {
-    var x = document.getElementById(e.target.id);
-    if (x.style.display === "flex") {
-      x.style.display = "none";
-    } else {
-      x.style.display = "flex";
-    }
-  }
-  useEffect(() => {
-    //   if (!cookie.load("token")) {
-    //       navigate("/login", {state:{redirectTo: "/TopStudents"}});
-    //       return;
-    //   }
-
-    //   setLoading(true);
-    //   retrieveTopStudents(
-    //       (res) => {
-    //           setTopStudents(res.data);
-    //           setLoading(false);
-    //       }, (err) => {
-    //           console.log("Failed to retrieve top students: " + JSON.stringify(err.response.data));
-    //           setLoading(false);
-    //       }
-    //   );
-
-    // Temp change until the API from backend is ready
-    setTopStudents([
-      {
-        total_points: 25,
-        first_name: "mohammad",
-        last_name: "almokdad",
-        username: "modad",
-      },
-      {
-        total_points: 20,
-        first_name: "ameen",
-        last_name: "albetawi",
-        username: "ameeno",
-      },
-      {
-        total_points: 25,
-        first_name: "bassam",
-        last_name: "saleh",
-        username: "bassamo",
-      },
-    ]);
-
-    setColor([
-      {
-        1: "#503E9D",
-      },
-      {
-        2: "#FB862C",
-      },
-      {
-        3: "#FF5367",
-      },
-      {
-        4: "#FDD561",
-      },
-      {
-        5: "#FFBAC2",
-      },
-    ]);
-  }, []);
+  const {t} = useTranslation();
+  const {currentContest} = useDashboardData();
 
   if (loading) {
     return (
       <main>
-        <Loader />
+        <Loader/>
       </main>
     );
   }
-  // Temp
-  //   if (topStudents.length === 0) {
-  //     return <H5>لا يوجد بيانات لعرضها</H5>;
-  //   }
 
   let last = 1;
   return (
     <LeaderBoardMain>
-      <LeaderBoardMainTitel>Participant Performance (251)</LeaderBoardMainTitel>
+      <PageTitle>{t('leaders-board')}</PageTitle>
+      {currentContest && (
+        <div>
+          <LeaderBoardMainTitel>Participant Performance (251)</LeaderBoardMainTitel>
 
-      <LeaderBoardContainer>
-        {topStudents.map((student, index) => {
-          if (index === 0) {
-            last = 1;
-          } else if (
-            index > 0 &&
-            student.total_points !== topStudents[index - 1].total_points
-          ) {
-            last++;
-          }
+          <LeaderBoardContainer>
+            {topStudents.map((student, index) =>
+              (
+                <StudentPointsWrapper key={student.id}>
+                  <SecondaryWrapper>
+                    <TopStudentsSpan> #{index + 1}</TopStudentsSpan>
+                    <Top3RankDiv>
+                      <Top2Img style={{background: getColor(index)}}>
+                        {getInitials(student)}
+                      </Top2Img>
+                      <Top2Name>
+                        {getFullName(student)}
+                      </Top2Name>
+                    </Top3RankDiv>
+                    <DivLine/>
+                  </SecondaryWrapper>
 
-          let randomColor = Math.floor(Math.random() * (5 - 1) + 1);
-          return (
-            <StudentPointsWrapper key={index}>
-              <SecondaryWrapper>
-                {/* Rank: Top1Img */}
-                <TopStudentsSpan> #{index + 1}</TopStudentsSpan>
+                  <WarbSlider>
+                    {student.scores.map((score) => (
+                      <AverageWrapper key={score.day}>
+                        <DayInAverageWrapper>{score.day} Ramadan</DayInAverageWrapper>
+                        <AverageParents>{score.points}/100</AverageParents>
+                      </AverageWrapper>
+                    ))}
+                  </WarbSlider>
 
-                {/* Name */}
-                {student.first_name.length > 0 ||
-                student.last_name.length > 0 ? (
-                  <Top3RankDiv>
-                    <Top2Img style={{ background: color.randomColor }}>
-                      MK
-                    </Top2Img>
-                    <Top2Name>
-                      {student.first_name} {student.last_name}
-                    </Top2Name>
-                  </Top3RankDiv>
-                ) : (
-                  <Top2Name>{student.username}</Top2Name>
-                )}
-                <DivLine />
-              </SecondaryWrapper>
-
-              <WarbSlider style={{ display: `${visible}` }} id={index + 1}>
-                {/* <SecondaryWrapper>  style="@media (max-width:700) { display: `${visible}` }"*/}
-                <AverageWrapper>
-                  <DayInAverageWrapper>12 Ramadan</DayInAverageWrapper>
-                  <AverageParents>80/100</AverageParents>
-                </AverageWrapper>
-                <AverageWrapper>
-                  <DayInAverageWrapper>13 Ramadan</DayInAverageWrapper>
-                  <AverageParents>80/100</AverageParents>
-                </AverageWrapper>
-                <AverageWrapper>
-                  <DayInAverageWrapper>14 Ramadan</DayInAverageWrapper>
-                  <AverageParents>80/100</AverageParents>
-                </AverageWrapper>
-                <AverageWrapper>
-                  <DayInAverageWrapper>15 Ramadan</DayInAverageWrapper>
-                  <AverageParents>80/100</AverageParents>
-                </AverageWrapper>
-                <AverageWrapper>
-                  <DayInAverageWrapper>16 Ramadan</DayInAverageWrapper>
-                  <AverageParents>80/100</AverageParents>
-                </AverageWrapper>
-                <AverageWrapper>
-                  <DayInAverageWrapper>17 Ramadan</DayInAverageWrapper>
-                  <AverageParents>80/100</AverageParents>
-                </AverageWrapper>
-                <AverageWrapper>
-                  <DayInAverageWrapper>18 Ramadan</DayInAverageWrapper>
-                  <AverageParents>80/100</AverageParents>
-                </AverageWrapper>
-                <AverageWrapper>
-                  <DayInAverageWrapper>19 Ramadan</DayInAverageWrapper>
-                  <AverageParents>80/100</AverageParents>
-                </AverageWrapper>
-                <AverageWrapper>
-                  <DayInAverageWrapper>20 Ramadan</DayInAverageWrapper>
-                  <AverageParents>80/100</AverageParents>
-                </AverageWrapper>
-                {/* </SecondaryWrapper> */}
-              </WarbSlider>
-
-              <SecondaryWrapper>
-                <DivLine />
-                {student.username.length > 0 && (
-                  <AverageWrapperButon id={index + 1} onClick={willvisible}>
-                    <PAverageWrapper id={index + 1}>Average</PAverageWrapper>
-                    <AverageParents id={index + 1}>80/100</AverageParents>
-                  </AverageWrapperButon>
-                )}
-              </SecondaryWrapper>
-            </StudentPointsWrapper>
-          );
-        })}
-      </LeaderBoardContainer>
+                  <SecondaryWrapper>
+                    <DivLine/>
+                    {student.username.length > 0 && (
+                      <AverageWrapperButon>
+                        <PAverageWrapper>Average</PAverageWrapper>
+                        <AverageParents>{student.total_points}/100</AverageParents>
+                      </AverageWrapperButon>
+                    )}
+                  </SecondaryWrapper>
+                </StudentPointsWrapper>
+              ))}
+          </LeaderBoardContainer>
+        </div>
+      )}
     </LeaderBoardMain>
   );
 }

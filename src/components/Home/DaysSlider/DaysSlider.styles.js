@@ -17,7 +17,6 @@ max-width: 59.375rem;
 
 export const MyOngoingContest = styled.div`
 
-font-family: 'Montserrat';
 font-style: normal;
 font-weight: 700;
 font-size: 1.5rem;
@@ -126,7 +125,6 @@ export const DayOfThMonth = styled.div`
 width: 1.5625rem;
 height: 1.8125rem;
 
-font-family: 'Montserrat';
 font-style: normal;
 font-weight: 700;
 font-size: 1.5rem;
@@ -143,7 +141,6 @@ export const TheMonthSlider = styled.div`
 width: 4.875rem;
 height: 1.1875rem;
 
-font-family: 'Montserrat';
 font-style: normal;
 font-weight: 400;
 font-size: 1rem;
@@ -183,7 +180,6 @@ display:flex;
 width: 1.25rem;
 height: 1.8125rem;
 
-font-family: 'Montserrat';
 font-style: normal;
 font-weight: 700;
 font-size: 1.5rem;
@@ -214,7 +210,6 @@ export const TodayTheMonthSlider = styled.div`
 width: 4.875rem;
 height: 1.1875rem;
 
-font-family: 'Montserrat';
 font-style: normal;
 font-weight: 400;
 font-size: 1rem;

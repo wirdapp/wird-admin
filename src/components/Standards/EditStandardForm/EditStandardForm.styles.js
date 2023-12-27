@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 
 export const Span = styled.span`
 text-align:center;
-font-family: 'Noto Kufi Arabic', sans-serif;
 color: #213C64;
 font-size: 1.2rem;
 `;
