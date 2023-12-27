@@ -10,6 +10,7 @@ export default {
   retypePasswordDisclimar: "كلمات المرور هذه غير متطابقة. حاول ثانية.",
   retypePassword: "أعد إدخال كلمة السر",
   lastName: "الاسم الأخير",
+  firstName: "الاسم الأول",
   emailAddress: "عنوان البريد الإلكتروني",
   phoneNumber: "رقم التليفون",
   profilePhoto: " الصورة الشخصية",

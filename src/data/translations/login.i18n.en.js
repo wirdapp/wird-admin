@@ -9,6 +9,7 @@ export default {
   retypePasswordDisclimar: "These passwords didn't match. Try again.",
   retypePassword: "Re-type password",
   lastName: "Last Name",
+  firstName: "First Name",
   emailAddress: "Email address",
   phoneNumber: "Phone Number",
   profilePhoto: " Profile photo",
