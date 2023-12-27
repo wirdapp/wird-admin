@@ -348,6 +348,7 @@ export const DivPass = styled.div`
 
   &.red {
     color: #eb2b2b;
+    height: auto;
   }
 
   width: 100%;

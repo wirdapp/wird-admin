@@ -317,8 +317,8 @@ function Signup() {
           {/* <PageLink href="https://www.facebook.com/Wird.Competition/" target="_blank">
             هل تواجه مشكلة تقنية أو نسيت كلمة المرور؟ تواصل مع الدعم الفني
           </PageLink> */}
-          {messages.length > 0 &&
-            messages.map((message, index) => {
+          {
+            messages?.map?.((message, index) => {
               return (
                 <DivPass className={classColor} key={index}>
                   {message}

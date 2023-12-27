@@ -74,7 +74,7 @@ export const ContestInfoMenu = () => {
   const { t } = useTranslation();
 
   const otherContests = contests.filter(
-    (contest) => contest.id !== currentContest.id,
+    (contest) => contest.id !== currentContest?.id,
   );
 
   const switchContest = async (contest) => {
@@ -84,7 +84,7 @@ export const ContestInfoMenu = () => {
     } catch (err) {
       console.log(`Failed to switch contest: ${err}`);
     }
-  };
+  };    
 
   return (
     <>
@@ -92,7 +92,7 @@ export const ContestInfoMenu = () => {
         title={
           <>
             <Squares2X2Icon />
-            <StyledContestName>{currentContest.name}</StyledContestName>
+            <StyledContestName>{currentContest?.name}</StyledContestName>
             <ChevronDownIcon />
           </>
         }
@@ -100,7 +100,7 @@ export const ContestInfoMenu = () => {
         <StyledCurrentContestWrapper>
           <div className="contest-details">
             <div>
-              {t("join-code")}: <code>{currentContest.contest_id}</code>
+              {t("join-code")}: <code>{currentContest?.contest_id}</code>
             </div>
             <Button variant="link">
               {t("copy-link")}
@@ -114,14 +114,15 @@ export const ContestInfoMenu = () => {
             <div className="menu-group">
               <div className="menu-group-title">{t("switch-contest")}</div>
               <List>
-                {otherContests.map((contest) => (
+                {otherContests.map((contest) =>{
+                  return (
                   <ListItem
                     key={contest.id}
                     onClick={() => switchContest(contest)}
                   >
                     <MenuTitle>{contest.name}</MenuTitle>
                   </ListItem>
-                ))}
+                )})}
               </List>
             </div>
           </>
