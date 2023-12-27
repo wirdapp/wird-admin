@@ -8,6 +8,40 @@ export default styled.div`
   margin: 0 auto;
   flex-direction: column;
   gap: 3rem;
+
+  .contest-details-wrapper {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 16px;
+    border: 2px solid ${colors.warmWheat};
+
+    > svg {
+      width: 32px;
+      height: 32px;
+      color: ${colors.yellow};
+    }
+  }
+
+  .contest-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+
+    .invite-link {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      color: ${colors.darkGrey};
+
+      > span {
+        font-family: monospace;
+        color: #000;
+      }
+    }
+  }
 `;
 
 export const ContentContainer = styled.div`

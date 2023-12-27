@@ -5,7 +5,7 @@ import {
   updateSessionToken,
 } from "../services/auth/session";
 
-const apiUrl = process.env.REACT_APP_BASE_URL;
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const axios = Axios.create({
   baseURL: apiUrl,

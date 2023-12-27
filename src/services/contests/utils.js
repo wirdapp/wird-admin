@@ -16,3 +16,7 @@ export function getCurrentContest(contests) {
   }
   return contests.find((contest) => contest.id === currentContestId);
 }
+
+export function getInviteLink(contestId) {
+  return `${process.env.REACT_APP_MAIN_URL}/contest/${contestId}`;
+}

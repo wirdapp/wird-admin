@@ -1,91 +1,62 @@
 import React, { useState } from "react";
 import EditCompetitionForm from "./EditCompetitionForm";
-import Loader from "../Loader";
 import ContestMembers from "./ContestMembers";
 import ContestModeratorDefault from "../ContestModerator/ContestModerator.styles";
 import { PageTitle } from "../shared/page-title";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/css";
-import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
-import { CreateContestPopup } from "./create-contest-popup";
-import { JoinContestPopup } from "./join-contest-popup";
-import { Button } from "../../ui/button";
-import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { useDashboardData } from "../../util/routes-data";
+import { NoContestYet } from "./no-contest-yet";
+import { getInviteLink } from "../../services/contests/utils";
+import { ManageAnnouncements } from "./manage-announcements";
+import styled from "@emotion/styled";
+import { CopyButton } from "../../ui/copy-button";
+import { Squares2X2Icon } from "@heroicons/react/24/outline";
+
+const StyledContestEditWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+`;
 
 export default function Competition() {
   const { currentContest } = useDashboardData();
-  const [loading, setLoading] = useState(false);
+  const [contest, setContest] = useState(currentContest);
   const { t } = useTranslation();
-  const [createContestOpen, setCreateContestOpen] = useState(false);
-  const [joinContestOpen, setJoinContestOpen] = useState(false);
-
-  if (loading) {
-    return (
-      <main>
-        <Loader />
-      </main>
-    );
-  }
 
   return (
-    <ContestModeratorDefault>
+    <>
       <PageTitle>{t("contest-information")}</PageTitle>
-      {currentContest ? (
-        <>
-          <ContestMembers contest={currentContest} />
-          <EditCompetitionForm contest={currentContest} />
-        </>
-      ) : (
-        <div
-          className={css`
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-            height: 100%;
-            width: 100%;
-            margin-top: 48px;
-          `}
-        >
-          <ExclamationCircleIcon
-            className={css`
-              width: 64px;
-              height: 64px;
-            `}
-          />
-          <h3>{t("no-contest-yet-msg")}</h3>
-          <div
-            className={css`
-              display: flex;
-              gap: 24px;
-              align-items: center;
-              justify-content: center;
-              padding: 24px;
-            `}
-          >
-            <Button
-              variant="primary"
-              onClick={() => setCreateContestOpen(true)}
-            >
-              {t("create-contest")}
-              <PlusCircleIcon />
-            </Button>
-            <Button onClick={() => setJoinContestOpen(true)}>
-              {t("join-contest")}
-            </Button>
-            <CreateContestPopup
-              visible={createContestOpen}
-              onClose={() => setCreateContestOpen(false)}
-            />
-            <JoinContestPopup
-              visible={joinContestOpen}
-              onClose={() => setJoinContestOpen(false)}
-            />
+      {contest ? (
+        <ContestModeratorDefault>
+          <div className="contest-details-wrapper">
+            <Squares2X2Icon />
+            <div className="contest-details">
+              <h2>{contest.name}</h2>
+              {contest.description && <h3>{contest.description}</h3>}
+              <div className="invite-link">
+                {t("join-code")}: <span>{contest.contest_id}</span>
+                <CopyButton value={contest.contest_id} />
+              </div>
+              <div className="invite-link">
+                {t("copy-link")}:{" "}
+                <span>{getInviteLink(contest.contest_id)}</span>
+                <CopyButton value={getInviteLink(contest.contest_id)} />
+              </div>
+            </div>
           </div>
-        </div>
+
+          <ContestMembers contest={contest} />
+          <StyledContestEditWrapper>
+            <ManageAnnouncements />
+            <EditCompetitionForm contest={contest} onChange={setContest} />
+          </StyledContestEditWrapper>
+        </ContestModeratorDefault>
+      ) : (
+        <NoContestYet />
       )}
-    </ContestModeratorDefault>
+    </>
   );
 }

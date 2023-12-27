@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { css } from "@emotion/css";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 
 const modalOverlayStyles = css`
   position: fixed;
@@ -87,7 +88,7 @@ export const Modal = ({ visible, title, onClose, children }) => {
     }
   }, [visible]);
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {visible && (
         <motion.div
@@ -114,6 +115,7 @@ export const Modal = ({ visible, title, onClose, children }) => {
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.getElementById("portal"),
   );
 };
