@@ -20,7 +20,8 @@ import Signup from "./components/Signup";
 import ResetPassword from "./components/ResetPassword";
 import ForgotPassword from "./components/ForgotPassword";
 import {ReactComponent as WirdLogo} from "assets/icons/Shared/wirdLogo.svg";
-import {retrieveCurrentContestInfo} from "./services/competitionsServices";
+import {getCurrentContest} from "./services/contests/utils";
+import {getContests} from "./services/contests/api";
 
 function ErrorBoundary() {
   let error = useRouteError();
@@ -96,7 +97,8 @@ export const router = createBrowserRouter([
           }
 
           try {
-            data.currentContest = await retrieveCurrentContestInfo();
+            data.contests = await getContests();
+            data.currentContest = getCurrentContest(data.contests);
           } catch (e) {
             console.log(`Failed to get current contest: ${e}`);
             data.currentContest = null;

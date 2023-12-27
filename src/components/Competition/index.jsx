@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from "react";
-import {retrieveCurrentContestInfo} from "../../services/competitionsServices";
+import React, {useState} from "react";
 import EditCompetitionForm from "./EditCompetitionForm";
 import Loader from "../Loader";
 import ContestMembers from "./ContestMembers";
@@ -12,27 +11,14 @@ import {CreateContestPopup} from "./create-contest-popup";
 import {JoinContestPopup} from "./join-contest-popup";
 import {Button} from "../../ui/button";
 import {PlusCircleIcon} from "@heroicons/react/20/solid";
+import {useDashboardData} from "../../util/routes-data";
 
 export default function Competition() {
-  const [currentContest, setCurrentContest] = useState(null);
+  const {currentContest} = useDashboardData();
   const [loading, setLoading] = useState(false);
   const {t} = useTranslation();
   const [createContestOpen, setCreateContestOpen] = useState(false);
   const [joinContestOpen, setJoinContestOpen] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    retrieveCurrentContestInfo().then((result) => {
-      setCurrentContest(result);
-      setLoading(false);
-    }).catch((err) => {
-      console.log(
-        "Failed to retrieve current contest: ",
-        err?.response?.data
-      );
-      setLoading(false);
-    });
-  }, []);
 
   if (loading) {
     return (
@@ -50,7 +36,6 @@ export default function Competition() {
           <ContestMembers contest={currentContest}/>
           <EditCompetitionForm
             contest={currentContest}
-            setContest={setCurrentContest}
           />
         </>) : (
         <div className={css`

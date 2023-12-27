@@ -11,7 +11,7 @@ import {Checkbox} from "../../../ui/checkbox";
 import {css} from "@emotion/css";
 import {ManageAnnouncements} from "../manage-announcements";
 
-export default function EditCompetitionForm({contest, setContest}) {
+export default function EditCompetitionForm({contest}) {
   const {t} = useTranslation();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -71,9 +71,6 @@ export default function EditCompetitionForm({contest, setContest}) {
           setClassColor("green");
           setMessages([t("contest-has-been-edited-successfully")]);
 
-          setTimeout(() => {
-            setContest(contest);
-          }, 2000);
         }
       },
       (err) => {
@@ -118,9 +115,6 @@ export default function EditCompetitionForm({contest, setContest}) {
             t("contest-has-been-edited-successfully"),
           ]);
 
-          setTimeout(() => {
-            setContest(contest);
-          }, 2000);
         }
       },
       (err) => {

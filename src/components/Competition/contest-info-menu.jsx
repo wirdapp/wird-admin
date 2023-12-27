@@ -8,10 +8,10 @@ import {List, ListItem, MenuTitle} from "../shared/Navbar/navbar.styles";
 import {PlusCircleIcon, UserPlusIcon} from "@heroicons/react/24/solid";
 import {CreateContestPopup} from "./create-contest-popup";
 import {JoinContestPopup} from "./join-contest-popup";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
 import {Button} from "../../ui/button";
-import {changeCurrentContest, retrieveContestsInfo} from "../../services/competitionsServices";
+import {changeCurrentContest} from "../../services/contests/utils";
 
 const StyledContestName = styled.span`
     @media (max-width: 500px) {
@@ -67,27 +67,17 @@ const StyledCurrentContestWrapper = styled.div`
     }
 `;
 
-export const CurrentContestInfo = () => {
-  const {currentContest} = useDashboardData();
+export const ContestInfoMenu = () => {
+  const {currentContest, contests} = useDashboardData();
   const [createContestOpen, setCreateContestOpen] = useState(false);
   const [joinContestOpen, setJoinContestOpen] = useState(false);
   const {t} = useTranslation();
 
-  const [userContests, setUserContests] = useState([]);
-
-  useEffect(() => {
-    retrieveContestsInfo().then(results => {
-      setUserContests(
-        results.filter((contest) => contest.id !== currentContest.id)
-      );
-    }).catch((err) => {
-      console.log(`Failed to contests: ${err}`);
-    });
-  }, [currentContest]);
+  const otherContests = contests.filter(contest => contest.id !== currentContest.id);
 
   const switchContest = async (contest) => {
     try {
-      await changeCurrentContest(contest.id);
+      changeCurrentContest(contest.id)
       window.location.reload();
     } catch (err) {
       console.log(`Failed to switch contest: ${err}`);
@@ -112,13 +102,13 @@ export const CurrentContestInfo = () => {
             </Button>
           </div>
         </StyledCurrentContestWrapper>
-        {userContests.length > 0 && (
+        {otherContests.length > 0 && (
           <>
             <hr/>
             <div className="menu-group">
               <div className="menu-group-title">{t('switch-contest')}</div>
               <List>
-                {userContests.map((contest) => (
+                {otherContests.map((contest) => (
                   <ListItem key={contest.id} onClick={() => switchContest(contest)}>
                     <MenuTitle>{contest.name}</MenuTitle>
                   </ListItem>

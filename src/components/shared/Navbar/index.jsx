@@ -31,7 +31,7 @@ import {useDashboardData} from "../../../util/routes-data";
 import {destroySession} from "../../../services/auth/session";
 import {Dropdown} from "../../../ui/dropdown";
 import {Button} from "../../../ui/button";
-import {CurrentContestInfo} from "../../Competition/current-contest-info";
+import {ContestInfoMenu} from "../../Competition/contest-info-menu";
 
 function Nav() {
   const {i18n} = useTranslation();
@@ -72,7 +72,7 @@ function Nav() {
             <StyledPageTitle id="dashboard-page-title"/>
           </LeftNavItems>
           <RightNavItems>
-            <CurrentContestInfo/>
+            <ContestInfoMenu/>
             <Dropdown variant="primary" title={currentUser?.username
               ? currentUser?.username[0] +
               currentUser?.username[1]

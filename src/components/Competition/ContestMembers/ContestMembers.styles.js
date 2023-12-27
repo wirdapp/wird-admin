@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import {colors} from "../../../styles";
 
 export default styled.div`
     display: flex;
@@ -160,6 +161,10 @@ export const TotalOfMembers = styled.div`
         height: 2.1875rem;
         font-size: 2.1875rem;
         line-height: 2.1875rem;
+    }
+
+    svg {
+        color: ${colors.warmWheat};
     }
 `;
 

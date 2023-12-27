@@ -4,26 +4,6 @@ import axios from "../util/axios";
 export const retrieveContestsInfo = async () => {
   const {data} = await axios.get("/contests/");
   return data;
-  // return [
-  //   {
-  //     id: 1,
-  //     name: "مسابقة رمضان 2024",
-  //     isActive: true,
-  //     access_code: "K4Q2OHP56",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "مسابقة رمضان 2023",
-  //     isActive: false,
-  //     access_code: "K4Q2OHP56",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "مسابقة رمضان 2022",
-  //     isActive: false,
-  //     access_code: "K4Q2OHP56",
-  //   }
-  // ]
 };
 
 export const retrieveCurrentContestInfo = async () => {

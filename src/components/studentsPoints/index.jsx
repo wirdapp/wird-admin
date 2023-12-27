@@ -16,8 +16,6 @@ import LoginFormContainer, {
 import {DropdownListItem} from "../shared/styles";
 
 import TableData from "./table";
-import cookie from "react-cookies";
-import {useNavigate} from "react-router-dom";
 import Loader from "../Loader";
 
 export default function StudentsPoints() {
@@ -26,13 +24,8 @@ export default function StudentsPoints() {
   const [day, setDay] = useState("");
   const [studentsResultsFlag, SetStudentsResultsFlag] = useState(true);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!cookie.load("token")) {
-      navigate("/login", {state: {redirectTo: "/students-points"}});
-      return;
-    }
 
+  useEffect(() => {
     setLoading(true);
     retrieveStudents(
       (res) => {
