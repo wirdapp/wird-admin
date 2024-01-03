@@ -80,7 +80,7 @@ export const ContestInfoMenu = () => {
   const switchContest = async (contest) => {
     try {
       await ContestsApi.switchContest(contest.id);
-      // window.location.reload();
+      window.location.reload();
     } catch (err) {
       console.error(err);
       console.log(`Failed to switch contest: ${err}`);
