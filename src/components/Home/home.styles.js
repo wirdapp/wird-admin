@@ -4,8 +4,9 @@ import {
   Introduction as DefaultIntroduction,
   WirdMinIntroduction as DefaultWirdMinIntroduction,
 } from "../shared/styles";
+import { AnimatedPage } from "../../ui/animated-page";
 
-export const HomeContainer = styled.div`
+export const HomeContainer = styled(AnimatedPage)`
   display: flex;
   flex-direction: column;
   justify-content: center;

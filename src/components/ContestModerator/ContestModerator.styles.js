@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { colors } from "styles";
+import { AnimatedPage } from "../../ui/animated-page";
 
-export default styled.div`
+export default styled(AnimatedPage)`
   width: 100%;
   display: flex;
   margin: 0 auto;

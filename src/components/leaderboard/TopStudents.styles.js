@@ -6,6 +6,7 @@ import {
   Top2Name as DefaultTop2Name,
   Top3RankDiv as DefaultTop3RankDiv,
 } from "../Home/TopRanks/TopRanks.styles";
+import { AnimatedPage } from "../../ui/animated-page";
 
 export const TopStudentsDropdownList = styled(DropdownList)`
   width: 35rem;
@@ -21,8 +22,8 @@ export const TopStudentsDropdownList = styled(DropdownList)`
 export const TopStudentsSpan = styled(Span)`
   text-align: center;
   /* display: inline-flex;
-    align-items: center;
-    justify-content: center; */
+      align-items: center;
+      justify-content: center; */
   width: 30px;
   height: 19px;
 
@@ -147,7 +148,7 @@ export const AverageWrapper = styled.div`
 
 // ameen edite html *************************
 
-export const LeaderBoardMain = styled.div`
+export const LeaderBoardMain = styled(AnimatedPage)`
   /* display: flex; */
   margin: auto;
   flex-direction: column;

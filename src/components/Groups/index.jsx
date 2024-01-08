@@ -160,140 +160,135 @@ export default function Groups() {
   }
 
   return (
-    <>
-      <GroupsContentDefault>
-        <GroupsTitleLine>
-          <BoldText>
-            {groups.length} {t("groups")}
-          </BoldText>
-          <ActionButton
-            name="add"
-            color="#FF5367"
-            width="130px"
-            onClick={addGroupFormHandler}
+    <GroupsContentDefault>
+      <GroupsTitleLine>
+        <BoldText>
+          {groups.length} {t("groups")}
+        </BoldText>
+        <ActionButton
+          name="add"
+          color="#FF5367"
+          width="130px"
+          onClick={addGroupFormHandler}
+        >
+          <span style={{ margin: "5px" }}>{t("add-group")}</span>
+          <AddGroupIcon />
+        </ActionButton>
+
+        {addGroupFormOpen && (
+          <AddEditFormContainer
+            top="3.4375rem"
+            right="-2.1875rem"
+            rightMobile="0.625rem"
           >
-            <span style={{ margin: "5px" }}>{t("add-group")}</span>
-            <AddGroupIcon />
-          </ActionButton>
-
-          {addGroupFormOpen && (
-            <AddEditFormContainer
-              top="3.4375rem"
-              right="-2.1875rem"
-              rightMobile="0.625rem"
-            >
-              <AddGroupForm
-                students={students}
-                admins={admins}
-                studentsGroups={groups}
-                setGroups={setGroups}
-                closeAddGroupForm={closeAddGroupFormHandler}
-              />
-            </AddEditFormContainer>
-          )}
-        </GroupsTitleLine>
-
-        {openGroupModal && (
-          <Modal
-            title={t("delete-confirm")}
-            content={t("delete-msg")}
-            deleteBtn={t("delete")}
-            cancelBtn={t("cancel")}
-            setOpenModal={setOpenGroupModal}
-            deleteFunction={deleteGroupFunction}
-          />
+            <AddGroupForm
+              students={students}
+              admins={admins}
+              studentsGroups={groups}
+              setGroups={setGroups}
+              closeAddGroupForm={closeAddGroupFormHandler}
+            />
+          </AddEditFormContainer>
         )}
+      </GroupsTitleLine>
 
-        {groups && groups.length > 0 ? (
-          groups.map((group) => (
-            <GroupCard key={group.id}>
-              {hasPermission ? (
-                <>
-                  <NormalDiv>
-                    <RowContainer>
-                      <IconBox>
-                        <GroupIcon />
-                      </IconBox>
-                      <ColumnContainer style={{ marginLeft: "10px" }}>
-                        <BoldText>{group.name}</BoldText>
-                        <LightText>
-                          {`${t("joined")} ${new Date(
-                            group.created_at,
-                          ).toLocaleString()}`}
-                        </LightText>
-                      </ColumnContainer>
-                    </RowContainer>
-                  </NormalDiv>
+      {openGroupModal && (
+        <Modal
+          title={t("delete-confirm")}
+          content={t("delete-msg")}
+          deleteBtn={t("delete")}
+          cancelBtn={t("cancel")}
+          setOpenModal={setOpenGroupModal}
+          deleteFunction={deleteGroupFunction}
+        />
+      )}
 
-                  <NormalDiv>
-                    <ColumnContainer center={true}>
-                      <MembersImg>{group.members_count}</MembersImg>
-                      <LightText>{t("participants")}</LightText>
+      {groups && groups.length > 0 ? (
+        groups.map((group) => (
+          <GroupCard key={group.id}>
+            {hasPermission ? (
+              <>
+                <NormalDiv>
+                  <RowContainer>
+                    <IconBox>
+                      <GroupIcon />
+                    </IconBox>
+                    <ColumnContainer style={{ marginLeft: "10px" }}>
+                      <BoldText>{group.name}</BoldText>
+                      <LightText>
+                        {`${t("joined")} ${new Date(
+                          group.created_at,
+                        ).toLocaleString()}`}
+                      </LightText>
                     </ColumnContainer>
-                  </NormalDiv>
+                  </RowContainer>
+                </NormalDiv>
 
-                  <NormalDiv mobileChange={true}>
-                    <RowContainer mobileChange={true}>
-                      <ActionButton
-                        name="edit"
-                        backGround={colors.yellow}
-                        color="black"
-                        onClick={editGroupFormHandler.bind(null, group.id)}
-                      >
-                        {t("edit")}
-                      </ActionButton>
-                      <ActionButton
-                        name="delete"
-                        backGround="#ff53671e"
-                        color="#FF5367"
-                        onClick={handleOpenGroupModalChange.bind(
-                          null,
-                          group.id,
-                        )}
-                      >
-                        {t("delete")}
-                      </ActionButton>
-                    </RowContainer>
-                  </NormalDiv>
+                <NormalDiv>
+                  <ColumnContainer center={true}>
+                    <MembersImg>{group.members_count}</MembersImg>
+                    <LightText>{t("participants")}</LightText>
+                  </ColumnContainer>
+                </NormalDiv>
 
-                  {editGroupFormOpen && groupIdToEdit === group.id && (
-                    <AddEditFormContainer
-                      top="80px"
-                      right="100px"
-                      topMobile="240px"
-                      rightMobile="10px"
+                <NormalDiv mobileChange={true}>
+                  <RowContainer mobileChange={true}>
+                    <ActionButton
+                      name="edit"
+                      backGround={colors.yellow}
+                      color="black"
+                      onClick={editGroupFormHandler.bind(null, group.id)}
                     >
-                      <EditGroupForm
-                        studentsGroups={groups}
-                        selectedGroupId={groupIdToEdit}
-                        setGroups={setGroups}
-                        students={students}
-                        admins={admins}
-                        hasPermission={hasPermission}
-                        closeEditGroupForm={closeEditGroupFormHandler}
-                      />
-                    </AddEditFormContainer>
-                  )}
+                      {t("edit")}
+                    </ActionButton>
+                    <ActionButton
+                      name="delete"
+                      backGround="#ff53671e"
+                      color="#FF5367"
+                      onClick={handleOpenGroupModalChange.bind(null, group.id)}
+                    >
+                      {t("delete")}
+                    </ActionButton>
+                  </RowContainer>
+                </NormalDiv>
 
-                  {showDeleteGroupFailedMsg && groupIdToDelete === group.id && (
-                    <NormalDiv deleteFailed={true}>
-                      <DropdownListItem>
-                        <H3Pass className="red">
-                          {t("delete-group-failed-msg")}
-                        </H3Pass>
-                      </DropdownListItem>
-                    </NormalDiv>
-                  )}
-                </>
-              ) : (
-                <Span style={{ width: "100%" }}>{group.name}</Span>
-              )}
-            </GroupCard>
-          ))
-        ) : (
-          <H5>{t("no-groups")}</H5>
-        )}
-      </GroupsContentDefault>
-    </>
+                {editGroupFormOpen && groupIdToEdit === group.id && (
+                  <AddEditFormContainer
+                    top="80px"
+                    right="100px"
+                    topMobile="240px"
+                    rightMobile="10px"
+                  >
+                    <EditGroupForm
+                      studentsGroups={groups}
+                      selectedGroupId={groupIdToEdit}
+                      setGroups={setGroups}
+                      students={students}
+                      admins={admins}
+                      hasPermission={hasPermission}
+                      closeEditGroupForm={closeEditGroupFormHandler}
+                    />
+                  </AddEditFormContainer>
+                )}
+
+                {showDeleteGroupFailedMsg && groupIdToDelete === group.id && (
+                  <NormalDiv deleteFailed={true}>
+                    <DropdownListItem>
+                      <H3Pass className="red">
+                        {t("delete-group-failed-msg")}
+                      </H3Pass>
+                    </DropdownListItem>
+                  </NormalDiv>
+                )}
+              </>
+            ) : (
+              <Span style={{ width: "100%" }}>{group.name}</Span>
+            )}
+          </GroupCard>
+        ))
+      ) : (
+        <H5>{t("no-groups")}</H5>
+      )}
+    </GroupsContentDefault>
   );
 }

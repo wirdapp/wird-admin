@@ -143,92 +143,86 @@ export default function Students() {
   };
 
   return (
-    <>
-      <StudentsContainer>
-        <ContentContainer>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "12px",
-              width: "100%",
-            }}
-          >
-            <RowContainer>
-              <BoldText>
-                {isStudentsDisplayed
-                  ? `${t("students")}(${students.length})`
-                  : `${t("deactivatedStudents")}(${
-                      deactivatedStudents.length
-                    })`}
-              </BoldText>
-              <StudentSearchContainer>
-                <SearchInput
-                  value={searchText.length > 0 ? searchText : ""}
-                  onChange={handleSearchTextChange}
-                  placeholder={t("search")}
-                  isExpanded={isExpanded}
-                />
-                <SearchIcons2 onClick={handleSearchClick} />
-              </StudentSearchContainer>
-            </RowContainer>
-            {isStudentsDisplayed
-              ? students.map((student, idx) => {
-                  return (
-                    <ParticipantCard
-                      key={idx}
-                      name={
-                        student.person?.first_name?.length > 0
-                          ? student.person.first_name +
-                            " " +
-                            student.person.last_name
-                          : student.person.username
-                      }
-                      username={student.person.username}
-                      setStudents={setStudents}
-                      students={students}
-                      setDeactivatedStudents={setDeactivatedStudents}
-                      deactivatedStudents={deactivatedStudents}
-                    />
-                  );
-                })
-              : deactivatedStudents.map((deactivatedStudent, idx) => {
-                  return (
-                    <WaitingCard
-                      key={idx}
-                      name={
-                        deactivatedStudent.person?.first_name?.length > 0
-                          ? deactivatedStudent.person.first_name +
-                            " " +
-                            deactivatedStudent.person.last_name
-                          : deactivatedStudent.person.username
-                      }
-                      username={deactivatedStudent.person.username}
-                      setStudents={setStudents}
-                      students={students}
-                      setDeactivatedStudents={setDeactivatedStudents}
-                      deactivatedStudents={deactivatedStudents}
-                    />
-                  );
-                })}
-          </div>
+    <StudentsContainer>
+      <ContentContainer>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "12px",
+            width: "100%",
+          }}
+        >
+          <RowContainer>
+            <BoldText>
+              {isStudentsDisplayed
+                ? `${t("students")}(${students.length})`
+                : `${t("deactivatedStudents")}(${deactivatedStudents.length})`}
+            </BoldText>
+            <StudentSearchContainer>
+              <SearchInput
+                value={searchText.length > 0 ? searchText : ""}
+                onChange={handleSearchTextChange}
+                placeholder={t("search")}
+                isExpanded={isExpanded}
+              />
+              <SearchIcons2 onClick={handleSearchClick} />
+            </StudentSearchContainer>
+          </RowContainer>
+          {isStudentsDisplayed
+            ? students.map((student, idx) => {
+                return (
+                  <ParticipantCard
+                    key={idx}
+                    name={
+                      student.person?.first_name?.length > 0
+                        ? student.person.first_name +
+                          " " +
+                          student.person.last_name
+                        : student.person.username
+                    }
+                    username={student.person.username}
+                    setStudents={setStudents}
+                    students={students}
+                    setDeactivatedStudents={setDeactivatedStudents}
+                    deactivatedStudents={deactivatedStudents}
+                  />
+                );
+              })
+            : deactivatedStudents.map((deactivatedStudent, idx) => {
+                return (
+                  <WaitingCard
+                    key={idx}
+                    name={
+                      deactivatedStudent.person?.first_name?.length > 0
+                        ? deactivatedStudent.person.first_name +
+                          " " +
+                          deactivatedStudent.person.last_name
+                        : deactivatedStudent.person.username
+                    }
+                    username={deactivatedStudent.person.username}
+                    setStudents={setStudents}
+                    students={students}
+                    setDeactivatedStudents={setDeactivatedStudents}
+                    deactivatedStudents={deactivatedStudents}
+                  />
+                );
+              })}
+        </div>
 
-          <AddParticipantContainer>
-            <Participants
-              title={
-                isStudentsDisplayed ? t("deactivatedStudents") : t("students")
-              }
-              showButton
-              onClick={showDeactivatedStudents}
-              length={
-                isStudentsDisplayed
-                  ? deactivatedStudents.length
-                  : students.length
-              }
-            />
-          </AddParticipantContainer>
-        </ContentContainer>
-      </StudentsContainer>
-    </>
+        <AddParticipantContainer>
+          <Participants
+            title={
+              isStudentsDisplayed ? t("deactivatedStudents") : t("students")
+            }
+            showButton
+            onClick={showDeactivatedStudents}
+            length={
+              isStudentsDisplayed ? deactivatedStudents.length : students.length
+            }
+          />
+        </AddParticipantContainer>
+      </ContentContainer>
+    </StudentsContainer>
   );
 }

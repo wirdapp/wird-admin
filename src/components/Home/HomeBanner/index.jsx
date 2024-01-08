@@ -4,13 +4,11 @@ import StudentBannerimg2 from "../../../assets/icons/studentImgAtBanner/studentB
 import { useTranslation } from "react-i18next";
 
 import Banner, {
-  ButtonTitle,
   CirclesStyle,
   ContentAndImgs,
   ContentBanner,
   DayContent,
   FirstCircle,
-  ResultButton,
   SecondCircle,
   StudentBanner,
   StudentBanner1,
@@ -18,7 +16,6 @@ import Banner, {
   TitleContent,
   WelcomeName,
 } from "./homeBanner.styles";
-import { useNavigate } from "react-router-dom";
 import { useDashboardData } from "../../../util/routes-data";
 import { JoinContestPopup } from "../../Competition/join-contest-popup";
 import { Button } from "../../../ui/button";
@@ -31,11 +28,6 @@ function HomeBanner(props) {
   const { t } = useTranslation();
   const [createContestOpen, setCreateContestOpen] = useState(false);
   const [joinContestOpen, setJoinContestOpen] = useState(false);
-
-  let navigate = useNavigate();
-  const resultButtonOnClick = () => {
-    navigate("/dashboard/StudentsPoints");
-  };
 
   return (
     <Banner>
@@ -56,12 +48,9 @@ function HomeBanner(props) {
           </TitleContent>
 
           {currentContest ? (
-            <ResultButton
-              href="/dashboard/StudentsPoints"
-              onClick={resultButtonOnClick}
-            >
-              <ButtonTitle>{t("see-contest-result")}</ButtonTitle>
-            </ResultButton>
+            <Button variant="primary" href="/dashboard/results">
+              {t("see-contest-result")}
+            </Button>
           ) : (
             <div
               className={css`

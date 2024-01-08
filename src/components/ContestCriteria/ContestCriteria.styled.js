@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
 import { colors } from "styles";
+import { AnimatedPage } from "../../ui/animated-page";
 
 // main container
-export default styled.div`
+export default styled(AnimatedPage)`
   flex-direction: column;
   display: flex;
   align-items: center;

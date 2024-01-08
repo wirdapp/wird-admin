@@ -5,6 +5,7 @@ import {
   DropdownDivSelect as DefaultDropdownDivSelect,
   FormInput,
 } from "../shared/styles";
+import { AnimatedPage } from "../../ui/animated-page";
 
 // Old Content
 
@@ -91,7 +92,7 @@ export const AnnouncementsFormInput = styled(FormInput)`
 
 // New Content
 
-export default styled.div`
+export default styled(AnimatedPage)`
   width: 100%;
   display: flex;
   margin: 0 auto;
@@ -182,7 +183,7 @@ export const IconBox = styled.div`
 
   @media (max-width: 670px) {
     /* width: 35px;
-        height: 35px; */
+            height: 35px; */
   }
   @media (max-width: 400px) {
     /* width: 35px; */
@@ -204,22 +205,22 @@ export const BoldText = styled.span`
   font-weight: 700;
   font-size: medium;
   /* @media (max-width: 900px) {
-      font-size: small;
-    }
-    @media (max-width: 550px) {
-      font-size: smaller;
-    } */
+        font-size: small;
+      }
+      @media (max-width: 550px) {
+        font-size: smaller;
+      } */
 `;
 
 export const LightText = styled.span`
   font-size: medium;
   color: ${colors.darkGrey};
   /* @media (max-width: 900px) {
-      font-size: small;
-    }
-    @media (max-width: 550px) {
-      font-size: smaller;
-    } */
+        font-size: small;
+      }
+      @media (max-width: 550px) {
+        font-size: smaller;
+      } */
 `;
 
 export const MembersImg = styled.div`
@@ -242,10 +243,10 @@ export const MembersImg = styled.div`
   color: #000000;
 
   /* @media (max-width: 31.25rem) {
-      border-radius: 0.5rem;
-      width: 1.875rem;
-      height: 1.875rem;
-    } */
+        border-radius: 0.5rem;
+        width: 1.875rem;
+        height: 1.875rem;
+      } */
 `;
 
 export const ActionButton = styled.button`

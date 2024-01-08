@@ -86,7 +86,7 @@ const dummyData = [
   },
 ];
 
-export default function TopStudents() {
+export default function Leaderboard() {
   const [topStudents, setTopStudents] = useState(dummyData);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();

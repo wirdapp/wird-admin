@@ -11,6 +11,7 @@ import { ManageAnnouncements } from "./manage-announcements";
 import styled from "@emotion/styled";
 import { CopyButton } from "../../ui/copy-button";
 import { Squares2X2Icon } from "@heroicons/react/24/outline";
+import { AnimatedPage } from "../../ui/animated-page";
 
 const StyledContestEditWrapper = styled.div`
   display: flex;
@@ -27,31 +28,36 @@ export default function Competition() {
   const { t } = useTranslation();
   usePageTitle(t("contest-information"));
 
-  return contest ? (
-    <ContestModeratorDefault>
-      <div className="contest-details-wrapper">
-        <Squares2X2Icon />
-        <div className="contest-details">
-          <h2>{contest.name}</h2>
-          {contest.description && <h3>{contest.description}</h3>}
-          <div className="invite-link">
-            {t("join-code")}: <span>{contest.contest_id}</span>
-            <CopyButton value={contest.contest_id} />
+  return (
+    <AnimatedPage>
+      {contest ? (
+        <ContestModeratorDefault>
+          <div className="contest-details-wrapper">
+            <Squares2X2Icon />
+            <div className="contest-details">
+              <h2>{contest.name}</h2>
+              {contest.description && <h3>{contest.description}</h3>}
+              <div className="invite-link">
+                {t("join-code")}: <span>{contest.contest_id}</span>
+                <CopyButton value={contest.contest_id} />
+              </div>
+              <div className="invite-link">
+                {t("copy-link")}:{" "}
+                <span>{getInviteLink(contest.contest_id)}</span>
+                <CopyButton value={getInviteLink(contest.contest_id)} />
+              </div>
+            </div>
           </div>
-          <div className="invite-link">
-            {t("copy-link")}: <span>{getInviteLink(contest.contest_id)}</span>
-            <CopyButton value={getInviteLink(contest.contest_id)} />
-          </div>
-        </div>
-      </div>
 
-      <ContestMembers contest={contest} />
-      <StyledContestEditWrapper>
-        <ManageAnnouncements />
-        <EditCompetitionForm contest={contest} onChange={setContest} />
-      </StyledContestEditWrapper>
-    </ContestModeratorDefault>
-  ) : (
-    <NoContestYet />
+          <ContestMembers contest={contest} />
+          <StyledContestEditWrapper>
+            <ManageAnnouncements />
+            <EditCompetitionForm contest={contest} onChange={setContest} />
+          </StyledContestEditWrapper>
+        </ContestModeratorDefault>
+      ) : (
+        <NoContestYet />
+      )}
+    </AnimatedPage>
   );
 }

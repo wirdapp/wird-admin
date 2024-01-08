@@ -10,14 +10,14 @@ import Home from "./components/Home";
 import EditProfile from "./components/EditProfile";
 import ContestModerator from "./components/ContestModerator";
 import Competition from "./components/Competition";
-import TopStudents from "./components/TopStudents";
+import Leaderboard from "./components/leaderboard";
 import Loader from "./components/Loader";
 import Students from "./components/Students";
 import Groups from "./components/Groups";
 import ContestCriteria from "./components/ContestCriteria";
 import ReviewOtherPoints from "./components/ReviewOtherPoints";
 import ExportPoints from "./components/ExportPoints";
-import StudentsPoints from "./components/studentsPoints";
+import { ContestResults } from "./components/contest-results";
 import {
   destroySession,
   isLogged,
@@ -150,8 +150,8 @@ export const router = createBrowserRouter([
             element: <Competition />,
           },
           {
-            path: "top-students",
-            element: <TopStudents />,
+            path: "leaderboard",
+            element: <Leaderboard />,
           },
           {
             path: "loading",
@@ -178,8 +178,8 @@ export const router = createBrowserRouter([
             element: <ReviewOtherPoints />,
           },
           {
-            path: "students-points",
-            element: <StudentsPoints />,
+            path: "results",
+            element: <ContestResults />,
           },
           {
             path: "export-points",

@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { DropdownList } from "../Admins/Admins.styles";
-import Default from "../shared/styles";
+import { AnimatedPage } from "../../ui/animated-page";
 
-export default styled(Default)`
+export default styled(AnimatedPage)`
   width: 100%;
   height: 60rem;
   padding: 0;

@@ -20,6 +20,8 @@ import adminI18nAr from "./admin.i18n.ar";
 import adminI18nEn from "./admin.i18n.en";
 import reviewI18nAr from "./review.i18n.ar";
 import reviewI18nEn from "./review.i18n.en";
+import contestResultsI18nEn from "./contest-results.i18n.en";
+import contestResultsI18nAr from "./contest-results.i18n.ar";
 
 export default {
   en: {
@@ -35,6 +37,7 @@ export default {
       ...sharedEN,
       ...adminI18nEn,
       ...reviewI18nEn,
+      ...contestResultsI18nEn,
     },
   },
   ar: {
@@ -50,6 +53,7 @@ export default {
       ...sharedAR,
       ...adminI18nAr,
       ...reviewI18nAr,
+      ...contestResultsI18nAr,
     },
   },
 };

@@ -53,7 +53,7 @@ function Sidebar() {
             <MenuItem>{t("contest-information")}</MenuItem>
           </MenuLink>
           {/* } */}
-          <MenuLink to="/dashboard/top-students" title={t("leaders-board")}>
+          <MenuLink to="/dashboard/leaderboard" title={t("leaders-board")}>
             <LeaderBoard />
             <MenuItem>{t("leaders-board")}</MenuItem>
           </MenuLink>
@@ -76,7 +76,7 @@ function Sidebar() {
             <FileTxtIcon />
             <MenuItem>{t("text-inputs")}</MenuItem>
           </MenuLink>
-          <MenuLink to="/dashboard/students-points" title={t("results-page")}>
+          <MenuLink to="/dashboard/results" title={t("results-page")}>
             <ResultsIcon />
             <MenuItem>{t("results-page")}</MenuItem>
           </MenuLink>

@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import { css } from "@emotion/css";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import { useEffect } from "react";
@@ -89,33 +89,35 @@ export const Modal = ({ visible, title, onClose, children }) => {
   }, [visible]);
 
   return createPortal(
-    <AnimatePresence>
-      {visible && (
-        <motion.div
-          className={modalOverlayStyles}
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
-          variants={overlayVariants}
-        >
-          <motion.div
-            className={modalStyles}
+    <LazyMotion features={domAnimation}>
+      <AnimatePresence>
+        {visible && (
+          <m.div
+            className={modalOverlayStyles}
             initial="hidden"
             animate="visible"
             exit="hidden"
-            variants={modalVariants}
+            variants={overlayVariants}
           >
-            <div className="modal-header">
-              <h4 className="modal-title">{title}</h4>
-              <button className="close-button" onClick={onClose}>
-                <XMarkIcon />
-              </button>
-            </div>
-            {children}
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>,
+            <m.div
+              className={modalStyles}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              variants={modalVariants}
+            >
+              <div className="modal-header">
+                <h4 className="modal-title">{title}</h4>
+                <button className="close-button" onClick={onClose}>
+                  <XMarkIcon />
+                </button>
+              </div>
+              {children}
+            </m.div>
+          </m.div>
+        )}
+      </AnimatePresence>
+    </LazyMotion>,
     document.getElementById("portal"),
   );
 };
