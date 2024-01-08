@@ -81,10 +81,14 @@ export const ResultsOverview = () => {
         <div className="results-overview-list" ref={listRef}>
           {results.map((result, resultIndex) => {
             const isToday = dayjs().isSame(result.date, "day");
+            const isAfterToday = dayjs().isBefore(result.date, "day");
             return (
               <div
                 key={result.index}
-                className={cx("results-overview-list-item", { today: isToday })}
+                className={cx("results-overview-list-item", {
+                  today: isToday,
+                  "after-today": isAfterToday,
+                })}
               >
                 <StyledDayCell>
                   <div className="icon">
@@ -93,7 +97,7 @@ export const ResultsOverview = () => {
                   <div>
                     <div className="day-index">
                       {t("day")} {result.index + 1}{" "}
-                      {dayjs().isSame(result.date, "day") && (
+                      {isToday && (
                         <span className="today-indicator">({t("today")})</span>
                       )}
                     </div>

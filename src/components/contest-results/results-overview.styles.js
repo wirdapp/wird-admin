@@ -98,6 +98,10 @@ export const StyledResultsOverviewListWrapper = styled.div`
         }
       }
 
+      &.after-today {
+        opacity: 0.3;
+      }
+
       .icon {
         width: 48px;
         height: 48px;
