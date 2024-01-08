@@ -11,9 +11,10 @@ export const Tooltip = ({ children, overlay, ...props }) => {
     e.stopPropagation();
     setShow(true);
     const rect = e.target.getBoundingClientRect();
+    const bodyRect = document.body.getBoundingClientRect();
     setPosition({
-      x: rect.x + rect.width / 2,
-      y: rect.y,
+      x: rect.x + rect.width / 2 - bodyRect.x,
+      y: rect.y - bodyRect.y,
     });
   };
 
