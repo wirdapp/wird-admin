@@ -47,7 +47,7 @@ export default function PopUpModal({
       },
       (res) => {
         if (res && res.status === 201) {
-          setSections([...sections, res.data.results]);
+          setSections([...sections, res.data]);
           setSuccessAddedSectionMsg(t("success-add-section-msg"));
           setTimeout(() => {
             setSuccessAddedSectionMsg("");
