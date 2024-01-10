@@ -3,7 +3,7 @@ import { doRequest } from "./doRequest";
 export const retrieveStandards = (successCallback, faiCallback) => {
   doRequest(
     null,
-    "/admin-panel/point-template/",
+    "/admin_panel/point-template/",
     {
       "Content-Type": "application/json",
     },
@@ -17,7 +17,7 @@ export const retrieveStandards = (successCallback, faiCallback) => {
 export const retrieveSections = (successCallback, faiCallback) => {
   doRequest(
     null,
-    "/admin-panel/section/",
+    "/admin_panel/section/",
     {
       "Content-Type": "application/json",
     },
@@ -31,7 +31,7 @@ export const retrieveSections = (successCallback, faiCallback) => {
 export const addStandard = (data, successCallback, faiCallback) => {
   doRequest(
     data,
-    "/admin-panel/point-template/",
+    "/admin_panel/point-template/",
     {
       "Content-Type": "application/json",
     },
@@ -45,7 +45,7 @@ export const addStandard = (data, successCallback, faiCallback) => {
 export const addSection = (data, successCallback, faiCallback) => {
   doRequest(
     data,
-    "/admin-panel/section/",
+    "/admin_panel/section/",
     {
       "Content-Type": "application/json",
     },
@@ -59,7 +59,7 @@ export const addSection = (data, successCallback, faiCallback) => {
 export const updateStandard = (id, data, successCallback, faiCallback) => {
   doRequest(
     data,
-    `/admin-panel/point-template/${id}/`,
+    `/admin_panel/point-template/${id}/`,
     {
       "Content-Type": "application/json",
     },
@@ -73,7 +73,7 @@ export const updateStandard = (id, data, successCallback, faiCallback) => {
 export const updateSection = (id, data, successCallback, faiCallback) => {
   doRequest(
     data,
-    `/admin-panel/section/${id}/`,
+    `/admin_panel/section/${id}/`,
     {
       "Content-Type": "application/json",
     },
@@ -87,7 +87,7 @@ export const updateSection = (id, data, successCallback, faiCallback) => {
 export const deleteStandard = (id, successCallback, faiCallback) => {
   doRequest(
     null,
-    `/admin-panel/point-template/${id}/`,
+    `/admin_panel/point-template/${id}/`,
     {
       "Content-Type": "application/json",
     },
@@ -101,7 +101,7 @@ export const deleteStandard = (id, successCallback, faiCallback) => {
 export const deleteSection = (id, successCallback, faiCallback) => {
   doRequest(
     null,
-    `/admin-panel/section/${id}/`,
+    `/admin_panel/section/${id}/`,
     {
       "Content-Type": "application/json",
     },

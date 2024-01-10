@@ -3,7 +3,7 @@ import { doRequest } from "./doRequest";
 export const retrieveGroups = (successCallback, faiCallback) => {
   doRequest(
     null,
-    "/admin-panel/groups/",
+    "/admin_panel/groups/",
     {
       "Content-Type": "application/json",
     },
@@ -17,7 +17,7 @@ export const retrieveGroups = (successCallback, faiCallback) => {
 export const retrieveGroupById = (groupId, successCallback, faiCallback) => {
   doRequest(
     null,
-    `/admin-panel/groups/${groupId}/`,
+    `/admin_panel/groups/${groupId}/`,
     {
       "Content-Type": "application/json",
     },
@@ -31,7 +31,7 @@ export const retrieveGroupById = (groupId, successCallback, faiCallback) => {
 export const addGroup = (data, successCallback, faiCallback) => {
   doRequest(
     data,
-    "/admin-panel/groups/",
+    "/admin_panel/groups/",
     {
       "Content-Type": "application/json",
     },
@@ -50,7 +50,7 @@ export const addOrRemoveAdminToGroup = (
 ) => {
   doRequest(
     data,
-    `/admin-panel/groups/${id}/add_or_remove_admin/`,
+    `/admin_panel/groups/${id}/add_or_remove_admin/`,
     {
       "Content-Type": "application/json",
     },
@@ -69,7 +69,7 @@ export const addOrRemoveMemberToGroup = (
 ) => {
   doRequest(
     data,
-    `/admin-panel/groups/${id}/add_or_remove_member/`,
+    `/admin_panel/groups/${id}/add_or_remove_member/`,
     {
       "Content-Type": "application/json",
     },
@@ -83,7 +83,7 @@ export const addOrRemoveMemberToGroup = (
 export const updateGroup = (id, data, successCallback, faiCallback) => {
   doRequest(
     data,
-    `/admin-panel/groups/${id}/`,
+    `/admin_panel/groups/${id}/`,
     {
       "Content-Type": "application/json",
     },
@@ -97,7 +97,7 @@ export const updateGroup = (id, data, successCallback, faiCallback) => {
 export const deleteGroup = (id, successCallback, faiCallback) => {
   doRequest(
     null,
-    `/admin-panel/groups/${id}/`,
+    `/admin_panel/groups/${id}/`,
     {
       "Content-Type": "application/json",
     },

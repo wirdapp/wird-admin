@@ -1,9 +1,10 @@
 import i18n from "i18next";
 
 export const Role = Object.freeze({
-  MEMBER: 1,
+  CONTEST_OWNER: 0,
+  SUPER_ADMIN: 1,
   ADMIN: 2,
-  SUPER_ADMIN: 3,
+  MEMBER: 3,
   READ_ONLY_MEMBER: 4,
   PENDING: 5,
   DEACTIVATED: 6,

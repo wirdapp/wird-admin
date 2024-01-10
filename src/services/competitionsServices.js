@@ -90,7 +90,7 @@ export const updateContest = (id, data, successCallback, faiCallback) => {
 export const retrieveResultsOnDate = (date, successCallback, faiCallback) => {
   doRequest(
     null,
-    `/admin-panel/results/${date}`,
+    `/admin_panel/results/${date}`,
     {
       "Content-Type": "application/json",
     },
@@ -109,7 +109,7 @@ export const retrieveResultsOnDatePerGroup = (
 ) => {
   doRequest(
     null,
-    `/admin-panel/results/${date}/${groupId}`,
+    `/admin_panel/results/${date}/${groupId}`,
     {
       "Content-Type": "application/json",
     },

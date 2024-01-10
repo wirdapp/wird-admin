@@ -4,7 +4,7 @@ import { Role } from "../util/ContestPeople_Role";
 export const retrieveStudents = (successCallback, faiCallback, searchText) => {
   doRequest(
     null,
-    "/admin-panel/contest-people/?contest_role=" +
+    "/admin_panel/contest-people/?contest_role=" +
       Role.MEMBER +
       (searchText && searchText.length > 0 ? "&search=" + searchText : ""),
     {
@@ -24,7 +24,7 @@ export const retrievePendingMembers = (
 ) => {
   doRequest(
     null,
-    "/admin-panel/contest-people/?contest_role=" +
+    "/admin_panel/contest-people/?contest_role=" +
       Role.PENDING +
       (searchText && searchText.length > 0 ? "&search=" + searchText : ""),
     {
@@ -44,7 +44,7 @@ export const retrieveDeactivatedMembers = (
 ) => {
   doRequest(
     null,
-    "/admin-panel/contest-people/?contest_role=" +
+    "/admin_panel/contest-people/?contest_role=" +
       Role.DEACTIVATED +
       (searchText && searchText.length > 0 ? "&search=" + searchText : ""),
     {
@@ -122,7 +122,7 @@ export const setStudentPassword = (
 ) => {
   doRequest(
     data,
-    `/admin-panel/contest-people/${username}/change_password/`,
+    `/admin_panel/contest-people/${username}/change_password/`,
     {
       "Content-Type": "application/json",
     },
@@ -136,7 +136,7 @@ export const setStudentPassword = (
 export const updateStudent = (username, data, successCallback, faiCallback) => {
   doRequest(
     data,
-    `/admin-panel/contest-people/${username}/`,
+    `/admin_panel/contest-people/${username}/`,
     {
       "Content-Type": false,
     },
@@ -188,7 +188,7 @@ export const deleteStudentPoint = (
 export const deleteStudent = (username, successCallback, faiCallback) => {
   doRequest(
     null,
-    `/admin-panel/contest-people/${username}/`,
+    `/admin_panel/contest-people/${username}/`,
     {
       "Content-Type": "application/json",
     },
