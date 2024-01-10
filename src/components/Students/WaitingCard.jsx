@@ -31,13 +31,13 @@ const WaitingCardComponent = ({
         if (res && res.status === 200) {
           let reactivatedStudent = deactivatedStudents.filter(
             (deactivatedStudent) =>
-              deactivatedStudent.person.username === username,
+              deactivatedStudent.person_info.username === username,
           )[0];
           setStudents([reactivatedStudent, ...students]);
           setDeactivatedStudents(
             deactivatedStudents.filter(
               (deactivatedStudent) =>
-                deactivatedStudent.person.username !== username,
+                deactivatedStudent.person_info.username !== username,
             ),
           );
         }

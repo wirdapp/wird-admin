@@ -71,10 +71,10 @@ export default function EditStudentForm(props) {
       (res) => {
         if (res && res.status === 200) {
           let updatedStudent = props.students.filter(
-            (student) => student.person.username === selectedUsername,
+            (student) => student.person_info.username === selectedUsername,
           )[0];
-          updatedStudent.person.first_name = firstName;
-          updatedStudent.person.last_name = lastName;
+          updatedStudent.person_info.first_name = firstName;
+          updatedStudent.person_info.last_name = lastName;
           updatedStudent.read_only = isReadOnly;
           resetEditStudentsForm();
 
@@ -84,7 +84,7 @@ export default function EditStudentForm(props) {
           setTimeout(() => {
             props.setStudents([
               ...props.students.filter(
-                (student) => student.person.username !== selectedUsername,
+                (student) => student.person_info.username !== selectedUsername,
               ),
               updatedStudent,
             ]);
@@ -112,8 +112,8 @@ export default function EditStudentForm(props) {
       let student = props.students.filter(
         (st) => st.username === e.target.value,
       )[0];
-      setFirstName(student.person.first_name);
-      setLastName(student.person.last_name);
+      setFirstName(student.person_info.first_name);
+      setLastName(student.person_info.last_name);
       setReadOnly(student.read_only);
     } else {
       setFirstName("");
@@ -148,8 +148,8 @@ export default function EditStudentForm(props) {
             {t("selectStudent")}
           </DropdownListItem>
           {props.students.map((student, index) => (
-            <DropdownListItem key={index + 1} value={student.person.username}>
-              {student.person.first_name} {student.person.last_name}
+            <DropdownListItem key={index + 1} value={student.person_info.username}>
+              {student.person_info.first_name} {student.person_info.last_name}
             </DropdownListItem>
           ))}
         </DropdownList>

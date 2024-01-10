@@ -126,8 +126,8 @@ export default function SetPasswordStudents(props) {
             {t("selectStudent")}{" "}
           </DropdownListItem>
           {props.students.map((student, index) => (
-            <DropdownListItem key={index + 1} value={student.person.username}>
-              {student.person.first_name} {student.person.last_name}
+            <DropdownListItem key={index + 1} value={student.person_info.username}>
+              {student.person_info.first_name} {student.person_info.last_name}
             </DropdownListItem>
           ))}
         </DropdownList>

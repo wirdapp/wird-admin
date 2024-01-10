@@ -3,7 +3,7 @@ import { doRequest } from "./doRequest";
 export const retrieveStandards = (successCallback, faiCallback) => {
   doRequest(
     null,
-    "/admin_panel/point-template/",
+    "/admin_panel/criteria/",
     {
       "Content-Type": "application/json",
     },
@@ -31,7 +31,7 @@ export const retrieveSections = (successCallback, faiCallback) => {
 export const addStandard = (data, successCallback, faiCallback) => {
   doRequest(
     data,
-    "/admin_panel/point-template/",
+    "/admin_panel/criteria/",
     {
       "Content-Type": "application/json",
     },
@@ -59,7 +59,7 @@ export const addSection = (data, successCallback, faiCallback) => {
 export const updateStandard = (id, data, successCallback, faiCallback) => {
   doRequest(
     data,
-    `/admin_panel/point-template/${id}/`,
+    `/admin_panel/criteria/${id}/`,
     {
       "Content-Type": "application/json",
     },
@@ -87,7 +87,7 @@ export const updateSection = (id, data, successCallback, faiCallback) => {
 export const deleteStandard = (id, successCallback, faiCallback) => {
   doRequest(
     null,
-    `/admin_panel/point-template/${id}/`,
+    `/admin_panel/criteria/${id}/`,
     {
       "Content-Type": "application/json",
     },

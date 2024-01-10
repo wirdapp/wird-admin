@@ -51,7 +51,7 @@ export default function ContestCriteria() {
   useEffect(() => {
     retrieveSections(
       (res) => {
-        setSections(res.data);
+        setSections(res.data.results);
       },
       (err) => {
         console.log(
@@ -63,7 +63,7 @@ export default function ContestCriteria() {
 
     retrieveStandards(
       (res) => {
-        setStandards(res.data);
+        setStandards(res.data.results);
         setLoading(false);
       },
       (err) => {

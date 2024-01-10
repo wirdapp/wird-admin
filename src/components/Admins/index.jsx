@@ -31,7 +31,7 @@ export default function Admins() {
     setLoading(true);
     retrieveAdmins(
       (res) => {
-        setAdmins([...res.data]);
+        setAdmins([...res.data.results]);
         setLoading(false);
       },
       (err) => {
@@ -83,7 +83,7 @@ export default function Admins() {
           console.log(`Admin ${adminToDelete} has been deleted`);
           setAdmins([
             ...admins.filter(
-              (admin) => admin.person.username !== adminToDelete,
+              (admin) => admin.person_info.username !== adminToDelete,
             ),
           ]);
         }
@@ -130,7 +130,7 @@ export default function Admins() {
         admins.length > 0 &&
         admins.filter(
           (admin) =>
-            !currentUser || currentUser.username !== admin.person.username,
+            !currentUser || currentUser.username !== admin.person_info.username,
         ).length > 0 && (
           <DropdownList className="DropdownList">
             <DropdownListItem className="title">
@@ -141,7 +141,7 @@ export default function Admins() {
                 .filter(
                   (admin) =>
                     !currentUser ||
-                    currentUser.username !== admin.person.username,
+                    currentUser.username !== admin.person_info.username,
                 )
                 .map((admin, index) => {
                   return (
@@ -151,29 +151,29 @@ export default function Admins() {
                           <Button
                             id="deleteBtn"
                             onClick={handleOpenModelChange}
-                            value={admin.person.username}
+                            value={admin.person_info.username}
                           >
                             {t("deleteBtn")}
                           </Button>
-                          {admin.person.first_name?.length > 0 ||
-                          admin.person.last_name?.length > 0 ? (
+                          {admin.person_info.first_name?.length > 0 ||
+                          admin.person_info.last_name?.length > 0 ? (
                             <Span>
-                              {admin.person.first_name} {admin.person.last_name}
+                              {admin.person_info.first_name} {admin.person_info.last_name}
                             </Span>
                           ) : (
-                            <Span>{admin.person.username}</Span>
+                            <Span>{admin.person_info.username}</Span>
                           )}
                         </>
                       ) : (
                         <>
-                          {admin.person.first_name?.length > 0 ||
-                          admin.person.last_name?.length > 0 ? (
+                          {admin.person_info.first_name?.length > 0 ||
+                          admin.person_info.last_name?.length > 0 ? (
                             <Span style={{ width: "100%" }}>
-                              {admin.person.first_name} {admin.person.last_name}
+                              {admin.person_info.first_name} {admin.person_info.last_name}
                             </Span>
                           ) : (
                             <Span style={{ width: "100%" }}>
-                              {admin.person.username}
+                              {admin.person_info.username}
                             </Span>
                           )}
                         </>

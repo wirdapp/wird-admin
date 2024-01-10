@@ -61,7 +61,7 @@ export default function PopUpModal({
       (res) => {
         if (res && res.status === 200) {
           setSections(
-            sections.map((sec) => (sec.id !== sectionId ? sec : res.data)),
+            sections.map((sec) => (sec.id !== sectionId ? sec : res.data.results)),
           );
           setSuccessAddedSectionMsg(t("success-edit-section-msg"));
           setTimeout(() => {

@@ -46,7 +46,7 @@ export default function ReviewOtherPoints() {
     setLoading(true);
     retrieveStudents(
       (res) => {
-        setStudents(res.data);
+        setStudents(res.data.results);
         setLoading(false);
       },
       (err) => {
@@ -121,7 +121,7 @@ export default function ReviewOtherPoints() {
       day,
       (res) => {
         if (res && res.status === 200) {
-          setOtherPoints(res.data);
+          setOtherPoints(res.data.results);
           if (res.data.length === 1) {
             setSelectedPoint(res.data[0]);
           }

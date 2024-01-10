@@ -6,7 +6,7 @@ export const retrieveAdmins = (
   faiCallback,
   searchQuery = "",
 ) => {
-  let url = "/admin_panel/contest-people/?contest_role=2&contest_role=3";
+  let url = "/admin_panel/contest_people/?contest_role=2&contest_role=3";
   if (searchQuery) url += `&search=${searchQuery}`;
 
   doRequest(
@@ -31,7 +31,7 @@ export const updateContestPeopleRole = (
 ) => {
   doRequest(
     data,
-    `/admin_panel/contest-people/${username}/`,
+    `/admin_panel/contest_people/${username}/`,
     {
       "Content-Type": "application/json",
       Authorization: `Bearer ${cookie.load("token")}`,
@@ -46,7 +46,7 @@ export const updateContestPeopleRole = (
 export const addAdmin = (data, successCallback, faiCallback) => {
   doRequest(
     data,
-    `/admin_panel/contest-people/${data.username}/`,
+    `/admin_panel/contest_people/${data.username}/`,
     {
       "Content-Type": "application/json",
       Authorization: `Bearer ${cookie.load("token")}`,

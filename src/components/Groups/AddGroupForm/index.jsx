@@ -49,7 +49,7 @@ export default function AddGroupForm(props) {
   const handleUpdateSelectedStudentsChange = (e) => {
     let students = [];
     for (let i = 0; i < e.length; i++) {
-      students.push(e[i].person.username);
+      students.push(e[i].person_info.username);
     }
     setSelectedStudents(students);
   };
@@ -217,14 +217,14 @@ export default function AddGroupForm(props) {
                 admin?.person?.last_name?.length > 0
               ) {
                 return (
-                  <DropdownListItem key={index} value={admin.person.username}>
-                    {admin.person.first_name} {admin.person.last_name}
+                  <DropdownListItem key={index} value={admin.person_info.username}>
+                    {admin.person_info.first_name} {admin.person_info.last_name}
                   </DropdownListItem>
                 );
               } else {
                 return (
-                  <DropdownListItem key={index} value={admin.person.username}>
-                    {admin.person.username}
+                  <DropdownListItem key={index} value={admin.person_info.username}>
+                    {admin.person_info.username}
                   </DropdownListItem>
                 );
               }

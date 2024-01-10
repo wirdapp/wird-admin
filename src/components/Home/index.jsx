@@ -24,7 +24,7 @@ function Home() {
     retrieveTopMembers(
       (res) => {
         if (res && res.status === 200) {
-          setTopMembers(res.data);
+          setTopMembers(res.data.results);
         }
       },
       (err) => {
@@ -35,7 +35,7 @@ function Home() {
     retrieveStudents(
       (res) => {
         if (res && res.status === 200) {
-          setStudents(res.data);
+          setStudents(res.data.results);
           setLoading(false);
         }
       },

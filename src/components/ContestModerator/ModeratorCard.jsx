@@ -29,7 +29,7 @@ const ModeratorCard = ({ person, admins, setAdmins }) => {
       (res) => {
         if (res && res.status === 200) {
           setAdmins([
-            ...admins.filter((admin) => admin.person.username !== username),
+            ...admins.filter((admin) => admin.person_info.username !== username),
           ]);
         }
       },

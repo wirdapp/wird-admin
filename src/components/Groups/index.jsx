@@ -54,7 +54,7 @@ export default function Groups() {
     setLoading(true);
     retrieveAdmins(
       (res) => {
-        setAdmins(res.data);
+        setAdmins(res.data.results);
       },
       (err) => {
         console.log(
@@ -65,7 +65,7 @@ export default function Groups() {
 
     retrieveGroups(
       (res) => {
-        setGroups(res.data);
+        setGroups(res.data.results);
         // setGroups(DummyGroups); // dummy data to styling
       },
       (err) => {
@@ -77,7 +77,7 @@ export default function Groups() {
 
     retrieveStudents(
       (res) => {
-        setStudents(res.data);
+        setStudents(res.data.results);
         setLoading(false);
       },
       (err) => {
@@ -94,7 +94,7 @@ export default function Groups() {
       students.map(
         (student) =>
           (student["full_name"] =
-            student.person.first_name + " " + student.person.last_name),
+            student.person_info.first_name + " " + student.person_info.last_name),
       );
     }
   }, [students]);

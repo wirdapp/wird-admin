@@ -66,7 +66,7 @@ export default function EditGroupForm(props) {
             setCurrentSelectedStudents(
               props.students.filter((student) =>
                 studentsUsernamesInSelectedGroups.includes(
-                  student.person.username,
+                  student.person_info.username,
                 ),
               ),
             );
@@ -106,7 +106,7 @@ export default function EditGroupForm(props) {
   const handleUpdateSelectedStudentsChange = (e) => {
     let selectedStudents = [];
     for (let i = 0; i < e.length; i++) {
-      selectedStudents.push(e[i].person.username);
+      selectedStudents.push(e[i].person_info.username);
     }
     setNewSelectedStudentsUsernames(selectedStudents);
   };
@@ -317,14 +317,14 @@ export default function EditGroupForm(props) {
                 admin?.person?.last_name?.length > 0
               ) {
                 return (
-                  <DropdownListItem key={index} value={admin.person.username}>
-                    {admin.person.first_name} {admin.person.last_name}
+                  <DropdownListItem key={index} value={admin.person_info.username}>
+                    {admin.person_info.first_name} {admin.person_info.last_name}
                   </DropdownListItem>
                 );
               } else {
                 return (
-                  <DropdownListItem key={index} value={admin.person.username}>
-                    {admin.person.username}
+                  <DropdownListItem key={index} value={admin.person_info.username}>
+                    {admin.person_info.username}
                   </DropdownListItem>
                 );
               }

@@ -74,7 +74,7 @@ export default function Students() {
           console.log(`Student ${studentToDelete} has been deleted`);
           setStudents(
             students.filter(
-              (student) => student.person.username !== studentToDelete,
+              (student) => student.person_info.username !== studentToDelete,
             ),
           );
         }
@@ -99,7 +99,7 @@ export default function Students() {
     if (isStudentsDisplayed) {
       retrieveStudents(
         (res) => {
-          setStudents(res.data);
+          setStudents(res.data.results);
           setLoading(false);
         },
         (err) => {
@@ -115,7 +115,7 @@ export default function Students() {
       retrieveDeactivatedMembers(
         (res) => {
           if (res && res.status === 200) {
-            setDeactivatedStudents(res.data);
+            setDeactivatedStudents(res.data.results);
           }
           setLoading(false);
         },
@@ -176,12 +176,12 @@ export default function Students() {
                     key={idx}
                     name={
                       student.person?.first_name?.length > 0
-                        ? student.person.first_name +
+                        ? student.person_info.first_name +
                           " " +
-                          student.person.last_name
-                        : student.person.username
+                          student.person_info.last_name
+                        : student.person_info.username
                     }
-                    username={student.person.username}
+                    username={student.person_info.username}
                     setStudents={setStudents}
                     students={students}
                     setDeactivatedStudents={setDeactivatedStudents}
@@ -195,12 +195,12 @@ export default function Students() {
                     key={idx}
                     name={
                       deactivatedStudent.person?.first_name?.length > 0
-                        ? deactivatedStudent.person.first_name +
+                        ? deactivatedStudent.person_info.first_name +
                           " " +
-                          deactivatedStudent.person.last_name
-                        : deactivatedStudent.person.username
+                          deactivatedStudent.person_info.last_name
+                        : deactivatedStudent.person_info.username
                     }
-                    username={deactivatedStudent.person.username}
+                    username={deactivatedStudent.person_info.username}
                     setStudents={setStudents}
                     students={students}
                     setDeactivatedStudents={setDeactivatedStudents}

@@ -76,7 +76,7 @@ export default function ButtonsModal({
       (res) => {
         if (res && res.status === 200) {
           setStudents(
-            students.filter((student) => student.person.username !== username),
+            students.filter((student) => student.person_info.username !== username),
           );
         }
       },
@@ -95,7 +95,7 @@ export default function ButtonsModal({
       (res) => {
         if (res && res.status === 200) {
           setStudents(
-            students.filter((student) => student.person.username !== username),
+            students.filter((student) => student.person_info.username !== username),
           );
         }
       },
@@ -115,10 +115,10 @@ export default function ButtonsModal({
       (res) => {
         if (res && res.status === 200) {
           let deactivatedStudent = students.filter(
-            (student) => student.person.username === username,
+            (student) => student.person_info.username === username,
           )[0];
           setStudents(
-            students.filter((student) => student.person.username !== username),
+            students.filter((student) => student.person_info.username !== username),
           );
           setDeactivatedStudents([...deactivatedStudents, deactivatedStudent]);
         }
