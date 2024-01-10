@@ -9,6 +9,7 @@ import { retrieveStudents } from "../../services/studentsServices";
 import { useDashboardData } from "../../util/routes-data";
 import { usePageTitle } from "../shared/page-title";
 import { useTranslation } from "react-i18next";
+import DaysSlider from "./DaysSlider";
 
 function Home() {
   const { currentUser } = useDashboardData();
@@ -62,7 +63,7 @@ function Home() {
         }
         dayNumber={"1"}
       />
-      {/* <DaysSlider /> */}
+      <DaysSlider />
       <TopRanks students={students} topMembers={topMembers} />
     </HomeContainer>
   );

@@ -53,6 +53,9 @@ export const RightLeftArrow = styled.div`
   background: #f9eaea;
   border-radius: 6.25rem;
 
+  :hover {
+    cursor: pointer;
+  }
   @media (max-width: 37.5625rem) {
   }
 `;
@@ -117,9 +120,7 @@ export const DayMonthFuture = styled.button`
 `;
 
 export const DayOfThMonth = styled.div`
-  width: 1.5625rem;
-  height: 1.8125rem;
-
+ 
   font-style: normal;
   font-weight: 700;
   font-size: 1.5rem;
@@ -129,6 +130,7 @@ export const DayOfThMonth = styled.div`
   color: #000000;
 
   @media (max-width: 37.5625rem) {
+    font-size:1rem
   }
 `;
 
@@ -145,6 +147,8 @@ export const TheMonthSlider = styled.div`
   color: #a79f97;
 
   @media (max-width: 37.5625rem) {
+    font-size: .6rem;
+    width: min-content;
   }
 `;
 
@@ -161,20 +165,14 @@ export const TodayDayMonth = styled.button`
   background: #ffffff00;
   border-radius: 0.75rem;
 
-  :focus {
-    background: #ffffff;
-    box-shadow: 0rem 0.75rem 1.5rem rgba(167, 159, 151, 0.24);
-  }
   @media (max-width: 37.5625rem) {
+    font-size:1rem
   }
 `;
 
 export const TodayOfThMonth = styled.div`
   display: flex;
-
-  width: 1.25rem;
-  height: 1.8125rem;
-
+  width: ${(props) => props.width};
   font-style: normal;
   font-weight: 700;
   font-size: 1.5rem;
@@ -184,6 +182,7 @@ export const TodayOfThMonth = styled.div`
   color: #000000;
 
   @media (max-width: 37.5625rem) {
+    font-size:1rem
   }
 `;
 
@@ -213,6 +212,8 @@ export const TodayTheMonthSlider = styled.div`
   color: #a79f97;
 
   @media (max-width: 37.5625rem) {
+    font-size: .6rem;
+    width: min-content;
   }
 `;
 
@@ -224,5 +225,7 @@ export const LiveTodaySlider = styled.div`
   background: #ff5367;
 
   @media (max-width: 37.5625rem) {
+    width: 0.5rem;
+    height: 0.5rem;
   }
 `;
