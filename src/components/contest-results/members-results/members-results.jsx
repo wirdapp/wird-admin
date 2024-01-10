@@ -100,7 +100,7 @@ export const MembersResults = () => {
               </Space>
             )}
             <Row gutter={16}>
-              <Col xs={24} sm={12} xl={6}>
+              <Col xs={24} sm={12} xl={6} style={{ paddingBottom: 16 }}>
                 <Card bordered={false} style={{ height: "100%" }}>
                   <Statistic
                     title={t("totalPoints")}
@@ -109,7 +109,7 @@ export const MembersResults = () => {
                   />
                 </Card>
               </Col>
-              <Col xs={24} sm={12} xl={6}>
+              <Col xs={24} sm={12} xl={6} style={{ paddingBottom: 16 }}>
                 <Card bordered={false} style={{ height: "100%" }}>
                   <Statistic
                     title={t("rank")}
@@ -118,7 +118,7 @@ export const MembersResults = () => {
                   />
                 </Card>
               </Col>
-              <Col xs={24} sm={12} xl={6}>
+              <Col xs={24} sm={12} xl={6} style={{ paddingBottom: 16 }}>
                 <Card bordered={false} style={{ height: "100%" }}>
                   <Space gap={8} direction="vertical">
                     <Typography.Text type="secondary">
@@ -143,7 +143,7 @@ export const MembersResults = () => {
               </Col>
             </Row>
             <Row gutter={24}>
-              <Col xs={24} lg={12}>
+              <Col xs={24} lg={12} style={{ paddingBottom: 24 }}>
                 <Card
                   bordered={false}
                   title={t("pointsPerDay")}
@@ -152,7 +152,7 @@ export const MembersResults = () => {
                   <MemberScorePerDayChart data={result?.days} />
                 </Card>
               </Col>
-              <Col xs={24} lg={12}>
+              <Col xs={24} lg={12} style={{ paddingBottom: 24 }}>
                 <Card
                   bordered={false}
                   title={t("scorePerCategory")}
