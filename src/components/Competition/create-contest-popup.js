@@ -21,6 +21,9 @@ export const CreateContestPopup = ({ visible, onClose }) => {
 
   const handleSubmit = async (values) => {
     setSubmitting(true);
+    values["start_date"] = values.start_date.format("YYYY-MM-DD");
+    values["end_date"] = values.end_date.format("YYYY-MM-DD");
+
     try {
       const result = await createContest(values);
       console.log(result);
