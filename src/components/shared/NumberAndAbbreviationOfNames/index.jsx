@@ -16,16 +16,16 @@ function NumberAndAbbreviationOfNames(props) {
   return (
     <MemberImgsAndNumNumbers>
       <MembersImgs>
-        {props.users.slice(0, 3).map((user, i) => {
+        {props?.users?.slice?.(0, 3)?.map?.((user, i) => {
           return (
             <MembersImg key={i} style={styles[i]}>
-              {getInitials(user.person_info)}
+              {getInitials(user?.person_info)}
             </MembersImg>
           );
         })}
       </MembersImgs>
 
-      {props.users.length - 3 > 0 && (
+      {props?.users?.length - 3 > 0 && (
         <MemberNumbers>+{props.users.length - 3}</MemberNumbers>
       )}
     </MemberImgsAndNumNumbers>

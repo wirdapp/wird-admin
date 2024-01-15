@@ -47,7 +47,7 @@ function TopRanks(props) {
           </ParticipantsTitels>
 
           <ParticipantsNumbers>
-            <TotalOfMembers>{props.students.length}</TotalOfMembers>
+            <TotalOfMembers>{props?.students?.length}</TotalOfMembers>
 
             <NumberAndAbbreviationOfNames users={props.students} />
           </ParticipantsNumbers>
