@@ -8,9 +8,9 @@ export function changeCurrentContest(contestId) {
   Cookies.set("currentContest", contestId, { path: "/" });
 }
 
-export function getCurrentContest(contests) {
+export function getCurrentContest(contests = []) {
   const currentContestId = getCurrentContestId();
-  if (!currentContestId) {
+  if (!currentContestId && contests.length > 0) {
     changeCurrentContest(contests[0].id);
     return contests[0];
   }

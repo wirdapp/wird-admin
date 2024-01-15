@@ -11,7 +11,7 @@ import { usePageTitle } from "../shared/page-title";
 import { useTranslation } from "react-i18next";
 
 function Home() {
-  const { currentUser } = useDashboardData();
+  const { currentUser, currentContest } = useDashboardData();
   const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
@@ -19,6 +19,7 @@ function Home() {
   const [topMembers, setTopMembers] = useState([]);
 
   useEffect(() => {
+    if (!currentContest) return;
     setLoading(true);
 
     retrieveTopMembers(

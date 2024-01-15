@@ -42,7 +42,7 @@ const ContestModerator = () => {
   const fetchAdmins = async (search) => {
     setLoading(true);
     try {
-      const data = await MembersApi.getAdmins(search);
+      const data = await MembersApi.getAdmins(currentContest?.id, search);
       setAdmins(data.results);
     } catch (err) {
       console.log("Failing", err);
@@ -51,6 +51,7 @@ const ContestModerator = () => {
   };
 
   useEffect(() => {
+    if (!currentContest) return;
     fetchAdmins();
   }, []);
 

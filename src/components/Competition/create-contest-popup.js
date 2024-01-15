@@ -5,6 +5,7 @@ import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { createContest } from "../../services/competitionsServices";
 import { isAxiosError } from "axios";
 import { DatePicker, Form, Input, Modal } from "antd";
+import { changeCurrentContest } from "../../services/contests/utils";
 
 const StyledFormItem = styled.div`
   display: flex;
@@ -26,7 +27,8 @@ export const CreateContestPopup = ({ visible, onClose }) => {
 
     try {
       const result = await createContest(values);
-      console.log(result);
+      changeCurrentContest(result.id);
+      window.location.reload();
       onClose?.();
     } catch (error) {
       if (isAxiosError(error) && error.response?.data) {

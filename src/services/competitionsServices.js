@@ -1,5 +1,6 @@
 import { doRequest } from "./doRequest";
 import axios from "../util/axios";
+import { getCurrentContestId } from "./contests/utils";
 
 export const retrieveContestsInfo = async () => {
   const { data } = await axios.get("/contests/");
@@ -46,9 +47,10 @@ export const retrieveCompetitions = (successCallback, faiCallback) => {
 };
 
 export const retrieveTopMembers = (successCallback, faiCallback) => {
+  const currentContestId = getCurrentContestId();
   doRequest(
     null,
-    "/top-members/",
+    `/${currentContestId}/top-members/`,
     {
       "Content-Type": "application/json",
     },

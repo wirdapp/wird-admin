@@ -29,13 +29,14 @@ import Signup from "./components/Signup";
 import ResetPassword from "./components/ResetPassword";
 import ForgotPassword from "./components/ForgotPassword";
 import { ReactComponent as WirdLogo } from "assets/icons/Shared/wirdLogo.svg";
-import { currentContest, getContests } from "./services/contests/api";
+import { getContests } from "./services/contests/api";
 import { Helmet } from "react-helmet";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import "dayjs/locale/ar";
 import "dayjs/locale/en";
 import dayjs from "dayjs";
+import { getCurrentContest } from "./services/contests/utils";
 
 function ErrorBoundary() {
   let error = useRouteError();
@@ -138,7 +139,7 @@ export const router = createBrowserRouter([
 
           try {
             data.contests = await getContests();
-            data.currentContest = await currentContest();
+            data.currentContest = await getCurrentContest(data.contests);
           } catch (e) {
             console.log(`Failed to get current contest: ${e}`);
             data.currentContest = null;

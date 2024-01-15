@@ -24,7 +24,7 @@ import { usePageTitle } from "../shared/page-title";
 import { MembersApi } from "../../services/members/api";
 
 export default function Students() {
-  const { currentUser } = useDashboardData();
+  const { currentUser, currentContest } = useDashboardData();
 
   const { t } = useTranslation();
   usePageTitle(t("students"));
@@ -42,10 +42,12 @@ export default function Students() {
   useEffect(() => {
     setLoading(true);
     Promise.all([
-      MembersApi.getMembers(Role.DEACTIVATED).then((data) => {
-        setDeactivatedStudents(data.results);
-      }),
-      MembersApi.getMembers(Role.MEMBER).then((data) => {
+      MembersApi.getMembers(currentContest.id, Role.DEACTIVATED).then(
+        (data) => {
+          setDeactivatedStudents(data.results);
+        },
+      ),
+      MembersApi.getMembers(currentContest.id, Role.MEMBER).then((data) => {
         setStudents(data.results);
       }),
     ]).finally(() => {
