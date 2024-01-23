@@ -1,12 +1,13 @@
 import { doRequest } from "./doRequest";
 import cookie from "react-cookies";
+import {Role} from "../util/ContestPeople_Role";
 
 export const retrieveAdmins = (
   successCallback,
   faiCallback,
   searchQuery = "",
 ) => {
-  let url = "/admin_panel/contest_people/?contest_role=2&contest_role=3";
+  let url = `/admin_panel/contest_people/?contest_role=${Role.SUPER_ADMIN}&contest_role=${Role.ADMIN}`;
   if (searchQuery) url += `&search=${searchQuery}`;
 
   doRequest(

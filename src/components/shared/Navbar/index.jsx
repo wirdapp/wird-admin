@@ -11,18 +11,18 @@ import {
 import { isSuperAdmin } from "../../../util/ContestPeople_Role";
 import { ReactComponent as SidebarIcon } from "assets/icons/sidebarIcon.svg";
 import Sidebar from "../Sidebar";
-import { useDashboardData } from "../../../util/routes-data";
+import { useDashboardData, usePageTitle } from "../../../util/routes-data";
 import { ContestInfoMenu } from "./contest-info-menu";
-import { useLayoutContext } from "../../layout/DashboardLayout";
 import { Button } from "antd";
 import { UserInfoMenu } from "./user-info-menu";
+import { useTranslation } from "react-i18next";
 
 function Nav() {
+  const { t } = useTranslation();
   const { currentUser } = useDashboardData();
   const [hasPermission, setPermission] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const { pageTitle } = useLayoutContext();
+  const title = usePageTitle();
 
   const handleToggle = () => {
     setSidebarOpen(!sidebarOpen);
@@ -44,7 +44,7 @@ function Nav() {
             >
               <SidebarIcon style={{ width: "16px" }} />
             </Button>
-            <StyledPageTitle>{pageTitle}</StyledPageTitle>
+            <StyledPageTitle>{t(title)}</StyledPageTitle>
           </LeftNavItems>
           <RightNavItems>
             <ContestInfoMenu />

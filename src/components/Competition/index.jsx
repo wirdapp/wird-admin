@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import EditCompetitionForm from "./EditCompetitionForm";
 import ContestMembers from "./ContestMembers";
 import ContestModeratorDefault from "../ContestModerator/ContestModerator.styles";
-import { usePageTitle } from "../shared/page-title";
 import { useTranslation } from "react-i18next";
 import { useDashboardData } from "../../util/routes-data";
 import { NoContestYet } from "./no-contest-yet";
@@ -26,7 +25,6 @@ export default function Competition() {
   const { currentContest } = useDashboardData();
   const [contest, setContest] = useState(currentContest);
   const { t } = useTranslation();
-  usePageTitle(t("contest-information"));
 
   return (
     <AnimatedPage>

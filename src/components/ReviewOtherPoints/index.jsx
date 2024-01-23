@@ -24,7 +24,6 @@ import Container from "../Standards/Standards.styles";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Loader";
 import { useTranslation } from "react-i18next";
-import { usePageTitle } from "../shared/page-title";
 
 export default function ReviewOtherPoints() {
   const { t } = useTranslation();
@@ -37,8 +36,6 @@ export default function ReviewOtherPoints() {
   const [selectedPoint, setSelectedPoint] = useState({});
   const [pointRecord, setPointRecord] = useState(-1);
   const [loading, setLoading] = useState(false);
-
-  usePageTitle(t("text-inputs"));
 
   let navigate = useNavigate();
 

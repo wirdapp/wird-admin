@@ -12,8 +12,10 @@ import { CreateContestPopup } from "../../Competition/create-contest-popup";
 import { JoinContestPopup } from "../../Competition/join-contest-popup";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import * as ContestsApi from "../../../services/contests/api";
-import { getInviteLink } from "../../../services/contests/utils";
+import {
+  changeCurrentContest,
+  getInviteLink,
+} from "../../../services/contests/utils";
 import { Button, Menu, Popover, Space, Typography } from "antd";
 import { css } from "@emotion/css";
 
@@ -96,7 +98,7 @@ export const ContestInfoMenu = () => {
 
   const switchContest = async (contest) => {
     try {
-      await ContestsApi.switchContest(contest.id);
+      await changeCurrentContest(contest.id);
       window.location.reload();
     } catch (err) {
       console.error(err);

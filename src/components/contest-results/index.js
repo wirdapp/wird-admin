@@ -1,5 +1,4 @@
 import React from "react";
-import { usePageTitle } from "../shared/page-title";
 import { useTranslation } from "react-i18next";
 import { Tabs } from "antd";
 import { ResultsOverview } from "./results-overview/results-overview";
@@ -9,7 +8,6 @@ import { MembersResults } from "./members-results/members-results";
 
 export const ContestResults = () => {
   const { t } = useTranslation();
-  usePageTitle(t("results-page"));
   const { tab: tabParam } = useParams();
   const navigate = useNavigate();
 

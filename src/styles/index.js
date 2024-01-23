@@ -1,4 +1,5 @@
 // here are where all of our colors should be added.
+
 export const colors = {
   black: "#000000",
   white: "#FFFFFF",
@@ -9,6 +10,7 @@ export const colors = {
   yellow: "#fdd561",
   red: "#FF5367",
   lightRed: "#FEEBEE",
+  lightYellow: "#FFF8E6",
 
   yellowHover: "#e7bf54",
   lightRedHover: "#FDD9DE",

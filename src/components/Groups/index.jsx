@@ -29,7 +29,6 @@ import { ReactComponent as AddGroupIcon } from "../../assets/icons/addGroupIcon.
 import { colors } from "styles";
 import { useTranslation } from "react-i18next";
 import { useDashboardData } from "../../util/routes-data";
-import { usePageTitle } from "../shared/page-title";
 
 export default function Groups() {
   const { currentUser } = useDashboardData();
@@ -47,8 +46,6 @@ export default function Groups() {
   const [editGroupFormOpen, setEditGroupFormOpen] = useState(false);
   const [groupIdToEdit, setGroupIdToEdit] = useState("");
   const { t } = useTranslation();
-
-  usePageTitle(t("groups"));
 
   useEffect(() => {
     setLoading(true);
@@ -94,7 +91,9 @@ export default function Groups() {
       students.map(
         (student) =>
           (student["full_name"] =
-            student.person_info.first_name + " " + student.person_info.last_name),
+            student.person_info.first_name +
+            " " +
+            student.person_info.last_name),
       );
     }
   }, [students]);

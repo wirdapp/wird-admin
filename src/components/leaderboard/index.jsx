@@ -18,7 +18,6 @@ import {
   TopStudentsSpan,
   WarbSlider,
 } from "./TopStudents.styles";
-import { usePageTitle } from "../shared/page-title";
 import { useTranslation } from "react-i18next";
 import { useDashboardData } from "../../util/routes-data";
 import { getFullName, getInitials } from "../../util/user-utils";
@@ -91,7 +90,6 @@ export default function Leaderboard() {
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
   const { currentContest } = useDashboardData();
-  usePageTitle(t("leaders-board"));
 
   if (loading) {
     return (

@@ -13,3 +13,10 @@ export function useMatchesData(id) {
 export function useDashboardData() {
   return useMatchesData("dashboard") || {};
 }
+
+export function usePageTitle() {
+  const matchingRoutes = useMatches();
+  const route = matchingRoutes[matchingRoutes.length - 1];
+  console.log(route);
+  return route?.data?.title;
+}

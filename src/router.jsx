@@ -11,28 +11,23 @@ import EditProfile from "./components/EditProfile";
 import ContestModerator from "./components/ContestModerator";
 import Competition from "./components/Competition";
 import Leaderboard from "./components/leaderboard";
-import Loader from "./components/Loader";
 import Students from "./components/Students";
 import Groups from "./components/Groups";
 import ContestCriteria from "./components/ContestCriteria";
 import ReviewOtherPoints from "./components/ReviewOtherPoints";
 import ExportPoints from "./components/ExportPoints";
 import { ContestResults } from "./components/contest-results";
-import {
-  destroySession,
-  isLogged,
-  updateSessionUserDetails,
-} from "./services/auth/session";
-import { isSuperAdmin } from "./util/ContestPeople_Role";
-import * as AuthApi from "./services/auth/api";
 import Signup from "./components/Signup";
 import ResetPassword from "./components/ResetPassword";
 import ForgotPassword from "./components/ForgotPassword";
 import { ReactComponent as WirdLogo } from "assets/icons/Shared/wirdLogo.svg";
-import { currentContest, getContests } from "./services/contests/api";
 import { Helmet } from "react-helmet";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import "dayjs/locale/ar";
+import "dayjs/locale/en";
+import dayjs from "dayjs";
+import { dashboardLoader } from "./components/layout/dashboard-loader";
 
 function ErrorBoundary() {
   let error = useRouteError();
@@ -61,6 +56,14 @@ function ErrorBoundary() {
 
 const MainLayout = () => {
   const { i18n } = useTranslation();
+
+  useEffect(() => {
+    if (i18n.language === "ar") {
+      dayjs.locale("ar");
+    } else {
+      dayjs.locale("en");
+    }
+  }, [i18n.language]);
 
   return (
     <>
@@ -108,81 +111,85 @@ export const router = createBrowserRouter([
       {
         id: "dashboard",
         path: "dashboard",
-        loader: async ({ request }) => {
-          const redirectTo = new URL(request.url).pathname;
-          if (!isLogged()) {
-            return redirect(`/login?redirectTo=${redirectTo}`);
-          }
-          const data = {};
-
-          try {
-            // make sure session still valid
-            data.currentUser = await AuthApi.currentUserInfo();
-            updateSessionUserDetails(data.currentUser);
-            data.isSuperAdmin = isSuperAdmin(data.currentUser);
-          } catch (e) {
-            destroySession();
-            return redirect(`/login?redirectTo=${redirectTo}`);
-          }
-
-          try {
-            data.contests = await getContests();
-            data.currentContest = await currentContest();
-          } catch (e) {
-            console.log(`Failed to get current contest: ${e}`);
-            data.currentContest = null;
-          }
-          return data;
-        },
+        loader: dashboardLoader,
         element: <DashboardLayout />,
         errorElement: <ErrorBoundary />,
         children: [
           {
             index: true,
+            loader: () => ({
+              title: "home-page",
+            }),
             element: <Home />,
           },
           {
             path: "edit-profile",
+            loader: () => ({
+              title: "edit-profile",
+            }),
             element: <EditProfile />,
           },
           {
             path: "competition",
+            loader: () => ({
+              title: "contest-information",
+            }),
             element: <Competition />,
           },
           {
             path: "leaderboard",
+            loader: () => ({
+              title: "leaders-board",
+            }),
             element: <Leaderboard />,
           },
           {
-            path: "loading",
-            element: <Loader />,
-          },
-          {
             path: "students",
+            loader: () => ({
+              title: "students",
+            }),
             element: <Students />,
           },
           {
             path: "groups",
+            loader: () => ({
+              title: "groups",
+            }),
             element: <Groups />,
           },
           {
             path: "admins",
+            loader: () => ({
+              title: "admins",
+            }),
             element: <ContestModerator />,
           },
           {
             path: "contest-criteria",
+            loader: () => ({
+              title: "criterias",
+            }),
             element: <ContestCriteria />,
           },
           {
             path: "review-other-points",
+            loader: () => ({
+              title: "text-inputs",
+            }),
             element: <ReviewOtherPoints />,
           },
           {
             path: "results/:tab",
+            loader: () => ({
+              title: "results-page",
+            }),
             element: <ContestResults />,
           },
           {
             path: "export-points",
+            loader: () => ({
+              title: "export-points",
+            }),
             element: <ExportPoints />,
           },
         ],

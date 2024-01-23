@@ -19,7 +19,7 @@ import { MembersApi } from "../../../services/members/api";
 import { Role } from "../../../util/ContestPeople_Role";
 import { GroupsApi } from "../../../services/groups/api";
 
-function ContestMembers({ contest }) {
+function ContestMembers() {
   const [admins, setAdmins] = useState([]);
   const [students, setStudents] = useState([]);
   const [groups, setGroups] = useState([]);

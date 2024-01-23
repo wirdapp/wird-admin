@@ -1,9 +1,11 @@
 import axios from "../../util/axios";
 import { Role } from "../../util/ContestPeople_Role";
+import { getCurrentContestId } from "../contests/utils";
 
 export const MembersApi = {
-  getUsers: async (role, search) => {
-    const res = await axios.get("/admin_panel/contest_people/", {
+  getUsers: async ({ contestId, role, search } = {}) => {
+    const cid = contestId ?? getCurrentContestId();
+    const res = await axios.get(`/admin_panel/${cid}/contest_members/`, {
       params: {
         contest_role: role,
         search,
@@ -11,19 +13,27 @@ export const MembersApi = {
     });
     return res.data;
   },
-  getMembers: (search) => MembersApi.getUsers(Role.MEMBER, search),
-  getAdmins: (search) => MembersApi.getUsers(Role.ADMIN, search),
-  getPending: (search) => MembersApi.getUsers(Role.PENDING, search),
-  getDeactivated: (search) => MembersApi.getUsers(Role.DEACTIVATED, search),
-  async addUserToContest(username, contestId, role) {
-    const res = await axios.post("/admin_panel/contest_people/", {
+  getMembers: ({ contestId, search } = {}) =>
+    MembersApi.getUsers({ contestId, role: Role.MEMBER, search }),
+  getAdmins: ({ contestId, search } = {}) =>
+    MembersApi.getUsers({ contestId, role: Role.ADMIN, search }),
+  getPending: ({ contestId, search } = {}) =>
+    MembersApi.getUsers({ contestId, role: Role.PENDING, search }),
+  getDeactivated: ({ contestId, search } = {}) =>
+    MembersApi.getUsers({ contestId, role: Role.DEACTIVATED, search }),
+  async addUserToContest({ username, contestId, role }) {
+    const cid = contestId ?? getCurrentContestId();
+    const res = await axios.post(`/admin_panel/${cid}/contest_people/`, {
       username,
-      contest: contestId,
       contest_role: role,
     });
     return res.data;
   },
-  async addAdminToContest(username, contestId) {
-    return MembersApi.addUserToContest(username, contestId, Role.ADMIN);
+  async addAdminToContest({ username, contestId }) {
+    return MembersApi.addUserToContest({
+      username,
+      contestId,
+      role: Role.ADMIN,
+    });
   },
 };

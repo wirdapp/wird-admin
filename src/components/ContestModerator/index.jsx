@@ -21,14 +21,12 @@ import ModeratorCard from "./ModeratorCard";
 // import {retrieveContestInfo} from "../../services/competitionsServices";
 import { DivPass } from "../ResetPassword/ResetPassword.styles";
 import { useDashboardData } from "../../util/routes-data";
-import { usePageTitle } from "../shared/page-title";
 import { MembersApi } from "../../services/members/api";
 
 const ContestModerator = () => {
   const { currentUser, currentContest } = useDashboardData();
   const { t } = useTranslation();
 
-  usePageTitle(t("admins"));
   const [isExpanded, setIsExpanded] = useState(false);
 
   const [loading, setLoading] = useState(false);
@@ -42,7 +40,7 @@ const ContestModerator = () => {
   const fetchAdmins = async (search) => {
     setLoading(true);
     try {
-      const data = await MembersApi.getAdmins(search);
+      const data = await MembersApi.getAdmins({ search });
       setAdmins(data.results);
     } catch (err) {
       console.log("Failing", err);
@@ -51,6 +49,7 @@ const ContestModerator = () => {
   };
 
   useEffect(() => {
+    if (!currentContest) return;
     fetchAdmins();
   }, []);
 
@@ -72,7 +71,7 @@ const ContestModerator = () => {
     if (newAdminUsername.length === 0) {
       return;
     }
-    MembersApi.addAdminToContest(newAdminUsername, currentContest.id)
+    MembersApi.addAdminToContest({ username: newAdminUsername })
       .then(() => {
         setNewAdminUsername("");
         setShowErrorMessage(false);
