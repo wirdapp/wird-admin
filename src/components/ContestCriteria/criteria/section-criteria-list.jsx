@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { css } from "@emotion/css";
 import {
   Button,
@@ -16,7 +16,6 @@ import {
   PencilSquareIcon,
   PlusIcon,
 } from "@heroicons/react/24/outline";
-import { useContestCriteriaContext } from "../contest-criteria-context";
 import { CriteriaFormPopup } from "./criteria-form-popup";
 import { colors } from "../../../styles";
 import {
@@ -25,33 +24,21 @@ import {
 } from "../../../services/contest-criteria/consts";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { Bars2Icon } from "@heroicons/react/24/solid";
+import { useContestCriteria } from "./use-contest-criteria";
+import { reorder } from "../../../util/contest-utils";
 
 export const SectionCriteriaList = ({ section }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const { t } = useTranslation();
-  const { criteria } = useContestCriteriaContext();
+  const { criteriaItems, actions } = useContestCriteria({
+    sectionId: section.id,
+  });
   const [addCriteriaVisible, setAddCriteriaVisible] = useState(false);
   const [activeCriterion, setActiveCriterion] = useState(null);
 
-  const criteriaItems = useMemo(
-    () =>
-      criteria.items
-        .filter((s) => s.section === section.id)
-        .sort((a, b) => {
-          if (a.order_in_section < b.order_in_section) {
-            return -1;
-          }
-          if (a.order_in_section > b.order_in_section) {
-            return 1;
-          }
-          return 0;
-        }) ?? [],
-    [criteria.items, section.id],
-  );
-
   const handleDelete = async (id) => {
     try {
-      await criteria.delete(id);
+      await actions.remove(id);
       messageApi.success(t("criteria-deleted"));
     } catch (e) {
       console.error(e);
@@ -60,27 +47,22 @@ export const SectionCriteriaList = ({ section }) => {
   };
 
   const onDragEnd = async (result) => {
+    // dropped outside the list
     if (!result.destination) {
       return;
     }
-    const sourceIndex = result.source.index;
-    const destinationIndex = result.destination.index;
 
-    if (sourceIndex === destinationIndex) {
+    if (result.destination.index === result.source.index) {
       return;
     }
 
-    const sourceItem = criteriaItems[sourceIndex];
-    const destinationItem = criteriaItems[destinationIndex];
+    const items = reorder(
+      criteriaItems,
+      result.source.index,
+      result.destination.index,
+    );
 
-    await Promise.all([
-      criteria.update(sourceItem.id, {
-        order_in_section: destinationIndex,
-      }),
-      criteria.update(destinationItem.id, {
-        order_in_section: sourceIndex,
-      }),
-    ]);
+    await actions.updateOrder(items);
   };
 
   return (
@@ -133,7 +115,7 @@ export const SectionCriteriaList = ({ section }) => {
                               type="text"
                               icon={<PencilSquareIcon />}
                               onClick={() => {
-                                setActiveCriterion(item);
+                                setActiveCriterion(item.id);
                                 setAddCriteriaVisible(true);
                               }}
                             />,
@@ -178,7 +160,7 @@ export const SectionCriteriaList = ({ section }) => {
                                     white-space: nowrap;
                                   `}
                                 >
-                                  {t("points")}: {item.points}
+                                  {t("points", { count: item.points })}
                                 </div>
                                 <Divider type="vertical" />
                                 <div
@@ -225,11 +207,14 @@ export const SectionCriteriaList = ({ section }) => {
           {t("add-criteria")}
         </Button>
         <CriteriaFormPopup
-          criterion={activeCriterion}
+          criterionId={activeCriterion}
           section={section}
           index={criteriaItems.length}
           open={addCriteriaVisible}
-          onClose={() => setAddCriteriaVisible(false)}
+          onClose={() => {
+            setAddCriteriaVisible(false);
+            setActiveCriterion(null);
+          }}
         />
       </Flex>
     </DragDropContext>

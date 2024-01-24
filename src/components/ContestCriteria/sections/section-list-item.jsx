@@ -11,9 +11,10 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { TrashIcon } from "@heroicons/react/20/solid";
-import { useContestCriteriaContext } from "../contest-criteria-context";
 import { SectionCriteriaList } from "../criteria/section-criteria-list";
 import { colors } from "../../../styles";
+import { useContestSections } from "./use-contest-sections";
+import { motion } from "framer-motion";
 
 const expandIconClassName = (isActive, isRtl) => css`
   transform: rotate(${isActive ? (isRtl ? -90 : 90) : 0}deg);
@@ -32,13 +33,13 @@ const ExpandIcon = ({ isActive }) => {
   );
 };
 
-export const SectionListItem = ({ section, index, onSectionChange }) => {
+export const SectionListItem = ({ section, index }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(true);
   const [sectionLabel, setSectionLabel] = useState(section.label);
   const [updating, setUpdating] = useState(false);
-  const { sections } = useContestCriteriaContext();
+  const { actions } = useContestSections();
 
   useEffect(() => {
     setSectionLabel(section.label);
@@ -47,7 +48,7 @@ export const SectionListItem = ({ section, index, onSectionChange }) => {
   const handleSectionUpdate = async ({ label, position }) => {
     setUpdating(true);
     try {
-      await sections.update(section.id, {
+      await actions.update(section.id, {
         label: label ?? section.label,
         position: position ?? section.position,
       });
@@ -62,7 +63,7 @@ export const SectionListItem = ({ section, index, onSectionChange }) => {
 
   const onDelete = async () => {
     try {
-      await sections.remove(section.id);
+      await actions.remove(section.id);
       messageApi.success(t("section-deleted"));
     } catch (e) {
       console.error(e);
@@ -73,97 +74,103 @@ export const SectionListItem = ({ section, index, onSectionChange }) => {
   const onNameUpdate = () => handleSectionUpdate({ label: sectionLabel });
 
   return (
-    <Draggable draggableId={section.id} index={index}>
-      {(provided, snapshot) => (
-        <div ref={provided.innerRef} {...provided.draggableProps}>
-          {contextHolder}
-          <Collapse
-            activeKey={
-              !snapshot.isDragging && expanded ? section.id : undefined
-            }
-            onChange={() => setExpanded(!expanded)}
-            expandIcon={({ isActive }) => <ExpandIcon isActive={isActive} />}
-            collapsible="icon"
-            className={css`
-              background: ${colors.lightYellow};
-              border: 1px solid ${colors.yellow};
-
-              .ant-collapse-header {
-                align-items: center !important;
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+    >
+      <Draggable draggableId={section.id} index={index}>
+        {(provided, snapshot) => (
+          <div ref={provided.innerRef} {...provided.draggableProps}>
+            {contextHolder}
+            <Collapse
+              activeKey={
+                !snapshot.isDragging && expanded ? section.id : undefined
               }
-            `}
-            items={[
-              {
-                key: section.id,
-                label: (
-                  <Space
-                    size="small"
-                    className={css`
-                      margin-inline-end: 16px;
-                    `}
-                  >
-                    <Input
-                      placeholder={t("section-name")}
-                      value={sectionLabel}
-                      onChange={(e) => setSectionLabel(e.target.value)}
-                      className={css`
-                        max-width: 200px;
-                      `}
-                    />
-                    {sectionLabel !== section.label && (
-                      <>
-                        <Button
-                          size="small"
-                          onClick={onNameUpdate}
-                          type="text"
-                          icon={<CheckIcon />}
-                          loading={updating}
-                        />
-                        <Button
-                          size="small"
-                          onClick={() => setSectionLabel(section.label)}
-                          type="text"
-                          icon={<XMarkIcon />}
-                          disabled={updating}
-                        />
-                      </>
-                    )}
-                  </Space>
-                ),
-                extra: (
-                  <Space>
-                    <Button
+              onChange={() => setExpanded(!expanded)}
+              expandIcon={({ isActive }) => <ExpandIcon isActive={isActive} />}
+              collapsible="icon"
+              className={css`
+                background: ${colors.lightYellow};
+                border: 1px solid ${colors.yellow};
+
+                .ant-collapse-header {
+                  align-items: center !important;
+                }
+              `}
+              items={[
+                {
+                  key: section.id,
+                  label: (
+                    <Space
                       size="small"
-                      type="text"
-                      {...provided.dragHandleProps}
                       className={css`
-                        cursor: grab;
+                        margin-inline-end: 16px;
                       `}
-                      icon={<Bars2Icon />}
-                    />
-                    <Popconfirm
-                      title={t("delete-section-confirm")}
-                      description={t("delete-section-confirm-description")}
-                      onConfirm={onDelete}
-                      okText={t("yes")}
-                      cancelText={t("no")}
                     >
+                      <Input
+                        placeholder={t("section-name")}
+                        value={sectionLabel}
+                        onChange={(e) => setSectionLabel(e.target.value)}
+                        className={css`
+                          max-width: 200px;
+                        `}
+                      />
+                      {sectionLabel !== section.label && (
+                        <>
+                          <Button
+                            size="small"
+                            onClick={onNameUpdate}
+                            type="text"
+                            icon={<CheckIcon />}
+                            loading={updating}
+                          />
+                          <Button
+                            size="small"
+                            onClick={() => setSectionLabel(section.label)}
+                            type="text"
+                            icon={<XMarkIcon />}
+                            disabled={updating}
+                          />
+                        </>
+                      )}
+                    </Space>
+                  ),
+                  extra: (
+                    <Space>
                       <Button
                         size="small"
                         type="text"
-                        danger
-                        icon={<TrashIcon />}
+                        {...provided.dragHandleProps}
+                        className={css`
+                          cursor: grab;
+                        `}
+                        icon={<Bars2Icon />}
                       />
-                    </Popconfirm>
-                  </Space>
-                ),
-                children: <SectionCriteriaList section={section} />,
-              },
-            ]}
-          />
-          {provided.placeholder}
-        </div>
-      )}
-    </Draggable>
+                      <Popconfirm
+                        title={t("delete-section-confirm")}
+                        description={t("delete-section-confirm-description")}
+                        onConfirm={onDelete}
+                        okText={t("yes")}
+                        cancelText={t("no")}
+                      >
+                        <Button
+                          size="small"
+                          type="text"
+                          danger
+                          icon={<TrashIcon />}
+                        />
+                      </Popconfirm>
+                    </Space>
+                  ),
+                  children: <SectionCriteriaList section={section} />,
+                },
+              ]}
+            />
+            {provided.placeholder}
+          </div>
+        )}
+      </Draggable>
+    </motion.div>
   );
 };

@@ -74,10 +74,8 @@ export default {
   "criteria-title": "Title",
   "criteria-description": "Description",
   "criteria-points": "Points",
-  "criteria-partially-available": "Partially available",
-  "criteria-partially-available-description":
-    "Show this criteria only for specific days during the contest",
-  "criteria-days-available": "Days available",
+  "criteria-show-on-dates": "Show on dates",
+  "criteria-hide-on-dates": "Hide on dates",
   "allow-multiline": "Allow multiple lines",
   "criteria-min": "Minimum",
   "criteria-max": "Maximum",
@@ -92,4 +90,8 @@ export default {
   "section-deleted": "Section deleted",
   yes: "Yes",
   no: "No",
+  points_one: "{{count}} Point",
+  points_other: "{{count}} Points",
+  "criteria-visible": "Visible",
+  "criteria-active": "Active",
 };

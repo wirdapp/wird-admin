@@ -1,25 +1,19 @@
-import { createContext, useContext, useMemo } from "react";
-import { useContestSections } from "./sections/use-contest-sections";
-import { useContestCriteria } from "./criteria/use-contest-criteria";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { ContestCriteriaApi } from "../../services/contest-criteria/api";
+import { Spin } from "antd";
 
 const ContestCriteriaContext = createContext({
   sections: {
     items: [],
     setItems: () => {},
-    add: () => {},
-    update: () => {},
-    remove: () => {},
-    saveAll: () => {},
     loading: false,
+    setLoading: () => {},
   },
   criteria: {
     items: [],
     setItems: () => {},
-    add: () => {},
-    update: () => {},
-    remove: () => {},
-    saveAll: () => {},
     loading: false,
+    setLoading: () => {},
   },
   loading: false,
 });
@@ -28,21 +22,63 @@ export const useContestCriteriaContext = () =>
   useContext(ContestCriteriaContext);
 
 export const ContestCriteriaProvider = ({ children }) => {
-  const sections = useContestSections();
-  const criteria = useContestCriteria();
+  const [sections, setSections] = useState([]);
+  const [criteria, setCriteria] = useState([]);
+  const [sectionsLoading, setSectionsLoading] = useState(false);
+  const [criteriaLoading, setCriteriaLoading] = useState(false);
+
+  const loadSections = async () => {
+    setSectionsLoading(true);
+    try {
+      const data = await ContestCriteriaApi.getSections();
+      setSections(data.sort((a, b) => a.position - b.position));
+    } finally {
+      setSectionsLoading(false);
+    }
+  };
+
+  const loadCriteriaItems = async () => {
+    setCriteriaLoading(true);
+    try {
+      const data = await ContestCriteriaApi.getCriteria();
+      setCriteria(data);
+    } finally {
+      setCriteriaLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadCriteriaItems();
+  }, []);
+
+  useEffect(() => {
+    loadSections();
+  }, []);
 
   const contextValue = useMemo(
     () => ({
-      sections,
-      criteria,
-      loading: sections.loading || criteria.loading,
+      sections: {
+        items: sections,
+        setItems: setSections,
+        loading: sectionsLoading,
+        setLoading: setSectionsLoading,
+      },
+      criteria: {
+        items: criteria,
+        setItems: setCriteria,
+        loading: criteriaLoading,
+        setLoading: setCriteriaLoading,
+      },
+      loading: sectionsLoading || criteriaLoading,
     }),
-    [sections, criteria],
+    [sections, criteria, sectionsLoading, criteriaLoading],
   );
 
   return (
     <ContestCriteriaContext.Provider value={contextValue}>
-      {typeof children === "function" ? children(contextValue) : children}
+      <Spin spinning={contextValue.loading}>
+        {typeof children === "function" ? children(contextValue) : children}
+      </Spin>
     </ContestCriteriaContext.Provider>
   );
 };

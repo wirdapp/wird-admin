@@ -1,54 +1,73 @@
-import { useEffect, useState } from "react";
 import { ContestCriteriaApi } from "../../../services/contest-criteria/api";
+import { useContestCriteriaContext } from "../contest-criteria-context";
+import { useMemo } from "react";
 
-export function useContestCriteria({ messageApi } = {}) {
-  const [criteriaItems, setCriteriaItems] = useState([]);
-  const [loading, setLoading] = useState(false);
+export function useContestCriteria({ sectionId } = {}) {
+  const { criteria } = useContestCriteriaContext();
 
-  const loadCriteriaItems = async () => {
-    setLoading(true);
-    try {
-      const data = await ContestCriteriaApi.getCriteria();
-      setCriteriaItems(data);
-    } finally {
-      setLoading(false);
-    }
+  const getById = async (id) => {
+    return await ContestCriteriaApi.getById({ id });
   };
 
-  useEffect(() => {
-    loadCriteriaItems();
-  }, []);
-
-  const add = async (criteria) => {
-    const criteriaData = await ContestCriteriaApi.addCriteria({ criteria });
-    setCriteriaItems([...criteriaItems, criteriaData]);
+  const add = async (criterion) => {
+    const criteriaData = await ContestCriteriaApi.addCriteria({ criterion });
+    criteria.setItems([...criteria.items, criteriaData]);
   };
 
-  const update = async (id, criteria) => {
+  const update = async (id, criterion) => {
     const criteriaData = await ContestCriteriaApi.updateCriteria({
       id,
-      criteria,
+      criterion,
     });
-    const index = criteriaItems.findIndex((criteria) => criteria.id === id);
-    const newCriteriaItems = [...criteriaItems];
+    const index = criteria.items.findIndex((c) => c.id === id);
+    const newCriteriaItems = [...criteria.items];
     newCriteriaItems[index] = criteriaData;
-    setCriteriaItems(newCriteriaItems);
+    criteria.setItems(newCriteriaItems);
   };
 
   const remove = async (id) => {
     await ContestCriteriaApi.deleteCriteria({ id });
-    const newCriteriaItems = criteriaItems.filter(
+    const newCriteriaItems = criteria.items.filter(
       (criteria) => criteria.id !== id,
     );
-    setCriteriaItems(newCriteriaItems);
+    criteria.setItems(newCriteriaItems);
   };
 
+  const updateOrder = async (newCriteriaItems) => {
+    const newCriteriaItemsWithPositions = criteria.items.map((criterion) => {
+      const newIndex = newCriteriaItems.findIndex((c) => c.id === criterion.id);
+      return {
+        ...criterion,
+        order_in_section:
+          newIndex !== -1 ? newIndex : criterion.order_in_section,
+      };
+    });
+    criteria.setItems(newCriteriaItemsWithPositions);
+    return await ContestCriteriaApi.updateCriteriaOrder({
+      newCriteriaItems: newCriteriaItemsWithPositions,
+    });
+  };
+
+  const criteriaItems = useMemo(() => {
+    if (!criteria.items) return [];
+    let criteriaItems = criteria.items;
+    if (sectionId) {
+      criteriaItems = criteria.items.filter((s) => s.section === sectionId);
+    }
+    return criteriaItems.sort(
+      (a, b) => a.order_in_section - b.order_in_section,
+    );
+  }, [criteria.items, sectionId]);
+
   return {
-    items: criteriaItems,
-    setItems: setCriteriaItems,
-    loading,
-    add,
-    update,
-    remove,
+    criteriaItems,
+    loading: criteria.loading,
+    actions: {
+      getById,
+      add,
+      update,
+      remove,
+      updateOrder,
+    },
   };
 }

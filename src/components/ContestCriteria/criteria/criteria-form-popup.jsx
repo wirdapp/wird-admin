@@ -1,100 +1,126 @@
 import React, { useEffect } from "react";
-import { Form, message, Modal, Tabs } from "antd";
+import { Form, message, Modal, Spin, Tabs } from "antd";
 import { useTranslation } from "react-i18next";
-import { useContestCriteriaContext } from "../contest-criteria-context";
 import { CriteriaBasicFields } from "./criteria-basic-fields";
 import { CriteriaTypeFields } from "./criteria-type-fields";
 import { CriteriaAdvancedFields } from "./criteria-advanced-fields";
 import { CheckIcon } from "@heroicons/react/24/outline";
+import { useContestCriteria } from "./use-contest-criteria";
 import { FieldTypes } from "../../../services/contest-criteria/consts";
 
 export const CriteriaFormPopup = ({
-  criterion,
+  criterionId,
   section,
   open,
   onClose,
   index,
 }) => {
+  const [loading, setLoading] = React.useState(false);
+  const [submitting, setSubmitting] = React.useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const { t } = useTranslation();
   const [form] = Form.useForm();
-  const { criteria } = useContestCriteriaContext();
+  const { actions } = useContestCriteria({ sectionId: section.id });
 
   useEffect(() => {
-    form.setFieldsValue(criterion);
-  }, [criterion, form]);
+    if (!open) return;
+    if (criterionId) {
+      setLoading(true);
+      actions
+        .getById(criterionId)
+        .then((criterion) => {
+          form.setFieldsValue({
+            ...criterion,
+            // pa
+          });
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      form.resetFields();
+    }
+  }, [open, criterionId, form]);
 
   const handleFormSubmit = async (values) => {
+    setSubmitting(true);
     try {
-      if (criterion) {
-        await criteria.update(criterion.id, {
-          ...criterion,
+      if (criterionId) {
+        await actions.update(criterionId, {
           ...values,
         });
         messageApi.success(t("criteria-updated"));
       } else {
-        await criteria.add({
+        await actions.add({
           ...values,
           section: section.id,
           order_in_section: index,
         });
         messageApi.success(t("criteria-added"));
       }
-      onClose();
+      handleClose();
     } catch (e) {
-      messageApi.error(t("criteria-add-failed"));
+      messageApi.error(t("criteria-operation-failed"));
       console.error(e);
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  const handleCancel = () => {
-    form.resetFields();
+  const handleClose = () => {
     onClose();
+    form.resetFields();
   };
 
   return (
     <Modal
       open={open}
-      onCancel={handleCancel}
-      title={criterion ? t("update-criteria") : t("add-criteria")}
+      onCancel={handleClose}
+      title={criterionId ? t("update-criteria") : t("add-criteria")}
       onOk={() => form.submit()}
-      okText={criterion ? t("update") : t("add")}
+      okText={criterionId ? t("update") : t("add")}
       cancelText={t("cancel")}
-      okButtonProps={{ loading: false, icon: <CheckIcon /> }}
+      okButtonProps={{
+        loading: submitting,
+        disabled: loading,
+        icon: <CheckIcon />,
+      }}
       width={600}
+      destroyOnClose
     >
       {contextHolder}
-      <Form
-        onFinish={handleFormSubmit}
-        form={form}
-        layout="vertical"
-        style={{ marginBottom: 24 }}
-        initialValues={criterion}
-      >
-        <Tabs
-          items={[
-            {
-              label: t("criteria-basic"),
-              key: "basic",
-              children: <CriteriaBasicFields />,
-            },
-            {
-              label: t("criteria-type"),
-              key: "type",
-              children: (
-                <CriteriaTypeFields
-                  initialType={criterion?.resourcetype || FieldTypes.Text}
-                />
-              ),
-            },
-            {
-              label: t("criteria-advanced"),
-              key: "advanced",
-              children: <CriteriaAdvancedFields />,
-            },
-          ]}
-        />
-      </Form>
+      <Spin spinning={loading}>
+        <Form
+          onFinish={handleFormSubmit}
+          form={form}
+          layout="vertical"
+          style={{ marginBottom: 24 }}
+          initialValues={{
+            resourcetype: FieldTypes.Text,
+          }}
+          disabled={submitting || loading}
+        >
+          <Tabs
+            items={[
+              {
+                label: t("criteria-basic"),
+                key: "basic",
+                children: <CriteriaBasicFields />,
+              },
+              {
+                label: t("criteria-type"),
+                key: "type",
+                children: <CriteriaTypeFields form={form} />,
+              },
+              {
+                label: t("criteria-advanced"),
+                key: "advanced",
+                children: <CriteriaAdvancedFields form={form} />,
+              },
+            ]}
+          />
+        </Form>
+      </Spin>
     </Modal>
   );
 };

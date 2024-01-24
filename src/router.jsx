@@ -28,6 +28,10 @@ import "dayjs/locale/ar";
 import "dayjs/locale/en";
 import dayjs from "dayjs";
 import { dashboardLoader } from "./components/layout/dashboard-loader";
+import { ConfigProvider } from "antd";
+import { lightTheme } from "./styles/antd-theme";
+import arLocale from "antd/locale/ar_EG";
+import enLocale from "antd/locale/en_US";
 
 function ErrorBoundary() {
   let error = useRouteError();
@@ -66,13 +70,17 @@ const MainLayout = () => {
   }, [i18n.language]);
 
   return (
-    <>
+    <ConfigProvider
+      theme={lightTheme}
+      locale={i18n.language === "ar" ? arLocale : enLocale}
+      direction={i18n.dir()}
+    >
       <Helmet>
         <html lang={i18n.language || "en"} dir={i18n.dir()} />
         <meta charSet="utf-8" />
       </Helmet>
       <Outlet />
-    </>
+    </ConfigProvider>
   );
 };
 

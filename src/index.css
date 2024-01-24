@@ -36,40 +36,6 @@ code {
   min-width: 100px;
 }
 
-.tooltip-wrapper {
-  display: inline-block;
-}
-
-.tooltip {
-  min-width: 32px;
-  min-height: 32px;
-  padding: 6px 8px;
-  color: #fff;
-  text-align: start;
-  text-decoration: none;
-  word-wrap: break-word;
-  background-color: rgba(0, 0, 0, 0.85);
-  border-radius: 6px;
-  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
-  box-sizing: border-box;
-  position: absolute;
-  z-index: 9999;
-  display: block;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease-in-out;
-
-  &.show {
-    opacity: 1;
-    visibility: visible;
-  }
-}
-
-[dir="rtl"] .ant-tabs .ant-tabs-tab + .ant-tabs-tab {
-  margin-left: 0;
-  margin-right: 32px;
-}
-
 .ant-btn {
   display: inline-flex;
   gap: 8px;

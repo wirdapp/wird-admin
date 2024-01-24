@@ -1,17 +1,24 @@
-import React, { useEffect } from "react";
-import { Checkbox, Form, InputNumber } from "antd";
+import React from "react";
+import {
+  Button,
+  Checkbox,
+  Flex,
+  Form,
+  Input,
+  InputNumber,
+  Tooltip,
+  Typography,
+} from "antd";
 import { CriteriaTypeSelect } from "./criteria-type-select";
 import { useTranslation } from "react-i18next";
 import { FieldTypes } from "../../../services/contest-criteria/consts";
-import { MultipleChoiceControl } from "./multiple-choice-control";
+import { TrashIcon } from "@heroicons/react/20/solid";
+import { v4 as uuidv4 } from "uuid";
+import { css } from "@emotion/css";
 
-export const CriteriaTypeFields = ({ initialType }) => {
+export const CriteriaTypeFields = ({ form }) => {
   const { t } = useTranslation();
-  const [selectedType, setSelectedType] = React.useState(initialType);
-
-  useEffect(() => {
-    setSelectedType(initialType);
-  }, [initialType]);
+  const selectedType = Form.useWatch("resourcetype", form);
 
   return (
     <>
@@ -19,13 +26,12 @@ export const CriteriaTypeFields = ({ initialType }) => {
         label={t("criteria-type")}
         name="resourcetype"
         rules={[{ required: true }]}
-        initialValue={initialType}
       >
-        <CriteriaTypeSelect value={selectedType} onChange={setSelectedType} />
+        <CriteriaTypeSelect />
       </Form.Item>
       {selectedType === FieldTypes.Text && (
         <Form.Item
-          name="multiline"
+          name="allow_multiline"
           valuePropName="checked"
           initialValue={false}
         >
@@ -34,42 +40,114 @@ export const CriteriaTypeFields = ({ initialType }) => {
       )}
       {selectedType === FieldTypes.Number && (
         <>
-          <Form.Item label={t("criteria-min")} name="min">
+          <Form.Item
+            label={t("criteria-min")}
+            name="lower_bound"
+            initialValue={0}
+          >
             <InputNumber />
           </Form.Item>
-          <Form.Item label={t("criteria-max")} name="max">
+          <Form.Item
+            label={t("criteria-max")}
+            name="upper_bound"
+            initialValue={20}
+          >
             <InputNumber />
           </Form.Item>
         </>
       )}
-      {/*{selectedType === FieldTypes.Checkbox && (*/}
-      {/*  <>*/}
-      {/*    <Form.Item*/}
-      {/*      label={t("checked-label")}*/}
-      {/*      name="checked_label"*/}
-      {/*      rules={[{ required: true }]}*/}
-      {/*    >*/}
-      {/*      <Input />*/}
-      {/*    </Form.Item>*/}
-      {/*    <Form.Item*/}
-      {/*      label={t("unchecked-label")}*/}
-      {/*      name="unchecked_label"*/}
-      {/*      rules={[{ required: true }]}*/}
-      {/*    >*/}
-      {/*      <Input />*/}
-      {/*    </Form.Item>*/}
-      {/*  </>*/}
-      {/*)}*/}
+      {selectedType === FieldTypes.Checkbox && (
+        <>
+          <Form.Item
+            label={t("checked-label")}
+            name="checked_label"
+            initialValue={t("yes")}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label={t("unchecked-label")}
+            name="unchecked_label"
+            rules={[{ required: true }]}
+            initialValue={t("no")}
+          >
+            <Input />
+          </Form.Item>
+        </>
+      )}
+      {selectedType === FieldTypes.MultipleChoices && (
+        <Form.Item
+          name="partial_points"
+          valuePropName="checked"
+          initialValue={false}
+        >
+          <Checkbox>{t("partial-points")}</Checkbox>
+        </Form.Item>
+      )}
       {(selectedType === FieldTypes.Radio ||
         selectedType === FieldTypes.MultipleChoices) && (
         <>
-          <Form.Item
-            label={t("options")}
-            name="options"
-            rules={[{ required: true }]}
-          >
-            <MultipleChoiceControl />
-          </Form.Item>
+          <Form.List name="options">
+            {(fields, { add, remove }) => (
+              <>
+                <Typography.Text>{t("options")}:</Typography.Text>
+                <ol>
+                  {fields.map((field, index) => (
+                    <li
+                      key={field.key}
+                      className={css`
+                        margin-bottom: 16px;
+                      `}
+                    >
+                      <Flex gap="small" align="center">
+                        <Form.Item hidden name={[field.name, "id"]} />
+                        <Form.Item
+                          name={[field.name, "label"]}
+                          rules={[{ required: true }]}
+                          style={{ width: "100%" }}
+                          noStyle
+                        >
+                          <Input size="small" placeholder={t("option")} />
+                        </Form.Item>
+                        <Tooltip title={t("is-correct")}>
+                          <div>
+                            <Form.Item
+                              noStyle
+                              name={[field.name, "is_correct"]}
+                              valuePropName="checked"
+                            >
+                              <Checkbox />
+                            </Form.Item>
+                          </div>
+                        </Tooltip>
+                        <Button
+                          onClick={() => remove(index)}
+                          type="text"
+                          size="small"
+                          danger
+                          icon={<TrashIcon />}
+                        />
+                      </Flex>
+                    </li>
+                  ))}
+                </ol>
+                <Button
+                  type="dashed"
+                  size="small"
+                  onClick={() =>
+                    add({
+                      id: uuidv4(),
+                      label: "",
+                      is_correct: false,
+                    })
+                  }
+                  block
+                >
+                  {t("add-option")}
+                </Button>
+              </>
+            )}
+          </Form.List>
         </>
       )}
     </>

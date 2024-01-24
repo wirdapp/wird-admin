@@ -3,56 +3,50 @@ import { css } from "@emotion/css";
 import { useTranslation } from "react-i18next";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { SectionListItem } from "./section-list-item";
-import { useContestCriteriaContext } from "../contest-criteria-context";
 import { Button, Card, Flex, Form, Input, Space } from "antd";
-import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/outline"; // a little function to help us with reordering the result
-
-// a little function to help us with reordering the result
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
+import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { useContestSections } from "./use-contest-sections";
+import { reorder } from "../../../util/contest-utils";
+import { AnimatePresence } from "framer-motion"; // a little function to help us with reordering the result
 
 export const SectionsList = () => {
   const { t } = useTranslation();
-  const { sections } = useContestCriteriaContext();
+  const { sections, loading, actions } = useContestSections();
   const [adding, setAdding] = React.useState(false);
+  const [form] = Form.useForm();
+
+  const newSectionName = Form.useWatch("label", form);
 
   const handleAddSection = async (values) => {
     setAdding(true);
     try {
-      await sections.add({
+      await actions.add({
         label: values.label,
-        position: sections.items.length,
+        position: sections.length,
       });
+      form.resetFields();
     } finally {
       setAdding(false);
     }
   };
 
-  const onSectionChange = (sectionId, value) => {
-    const newSections = [...sections.items];
-    const sectionIndex = newSections.findIndex((s) => s.id === sectionId);
-    newSections[sectionIndex].label = value;
-    sections.setItems(newSections);
-  };
-
-  const onDragEnd = (result) => {
+  const onDragEnd = async (result) => {
     // dropped outside the list
     if (!result.destination) {
       return;
     }
 
+    if (result.destination.index === result.source.index) {
+      return;
+    }
+
     const items = reorder(
-      sections.items,
+      sections,
       result.source.index,
       result.destination.index,
     );
 
-    sections.setItems(items);
+    await actions.updateSectionsOrder(items);
   };
 
   return (
@@ -73,14 +67,15 @@ export const SectionsList = () => {
                 gap: 16px;
               `}
             >
-              {sections.items.map((section, index) => (
-                <SectionListItem
-                  key={section.id}
-                  section={section}
-                  index={index}
-                  onSectionChange={onSectionChange}
-                />
-              ))}
+              <AnimatePresence>
+                {sections.map((section, index) => (
+                  <SectionListItem
+                    key={section.id}
+                    section={section}
+                    index={index}
+                  />
+                ))}
+              </AnimatePresence>
               {provided.placeholder}
             </div>
           )}
@@ -92,6 +87,7 @@ export const SectionsList = () => {
         `}
       >
         <Form
+          form={form}
           layout="vertical"
           onFinish={handleAddSection}
           requiredMark={false}
@@ -116,6 +112,7 @@ export const SectionsList = () => {
             loading={adding}
             icon={<PlusIcon />}
             size="small"
+            disabled={!newSectionName}
           >
             {t("addSection")}
           </Button>

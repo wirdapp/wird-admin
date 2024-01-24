@@ -1,69 +1,48 @@
-import React from "react";
-import { css } from "@emotion/css";
-import { Checkbox, Form, Select, Switch, Typography } from "antd";
-import { getContestDays } from "../../../util/contest-utils";
+import React, { useMemo } from "react";
+import { Checkbox, Form, Select, Space } from "antd";
 import { useDashboardData } from "../../../util/routes-data";
 import { useTranslation } from "react-i18next";
+import { getContestDays } from "../../../util/contest-utils";
 
-export const CriteriaAdvancedFields = () => {
+export const CriteriaAdvancedFields = ({ form }) => {
   const { t } = useTranslation();
   const { currentContest } = useDashboardData();
-  const [partiallyAvailable, setPartiallyAvailable] = React.useState(false);
+  const activateOnDates = Form.useWatch("activate_on_dates", form);
+  const deactivateOnDates = Form.useWatch("deactivate_on_dates", form);
+
+  const { activateOnDatesOptions, deactivateOnDatesOptions } = useMemo(() => {
+    const contestDays = getContestDays(currentContest);
+    const activateOnDatesOptions = [];
+    const deactivateOnDatesOptions = [];
+    for (const d of contestDays) {
+      const value = d.format("YYYY-MM-DD");
+      const label = d.format("dddd, DD MMMM YYYY");
+      if (!deactivateOnDates?.includes(value)) {
+        activateOnDatesOptions.push({ value, label });
+      }
+      if (!activateOnDates?.includes(value)) {
+        deactivateOnDatesOptions.push({ value, label });
+      }
+    }
+    return { activateOnDatesOptions, deactivateOnDatesOptions };
+  }, [currentContest, activateOnDates, deactivateOnDates]);
 
   return (
     <>
-      <Form.Item
-        label={t("visibility")}
-        name="visible"
-        valuePropName="checked"
-        initialValue={true}
-      >
-        <Switch
-          checkedChildren={t("visible")}
-          unCheckedChildren={t("hidden")}
-        />
+      <Space size="large">
+        <Form.Item name="visible" valuePropName="checked" initialValue={true}>
+          <Checkbox>{t("criteria-visible")}</Checkbox>
+        </Form.Item>
+        <Form.Item name="active" valuePropName="checked" initialValue={true}>
+          <Checkbox>{t("criteria-active")}</Checkbox>
+        </Form.Item>
+      </Space>
+      <Form.Item name="activate_on_dates" label={t("criteria-show-on-dates")}>
+        <Select options={activateOnDatesOptions} mode="multiple" />
       </Form.Item>
-      <fieldset
-        className={css`
-          border: 1px solid #d9d9d9;
-          padding: 16px;
-          border-radius: 8px;
-        `}
-      >
-        <legend
-          className={css`
-            width: auto !important;
-            padding: 0 8px !important;
-            border: none !important;
-            margin: 0 !important;
-          `}
-        >
-          <Form.Item name="partially_available" valuePropName="checked" noStyle>
-            <Checkbox
-              value={partiallyAvailable}
-              onChange={(e) => setPartiallyAvailable(e.target.checked)}
-            >
-              {t("criteria-partially-available")}
-            </Checkbox>
-          </Form.Item>
-        </legend>
-        {partiallyAvailable ? (
-          <Form.Item label={t("criteria-days-available")} name="days_available">
-            <Select
-              mode="multiple"
-              placeholder={t("criteria-days-available")}
-              options={[...getContestDays(currentContest)].map((day) => ({
-                label: day.format("dddd, MMMM Do YYYY"),
-                value: day.format("YYYY-MM-DD"),
-              }))}
-            />
-          </Form.Item>
-        ) : (
-          <Typography.Text type="secondary">
-            {t("criteria-partially-available-description")}
-          </Typography.Text>
-        )}
-      </fieldset>
+      <Form.Item name="deactivate_on_dates" label={t("criteria-hide-on-dates")}>
+        <Select options={deactivateOnDatesOptions} mode="multiple" />
+      </Form.Item>
     </>
   );
 };
