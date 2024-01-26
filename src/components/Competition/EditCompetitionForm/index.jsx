@@ -9,31 +9,31 @@ import {
 import { Alert, Button, Checkbox, DatePicker, Form, Input, Space } from "antd";
 import { ContestsApi } from "../../../services/contests/api";
 import { css } from "@emotion/css";
+import { useRevalidator } from "react-router-dom";
 
-export default function EditCompetitionForm({ contest, onChange }) {
+export default function EditCompetitionForm({ contest }) {
   const { t } = useTranslation();
   const [messages, setMessages] = useState([]);
   const [classColor, setClassColor] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const revalidator = useRevalidator();
 
   const handleUpdateContest = async (values) => {
     try {
       setClassColor("");
       setMessages([]);
       setSubmitting(true);
-      const result = await ContestsApi.updateContest(contest.id, values);
-      console.log(result);
-      onChange(result);
+      await ContestsApi.updateContest(contest.id, values);
+      revalidator.revalidate();
 
       setClassColor("green");
       setMessages([t("contest-has-been-edited-successfully")]);
     } catch (err) {
       let errMessages = [];
-      errMessages.push([t("contest-isn't-edited-successfully")]);
       if (err.response.data) {
         let obj = err.response.data;
         Object.keys(obj).forEach((e) => {
-          errMessages.push(`${e}: ${obj[e]}`);
+          errMessages.push(obj[e]);
         });
       }
       setClassColor("red");
@@ -72,23 +72,20 @@ export default function EditCompetitionForm({ contest, onChange }) {
             <Input placeholder={t("description-label")} />
           </Form.Item>
           <Form.Item
-            label={t("start-date")}
-            name="start_date"
+            label={t("date")}
+            name="daterange"
             rules={[{ required: true }]}
           >
-            <DatePicker placeholder={t("start-date")} allowClear={false} />
-          </Form.Item>
-          <Form.Item
-            label={t("end-date")}
-            name="end_date"
-            rules={[{ required: true }]}
-          >
-            <DatePicker placeholder={t("end-date")} allowClear={false} />
+            <DatePicker.RangePicker
+              allowClear={false}
+              style={{ width: "100%" }}
+            />
           </Form.Item>
           <Form.Item
             name="show_standings"
             wrapperCol={{ offset: 4, span: 18 }}
             valuePropName="checked"
+            style={{ marginBottom: "0px" }}
           >
             <Checkbox>{t("active-announcements")}</Checkbox>
           </Form.Item>
@@ -101,12 +98,16 @@ export default function EditCompetitionForm({ contest, onChange }) {
           </Form.Item>
 
           {messages.length > 0 && (
-            <Form.Item wrapperCol={{ offset: 4, span: 18 }}>
+            <Form.Item
+              wrapperCol={{ offset: 4, span: 18 }}
+              style={{ marginBottom: "4px" }}
+            >
               <Alert
                 className={css`
                   margin-bottom: 14px;
                 `}
-                message={messages.map((message, index) => {
+                message={t("contest-isn't-edited-successfully")}
+                description={messages.map((message, index) => {
                   return <div key={index}>{message}</div>;
                 })}
                 type={classColor === "green" ? "success" : "error"}

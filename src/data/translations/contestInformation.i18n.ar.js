@@ -11,6 +11,7 @@ export default {
   "make-an-announcement": "أنشر إعلانًا جديدًا",
   "new-announcement": "إعلان جديد",
   announcement: "إعلان",
+  "announcement-placeholder": "أدخل محتوى الإعلان هنا",
   "success-to-add-new-announcement-msg": "تم إضافة إعلان جديد بنجاح",
   "fail-to-add-new-announcement-msg": " لم يتم إضافة إعلان جديد",
   "active-announcements": "الإعلانات المنشورة مسبقًا",

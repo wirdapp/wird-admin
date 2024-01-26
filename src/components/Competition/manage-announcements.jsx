@@ -1,11 +1,11 @@
 import { useDashboardData } from "../../util/routes-data";
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { colors } from "../../styles";
 import { useTranslation } from "react-i18next";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import { ContestsApi } from "../../services/contests/api";
-import { Button, Input, Modal } from "antd";
+import { Button, Empty, Form, Input, message, Modal } from "antd";
 
 const StyledAnnouncementWrapper = styled.div`
   width: 100%;
@@ -64,26 +64,48 @@ const StyledAnnouncementsList = styled.ul`
 export const ManageAnnouncements = () => {
   const { currentContest } = useDashboardData();
   const { t } = useTranslation();
+  const [errors, setErrors] = useState([]);
+  const [form] = Form.useForm();
+  const [submitting, setSubmitting] = useState(false);
 
   const [announcements, setAnnouncments] = useState(
     currentContest.announcements ?? [],
   );
-  const [newAnnouncement, setNewAnnouncement] = useState("");
   const [announcementFormVisible, setAnnouncementFormVisible] = useState(false);
 
-  const handleAnnouncementChange = (e) => {
-    setNewAnnouncement(e.target.value);
-  };
-
-  const handleAnnouncementSubmit = async (e) => {
-    e.preventDefault();
-    const newAnnouncements = [...announcements, newAnnouncement.trim()];
-    await ContestsApi.updateContest({
-      announcements: newAnnouncements,
-    });
-    setAnnouncments(newAnnouncements);
-    setNewAnnouncement("");
-    setAnnouncementFormVisible(false);
+  const onFormFinish = async (values) => {
+    try {
+      setSubmitting(true);
+      const newAnnouncement = values.announcement.trim();
+      const newAnnouncements = [...announcements, newAnnouncement];
+      await ContestsApi.updateContest({
+        announcements: newAnnouncements,
+      });
+      setAnnouncments(newAnnouncements);
+      setAnnouncementFormVisible(false);
+      form.resetFields();
+    } catch (err) {
+      console.log(err);
+      const errorsList = [];
+      Object.values(err.response?.data ?? {}).forEach((errMsg) => {
+        errorsList.push(errMsg);
+      });
+      if (errorsList.length > 0) {
+        setErrors(errorsList);
+      } else {
+        setErrors([t("something-went-wrong")]);
+      }
+      message.error(
+        errorsList.map((err) => (
+          <React.Fragment key={err}>
+            {err}
+            <br />
+          </React.Fragment>
+        )),
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleAnnouncementDelete = (index) => {
@@ -101,7 +123,7 @@ export const ManageAnnouncements = () => {
           </Button>
         </div>
         {announcements.length === 0 ? (
-          <p>{t("no-announcements-yet")}</p>
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         ) : (
           <StyledAnnouncementsList>
             {announcements.map((announcement, index) => (
@@ -122,16 +144,30 @@ export const ManageAnnouncements = () => {
         title={t("make-an-announcement")}
         open={announcementFormVisible}
         onCancel={() => setAnnouncementFormVisible(false)}
-        onOk={handleAnnouncementSubmit}
-        okText={t("submit")}
+        onOk={() => form.submit()}
+        okText={t("add")}
         cancelText={t("cancel")}
+        okButtonProps={{
+          loading: submitting,
+        }}
       >
-        <Input.TextArea
-          placeholder={t("announcement-placeholder")}
-          rows={5}
-          onChange={handleAnnouncementChange}
-          value={newAnnouncement}
-        />
+        <Form onFinish={onFormFinish} form={form}>
+          <Form.Item
+            name="announcement"
+            rules={[{ required: true, message: t("requiredField") }]}
+            validateStatus={errors.length > 0 ? "error" : undefined}
+            help={
+              errors.length
+                ? errors.map((err) => <div key={err}>{err}</div>)
+                : undefined
+            }
+          >
+            <Input.TextArea
+              placeholder={t("announcement-placeholder")}
+              rows={5}
+            />
+          </Form.Item>
+        </Form>
       </Modal>
     </StyledAnnouncementWrapper>
   );
