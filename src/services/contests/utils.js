@@ -17,6 +17,7 @@ export async function getCurrentContest(contests = []) {
   if (!currentContestId) {
     return null;
   }
+  changeCurrentContest(currentContestId);
   return ContestsApi.getContestDetails(currentContestId);
 }
 
