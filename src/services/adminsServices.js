@@ -7,7 +7,7 @@ export const retrieveAdmins = (
   faiCallback,
   searchQuery = "",
 ) => {
-  let url = `/admin_panel/contest_people/?contest_role=${Role.SUPER_ADMIN}&contest_role=${Role.ADMIN}`;
+  let url = `/admin_panel/contest_people/?contest_role__in=${Role.SUPER_ADMIN},${Role.ADMIN}`;
   if (searchQuery) url += `&search=${searchQuery}`;
 
   doRequest(

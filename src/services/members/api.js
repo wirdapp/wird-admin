@@ -7,7 +7,7 @@ export const MembersApi = {
     const cid = contestId ?? getCurrentContestId();
     const res = await axios.get(`/admin_panel/${cid}/members/`, {
       params: {
-        contest_role: role,
+        contest_role__in: role,
         search,
       },
     });
