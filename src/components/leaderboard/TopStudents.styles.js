@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors, spacing } from "styles";
+import { colors } from "styles";
 import { DropdownList, Span } from "../Admins/Admins.styles";
 import {
   Top2Img as DefaultTop2Img,
@@ -7,6 +7,7 @@ import {
   Top3RankDiv as DefaultTop3RankDiv,
 } from "../Home/TopRanks/TopRanks.styles";
 import { AnimatedPage } from "../../ui/animated-page";
+import { css } from "@emotion/react";
 
 export const TopStudentsDropdownList = styled(DropdownList)`
   width: 35rem;
@@ -32,7 +33,7 @@ export const TopStudentsSpan = styled(Span)`
   font-size: 16px;
   line-height: 20px;
 
-  color: #000000;
+  color: ${colors.darkGrey};
 `;
 
 export const LeaderBoardContainer = styled.div`
@@ -50,14 +51,15 @@ export const StudentPointsWrapper = styled.div`
   align-items: center;
   background-color: ${colors.warmWheat};
   display: flex;
-  justify-content: space-between;
-  padding: ${spacing.s};
+  padding: 16px 24px;
   flex-direction: row;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
 
   /* padding: 23px 24px; */
   /* width: auto; */
   height: 106px;
-  border-radius: 24px;
   max-width: 961px;
   margin: auto;
   width: 100%;
@@ -66,6 +68,47 @@ export const StudentPointsWrapper = styled.div`
     position: relative;
     justify-content: space-around;
   }
+
+  box-shadow: 0 12px 24px rgba(167, 159, 151, 0.24);
+  border-radius: 24px;
+
+  &::before {
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 4px; /* control the border thickness */
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  ${(props) =>
+    props.golden &&
+    css`
+      &::before {
+        content: "";
+        background: linear-gradient(45deg, gold, darkorange);
+      }
+    `}
+  ${(props) =>
+    props.silver &&
+    css`
+      &::before {
+        content: "";
+        background: linear-gradient(45deg, silver, #e8e8e8, silver);
+      }
+    `}
+  ${(props) =>
+    props.bronze &&
+    css`
+      &::before {
+        content: "";
+        background: linear-gradient(60deg, #cd7f32, #ecab6e, #cd7f32);
+      }
+    `}
 `;
 
 export const SecondaryWrapper = styled.div`
@@ -224,8 +267,8 @@ export const AverageParsents = styled.div`
   height: 19px;
 
   font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: 600;
+  font-size: 20px;
   line-height: 20px;
 
   color: #000000;
@@ -237,13 +280,17 @@ export const DivLine = styled.div`
     display: none;
   }
 `;
-export const AverageWrapperButon = styled.button`
+export const AverageWrapperButon = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   background: #f9eaea;
   padding: 15px;
   border-radius: 12px;
+  margin-inline-start: auto;
+  gap: 8px;
 
   p:first-child {
     font-size: small;

@@ -8,7 +8,7 @@ export default function Loader() {
 
   return (
     <Container>
-      <Spin size="large" tip={t("loading")} />
+      <Spin size="large" />
     </Container>
   );
 }

@@ -34,4 +34,5 @@ export default {
   "no-results": "لا يوجد نتائج",
   failedToSave: "فشل في الحفظ",
   back: "رجوع",
+  showResults: "عرض النتائج",
 };

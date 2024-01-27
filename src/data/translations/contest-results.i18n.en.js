@@ -34,4 +34,5 @@ export default {
   "no-results": "No results",
   failedToSave: "Failed to save",
   back: "Back",
+  showResults: "Show results",
 };

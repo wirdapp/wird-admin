@@ -27,4 +27,9 @@ export const ContestResultsApi = {
     );
     return res.data;
   },
+  async leaderboard({ contestId } = {}) {
+    const cid = contestId || getCurrentContestId();
+    const res = await axios.get(`/admin_panel/${cid}/leaderboard/`);
+    return res.data;
+  },
 };
