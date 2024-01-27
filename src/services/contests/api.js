@@ -19,7 +19,10 @@ export const ContestsApi = {
   },
 
   async updateContest(id, dataToUpdate) {
-    const { data } = await axios.patch(`/contests/${id}/`, dataToUpdate);
+    const { data } = await axios.patch(
+      `/admin_panel/${id}/edit_contest/`,
+      dataToUpdate,
+    );
     return data;
   },
 

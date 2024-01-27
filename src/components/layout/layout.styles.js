@@ -37,4 +37,5 @@ export const DashboardFooter = styled.footer`
   font-size: 12px;
   padding-top: 8px;
   padding-bottom: 20px;
+  color: #a7a7a7;
 `;

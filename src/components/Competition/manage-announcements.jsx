@@ -5,7 +5,8 @@ import { colors } from "../../styles";
 import { useTranslation } from "react-i18next";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import { ContestsApi } from "../../services/contests/api";
-import { Button, Empty, Form, Input, message, Modal } from "antd";
+import { Button, Empty, Form, Input, message, Modal, Spin } from "antd";
+import { useNavigation, useRevalidator } from "react-router-dom";
 
 const StyledAnnouncementWrapper = styled.div`
   width: 100%;
@@ -67,21 +68,23 @@ export const ManageAnnouncements = () => {
   const [errors, setErrors] = useState([]);
   const [form] = Form.useForm();
   const [submitting, setSubmitting] = useState(false);
-
-  const [announcements, setAnnouncments] = useState(
-    currentContest.announcements ?? [],
-  );
+  const [deleting, setDeleting] = useState({});
   const [announcementFormVisible, setAnnouncementFormVisible] = useState(false);
+  const revalidator = useRevalidator();
+  const navigation = useNavigation();
 
   const onFormFinish = async (values) => {
     try {
       setSubmitting(true);
       const newAnnouncement = values.announcement.trim();
-      const newAnnouncements = [...announcements, newAnnouncement];
-      await ContestsApi.updateContest({
+      const newAnnouncements = [
+        ...currentContest.announcements,
+        newAnnouncement,
+      ];
+      await ContestsApi.updateContest(currentContest.id, {
         announcements: newAnnouncements,
       });
-      setAnnouncments(newAnnouncements);
+      revalidator.revalidate();
       setAnnouncementFormVisible(false);
       form.resetFields();
     } catch (err) {
@@ -108,8 +111,20 @@ export const ManageAnnouncements = () => {
     }
   };
 
-  const handleAnnouncementDelete = (index) => {
-    setAnnouncments(announcements.filter((_, i) => i !== index));
+  const handleAnnouncementDelete = async (index) => {
+    try {
+      setDeleting((prev) => ({ ...prev, [index]: true }));
+      const newAnnouncements = currentContest.announcements.filter(
+        (_, i) => i !== index,
+      );
+      await ContestsApi.updateContest(currentContest.id, {
+        announcements: newAnnouncements,
+      });
+      revalidator.revalidate();
+    } catch (err) {
+      console.log(err);
+      message.error(t("something-went-wrong"));
+    }
   };
 
   return (
@@ -122,22 +137,27 @@ export const ManageAnnouncements = () => {
             {t("new-announcement")}
           </Button>
         </div>
-        {announcements.length === 0 ? (
+        {currentContest.announcements.length === 0 ? (
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         ) : (
-          <StyledAnnouncementsList>
-            {announcements.map((announcement, index) => (
-              <li key={index}>
-                {announcement}
-                <Button
-                  type="text"
-                  onClick={() => handleAnnouncementDelete(index)}
-                >
-                  <TrashIcon />
-                </Button>
-              </li>
-            ))}
-          </StyledAnnouncementsList>
+          <Spin spinning={navigation.state !== "idle"}>
+            <StyledAnnouncementsList>
+              {currentContest.announcements.map((announcement, index) => (
+                <li key={index}>
+                  {announcement}
+                  <Button
+                    type="text"
+                    danger
+                    size="small"
+                    onClick={() => handleAnnouncementDelete(index)}
+                    loading={deleting[index]}
+                  >
+                    <TrashIcon />
+                  </Button>
+                </li>
+              ))}
+            </StyledAnnouncementsList>
+          </Spin>
         )}
       </div>
       <Modal

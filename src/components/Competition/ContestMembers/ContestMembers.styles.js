@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { colors } from "../../../styles";
+import { Link } from "react-router-dom";
 
 export default styled.div`
   display: flex;
@@ -110,7 +111,7 @@ export const ParticipantsTitelsAtHome = styled.div`
   }
 `;
 
-export const SeeAll = styled.a`
+export const SeeAll = styled(Link)`
   text-decoration: none;
   display: flex;
   flex-direction: row;

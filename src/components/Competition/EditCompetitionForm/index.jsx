@@ -6,7 +6,16 @@ import {
   EditContestFormWrapper,
   ParticipantsNumbers,
 } from "./EditCompetition.styles";
-import { Alert, Button, Checkbox, DatePicker, Form, Input, Space } from "antd";
+import {
+  Alert,
+  Button,
+  Checkbox,
+  DatePicker,
+  Form,
+  Input,
+  message,
+  Space,
+} from "antd";
 import { ContestsApi } from "../../../services/contests/api";
 import { css } from "@emotion/css";
 import { useRevalidator } from "react-router-dom";
@@ -25,9 +34,7 @@ export default function EditCompetitionForm({ contest }) {
       setSubmitting(true);
       await ContestsApi.updateContest(contest.id, values);
       revalidator.revalidate();
-
-      setClassColor("green");
-      setMessages([t("contest-has-been-edited-successfully")]);
+      message.success(t("contest-has-been-edited-successfully"));
     } catch (err) {
       let errMessages = [];
       if (err.response.data) {
@@ -110,7 +117,7 @@ export default function EditCompetitionForm({ contest }) {
                 description={messages.map((message, index) => {
                   return <div key={index}>{message}</div>;
                 })}
-                type={classColor === "green" ? "success" : "error"}
+                type="error"
                 showIcon
               />
             </Form.Item>

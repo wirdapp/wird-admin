@@ -54,7 +54,7 @@ function ContestMembers() {
               {t("moderatorsKey")}
             </ParticipantsTitelsAtHome>
 
-            <SeeAll href="/Admins" target="_blank">
+            <SeeAll to="/dashboard/admins">
               <SeeAllP>{t("seeAll")}</SeeAllP>
               <SeeAllIcon src={SeeMore} Alt="" />
             </SeeAll>
@@ -75,7 +75,7 @@ function ContestMembers() {
               {t("participantsKey")}
             </ParticipantsTitelsAtHome>
 
-            <SeeAll href="/Students" target="_blank">
+            <SeeAll to="/dashboard/students">
               <SeeAllP>{t("seeAll")}</SeeAllP>
               <SeeAllIcon src={SeeMore} Alt="" />
             </SeeAll>
@@ -95,7 +95,7 @@ function ContestMembers() {
               {t("groupsKey")}
             </ParticipantsTitelsAtHome>
 
-            <SeeAll href="/Groups" target="_blank">
+            <SeeAll to="/dashboard/groups">
               <SeeAllP>{t("seeAll")}</SeeAllP>
               <SeeAllIcon src={SeeMore} Alt="" />
             </SeeAll>
