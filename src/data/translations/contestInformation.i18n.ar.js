@@ -53,4 +53,11 @@ export default {
   "end-date-invalid-error": "تاريخ الانتهاء غير صالح",
   "contest-code-required-error": "كود المسابقة مطلوب",
   "contest-code-invalid-error": "كود المسابقة غير صالح",
+  contestStatus: {
+    not_started: "لم تبدأ",
+    started: "بدأت",
+    finished: "انتهت",
+  },
+  contestNotStarted: "لم تبدأ المسابقة بعد",
+  noTopStudentsYet: "لا يوجد أعلى طلاب حتى الآن",
 };

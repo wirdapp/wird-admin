@@ -6,7 +6,7 @@ import {
 } from "../services/auth/session";
 import i18n from "../i18n";
 
-const apiUrl = process.env.REACT_APP_API_URL;
+export const apiUrl = process.env.REACT_APP_API_URL;
 
 const axios = Axios.create({
   baseURL: apiUrl,

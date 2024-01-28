@@ -18,6 +18,7 @@ import {
 } from "../../../services/contests/utils";
 import { Button, Menu, Popover, Space, Typography } from "antd";
 import { css } from "@emotion/css";
+import { ContestBadge } from "../../Competition/contest-badge";
 
 const StyledContestName = styled.span`
   @media (max-width: 500px) {
@@ -120,9 +121,10 @@ export const ContestInfoMenu = () => {
             {currentContest && (
               <StyledCurrentContestWrapper>
                 <div className="contest-details">
-                  <Typography.Title level={5}>
+                  <Typography.Title level={5} style={{ margin: 0 }}>
                     {currentContest?.name}
                   </Typography.Title>
+                  <ContestBadge status={currentContest?.status} />
                   <Space>
                     {t("join-code")}:
                     <Typography.Text code copyable>

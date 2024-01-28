@@ -16,6 +16,7 @@ export const colors = {
   lightRedHover: "#FDD9DE",
 
   orange: "#FB6D3B",
+  orangeHover: "#cb4f25",
   // Example of how the degrees of the colors can be added too:
   //   green:{
   //     0: 'a very light degree of the most light green'

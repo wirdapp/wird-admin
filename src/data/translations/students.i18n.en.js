@@ -48,4 +48,6 @@ export default {
   viewChart: "Click to view the chart",
   chooseContestant: "Choose the contestant",
   chooseRamdan: "Choose the day of Ramadan",
+  "user-details": "User Details",
+  email: "Email",
 };

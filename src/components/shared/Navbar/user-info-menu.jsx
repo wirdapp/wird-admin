@@ -1,12 +1,7 @@
 import React from "react";
 import { css } from "@emotion/css";
 import { colors } from "../../../styles";
-import {
-  ProfileInfo,
-  ProfileName,
-  ProfilePicture,
-  UserInfoWrapper,
-} from "./navbar.styles";
+import { ProfileInfo, ProfileName, UserInfoWrapper } from "./navbar.styles";
 import {
   ArrowLeftOnRectangleIcon,
   LanguageIcon,
@@ -14,12 +9,11 @@ import {
 } from "@heroicons/react/24/outline";
 import { changeLanguage } from "../../../util/ContestPeople_Role";
 import { destroySession } from "../../../services/auth/session";
-import { Button, Dropdown } from "antd";
-import { getInitials } from "../../../util/user-utils";
+import { Avatar, Dropdown } from "antd";
+import { getFullName, getInitials } from "../../../util/user-utils";
 import { useDashboardData } from "../../../util/routes-data";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { UserIcon } from "@heroicons/react/20/solid";
 
 export const UserInfoMenu = () => {
   const { currentUser } = useDashboardData();
@@ -45,19 +39,20 @@ export const UserInfoMenu = () => {
             label: (
               <UserInfoWrapper>
                 <ProfileInfo>
-                  <ProfilePicture src={currentUser?.profile_photo}>
-                    {currentUser?.profile_photo ??
-                      currentUser?.username?.[0] + currentUser?.username?.[1]}
-                  </ProfilePicture>
+                  <Avatar
+                    src={currentUser?.profile_photo}
+                    style={{ backgroundColor: colors.orange }}
+                  >
+                    {getInitials(currentUser)}
+                  </Avatar>
                   {/* Show user name if no first name */}
-                  <ProfileName>
-                    {currentUser.first_name
-                      ? currentUser.first_name + " " + currentUser.last_name
-                      : currentUser.username}
-                  </ProfileName>
+                  <ProfileName>{getFullName(currentUser)}</ProfileName>
                 </ProfileInfo>
               </UserInfoWrapper>
             ),
+            onClick: () => {
+              navigate("/dashboard/profile");
+            },
           },
           { type: "divider" },
           {
@@ -85,9 +80,26 @@ export const UserInfoMenu = () => {
         ],
       }}
     >
-      <Button type="primary" shape="circle" style={{ fontWeight: 700 }}>
-        {getInitials(currentUser) ?? <UserIcon />}
-      </Button>
+      <Avatar
+        src={currentUser?.profile_photo}
+        className={css`
+          background-color: ${colors.orange};
+          cursor: pointer;
+          user-select: none;
+          transition: all 0.2s;
+
+          &:active,
+          &.ant-dropdown-open {
+            box-shadow: 0 0 0 2px ${colors.orangeHover};
+          }
+
+          &:hover {
+            background-color: ${colors.orangeHover};
+          }
+        `}
+      >
+        {getInitials(currentUser)}
+      </Avatar>
     </Dropdown>
   );
 };

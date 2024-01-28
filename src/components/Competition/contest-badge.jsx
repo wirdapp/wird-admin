@@ -2,11 +2,12 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors } from "../../styles";
+import { ContestStatus } from "../../services/contests/utils";
 
 const statusColors = {
-  upcoming: "#f3a100",
-  ongoing: "#009af5",
-  finished: "#00bf76",
+  [ContestStatus.NOT_STARTED]: "#f3a100",
+  [ContestStatus.STARTED]: "#009af5",
+  [ContestStatus.FINISHED]: "#00bf76",
 };
 
 const StyledBadge = styled.div`
@@ -25,5 +26,7 @@ const StyledBadge = styled.div`
 export const ContestBadge = ({ status }) => {
   const { t } = useTranslation();
 
-  return <StyledBadge status={status}>{t(status)}</StyledBadge>;
+  return (
+    <StyledBadge status={status}>{t(`contestStatus.${status}`)}</StyledBadge>
+  );
 };

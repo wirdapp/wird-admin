@@ -203,6 +203,10 @@ export const ProfileInfo = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   gap: 0.5rem;
+
+  .ant-avatar {
+    flex-shrink: 0;
+  }
 `;
 
 export const CloseIcon = styled.i`
@@ -224,7 +228,6 @@ export const ProfilePicture = styled.div`
   text-transform: uppercase;
 `;
 
-export const ProfileName = styled.p`
+export const ProfileName = styled.div`
   font-weight: 700;
-  line-height: 35px;
 `;

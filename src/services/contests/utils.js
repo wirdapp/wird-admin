@@ -1,5 +1,12 @@
 import Cookies from "js-cookie";
 import { ContestsApi } from "./api";
+import dayjs from "dayjs";
+
+export const ContestStatus = {
+  NOT_STARTED: "not_started",
+  STARTED: "started",
+  FINISHED: "finished",
+};
 
 export function getCurrentContestId() {
   return Cookies.get("currentContest");
@@ -23,4 +30,11 @@ export async function getCurrentContest(contests = []) {
 
 export function getInviteLink(contestId) {
   return `${process.env.REACT_APP_MAIN_URL}/contest/${contestId}`;
+}
+
+export function getContestStatus(contest) {
+  const now = dayjs();
+  if (dayjs(contest.end_date).isBefore(now)) return ContestStatus.FINISHED;
+  if (dayjs(contest.start_date).isAfter(now)) return ContestStatus.NOT_STARTED;
+  return ContestStatus.STARTED;
 }

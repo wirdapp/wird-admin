@@ -6,6 +6,7 @@ import TopRanks from "./TopRanks";
 import { useDashboardData } from "../../util/routes-data";
 import { useTranslation } from "react-i18next";
 import { MembersApi } from "../../services/members/api";
+import { getFullName } from "../../util/user-utils";
 
 function Home() {
   const { currentUser, currentContest } = useDashboardData();
@@ -42,15 +43,7 @@ function Home() {
 
   return (
     <HomeContainer>
-      <HomeBanner
-        name={
-          currentUser?.first_name?.length > 0
-            ? currentUser.first_name + " " + currentUser.last_name
-            : "Admin"
-        }
-        dayNumber={"1"}
-      />
-      {/* <DaysSlider /> */}
+      <HomeBanner name={getFullName(currentUser)} />
       <TopRanks students={students} topMembers={topMembers} />
     </HomeContainer>
   );

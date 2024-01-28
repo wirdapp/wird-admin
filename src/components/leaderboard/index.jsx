@@ -11,11 +11,12 @@ import { useTranslation } from "react-i18next";
 import { useDashboardData } from "../../util/routes-data";
 import { getFullName, getInitials } from "../../util/user-utils";
 import { ContestResultsApi } from "../../services/contest-results/api";
-import { Space } from "antd";
+import { Empty, Space } from "antd";
 import { css } from "@emotion/css";
 import { Link } from "react-router-dom";
 import { colors as themeColors } from "../../styles";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
+import { ContestStatus } from "../../services/contests/utils";
 
 const colors = ["#503E9D", "#FB862C", "#FF5367", "#FDD561", "#FFBAC2"];
 
@@ -28,6 +29,8 @@ export default function Leaderboard() {
   const [loading, setLoading] = useState(false);
   const { t, i18n } = useTranslation();
   const { currentContest } = useDashboardData();
+  const isContestNotStarted =
+    currentContest?.status === ContestStatus.NOT_STARTED;
 
   const loadTopStudents = async () => {
     setLoading(true);
@@ -44,6 +47,7 @@ export default function Leaderboard() {
   };
 
   useEffect(() => {
+    if (isContestNotStarted) return;
     loadTopStudents();
   }, []);
 
@@ -53,7 +57,16 @@ export default function Leaderboard() {
 
   return (
     <LeaderBoardMain>
-      <div>
+      {isContestNotStarted || topStudents.length === 0 ? (
+        <Empty
+          className={css`
+            margin-top: 50px;
+          `}
+          description={
+            isContestNotStarted ? t("contestNotStarted") : t("noTopStudentsYet")
+          }
+        />
+      ) : (
         <LeaderBoardContainer>
           {topStudents.map((student, index) => {
             const person = {
@@ -126,7 +139,7 @@ export default function Leaderboard() {
             );
           })}
         </LeaderBoardContainer>
-      </div>
+      )}
     </LeaderBoardMain>
   );
 }

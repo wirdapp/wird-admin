@@ -1,5 +1,6 @@
 import axios from "../../util/axios";
 import dayjs from "dayjs";
+import { getContestStatus } from "./utils";
 
 export const ContestsApi = {
   async getContests() {
@@ -33,6 +34,7 @@ export const ContestsApi = {
       start_date: dayjs(data.start_date),
       end_date: dayjs(data.end_date),
       daterange: [dayjs(data.start_date), dayjs(data.end_date)],
+      status: getContestStatus(data),
     };
   },
 };

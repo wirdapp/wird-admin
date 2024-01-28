@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import EditCompetitionForm from "./EditCompetitionForm";
 import ContestMembers from "./ContestMembers";
 import ContestModeratorDefault from "../ContestModerator/ContestModerator.styles";
@@ -10,7 +10,6 @@ import styled from "@emotion/styled";
 import { Squares2X2Icon } from "@heroicons/react/24/outline";
 import { AnimatedPage } from "../../ui/animated-page";
 import { Space, Typography } from "antd";
-import dayjs from "dayjs";
 import { ContestBadge } from "./contest-badge";
 
 const StyledContestEditWrapper = styled.div`
@@ -26,14 +25,6 @@ export default function Competition() {
   const { currentContest } = useDashboardData();
   const { t } = useTranslation();
 
-  const status = useMemo(() => {
-    if (!currentContest) return "upcoming";
-    const now = dayjs();
-    if (currentContest.end_date.isBefore(now)) return "finished";
-    if (currentContest.start_date.isAfter(now)) return "upcoming";
-    return "ongoing";
-  }, [currentContest]);
-
   return (
     <AnimatedPage>
       <ContestModeratorDefault>
@@ -43,7 +34,7 @@ export default function Competition() {
             <h2>
               <Space>
                 {currentContest.name}
-                <ContestBadge status={status} />
+                <ContestBadge status={currentContest.status} />
               </Space>
             </h2>
             {currentContest.description && (

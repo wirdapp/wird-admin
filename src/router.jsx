@@ -70,7 +70,7 @@ export const router = createBrowserRouter([
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "edit-profile",
+            path: "profile",
             loader: () => ({
               title: "edit-profile",
             }),

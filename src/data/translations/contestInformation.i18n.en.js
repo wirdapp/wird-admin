@@ -53,4 +53,11 @@ export default {
   "end-date-invalid-error": "End date is invalid",
   "contest-code-required-error": "Contest code is required",
   "contest-code-invalid-error": "Contest code is invalid",
+  contestStatus: {
+    not_started: "Not Started",
+    started: "Started",
+    finished: "Finished",
+  },
+  contestNotStarted: "Contest not started yet",
+  noTopStudentsYet: "No top students yet",
 };

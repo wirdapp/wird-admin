@@ -46,4 +46,6 @@ export default {
   chooseContestant: "اختر المتسابق",
   viewChart: "اضغط لعرض الرسم البياني",
   chooseRamdan: "اختر اليوم من رمضان",
+  "user-details": "تفاصيل المستخدم",
+  email: "البريد الإلكتروني",
 };

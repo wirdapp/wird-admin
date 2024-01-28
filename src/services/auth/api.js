@@ -28,3 +28,19 @@ export async function currentUserInfo() {
 
   return data;
 }
+
+export async function updateUserInfo(formData) {
+  const { data } = await axios.patch("/auth/user/", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return data;
+}
+
+export async function changePassword(formData) {
+  const { data } = await axios.post("/auth/password/change/", formData);
+
+  return data;
+}
