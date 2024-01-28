@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Empty, Form } from "antd";
+import { Button, DatePicker, Form } from "antd";
 import { useTranslation } from "react-i18next";
 import { useDashboardData } from "../../../util/routes-data";
 import dayjs from "dayjs";
@@ -15,7 +15,6 @@ export const DailyUserSubmissions = ({ onBack, userId }) => {
   const [submissions, setSubmissions] = useState([]);
   const [form] = Form.useForm();
   const [criteria, setCriteria] = useState([]);
-  const [resultEmpty, setResultEmpty] = useState(false);
 
   useEffect(() => {
     if (!currentContest) return;
@@ -29,19 +28,16 @@ export const DailyUserSubmissions = ({ onBack, userId }) => {
   useEffect(() => {
     setSubmissions([]);
     form.resetFields();
-    setResultEmpty(false);
   }, [userId]);
 
   const loadSubmissions = async (date) => {
     setLoading(true);
-    setResultEmpty(false);
     try {
       const res = await ContestResultsApi.getMemberDaySubmissions({
         userId,
         date: date.format("YYYY-MM-DD"),
       });
       setSubmissions(res.points);
-      if (res.points.length === 0) setResultEmpty(true);
     } catch (error) {
       console.error(error);
     } finally {
@@ -90,19 +86,7 @@ export const DailyUserSubmissions = ({ onBack, userId }) => {
           {t("dailySubmissionsPopup.load")}
         </Button>
       </Form>
-
-      {submissions.length > 0 ? (
-        <DailySubmissionsTable submissions={submissions} criteria={criteria} />
-      ) : (
-        <Empty
-          image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={
-            resultEmpty
-              ? t("dailySubmissionsPopup.noSubmissions")
-              : t("dailySubmissionsPopup.selectDate")
-          }
-        />
-      )}
+      <DailySubmissionsTable submissions={submissions} criteria={criteria} />
     </div>
   );
 };

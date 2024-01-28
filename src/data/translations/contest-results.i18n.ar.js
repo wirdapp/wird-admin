@@ -30,6 +30,7 @@ export default {
     answer: "الإجابة",
     noSubmissions: "لا يوجد مشاركات لهذا اليوم",
     selectDate: "اختر التاريخ",
+    points: "النقاط",
   },
   "no-results": "لا يوجد نتائج",
   failedToSave: "فشل في الحفظ",

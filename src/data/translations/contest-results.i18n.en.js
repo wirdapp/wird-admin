@@ -30,6 +30,7 @@ export default {
     answer: "Answer",
     noSubmissions: "No submissions for this day",
     selectDate: "Select date",
+    points: "Points",
   },
   "no-results": "No results",
   failedToSave: "Failed to save",
