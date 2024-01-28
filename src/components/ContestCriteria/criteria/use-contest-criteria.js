@@ -52,7 +52,9 @@ export function useContestCriteria({ sectionId } = {}) {
     if (!criteria.items) return [];
     let criteriaItems = criteria.items;
     if (sectionId) {
-      criteriaItems = criteria.items.filter((s) => s.section === sectionId);
+      criteriaItems = criteria.items.filter(
+        (s) => s.section_info.id === sectionId,
+      );
     }
     return criteriaItems.sort(
       (a, b) => a.order_in_section - b.order_in_section,

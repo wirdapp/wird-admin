@@ -38,7 +38,7 @@ export const ContestPreview = () => {
       <AnimatePresence>
         {sections.map((section) => {
           const sectionCriteria = criteriaItems.filter(
-            (c) => c.section === section.id && c.visible,
+            (c) => c.section_info.id === section.id && c.visible,
           );
 
           return (
