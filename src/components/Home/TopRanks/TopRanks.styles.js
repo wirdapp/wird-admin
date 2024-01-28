@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
+import { colors } from "../../../styles";
+import { Link } from "react-router-dom";
 
 export default styled.div`
   display: flex;
   width: 100%;
   margin: auto;
 
-  background: #fbf9f7;
   border-radius: 1.5rem;
 `;
 
@@ -65,7 +66,7 @@ export const ParticipantsNumbers = styled.div`
   padding: 1.5rem;
   gap: 1.5rem;
   width: 100%;
-  background: #f9eaea;
+  background: #fbf9f7;
   border-radius: 1.5rem;
   justify-content: flex-start;
   flex: 1;
@@ -232,35 +233,47 @@ export const Top3Rank = styled.div`
 export const ParticipantsNumbersRanks = styled.div`
   display: flex;
   flex-direction: row;
-  /* align-items: center; */
-  padding: 0rem;
+  gap: 16px;
+  width: 100%;
+  padding: 0;
+  justify-content: start;
+
   @media (max-width: 87.5rem) {
     flex-direction: column;
-    /* width: 100%; */
-    align-items: flex-start;
-    /* margin: auto; */
-  }
-  @media (max-width: 31.25rem) {
-    justify-content: center;
   }
 `;
 
-export const Top3RankDiv = styled.div`
+export const Top3RankDiv = styled(Link)`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0rem;
-  gap: 0.75rem;
+  padding: 10px 16px;
+  gap: 8px; /* height: 3.75rem; */
+  border-radius: 14px;
+  background: transparent;
+  transition: all 0.2s;
+  color: #444;
 
-  width: 11.8125rem;
-  /* height: 3.75rem; */
+  &:nth-child(1) .ant-avatar {
+    background: #fb6d3b;
+    color: #fff;
+  }
+
+  &:nth-child(2) .ant-avatar {
+    background: rgba(251, 109, 59, 0.6);
+  }
+
+  &:nth-child(3) .ant-avatar {
+    background: rgba(251, 109, 59, 0.25);
+  }
 
   @media (max-width: 87.5rem) {
     margin-top: 0.3125rem;
-    width: auto;
   }
-  @media (max-width: 31.25rem) {
-    /* gap: .125rem; */
+
+  &:hover {
+    background: ${colors.white};
+    color: #000 !important;
   }
 `;
 
@@ -285,7 +298,6 @@ export const Top1Img = styled.div`
     width: 2.25rem;
     height: 2.25rem;
     font-size: 0.875rem;
-    font-size: 0.875rem;
   }
 `;
 
@@ -294,12 +306,6 @@ export const Top1Name = styled.div`
   font-weight: 700;
   font-size: 1rem;
   line-height: 1.25rem;
-
-  color: #000000;
-  width: 7.3125rem;
-  @media (max-width: 87.5rem) {
-    width: auto;
-  }
 `;
 
 export const Top2Name = styled.div`

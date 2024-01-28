@@ -55,7 +55,7 @@ export default {
   "contest-code-invalid-error": "كود المسابقة غير صالح",
   contestStatus: {
     not_started: "لم تبدأ",
-    started: "بدأت",
+    started: "جارية",
     finished: "انتهت",
   },
   contestNotStarted: "لم تبدأ المسابقة بعد",

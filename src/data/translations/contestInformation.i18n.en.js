@@ -55,7 +55,7 @@ export default {
   "contest-code-invalid-error": "Contest code is invalid",
   contestStatus: {
     not_started: "Not Started",
-    started: "Started",
+    started: "Ongoing",
     finished: "Finished",
   },
   contestNotStarted: "Contest not started yet",

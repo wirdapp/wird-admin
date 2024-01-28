@@ -12,25 +12,25 @@ import TopRank, {
   SeeAll,
   SeeAllIcon,
   SeeAllP,
-  Top1Img,
   Top1Name,
-  Top2Img,
-  Top2Name,
   Top3RankDiv,
   TopRanksAndParticipants,
   TopRanksSection,
   TotalOfMembers,
 } from "./TopRanks.styles";
 import NumberAndAbbreviationOfNames from "../../shared/NumberAndAbbreviationOfNames";
+import { Avatar, Spin } from "antd";
+import { getFullName, getInitials } from "../../../util/user-utils";
 
-function TopRanks(props) {
+function TopRanks({
+  topMembers,
+  topMembersLoading,
+  students,
+  studentsLoading,
+}) {
   const { t } = useTranslation();
-  const styles = [
-    { background: "#FDD561" },
-    { background: "#FF5367" },
-    { background: "#503E9D" },
-  ];
 
+  console.log(topMembers);
   return (
     <TopRank>
       <TopRanksAndParticipants>
@@ -47,9 +47,14 @@ function TopRanks(props) {
           </ParticipantsTitels>
 
           <ParticipantsNumbers>
-            <TotalOfMembers>{props.students.length}</TotalOfMembers>
-
-            <NumberAndAbbreviationOfNames users={props.students} />
+            {!studentsLoading ? (
+              <>
+                <TotalOfMembers>{students.length}</TotalOfMembers>
+                <NumberAndAbbreviationOfNames users={students} />
+              </>
+            ) : (
+              <Spin />
+            )}
           </ParticipantsNumbers>
         </ParticipantsMember>
 
@@ -59,38 +64,43 @@ function TopRanks(props) {
               {t("top-3-rank")}
             </ParticipantsTitelsAtHome>
 
-            <SeeAll href="/dashboard/top-students" target="_blank">
+            <SeeAll href="/dashboard/leaderboard" target="_blank">
               <SeeAllP>{t("see-all")}</SeeAllP>
               <SeeAllIcon src={SeeMore} Alt="" />
             </SeeAll>
           </ParticipantsTitels>
 
           <ParticipantsNumbers>
-            {props.topMembers.length > 0 ? (
-              <ParticipantsNumbersRanks>
-                {props.topMembers.slice(0, 3).map((topMember, i) => {
-                  if (i === 0) {
-                    return (
-                      <Top3RankDiv key={i}>
-                        <Top1Img style={styles[i]}>
-                          {topMember.name.slice(0, 2).toUpperCase()}
-                        </Top1Img>
-                        <Top1Name>{topMember.name}</Top1Name>
-                      </Top3RankDiv>
-                    );
-                  }
-                  return (
-                    <Top3RankDiv key={i}>
-                      <Top2Img style={styles[i]}>
-                        {topMember.name.slice(0, 2).toUpperCase()}
-                      </Top2Img>
-                      <Top2Name>{topMember.name}</Top2Name>
-                    </Top3RankDiv>
-                  );
-                })}
-              </ParticipantsNumbersRanks>
+            {!topMembersLoading ? (
+              <>
+                {topMembers.length > 0 ? (
+                  <ParticipantsNumbersRanks>
+                    {topMembers.map((topMember, i) => {
+                      const user = {
+                        firstName: topMember.person__first_name,
+                        lastName: topMember.person__last_name,
+                        username: topMember.person__username,
+                        profile_photo: topMember.person__profile_photo,
+                      };
+                      return (
+                        <Top3RankDiv
+                          to={`/dashboard/results/members?userId=${topMember.id}`}
+                          key={i}
+                        >
+                          <Avatar src={user.profile_photo} size={40}>
+                            {getInitials(user)}
+                          </Avatar>
+                          <Top1Name>{getFullName(user)}</Top1Name>
+                        </Top3RankDiv>
+                      );
+                    })}
+                  </ParticipantsNumbersRanks>
+                ) : (
+                  <Empty>No data</Empty>
+                )}
+              </>
             ) : (
-              <Empty>No data</Empty>
+              <Spin />
             )}
           </ParticipantsNumbers>
         </TopRanksSection>

@@ -2,28 +2,28 @@ import React from "react";
 import {
   MemberImgsAndNumNumbers,
   MemberNumbers,
-  MembersImg,
-  MembersImgs,
 } from "../../Home/TopRanks/TopRanks.styles";
 import { getInitials } from "../../../util/user-utils";
+import { Avatar } from "antd";
+
+const styles = [
+  { background: "#FDD561", color: "black" },
+  { background: "#FF5367", color: "white" },
+  { background: "#503E9D", color: "#FDD561" },
+];
 
 function NumberAndAbbreviationOfNames(props) {
-  const styles = [
-    { background: "#FDD561", right: "80px", color: "black" },
-    { background: "#FF5367", right: "50px", color: "white" },
-    { background: "#503E9D", right: "20px", color: "#FDD561" },
-  ];
   return (
     <MemberImgsAndNumNumbers>
-      <MembersImgs>
+      <Avatar.Group>
         {props.users.slice(0, 3).map((user, i) => {
           return (
-            <MembersImg key={i} style={styles[i]}>
+            <Avatar key={i} style={styles[i]}>
               {getInitials(user.person_info)}
-            </MembersImg>
+            </Avatar>
           );
         })}
-      </MembersImgs>
+      </Avatar.Group>
 
       {props.users.length - 3 > 0 && (
         <MemberNumbers>+{props.users.length - 3}</MemberNumbers>
