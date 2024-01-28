@@ -1,26 +1,24 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { isAxiosError } from "axios";
-import { DatePicker, Form, Input, Modal } from "antd";
+import { DatePicker, Form, Input, message, Modal } from "antd";
 import { ContestsApi } from "../../services/contests/api";
 import { changeCurrentContest } from "../../services/contests/utils";
-
-const StyledFormItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 24px;
-  gap: 8px;
-`;
+import { useDashboardData } from "../../util/routes-data";
 
 export const CreateContestPopup = ({ visible, onClose }) => {
+  const { currentUser } = useDashboardData();
   const { t } = useTranslation();
   const [errors, setErrors] = React.useState({});
   const [submitting, setSubmitting] = React.useState(false);
   const [form] = Form.useForm();
 
   const handleSubmit = async (values) => {
+    if (!currentUser.email_verified) {
+      message.error(t("email-not-verified"));
+      return;
+    }
     setSubmitting(true);
 
     try {
