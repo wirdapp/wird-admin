@@ -9,10 +9,10 @@ import {AnnouncementsList} from "./announcements-list";
 import {GroupMembers} from "./group-members";
 import {useGroups} from "../use-groups";
 
-export const GroupsListItem = ({ group, members }) => {
-    const [expanded, setExpanded] = useState(true);
+export const GroupsListItem = ({ group, members , index}) => {
+    const [expanded, setExpanded] = useState(index === 0);
     const [updating, setUpdating] = useState(false);
-    const [messageApi, contextHolder] = message.useMessage();
+    const [messageApi] = message.useMessage();
     const [groupName, setGroupName] = useState(group.name);
     const { actions } = useGroups();
     const { t } = useTranslation();

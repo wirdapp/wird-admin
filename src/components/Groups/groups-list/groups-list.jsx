@@ -28,8 +28,8 @@ export const GroupsList = ({members})=>{
     };
     return (
         <Flex vertical gap={16}>
-            { groups.map((group) => (
-                <GroupsListItem group={group} members={members} key={group.id}/>
+            { groups.map((group, index) => (
+                <GroupsListItem group={group} members={members} index={index}/>
               ))
             }
 
