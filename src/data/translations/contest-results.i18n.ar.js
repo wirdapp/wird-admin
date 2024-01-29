@@ -15,6 +15,7 @@ export default {
   selectMember: "اختر العضو",
   selectDay: "اختر اليوم",
   totalPoints: "إجمالي النقاط",
+  average: "متوسط",
   rank: "الترتيب",
   pointsPerDay: "النقاط لكل يوم",
   scorePerCategory: "النقاط لكل فئة",

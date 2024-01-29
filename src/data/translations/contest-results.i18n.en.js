@@ -15,6 +15,7 @@ export default {
   selectMember: "Select member",
   selectDay: "Select day",
   totalPoints: "Total points",
+  average: "Average",
   rank: "Rank",
   pointsPerDay: "Points per day",
   scorePerCategory: "Score per category",
