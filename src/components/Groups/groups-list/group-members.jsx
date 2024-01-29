@@ -49,7 +49,7 @@ export const GroupMembers = ({group, members})=>{
                 items={[
                     {
                         key: group.id + "members" ,
-                        label: t("participantsKey"),
+                        label: <h4>{t("participantsKey")}</h4>,
                         children: (
                             <Select
                                 mode="multiple"
@@ -83,7 +83,7 @@ export const GroupMembers = ({group, members})=>{
                 items={[
                     {
                         key: group.id + "admins" ,
-                        label: t("admins"),
+                        label: <h4>{t("admins")}</h4>,
                         children: (
                             <Select
                                 mode="multiple"

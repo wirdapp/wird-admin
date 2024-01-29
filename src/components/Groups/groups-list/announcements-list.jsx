@@ -69,7 +69,7 @@ export const AnnouncementsList = ({group})=>{
             items={[
                 {
                     key: group.id + "announcements",
-                    label: t("announcements"),
+                    label: <h4>{t("announcements")}</h4>,
                     children: (
                         <StyledAnnouncementsList>
                             {group.announcements.map((announcement, index) => (
