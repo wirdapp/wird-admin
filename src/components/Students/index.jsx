@@ -58,6 +58,7 @@ export default function Students() {
   const handleChange = (e) => setSearch(e.target.value)
 
   const handleSearch = async () => {
+    if (!search.length) return
     try {
       const res = await MembersApi.addUserToContest({ role: 3, username: search })
       NotificationManager.success(t('notification.addStudent'));
