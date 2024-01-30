@@ -48,6 +48,7 @@ export const BoldText = styled.span`
 export const LightText = styled.span`
   font-size: medium;
   color: ${colors.darkGrey};
+  padding:2px;
   @media (max-width: 900px) {
     font-size: small;
   }

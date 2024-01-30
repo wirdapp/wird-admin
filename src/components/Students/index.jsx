@@ -1,133 +1,77 @@
-import React, { useEffect, useState } from "react";
-import {
-  deleteStudent,
-  retrieveDeactivatedMembers,
-  retrieveStudents,
-} from "../../services/studentsServices";
-import Loader from "../Loader";
-import { isSuperAdmin, Role } from "../../util/ContestPeople_Role";
-import { ReactComponent as SearchIcons2 } from "assets/icons/search2.svg";
+import { Empty, Radio } from "antd";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import StudentsContainer, {
-  AddParticipantContainer,
-  BoldText,
-  ContentContainer,
-  RowContainer,
-  SearchInput,
-  StudentSearchContainer,
-} from "./Students.styles";
-import ParticipantCard from "./ParticipantCard";
-import WaitingCard from "./WaitingCard";
-import Participants from "./ParticipantsMember";
-import { useDashboardData } from "../../util/routes-data";
+import { NotificationManager } from "react-notifications";
 import { MembersApi } from "../../services/members/api";
+import { Role } from "../../util/ContestPeople_Role";
+import Loader from "../Loader";
+import ParticipantCard from "./ParticipantCard";
+import StudentsContainer, {
+  AddModeratorSpan,
+  AddParticipantContainer,
+  ContentContainer,
+  GoBtn,
+  SearchContainer,
+  SearchContainerForm,
+  SearchInputContainer
+} from "./Students.styles";
 
 export default function Students() {
-  const { currentUser, currentContest } = useDashboardData();
 
   const { t } = useTranslation();
-
   const [students, setStudents] = useState([]);
-  const [deactivatedStudents, setDeactivatedStudents] = useState([]);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [studentToDelete, setStudentToDelete] = useState("");
-  const [hasPermission, setPermission] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isStudentsDisplayed, setIsStudentsDisplayed] = useState(true);
-  const [searchText, setSearchText] = useState("");
+  const [search, setSearch] = useState("")
+  const typeOfMembers = useRef(-1)
 
-  useEffect(() => {
+
+
+  const callMemebersData = (page = 1) => {
     setLoading(true);
-    Promise.all([
-      MembersApi.getUsers({ role: Role.DEACTIVATED }).then((data) => {
-        setDeactivatedStudents(data.results);
-      }),
-      MembersApi.getMembers().then((data) => {
-        setStudents(data.results);
-      }),
-    ]).finally(() => {
-      setLoading(false);
-    });
+
+    let apiCall
+
+    apiCall = typeOfMembers.current == Role.MEMBER ? MembersApi.getMembers :
+      typeOfMembers.current == Role.PENDING ? MembersApi.getPending :
+        typeOfMembers.current == -1 ? MembersApi.getAllMemebers :
+          MembersApi.getDeactivated
+
+
+    apiCall().then((data) => {
+
+      setStudents(data);
+
+    })
+      .catch(e => {
+        console.log("student error", e)
+      })
+
+      .finally(() => {
+
+        setLoading(false);
+      });
+  }
+  useEffect(() => {
+    callMemebersData()
   }, []);
 
-  useEffect(() => {
-    setPermission(currentUser && isSuperAdmin(currentUser));
-  }, [currentUser]);
+  const handleChange = (e) => setSearch(e.target.value)
 
-  useEffect(() => {
-    setSearchText("");
-  }, [isStudentsDisplayed]);
+  const handleSearch = async () => {
+    try {
+      const res = await MembersApi.addUserToContest({ role: 3, username: search })
+      NotificationManager.success(t('notification.addStudent'));
 
-  const handleDeleteStudentModalChange = (e) => {
-    setStudentToDelete(e.target.value);
-    setOpenModal(true);
-  };
+    } catch (error) {
 
-  const deleteFunction = () => {
-    deleteStudent(
-      studentToDelete,
-      (res) => {
-        if (res && res.status === 204) {
-          console.log(`Student ${studentToDelete} has been deleted`);
-          setStudents(
-            students.filter(
-              (student) => student.person_info.username !== studentToDelete,
-            ),
-          );
-        }
-      },
-      (err) => {
-        console.log(
-          "Failed to delete admin: ",
-          JSON.stringify(err?.response?.data),
-        );
-      },
-    );
-    setOpenModal(false);
-  };
-
-  const handleSearchTextChange = (e) => {
-    setSearchText(e.target.value);
-  };
-
-  const handleSearchClick = () => {
-    setLoading(true);
-
-    if (isStudentsDisplayed) {
-      retrieveStudents(
-        (res) => {
-          setStudents(res.data.results);
-          setLoading(false);
-        },
-        (err) => {
-          console.log(
-            "Failed to retrieve students: " +
-              JSON.stringify(err?.response?.data),
-          );
-          setLoading(false);
-        },
-        searchText,
-      );
-    } else {
-      retrieveDeactivatedMembers(
-        (res) => {
-          if (res && res.status === 200) {
-            setDeactivatedStudents(res.data.results);
-          }
-          setLoading(false);
-        },
-        (err) => {
-          console.log(
-            "Failed to retrieve deactivated students: " +
-              JSON.stringify(err?.response?.data),
-          );
-          setLoading(false);
-        },
-        searchText,
-      );
+      NotificationManager.error(t('notification.errorStudent'));
     }
-  };
+  }
+
+
+
+
+
 
   if (loading) {
     return (
@@ -136,9 +80,7 @@ export default function Students() {
       </main>
     );
   }
-  const showDeactivatedStudents = () => {
-    setIsStudentsDisplayed(!isStudentsDisplayed);
-  };
+
 
   return (
     <StudentsContainer>
@@ -150,77 +92,71 @@ export default function Students() {
             gap: "12px",
             width: "100%",
           }}
+        >    <Radio.Group
+          value={typeOfMembers.current}
+          onChange={(e) => {
+            typeOfMembers.current = e.target.value
+            callMemebersData()
+          }}
+          style={{
+            marginBottom: 16,
+          }}
         >
-          <RowContainer>
-            <BoldText>
-              {isStudentsDisplayed
-                ? `${t("students")}(${students.length})`
-                : `${t("deactivatedStudents")}(${deactivatedStudents.length})`}
-            </BoldText>
-            <StudentSearchContainer>
-              <SearchInput
-                value={searchText.length > 0 ? searchText : ""}
-                onChange={handleSearchTextChange}
-                placeholder={t("search")}
-                isExpanded={isExpanded}
+            <Radio.Button value="-1">{t("see-all")}</Radio.Button>
+            <Radio.Button value={`${Role.MEMBER}`}>{t("role.3")}</Radio.Button>
+            <Radio.Button value={`${Role.PENDING}`}>{t("role.5")}</Radio.Button>
+            <Radio.Button value={`${Role.DEACTIVATED}`}>{t("role.6")}</Radio.Button>
+          </Radio.Group>
+          {students.length === 0 && (
+            <Empty
+              image={Empty.PRESENTED_IMAGE_DEFAULT}
+              description={t("dailySubmissionsPopup.noData")}
+            />
+          )}
+          {students?.map?.((student, idx) => {
+            return (
+              <ParticipantCard
+                key={idx}
+                name={
+
+                  student.person?.first_name?.length > 0
+                    ? student.person_info.first_name +
+                    " " +
+                    student.person_info.last_name
+                    : student.person_info.username
+                }
+                username={student.person_info.username}
+                setStudents={setStudents}
+                student={student}
+                students={students}
+
               />
-              <SearchIcons2 onClick={handleSearchClick} />
-            </StudentSearchContainer>
-          </RowContainer>
-          {isStudentsDisplayed
-            ? students.map((student, idx) => {
-                return (
-                  <ParticipantCard
-                    key={idx}
-                    name={
-                      student.person?.first_name?.length > 0
-                        ? student.person_info.first_name +
-                          " " +
-                          student.person_info.last_name
-                        : student.person_info.username
-                    }
-                    username={student.person_info.username}
-                    setStudents={setStudents}
-                    students={students}
-                    setDeactivatedStudents={setDeactivatedStudents}
-                    deactivatedStudents={deactivatedStudents}
-                  />
-                );
-              })
-            : deactivatedStudents.map((deactivatedStudent, idx) => {
-                return (
-                  <WaitingCard
-                    key={idx}
-                    name={
-                      deactivatedStudent.person?.first_name?.length > 0
-                        ? deactivatedStudent.person_info.first_name +
-                          " " +
-                          deactivatedStudent.person_info.last_name
-                        : deactivatedStudent.person_info.username
-                    }
-                    username={deactivatedStudent.person_info.username}
-                    setStudents={setStudents}
-                    students={students}
-                    setDeactivatedStudents={setDeactivatedStudents}
-                    deactivatedStudents={deactivatedStudents}
-                  />
-                );
-              })}
+            );
+          })
+
+          }
         </div>
 
         <AddParticipantContainer>
-          <Participants
-            title={
-              isStudentsDisplayed ? t("deactivatedStudents") : t("students")
-            }
-            showButton
-            onClick={showDeactivatedStudents}
-            length={
-              isStudentsDisplayed ? deactivatedStudents.length : students.length
-            }
-          />
+
+          <AddModeratorSpan>{t("addParticipantManually")}</AddModeratorSpan>
+          <SearchInputContainer>
+            <SearchContainerForm>
+              <SearchContainer
+                placeholder={t("username")}
+                type="text"
+                onChange={handleChange}
+                value={search}
+              />
+            </SearchContainerForm>
+
+            <GoBtn onClick={handleSearch}>
+              {t("add-admin")}
+            </GoBtn>
+          </SearchInputContainer>
         </AddParticipantContainer>
       </ContentContainer>
-    </StudentsContainer>
+
+    </StudentsContainer >
   );
 }

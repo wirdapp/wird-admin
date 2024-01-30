@@ -48,4 +48,21 @@ export default {
   viewChart: "Click to view the chart",
   chooseContestant: "Choose the contestant",
   chooseRamdan: "Choose the day of Ramadan",
+  mainRole:"Role",
+  role:{
+    0:"Owner",
+    1:"Super Admin",
+    2:"Admin",
+    3:"Member",
+    4:"Read-Only Member",
+    5:"Pending",
+    6:"Deactivated"
+  },
+  notification:{
+   success:"The action is done",
+   error:"please re-try later",
+   addStudent:"Added successfully",
+   errorStudent:"Please check the name"
+  }
+  
 };

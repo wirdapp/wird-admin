@@ -1,28 +1,22 @@
+import { useTranslation } from "react-i18next";
+import DropDownMenu from "./DropDown";
 import ParticipantCards, {
-  RowContainer,
-  ColumnContainer,
   BoldText,
+  ColumnContainer,
   LightText,
-  ParticipantrSearchContainer,
   ParticipantsNumbers,
-  ShortedName,
-  CardButton,
+  ShortedName
 } from "./ParticipantCard.styles";
-import { ReactComponent as SearchIcons2 } from "assets/icons/search2.svg";
-import { ReactComponent as MoreButton } from "assets/icons/more-button.svg";
-import ButtonsModal from "./ButtonsModal";
-import { useState } from "react";
-
 const ModeratorCard = ({
   key,
   name,
-  username,
-  students,
+  student,
   setStudents,
-  setDeactivatedStudents,
-  deactivatedStudents,
+  students
 }) => {
-  const [modalState, setModalState] = useState(false);
+
+  const { t } = useTranslation();
+
 
   return (
     <ParticipantCards key={key}>
@@ -31,39 +25,35 @@ const ModeratorCard = ({
           <ShortedName>
             {name.split(" ").length > 1
               ? (
-                  name.split(" ")[0].charAt(0) + name.split(" ")[1].charAt(0)
-                ).toUpperCase()
+                name.split(" ")[0].charAt(0) + name.split(" ")[1].charAt(0)
+              ).toUpperCase()
               : name.slice(0, 2).toUpperCase()}
+
           </ShortedName>
           <ColumnContainer>
             <BoldText>{name}</BoldText>
-            <LightText>{name !== username ? username : ""}</LightText>
+            <LightText>{t("first-name")}: {student?.person_info
+              ?.first_name
+            }</LightText>
+            <LightText>{t("last-name")}: {student?.person_info
+              ?.last_name
+            }</LightText>
+            <LightText>{t("mainRole")}: <span
+              style={{ color: student?.contest_role == 5 || student?.contest_role == 6 ? "red" : "green" }}>
+              {t(`role.${student?.contest_role}`)} </span> </LightText>
+
           </ColumnContainer>
         </div>
-        {/*<BoldText>{`#${rank}`}</BoldText>*/}
-
-        <MoreButton
-          className="more-button"
-          onClick={() => setModalState(true)}
+        <DropDownMenu
+          name={name}
+          student={student}
+          setStudents={setStudents}
+          students={students}
         />
 
-        {modalState && (
-          <ButtonsModal
-            clickOverlay={() => {
-              setModalState(false);
-            }}
-            turnOff={() => {
-              setModalState(false);
-            }}
-            username={username}
-            students={students}
-            setStudents={setStudents}
-            setDeactivatedStudents={setDeactivatedStudents}
-            deactivatedStudents={deactivatedStudents}
-          />
-        )}
       </ParticipantsNumbers>
-    </ParticipantCards>
+
+    </ParticipantCards >
   );
 };
 
