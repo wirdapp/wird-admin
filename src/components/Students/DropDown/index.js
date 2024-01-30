@@ -26,8 +26,8 @@ const DropDownMenu=(props)=>{
               icon: <RejectIcon style={{ width: "20px", height: "20px", }} />,
             },
     
-            showResult:{    label: 'result',
-            key: t('result'),
+            showResult:{    label: t('result'),
+            key: 'result',
             icon:  <ResultsIcon  style={{ width: "20px", height: "20px", }} />,}
     }
 
