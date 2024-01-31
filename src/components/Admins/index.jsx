@@ -47,7 +47,7 @@ export default function Admins() {
     let labels = [];
     let contents = [];
 
-    if (currentUser && !isSuperAdmin(currentUser) && admins.length === 0) {
+    if (currentUser && !isSuperAdmin(currentUser?.role) && admins.length === 0) {
       setAdmins([...currentUser]);
     }
 
@@ -156,7 +156,7 @@ export default function Admins() {
                             {t("deleteBtn")}
                           </Button>
                           {admin.person_info.first_name?.length > 0 ||
-                          admin.person_info.last_name?.length > 0 ? (
+                            admin.person_info.last_name?.length > 0 ? (
                             <Span>
                               {admin.person_info.first_name} {admin.person_info.last_name}
                             </Span>
@@ -167,7 +167,7 @@ export default function Admins() {
                       ) : (
                         <>
                           {admin.person_info.first_name?.length > 0 ||
-                          admin.person_info.last_name?.length > 0 ? (
+                            admin.person_info.last_name?.length > 0 ? (
                             <Span style={{ width: "100%" }}>
                               {admin.person_info.first_name} {admin.person_info.last_name}
                             </Span>

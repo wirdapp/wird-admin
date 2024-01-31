@@ -1,9 +1,9 @@
 import React from "react";
-import "./App.css";
-import { RouterProvider } from "react-router-dom";
-import { router } from "./router";
 import { I18nextProvider } from "react-i18next";
+import { RouterProvider } from "react-router-dom";
+import "./App.css";
 import i18n from "./i18n";
+import { router } from "./router";
 
 function App() {
   return (

@@ -20,7 +20,7 @@ export async function dashboardLoader({ request }) {
     // make sure session still valid
     data.currentUser = await AuthApi.currentUserInfo();
     updateSessionUserDetails(data.currentUser);
-    data.isSuperAdmin = isSuperAdmin(data.currentUser);
+    data.isSuperAdmin = isSuperAdmin(data.currentUser?.role);
   } catch (e) {
     destroySession();
     return redirect(`/login?redirectTo=${redirectTo}`);

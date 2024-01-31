@@ -109,6 +109,41 @@ export const AddParticipantSpan = styled.span`
   text-align: start;
 `;
 
+export const SearchIconButton = styled.button`
+  position: absolute;
+  align-self: center;
+  overflow: hidden;
+  left: 0.625rem;
+  cursor: pointer;
+  background: ${colors.white};
+`;
+
+
+export const AddStudentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  @media (max-width: 900px) {
+    width: 100%;
+  }
+`;
+
+export const AddModeratorContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  @media (max-width: 900px) {
+    width: 100%;
+  }
+`;
+
+export const AddModeratorSpan = styled.span`
+  font-weight: 700;
+  text-align: start;
+`;
+
 export const SearchInputContainer = styled.div`
   width: 19.25rem;
   height: 6.875rem;
@@ -134,14 +169,6 @@ export const SearchContainerForm = styled.form`
   position: relative;
 `;
 
-export const SearchIconButton = styled.button`
-  position: absolute;
-  align-self: center;
-  overflow: hidden;
-  left: 0.625rem;
-  cursor: pointer;
-  background: ${colors.white};
-`;
 
 export const SearchContainer = styled.input`
   display: flex;

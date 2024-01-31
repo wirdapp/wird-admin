@@ -29,7 +29,7 @@ function Nav() {
   };
 
   useEffect(() => {
-    setPermission(currentUser && isSuperAdmin(currentUser));
+    setPermission(currentUser && isSuperAdmin(currentUser?.role));
   }, [currentUser]);
 
   return (

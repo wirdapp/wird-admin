@@ -1,3 +1,3 @@
-import {Group} from './group-page';
+import { Group } from './group-page';
 
 export default Group;

@@ -9,9 +9,31 @@ export const Role = Object.freeze({
   PENDING: 5,
   DEACTIVATED: 6,
 });
+export const isOwner = (role) => {
+  return Role.CONTEST_OWNER === role;
+};
 
-export const isSuperAdmin = (user) => {
-  return Role.SUPER_ADMIN === user?.role;
+export const isSuperAdmin = (role) => {
+  return Role.SUPER_ADMIN === role;
+};
+
+export const isAdmin = (role) => {
+  return Role.ADMIN === role;
+};
+
+export const isMember = (role) => {
+  return Role.MEMBER === role;
+};
+export const isMemberReadOnly = (role) => {
+  return Role.READ_ONLY_MEMBER === role;
+};
+
+export const isPending = (role) => {
+  return Role.PENDING === role;
+};
+
+export const isDecativate = (role) => {
+  return Role.DEACTIVATED === role;
 };
 
 const VALID_LANGUAGES = ["ar", "en"];

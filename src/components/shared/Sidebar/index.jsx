@@ -24,7 +24,7 @@ function Sidebar() {
   const { currentUser } = useDashboardData();
   const { t } = useTranslation();
 
-  const hasPermission = currentUser ? isSuperAdmin(currentUser) : false;
+  const hasPermission = currentUser ? isSuperAdmin(currentUser?.role) : false;
 
   return (
     <SideBarContainer>

@@ -68,7 +68,7 @@ export default function Standards() {
   }, []);
 
   useEffect(() => {
-    setPermission(currentUser && isSuperAdmin(currentUser));
+    setPermission(currentUser && isSuperAdmin(currentUser?.role));
   }, [context.adminInfo]);
 
   useEffect(() => {
