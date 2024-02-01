@@ -5,7 +5,7 @@ import { colors } from "../../styles";
 import { useTranslation } from "react-i18next";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import { ContestsApi } from "../../services/contests/api";
-import { Button, Empty, Form, Input, message, Modal, Spin } from "antd";
+import { App, Button, Empty, Form, Input, Modal, Spin } from "antd";
 import { useNavigation, useRevalidator } from "react-router-dom";
 
 const StyledAnnouncementWrapper = styled.div`
@@ -63,6 +63,7 @@ export const StyledAnnouncementsList = styled.ul`
 `;
 
 export const ManageAnnouncements = () => {
+  const { message } = App.useApp();
   const { currentContest } = useDashboardData();
   const { t } = useTranslation();
   const [errors, setErrors] = useState([]);

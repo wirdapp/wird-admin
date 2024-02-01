@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { message, Table } from "antd";
+import { App, Table } from "antd";
 import { useTranslation } from "react-i18next";
 import { ContestResultsApi } from "../../../services/contest-results/api";
 import { useDashboardData } from "../../../util/routes-data";
@@ -8,6 +8,7 @@ import { CriterionRecordAnswer } from "./criterion-record-answer";
 import { CriterionRecordPoints } from "./criterion-record-points";
 
 export const DailySubmissionsTable = ({ submissions, onClose, criteria }) => {
+  const { message } = App.useApp();
   const { t } = useTranslation();
   const { currentContest } = useDashboardData();
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Collapse, Input, message, Popconfirm, Space } from "antd";
+import { App, Button, Collapse, Input, Popconfirm, Space } from "antd";
 import { css } from "@emotion/css";
 import { Bars2Icon } from "@heroicons/react/24/solid";
 import { Draggable } from "react-beautiful-dnd";
@@ -34,7 +34,7 @@ const ExpandIcon = ({ isActive }) => {
 };
 
 export const SectionListItem = ({ section, index }) => {
-  const [messageApi, contextHolder] = message.useMessage();
+  const { message } = App.useApp();
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(true);
   const [sectionLabel, setSectionLabel] = useState(section.label);
@@ -52,10 +52,10 @@ export const SectionListItem = ({ section, index }) => {
         label: label ?? section.label,
         position: position ?? section.position,
       });
-      messageApi.success(t("section-updated"));
+      message.success(t("section-updated"));
     } catch (e) {
       console.error(e);
-      messageApi.error(t("section-update-failed"));
+      message.error(t("section-update-failed"));
     } finally {
       setUpdating(false);
     }
@@ -64,10 +64,10 @@ export const SectionListItem = ({ section, index }) => {
   const onDelete = async () => {
     try {
       await actions.remove(section.id);
-      messageApi.success(t("section-deleted"));
+      message.success(t("section-deleted"));
     } catch (e) {
       console.error(e);
-      messageApi.error(t("section-delete-failed"));
+      message.error(t("section-delete-failed"));
     }
   };
 
@@ -82,7 +82,6 @@ export const SectionListItem = ({ section, index }) => {
       <Draggable draggableId={section.id} index={index}>
         {(provided, snapshot) => (
           <div ref={provided.innerRef} {...provided.draggableProps}>
-            {contextHolder}
             <Collapse
               activeKey={
                 !snapshot.isDragging && expanded ? section.id : undefined

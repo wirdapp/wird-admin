@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import { css } from "@emotion/css";
-import {
-  Button,
-  Divider,
-  Flex,
-  List,
-  message,
-  Popconfirm,
-  Tooltip,
-} from "antd";
+import { App, Button, Divider, Flex, List, Popconfirm, Tooltip } from "antd";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import { useTranslation } from "react-i18next";
 import {
@@ -28,7 +20,7 @@ import { useContestCriteria } from "./use-contest-criteria";
 import { reorder } from "../../../util/contest-utils";
 
 export const SectionCriteriaList = ({ section }) => {
-  const [messageApi, contextHolder] = message.useMessage();
+  const { message } = App.useApp();
   const { t } = useTranslation();
   const { criteriaItems, actions } = useContestCriteria({
     sectionId: section.id,
@@ -39,10 +31,10 @@ export const SectionCriteriaList = ({ section }) => {
   const handleDelete = async (id) => {
     try {
       await actions.remove(id);
-      messageApi.success(t("criteria-deleted"));
+      message.success(t("criteria-deleted"));
     } catch (e) {
       console.error(e);
-      messageApi.error(t("criteria-delete-failed"));
+      message.error(t("criteria-delete-failed"));
     }
   };
 
@@ -68,7 +60,6 @@ export const SectionCriteriaList = ({ section }) => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Flex vertical gap={16}>
-        {contextHolder}
         <Droppable droppableId="criteria-droparea">
           {(provided, snapshot) => (
             <div

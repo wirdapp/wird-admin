@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { ArrowUpTrayIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { Avatar, message, Spin, Tooltip, Upload } from "antd";
+import { App, Avatar, Spin, Tooltip, Upload } from "antd";
 import { useDashboardData } from "../../util/routes-data";
 import { css } from "@emotion/css";
 import { colors } from "../../styles";
 import { useTranslation } from "react-i18next";
 
-const beforeUpload = (file) => {
-  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-  if (!isJpgOrPng) {
-    message.error("You can only upload JPG/PNG file!");
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error("Image must smaller than 2MB!");
-  }
-  return isJpgOrPng && isLt2M;
-};
-
 export const ProfilePictureUploader = ({ onSubmit }) => {
+  const { message } = App.useApp();
   const { t } = useTranslation();
   const { currentUser } = useDashboardData();
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(currentUser?.profile_photo);
+
+  const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      message.error("You can only upload JPG/PNG file!");
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error("Image must smaller than 2MB!");
+    }
+    return isJpgOrPng && isLt2M;
+  };
 
   useEffect(() => {
     setImageUrl(currentUser?.profile_photo);

@@ -25,6 +25,7 @@ import { MemberScorePerCategoryChart } from "./member-score-per-category-chart";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { DailyUserSubmissions } from "./daily-user-submissions";
 import { AnimatePresence, motion } from "framer-motion";
+import { Role } from "../../../util/ContestPeople_Role";
 
 export const MembersResults = () => {
   const [form] = Form.useForm();
@@ -69,7 +70,7 @@ export const MembersResults = () => {
           initialValues={{ userId: searchParams.get("userId") }}
         >
           <Form.Item label={t("selectMember")} name="userId">
-            <MembersSelect placeholder={t("selectMember")} />
+            <MembersSelect placeholder={t("selectMember")} role={Role.MEMBER} />
           </Form.Item>
         </Form>
       </div>

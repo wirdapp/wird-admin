@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Form, message, Modal, Spin, Tabs } from "antd";
+import { App, Form, Modal, Spin, Tabs } from "antd";
 import { useTranslation } from "react-i18next";
 import { CriteriaBasicFields } from "./criteria-basic-fields";
 import { CriteriaTypeFields } from "./criteria-type-fields";
@@ -17,7 +17,7 @@ export const CriteriaFormPopup = ({
 }) => {
   const [loading, setLoading] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
-  const [messageApi, contextHolder] = message.useMessage();
+  const { message } = App.useApp();
   const { t } = useTranslation();
   const [form] = Form.useForm();
   const { actions } = useContestCriteria({ sectionId: section.id });
@@ -49,18 +49,18 @@ export const CriteriaFormPopup = ({
         await actions.update(criterionId, {
           ...values,
         });
-        messageApi.success(t("criteria-updated"));
+        message.success(t("criteria-updated"));
       } else {
         await actions.add({
           ...values,
           section: section.id,
           order_in_section: index,
         });
-        messageApi.success(t("criteria-added"));
+        message.success(t("criteria-added"));
       }
       handleClose();
     } catch (e) {
-      messageApi.error(t("criteria-operation-failed"));
+      message.error(t("criteria-operation-failed"));
       console.error(e);
     } finally {
       setSubmitting(false);
@@ -88,7 +88,6 @@ export const CriteriaFormPopup = ({
       width={600}
       destroyOnClose
     >
-      {contextHolder}
       <Spin spinning={loading}>
         <Form
           onFinish={handleFormSubmit}

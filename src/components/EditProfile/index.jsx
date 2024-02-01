@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { updateUserInfo } from "../../services/auth/api";
-import { Flex, Grid, message, Space, Typography } from "antd";
+import { App, Flex, Grid, Space, Typography } from "antd";
 import { useDashboardData } from "../../util/routes-data";
 import { ChangePasswordForm } from "./change-password-form";
 import { ProfilePictureUploader } from "./profile-picture-uploader";
@@ -10,6 +10,7 @@ import { getFullName } from "../../util/user-utils";
 import { UserDetailsForm } from "./user-details-form";
 
 function EditProfile() {
+  const { message } = App.useApp();
   const { currentUser } = useDashboardData();
   const { t } = useTranslation();
   const revalidator = useRevalidator();

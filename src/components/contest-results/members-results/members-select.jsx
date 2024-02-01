@@ -3,17 +3,20 @@ import { Select } from "antd";
 import { MembersApi } from "../../../services/members/api";
 import { getFullName } from "../../../util/user-utils";
 
-export const MembersSelect = ({ ...props }) => {
+export const MembersSelect = ({ role, valueField = "id", ...props }) => {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    MembersApi.getMembers()
+    MembersApi.getUsers({ role })
       .then((res) => {
         setMembers(
           res.map((member) => ({
-            value: member.id,
+            value:
+              typeof valueField === "function"
+                ? valueField(member)
+                : member[valueField || "id"],
             label: getFullName(member.person_info),
           })),
         );

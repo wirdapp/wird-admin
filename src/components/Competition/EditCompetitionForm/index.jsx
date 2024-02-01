@@ -6,21 +6,14 @@ import {
   EditContestFormWrapper,
   ParticipantsNumbers,
 } from "./EditCompetition.styles";
-import {
-  Alert,
-  Button,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  message,
-  Space,
-} from "antd";
+import { Alert, App, Button, Checkbox, Form, Input, Space } from "antd";
 import { ContestsApi } from "../../../services/contests/api";
 import { css } from "@emotion/css";
 import { useRevalidator } from "react-router-dom";
+import dayjs from "dayjs";
 
 export default function EditCompetitionForm({ contest }) {
+  const { message } = App.useApp();
   const { t } = useTranslation();
   const [messages, setMessages] = useState([]);
   const [classColor, setClassColor] = useState("");
@@ -32,7 +25,11 @@ export default function EditCompetitionForm({ contest }) {
       setClassColor("");
       setMessages([]);
       setSubmitting(true);
-      await ContestsApi.updateContest(contest.id, values);
+      await ContestsApi.updateContest(contest.id, {
+        ...values,
+        start_date: values.start_date.format("YYYY-MM-DD"),
+        end_date: values.end_date.format("YYYY-MM-DD"),
+      });
       revalidator.revalidate();
       message.success(t("contest-has-been-edited-successfully"));
     } catch (err) {
@@ -79,14 +76,26 @@ export default function EditCompetitionForm({ contest }) {
             <Input placeholder={t("description-label")} />
           </Form.Item>
           <Form.Item
-            label={t("date")}
-            name="daterange"
+            label={t("start-date")}
+            name="start_date"
             rules={[{ required: true }]}
+            getValueFromEvent={(e) => dayjs(e.target.value)}
+            getValueProps={(value) => ({
+              value: value?.format("YYYY-MM-DD"),
+            })}
           >
-            <DatePicker.RangePicker
-              allowClear={false}
-              style={{ width: "100%" }}
-            />
+            <Input type="date" />
+          </Form.Item>
+          <Form.Item
+            label={t("end-date")}
+            name="end_date"
+            rules={[{ required: true }]}
+            getValueFromEvent={(e) => dayjs(e.target.value)}
+            getValueProps={(value) => ({
+              value: value?.format("YYYY-MM-DD"),
+            })}
+          >
+            <Input type="date" />
           </Form.Item>
           <Form.Item
             name="show_standings"
@@ -94,7 +103,7 @@ export default function EditCompetitionForm({ contest }) {
             valuePropName="checked"
             style={{ marginBottom: "0px" }}
           >
-            <Checkbox>{t("active-announcements")}</Checkbox>
+            <Checkbox>{t("show-leaderboard-for-students")}</Checkbox>
           </Form.Item>
           <Form.Item
             name="readonly_mode"

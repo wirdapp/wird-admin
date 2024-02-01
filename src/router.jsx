@@ -21,6 +21,11 @@ import "dayjs/locale/en";
 import { dashboardLoader } from "./components/layout/dashboard-loader";
 import { MainLayout } from "./ui/main-layout";
 import { ErrorBoundary } from "./ui/error-boundary";
+import { groupsPageLoader } from "./components/Groups/groups-page";
+import {
+  GroupDetailPage,
+  groupDetailPageLoader,
+} from "./components/Groups/group-detail-page";
 
 export const router = createBrowserRouter([
   {
@@ -103,11 +108,16 @@ export const router = createBrowserRouter([
           },
           {
             path: "groups",
-            loader: () => ({
-              title: "groups",
-            }),
+            loader: groupsPageLoader,
             element: <Groups />,
             errorElement: <ErrorBoundary />,
+            children: [
+              {
+                path: ":groupId",
+                element: <GroupDetailPage />,
+                loader: groupDetailPageLoader,
+              },
+            ],
           },
           {
             path: "admins",

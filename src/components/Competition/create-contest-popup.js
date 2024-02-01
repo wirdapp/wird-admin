@@ -2,12 +2,14 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { isAxiosError } from "axios";
-import { DatePicker, Form, Input, message, Modal } from "antd";
+import { App, Form, Input, Modal } from "antd";
 import { ContestsApi } from "../../services/contests/api";
 import { changeCurrentContest } from "../../services/contests/utils";
 import { useDashboardData } from "../../util/routes-data";
+import dayjs from "dayjs";
 
 export const CreateContestPopup = ({ visible, onClose }) => {
+  const { message } = App.useApp();
   const { currentUser } = useDashboardData();
   const { t } = useTranslation();
   const [errors, setErrors] = React.useState({});
@@ -22,11 +24,11 @@ export const CreateContestPopup = ({ visible, onClose }) => {
     setSubmitting(true);
 
     try {
-      const { daterange, ...rest } = values;
+      const { start_date, end_date, ...rest } = values;
       const result = await ContestsApi.createContest({
         ...rest,
-        start_date: daterange[0].format("YYYY-MM-DD"),
-        end_date: daterange[1].format("YYYY-MM-DD"),
+        start_date: start_date.format("YYYY-MM-DD"),
+        end_date: end_date.format("YYYY-MM-DD"),
       });
       changeCurrentContest(result.id);
       window.location.reload();
@@ -101,16 +103,26 @@ export const CreateContestPopup = ({ visible, onClose }) => {
           <Input.TextArea placeholder={t("contest-description")} rows={2} />
         </Form.Item>
         <Form.Item
-          label={t("date")}
-          name="daterange"
-          required
+          label={t("start-date")}
+          name="start_date"
           rules={[{ required: true }]}
-          validateStatus={
-            errors.start_date || errors.end_date ? "error" : undefined
-          }
-          help={errors.start_date || errors.end_date}
+          getValueFromEvent={(e) => dayjs(e.target.value)}
+          getValueProps={(value) => ({
+            value: value?.format("YYYY-MM-DD"),
+          })}
         >
-          <DatePicker.RangePicker style={{ width: "100%" }} />
+          <Input type="date" />
+        </Form.Item>
+        <Form.Item
+          label={t("end-date")}
+          name="end_date"
+          rules={[{ required: true }]}
+          getValueFromEvent={(e) => dayjs(e.target.value)}
+          getValueProps={(value) => ({
+            value: value?.format("YYYY-MM-DD"),
+          })}
+        >
+          <Input type="date" />
         </Form.Item>
       </Form>
     </Modal>

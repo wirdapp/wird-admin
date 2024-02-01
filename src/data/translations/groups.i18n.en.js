@@ -35,4 +35,21 @@ export default {
   "enter-new-group-name": "Enter the New Group Name",
   "edit-btu": "Edit Group",
   "edit-cancel": "Cancel",
+  "select-group": "Select Group",
+  name: "Name",
+  "select-member": "Select Member",
+  "add-member": "Add Member",
+  "group-updated": "Group updated successfully",
+  "create-group": "Create Group",
+  "no-groups-found": "No groups created yet.",
+  "groups-description":
+    "Groups allow you to divide contest members into different groups and assign an admin to each group. You can add students to groups and assign admins to them. You can also add announcements to each group.",
+  create: "Create",
+  "delete-group-confirm": "Are you sure you want to delete this group?",
+  "group-info": "Group Information",
+  "select-role": "Select Role",
+  "group-roles": {
+    member: "Member",
+    admin: "Admin",
+  },
 };
