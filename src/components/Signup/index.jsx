@@ -16,6 +16,7 @@ import { isAxiosError } from "axios";
 import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 import { AuthPageFooter } from "../shared/auth-page-footer";
 import { ReactComponent as WirdLogo } from "assets/icons/Shared/wirdLogo.svg";
+import {updateUserInfo} from "../../services/auth/api";
 
 const usernameRegex = new RegExp("^[\u0621-\u064Aa-zA-Z0-9+-.@_]*$");
 
@@ -33,6 +34,12 @@ function Signup() {
     try {
       await AuthApi.signup(values, false);
       await login(values.username, values.password1);
+      await updateUserInfo({
+        first_name: values.first_name,
+        last_name: values.last_name,
+        phone_number: values.phone_number,
+        profile_photo: values.profile_photo
+      });
       navigate("/dashboard");
     } catch (err) {
       if (isAxiosError(err)) {
