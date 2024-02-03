@@ -11,7 +11,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { login } from "../../services/auth/session";
 import { useHandleError } from "hooks/handleError";
-import { Button, Form, Input } from "antd";
+import { Button, Flex, Form, Input } from "antd";
 import { AuthPageFooter } from "../shared/auth-page-footer";
 import { ReactComponent as WirdLogo } from "assets/icons/Shared/wirdLogo.svg";
 
@@ -112,22 +112,22 @@ function Login() {
               })}
             </StyledErrorsList>
           )}
-          <Button
-            style={{ marginTop: "24px" }}
-            type="primary"
-            htmlType="submit"
-            disabled={loading}
-            size="large"
-            block
-          >
-            {t("login")}
-          </Button>
+          <Flex vertical gap={16}>
+            <Button
+              style={{ marginTop: "24px" }}
+              type="primary"
+              htmlType="submit"
+              disabled={loading}
+              size="large"
+              block
+            >
+              {t("login")}
+            </Button>
+            <Button href="//wird.app/user/forgot-password" type="link">
+              {t("forgetPass")}
+            </Button>
+          </Flex>
         </Form>
-
-        {/*TODO: Uncomment when it's ready*/}
-        {/*<SignupNowAccount>*/}
-        {/*  Or<SignupNow href="/forgot-password"> Forgot Password</SignupNow>*/}
-        {/*</SignupNowAccount>*/}
       </DivCenter>
       <AuthPageFooter />
     </LoginFormContainer>

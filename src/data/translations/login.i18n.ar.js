@@ -22,7 +22,7 @@ export default {
   reassign: "إعادة نعيين",
   reassignMSG: "تم إعادة تعيين كلمة المرور بنجاح",
   notReassignMSG: "لم يتم  إعادة تعيين كلمة المرور",
-  forgetPass: "نسيت كلمة المرور",
+  forgetPass: "نسيت كلمة المرور؟",
   checkEmail: "تحقق من بريدك الالكتروني.",
   resetPass: "إعادة تعيين كلمة المرور",
   backLogin: "العودة إلى تسجيل الدخول",
