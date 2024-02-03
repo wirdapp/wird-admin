@@ -94,4 +94,6 @@ export default {
   "update-criteria": "تعديل المعيار",
   "criteria-visible": "إظهار المعيار",
   "criteria-active": "تفعيل المعيار",
+  "criteria-deleted": "تم حذف المعيار بنجاح",
+  "criteria-delete-failed": "فشل حذف المعيار",
 };

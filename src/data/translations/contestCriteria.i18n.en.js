@@ -94,4 +94,6 @@ export default {
   points_other: "{{count}} Points",
   "criteria-visible": "Visible",
   "criteria-active": "Active",
+  "criteria-deleted": "Criteria deleted",
+  "criteria-delete-failed": "Failed to delete criteria",
 };
