@@ -34,7 +34,7 @@ export const SectionCriteriaList = ({ section }) => {
       message.success(t("criteria-deleted"));
     } catch (e) {
       console.error(e);
-      message.error(t("criteria-delete-failed"));
+      message.error(e.response?.data?.detail ?? t("criteria-delete-failed"));
     }
   };
 
