@@ -32,7 +32,7 @@ export const isPending = (role) => {
   return Role.PENDING === role;
 };
 
-export const isDecativate = (role) => {
+export const isDeactivated = (role) => {
   return Role.DEACTIVATED === role;
 };
 

@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import { ContestsApi } from "./api";
 import dayjs from "dayjs";
+import { isAdmin } from "../../util/ContestPeople_Role";
 
 export const ContestStatus = {
   NOT_STARTED: "not_started",
@@ -38,3 +39,7 @@ export function getContestStatus(contest) {
   if (dayjs(contest.start_date).isAfter(now)) return ContestStatus.NOT_STARTED;
   return ContestStatus.STARTED;
 }
+
+export const isUserAdminOnAnyContest = (contests) => {
+  return contests.some((contest) => isAdmin(contest.person_contest_role));
+};

@@ -7,6 +7,7 @@ export default styled.div`
   width: 100%;
   height: 100%;
   gap: 12px;
+
   .more-button {
     fill: ${colors.red};
     height: 50px;
@@ -15,6 +16,7 @@ export default styled.div`
     padding-top: 0.5rem;
     cursor: pointer;
     transition: all 0.3s ease-out;
+
     &:hover {
       height: 60px;
       width: 60px;
@@ -48,7 +50,7 @@ export const BoldText = styled.span`
 export const LightText = styled.span`
   font-size: small;
   color: ${colors.darkGrey};
-  padding:2px;
+  padding: 2px;
   @media (max-width: 900px) {
     font-size: small;
   }
@@ -71,9 +73,7 @@ export const ParticipantsNumbers = styled.div`
   background: #fbf9f7;
   padding: 24px;
   width: 100%;
-  height: 106px;
   border-radius: 24px;
-  max-width: 599px;
 
   @media (max-width: 900px) {
     max-width: inherit;

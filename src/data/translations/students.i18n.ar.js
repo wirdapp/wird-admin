@@ -1,6 +1,5 @@
 export default {
   "accepted-participants": "المشاركون",
-  reject: "حذف",
   addParticipantManually: "إضافة مشترك يدوياً",
   deactivatedStudents: "المشاركون غير المفعلين",
   rejectedParticipants: "المشاركون المرفوضون",
@@ -46,24 +45,25 @@ export default {
   chooseContestant: "اختر المتسابق",
   viewChart: "اضغط لعرض الرسم البياني",
   chooseRamdan: "اختر اليوم من رمضان",
-  mainRole:"وظيفة",
-  role:{
-    0:"مالك",
-    1:"المشرف الرئيسي",
-    2:"المشرف",
-    3:"عضو",
-    4:"عضو للقراءة فقط",
-    5:"قيد الانتظار",
-    6:"معطل"
+  mainRole: "وظيفة",
+  role: {
+    0: "مالك",
+    1: "المشرف الرئيسي",
+    2: "المشرف",
+    3: "عضو",
+    4: "عضو للقراءة فقط",
+    5: "قيد الانتظار",
+    6: "معطل",
   },
-  notification:{
-    success:"تم العمل",
-    error:"يرجى إعادة المحاولة لاحقا",
-    addStudent:"اضيف بنجاح",
-    errorStudent:"يرجى التحقق من الاسم"
-   },
-   approve:"موافقة",
-   reject:"رفض",
+  notification: {
+    success: "تم تعديل الطالب بنجاح",
+    error: "حدث خطأ ما، يرجى إعادة المحاولة لاحقا",
+    addStudent: "اضيف بنجاح",
+    errorStudent: "يرجى التحقق من الاسم",
+  },
+  approve: "موافقة",
+  reject: "رفض",
   "user-details": "تفاصيل المستخدم",
   email: "البريد الإلكتروني",
+  all: "الكل",
 };

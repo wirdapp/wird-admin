@@ -5,7 +5,6 @@ import {
 } from "../../services/auth/session";
 import { redirect } from "react-router-dom";
 import * as AuthApi from "../../services/auth/api";
-import { isSuperAdmin } from "../../util/ContestPeople_Role";
 import { ContestsApi } from "../../services/contests/api";
 import { getCurrentContest } from "../../services/contests/utils";
 
@@ -20,7 +19,6 @@ export async function dashboardLoader({ request }) {
     // make sure session still valid
     data.currentUser = await AuthApi.currentUserInfo();
     updateSessionUserDetails(data.currentUser);
-    data.isSuperAdmin = isSuperAdmin(data.currentUser?.role);
   } catch (e) {
     destroySession();
     return redirect(`/login?redirectTo=${redirectTo}`);
@@ -29,9 +27,11 @@ export async function dashboardLoader({ request }) {
   try {
     data.contests = await ContestsApi.getContests();
     data.currentContest = await getCurrentContest(data.contests);
+    data.currentUser.role = data.currentContest?.person_contest_role;
   } catch (e) {
     console.log(`Failed to get current contest: ${e}`);
     data.currentContest = null;
   }
+
   return data;
 }

@@ -1,24 +1,23 @@
 import ModeratorCards, {
-  RowContainer,
-  ColumnContainer,
   BoldText,
+  ColumnContainer,
   LightText,
-  ModeratorSearchContainer,
   ParticipantsNumbers,
   ShortedName,
-  DeleteButton,
 } from "./ModeratorCards";
 import { useTranslation } from "react-i18next";
-import { ReactComponent as SearchIcons2 } from "assets/icons/search2.svg";
 import { updateContestPeopleRole } from "../../services/adminsServices";
+import { useDashboardData } from "../../util/routes-data";
+import { getFullName } from "../../util/user-utils";
+import { Button } from "antd";
 
-const ModeratorCard = ({ person, admins, setAdmins }) => {
+const ModeratorCard = ({ person, onChange }) => {
   const { t } = useTranslation();
+  const { currentUser } = useDashboardData();
 
-  let fullName = person?.first_name + " " + person.last_name;
+  let fullName = getFullName(person);
   let userName = person.username;
   if (!fullName) fullName = userName;
-  console.log("Person >>>>", userName);
 
   const deactivateAdmin = (username) => {
     updateContestPeopleRole(
@@ -28,9 +27,7 @@ const ModeratorCard = ({ person, admins, setAdmins }) => {
       },
       (res) => {
         if (res && res.status === 200) {
-          setAdmins([
-            ...admins.filter((admin) => admin.person_info.username !== username),
-          ]);
+          onChange?.();
         }
       },
       (err) => {
@@ -52,13 +49,16 @@ const ModeratorCard = ({ person, admins, setAdmins }) => {
           </ColumnContainer>
         </div>
 
-        <DeleteButton
-          onClick={() => {
-            deactivateAdmin(userName);
-          }}
-        >
-          {t("deactivate")}
-        </DeleteButton>
+        {currentUser?.username !== userName && (
+          <Button
+            danger
+            onClick={() => {
+              deactivateAdmin(userName);
+            }}
+          >
+            {t("deactivate")}
+          </Button>
+        )}
       </ParticipantsNumbers>
     </ModeratorCards>
   );

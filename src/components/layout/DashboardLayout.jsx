@@ -7,27 +7,39 @@ import { useDashboardData } from "../../util/routes-data";
 import { NoContestYet } from "../Competition/no-contest-yet";
 import { useTranslation } from "react-i18next";
 import { EmailNotVerifiedAlert } from "./email-not-verified-alert";
+import { isAdmin } from "../../util/ContestPeople_Role";
+import { Result } from "antd";
 
 export const DashboardLayout = () => {
   const { t } = useTranslation();
   const { currentContest, currentUser } = useDashboardData();
+
+  const isUserAdmin = isAdmin(currentUser?.role);
 
   return (
     <Container>
       <Sidebar />
       <MainContent>
         <Navbar />
-        {!currentUser.email_verified && <EmailNotVerifiedAlert />}
-        <div className="page-content">
-          {currentContest ? <Outlet /> : <NoContestYet />}
-        </div>
-        <DashboardFooter>
-          <div className="footer-content">
-            <span>
-              {t("copyrightFooterMsg", { year: new Date().getFullYear() })}
-            </span>
+        {isUserAdmin ? (
+          <>
+            {!currentUser.email_verified && <EmailNotVerifiedAlert />}
+            <div className="page-content">
+              {currentContest ? <Outlet /> : <NoContestYet />}
+            </div>
+            <DashboardFooter>
+              <div className="footer-content">
+                <span>
+                  {t("copyrightFooterMsg", { year: new Date().getFullYear() })}
+                </span>
+              </div>
+            </DashboardFooter>
+          </>
+        ) : (
+          <div className="page-content">
+            <Result status="403" title="403" subTitle={t("notAdmin")} />
           </div>
-        </DashboardFooter>
+        )}
       </MainContent>
     </Container>
   );

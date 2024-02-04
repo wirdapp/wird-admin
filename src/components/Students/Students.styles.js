@@ -9,18 +9,18 @@ export default styled(AnimatedPage)`
   margin: 0 auto;
   flex-direction: column;
   gap: 3rem;
-  max-width: 59.375rem;
+  max-width: 900px;
   @media (max-width: 550px) {
     gap: 0;
   }
 `;
 
 export const ContentContainer = styled.div`
-  width: 92%;
   display: flex;
   margin: 0 auto;
   justify-content: space-between;
   gap: 1.25rem;
+  width: 100%;
 
   @media (max-width: 900px) {
     flex-direction: column-reverse;
@@ -118,7 +118,6 @@ export const SearchIconButton = styled.button`
   background: ${colors.white};
 `;
 
-
 export const AddStudentContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -145,18 +144,13 @@ export const AddModeratorSpan = styled.span`
 `;
 
 export const SearchInputContainer = styled.div`
-  width: 19.25rem;
-  height: 6.875rem;
+  width: 300px;
   padding: 1.5rem;
   margin: 0 auto;
 
   gap: 0.375rem;
   background: #fbf9f7;
-  border-radius: 1.5rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  border-radius: 8px;
 
   @media (max-width: 900px) {
     width: 100%;
@@ -168,7 +162,6 @@ export const SearchContainerForm = styled.form`
   justify-content: space-between;
   position: relative;
 `;
-
 
 export const SearchContainer = styled.input`
   display: flex;

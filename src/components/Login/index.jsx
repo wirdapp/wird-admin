@@ -123,7 +123,10 @@ function Login() {
             >
               {t("login")}
             </Button>
-            <Button href="//wird.app/user/forgot-password" type="link">
+            <Button
+              href={`//www.wird.app/${i18n.language}/user/forgot-password`}
+              type="link"
+            >
               {t("forgetPass")}
             </Button>
           </Flex>

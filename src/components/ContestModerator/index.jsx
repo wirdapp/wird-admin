@@ -1,41 +1,30 @@
 import React, { useEffect, useState } from "react";
-import Loader from "components/Loader";
-import { ReactComponent as SearchIcons2 } from "assets/icons/search2.svg";
 import { useTranslation } from "react-i18next";
 
 import ContestModeratorDefault, {
-  AddModeratorContainer,
   AddModeratorSpan,
-  BoldText,
   ContentContainer,
-  GoBtn,
-  ModeratorSearchContainer,
-  RowContainer,
-  SearchContainer,
-  SearchContainerForm,
-  SearchInput,
   SearchInputContainer,
 } from "./ContestModerator.styles";
 
 import ModeratorCard from "./ModeratorCard";
 // import {retrieveContestInfo} from "../../services/competitionsServices";
-import { DivPass } from "../ResetPassword/ResetPassword.styles";
 import { useDashboardData } from "../../util/routes-data";
 import { MembersApi } from "../../services/members/api";
+import { AddParticipantContainer } from "../Students/Students.styles";
+import { App, Button, Empty, Flex, Form, Input, Skeleton, Tooltip } from "antd";
+import { PlusIcon } from "@heroicons/react/24/outline";
+import { css } from "@emotion/css";
+import { AnimatePresence, motion } from "framer-motion";
 
 const ContestModerator = () => {
   const { currentUser, currentContest } = useDashboardData();
   const { t } = useTranslation();
-
-  const [isExpanded, setIsExpanded] = useState(false);
+  const { message } = App.useApp();
 
   const [loading, setLoading] = useState(false);
   const [admins, setAdmins] = useState([]);
-  const [adminSearchText, setAdminSearchText] = useState("");
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [modalState, setModalState] = useState(false);
-  const [newAdminUsername, setNewAdminUsername] = useState("");
+  const [formError, setFormError] = useState();
 
   const fetchAdmins = async (search) => {
     setLoading(true);
@@ -53,51 +42,21 @@ const ContestModerator = () => {
     fetchAdmins();
   }, []);
 
-  const handleAdminSearchTextChange = (e) => {
-    setAdminSearchText(e.target.value);
-  };
-
-  const handleAdminSearchClick = async () => {
-    setLoading(true);
-    await fetchAdmins(adminSearchText);
-    setIsExpanded(false);
-  };
-
-  const handleNonAdminTextChange = (e) => {
-    setNewAdminUsername(e.target.value);
-  };
-
-  const handleAddAdminManuallyClick = () => {
-    if (newAdminUsername.length === 0) {
+  const onAddFormFinish = async (values) => {
+    if (values.username.length === 0) {
       return;
     }
-    MembersApi.addAdminToContest({ username: newAdminUsername })
-      .then(() => {
-        setNewAdminUsername("");
-        setShowErrorMessage(false);
-        fetchAdmins();
-      })
-      .catch((err) => {
-        setErrorMessage(err.response.data.detail);
-        setShowErrorMessage(true);
-      });
+    setFormError(undefined);
+    try {
+      await MembersApi.addAdminToContest({ username: values.username });
+      message.success(t("notification.addModerator"));
+      await fetchAdmins();
+    } catch (err) {
+      setFormError(err.response?.data?.detail);
+      console.error(err);
+      message.error(t("notification.errorModerator"));
+    }
   };
-
-  const getAdminsNumber = () => {
-    return admins.some(
-      (admin) => admin.person_info.username === currentUser?.username,
-    )
-      ? admins.length - 1
-      : admins.length;
-  };
-
-  if (loading) {
-    return (
-      <main>
-        <Loader />
-      </main>
-    );
-  }
 
   return (
     <ContestModeratorDefault>
@@ -110,58 +69,70 @@ const ContestModerator = () => {
             width: "100%",
           }}
         >
-          <RowContainer>
-            <BoldText>
-              {t("moderators")}
-              {` (${getAdminsNumber()})`}
-            </BoldText>
-            <ModeratorSearchContainer>
-              <SearchInput
-                onChange={handleAdminSearchTextChange}
-                onClick={() => setIsExpanded(!isExpanded)}
-                placeholder={t("search")}
-                value={adminSearchText.length === 0 ? "" : adminSearchText}
-                isExpanded={isExpanded}
-              />
-              <SearchIcons2 onClick={handleAdminSearchClick} />
-            </ModeratorSearchContainer>
-          </RowContainer>
-
-          {admins
-            .filter(
-              (admin) => admin.person_info.username !== currentUser.username,
-            )
-            .map((person, idx) => {
-              return (
-                <ModeratorCard
-                  key={idx}
-                  person={person.person_info}
-                  admins={admins}
-                  setAdmins={setAdmins}
-                />
-              );
-            })}
+          <AnimatePresence mode="wait">
+            {admins.length === 0 ? (
+              <>
+                {loading ? (
+                  <Skeleton active />
+                ) : (
+                  <Empty
+                    image={Empty.PRESENTED_IMAGE_DEFAULT}
+                    description={t("dailySubmissionsPopup.noData")}
+                    style={{ width: "100%" }}
+                  />
+                )}
+              </>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className={css`
+                  display: flex;
+                  flex-direction: column;
+                  gap: 12px;
+                  width: 100%;
+                `}
+              >
+                {admins.map((person, idx) => {
+                  return (
+                    <ModeratorCard
+                      key={idx}
+                      person={person.person_info}
+                      onChange={fetchAdmins}
+                    />
+                  );
+                })}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
-        <AddModeratorContainer>
+        <AddParticipantContainer>
           <AddModeratorSpan>{t("add-moderator-manually")}</AddModeratorSpan>
           <SearchInputContainer>
-            <SearchContainerForm>
-              <SearchContainer
-                placeholder={t("username")}
-                type="text"
-                onChange={handleNonAdminTextChange}
-              />
-            </SearchContainerForm>
-
-            <GoBtn onClick={handleAddAdminManuallyClick}>
-              {t("add-admin")}
-            </GoBtn>
+            <Form style={{ width: "100%" }} onFinish={onAddFormFinish}>
+              <Flex align="start" gap={9}>
+                <Form.Item
+                  name="username"
+                  rules={[{ required: true, message: t("requiredField") }]}
+                  style={{ marginBottom: 0, flex: 1 }}
+                  validateStatus={formError ? "error" : undefined}
+                  help={formError}
+                >
+                  <Input placeholder={t("username")} type="text" />
+                </Form.Item>
+                <Tooltip title={t("add-admin")}>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    icon={<PlusIcon />}
+                  />
+                </Tooltip>
+              </Flex>
+            </Form>
           </SearchInputContainer>
-          {showErrorMessage && (
-            <DivPass className="red">{errorMessage}</DivPass>
-          )}
-        </AddModeratorContainer>
+        </AddParticipantContainer>
       </ContentContainer>
     </ContestModeratorDefault>
   );

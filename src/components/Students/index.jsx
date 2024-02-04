@@ -1,62 +1,69 @@
-import { App, Empty, Radio } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import {
+  App,
+  Button,
+  Empty,
+  Flex,
+  Form,
+  Input,
+  Segmented,
+  Skeleton,
+  Tooltip,
+} from "antd";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MembersApi } from "../../services/members/api";
 import { Role } from "../../util/ContestPeople_Role";
-import Loader from "../Loader";
 import ParticipantCard from "./ParticipantCard";
 import StudentsContainer, {
   AddModeratorSpan,
   AddParticipantContainer,
   ContentContainer,
-  GoBtn,
-  SearchContainer,
-  SearchContainerForm,
   SearchInputContainer,
 } from "./Students.styles";
+import { PlusIcon } from "@heroicons/react/24/outline";
+import { AnimatePresence, motion } from "framer-motion";
+import { css } from "@emotion/css";
 
 export default function Students() {
   const { message } = App.useApp();
   const { t } = useTranslation();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState("");
-  const typeOfMembers = useRef("");
+  const [role, setRole] = useState(Role.MEMBER);
+  const [formError, setFormError] = useState();
 
-  const callMemebersData = (page = 1) => {
+  const callMembersData = (role) => {
     setLoading(true);
 
-    MembersApi.getUsers({ role: typeOfMembers.current })
+    MembersApi.getUsers({ role })
       .then((data) => setStudents(data))
       .catch((e) => console.log("student error", e))
       .finally(() => setLoading(false));
   };
   useEffect(() => {
-    callMemebersData();
-  }, []);
+    setStudents([]);
+    callMembersData(role);
+  }, [role]);
 
-  const handleChange = (e) => setSearch(e.target.value);
+  const onStudentChange = () => {
+    callMembersData(role);
+  };
 
-  const handleSearch = async () => {
-    if (!search.length) return;
+  const onAddFormFinish = async (values) => {
+    if (!values.username.length) return;
+
     try {
       const res = await MembersApi.addUserToContest({
         role: 3,
-        username: search,
+        username: values.username,
       });
       message.success(t("notification.addStudent"));
+      onStudentChange();
     } catch (error) {
       message.error(t("notification.errorStudent"));
+      setFormError(error?.response?.data?.detail);
     }
   };
-
-  if (loading) {
-    return (
-      <main>
-        <Loader />
-      </main>
-    );
-  }
 
   return (
     <StudentsContainer>
@@ -67,64 +74,83 @@ export default function Students() {
             flexDirection: "column",
             gap: "12px",
             width: "100%",
+            alignItems: "start",
           }}
         >
-          <Radio.Group
-            value={typeOfMembers.current}
-            onChange={(e) => {
-              typeOfMembers.current = e.target.value;
-              callMemebersData();
-            }}
+          <Segmented
+            value={role}
+            onChange={setRole}
             style={{
               marginBottom: 16,
             }}
-          >
-            <Radio.Button value="">{t("see-all")}</Radio.Button>
-            <Radio.Button value={`${Role.MEMBER}`}>{t("role.3")}</Radio.Button>
-            <Radio.Button value={`${Role.PENDING}`}>{t("role.5")}</Radio.Button>
-            <Radio.Button value={`${Role.DEACTIVATED}`}>
-              {t("role.6")}
-            </Radio.Button>
-          </Radio.Group>
-          {students.length === 0 && (
-            <Empty
-              image={Empty.PRESENTED_IMAGE_DEFAULT}
-              description={t("dailySubmissionsPopup.noData")}
-            />
-          )}
-          {students?.map?.((student, idx) => {
-            return (
-              <ParticipantCard
-                key={idx}
-                name={
-                  student.person?.first_name?.length > 0
-                    ? student.person_info.first_name +
-                      " " +
-                      student.person_info.last_name
-                    : student.person_info.username
-                }
-                username={student.person_info.username}
-                setStudents={setStudents}
-                student={student}
-                students={students}
-              />
-            );
-          })}
+            options={[
+              { label: t("role.3"), value: Role.MEMBER },
+              { label: t("role.5"), value: Role.PENDING },
+              { label: t("role.6"), value: Role.DEACTIVATED },
+            ]}
+          />
+          <AnimatePresence mode="wait">
+            {students.length === 0 ? (
+              <>
+                {loading ? (
+                  <Skeleton active />
+                ) : (
+                  <Empty
+                    image={Empty.PRESENTED_IMAGE_DEFAULT}
+                    description={t("dailySubmissionsPopup.noData")}
+                    style={{ width: "100%" }}
+                  />
+                )}
+              </>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className={css`
+                  display: flex;
+                  flex-direction: column;
+                  gap: 12px;
+                  width: 100%;
+                `}
+              >
+                {students?.map?.((student, idx) => {
+                  return (
+                    <ParticipantCard
+                      key={idx}
+                      student={student}
+                      onChange={onStudentChange}
+                    />
+                  );
+                })}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         <AddParticipantContainer>
           <AddModeratorSpan>{t("addParticipantManually")}</AddModeratorSpan>
           <SearchInputContainer>
-            <SearchContainerForm>
-              <SearchContainer
-                placeholder={t("username")}
-                type="text"
-                onChange={handleChange}
-                value={search}
-              />
-            </SearchContainerForm>
-
-            <GoBtn onClick={handleSearch}>{t("add-admin")}</GoBtn>
+            <Form style={{ width: "100%" }} onFinish={onAddFormFinish}>
+              <Flex align="start" gap={9}>
+                <Form.Item
+                  name="username"
+                  rules={[{ required: true, message: t("requiredField") }]}
+                  style={{ marginBottom: 0, flex: 1 }}
+                  validateStatus={formError ? "error" : undefined}
+                  help={formError}
+                >
+                  <Input placeholder={t("username")} type="text" />
+                </Form.Item>
+                <Tooltip title={t("add-admin")}>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    icon={<PlusIcon />}
+                  />
+                </Tooltip>
+              </Flex>
+            </Form>
           </SearchInputContainer>
         </AddParticipantContainer>
       </ContentContainer>

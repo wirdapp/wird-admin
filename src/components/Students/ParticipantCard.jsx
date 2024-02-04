@@ -5,55 +5,39 @@ import ParticipantCards, {
   ColumnContainer,
   LightText,
   ParticipantsNumbers,
-  ShortedName
+  ShortedName,
 } from "./ParticipantCard.styles";
-const ModeratorCard = ({
-  key,
-  name,
-  student,
-  setStudents,
-  students
-}) => {
+import { getFullName, getInitials } from "../../util/user-utils";
 
+const ModeratorCard = ({ student, onChange }) => {
   const { t } = useTranslation();
 
-
   return (
-    <ParticipantCards key={key}>
+    <ParticipantCards>
       <ParticipantsNumbers>
         <div style={{ display: "flex", gap: "12px" }}>
-          <ShortedName>
-            {name.split(" ").length > 1
-              ? (
-                name.split(" ")[0].charAt(0) + name.split(" ")[1].charAt(0)
-              ).toUpperCase()
-              : name.slice(0, 2).toUpperCase()}
-
-          </ShortedName>
+          <ShortedName>{getInitials(student?.person_info)}</ShortedName>
           <ColumnContainer>
-            <BoldText>{name}</BoldText>
-            <LightText>{t("first-name")}: {student?.person_info
-              ?.first_name
-            }</LightText>
-            <LightText>{t("last-name")}: {student?.person_info
-              ?.last_name
-            }</LightText>
-            <LightText>{t("mainRole")}: <span
-              style={{ color: student?.contest_role == 5 || student?.contest_role == 6 ? "red" : "green" }}>
-              {t(`role.${student?.contest_role}`)} </span> </LightText>
-
+            <BoldText>{student?.person_info.username}</BoldText>
+            <LightText>{getFullName(student?.person_info)}</LightText>
+            <LightText>
+              {t("mainRole")}:{" "}
+              <span
+                style={{
+                  color:
+                    student?.contest_role == 5 || student?.contest_role == 6
+                      ? "red"
+                      : "green",
+                }}
+              >
+                {t(`role.${student?.contest_role}`)}{" "}
+              </span>{" "}
+            </LightText>
           </ColumnContainer>
         </div>
-        <DropDownMenu
-          name={name}
-          student={student}
-          setStudents={setStudents}
-          students={students}
-        />
-
+        <DropDownMenu student={student} onChange={onChange} />
       </ParticipantsNumbers>
-
-    </ParticipantCards >
+    </ParticipantCards>
   );
 };
 

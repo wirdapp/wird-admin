@@ -4,7 +4,13 @@ export default {
   deactivate: "إلغاء تنشيط",
   moderators: "المسؤولون",
   search: "ابحث",
-  "add-admin": "إضافة...",
+  "add-admin": "إضافة",
   "add-as-admin": "إضافته كمسؤول",
   "add-as-super-admin": "إضافته كمسؤول رئيسي",
+  notification: {
+    success: "تم تعديل المشرف بنجاح",
+    error: "حدث خطأ ما، يرجى إعادة المحاولة لاحقا",
+    addModerator: "تمت الإضافة بنجاح",
+    errorModerator: "يرجى التحقق من الاسم",
+  },
 };
