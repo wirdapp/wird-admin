@@ -7,21 +7,21 @@ import { useDashboardData } from "../../util/routes-data";
 import { NoContestYet } from "../Competition/no-contest-yet";
 import { useTranslation } from "react-i18next";
 import { EmailNotVerifiedAlert } from "./email-not-verified-alert";
-import { isAdmin } from "../../util/ContestPeople_Role";
+import { isAtLeastAdmin } from "../../util/ContestPeople_Role";
 import { Result } from "antd";
 
 export const DashboardLayout = () => {
   const { t } = useTranslation();
   const { currentContest, currentUser } = useDashboardData();
 
-  const isUserAdmin = isAdmin(currentUser?.role);
+  const canAccessAdminPanel = isAtLeastAdmin(currentUser?.role);
 
   return (
     <Container>
       <Sidebar />
       <MainContent>
         <Navbar />
-        {isUserAdmin ? (
+        {canAccessAdminPanel ? (
           <>
             {!currentUser.email_verified && <EmailNotVerifiedAlert />}
             <div className="page-content">
