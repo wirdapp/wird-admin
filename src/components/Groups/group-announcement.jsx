@@ -7,6 +7,7 @@ import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useTranslation } from "react-i18next";
 import { useRevalidator } from "react-router-dom";
 import { GroupsApi } from "../../services/groups/api";
+import dayjs from "dayjs";
 
 export const GroupAnnouncement = ({ group }) => {
   const { message } = App.useApp();
@@ -32,18 +33,19 @@ export const GroupAnnouncement = ({ group }) => {
 
   const handleAddAnnouncement = async (values) => {
     setAdding(true);
-    await handleSaveAnnouncement([
+    const newAnnouncementKey = dayjs().format("YYYY-MM-DD HH:mm:ss");
+    await handleSaveAnnouncement({
       ...group.announcements,
-      values.newAnnouncementText,
-    ]);
+      [newAnnouncementKey]: values.newAnnouncementText,
+    });
     form.resetFields();
     setAdding(false);
   };
 
-  const handleDeleteAnnouncement = async (index) => {
-    setDeleting(index);
-    const updatedAnnouncements = [...group.announcements];
-    updatedAnnouncements.splice(index, 1);
+  const handleDeleteAnnouncement = async (key) => {
+    setDeleting(key);
+    const updatedAnnouncements = { ...group.announcements };
+    delete updatedAnnouncements[key];
     await handleSaveAnnouncement(updatedAnnouncements);
     setDeleting(null);
   };
@@ -66,8 +68,8 @@ export const GroupAnnouncement = ({ group }) => {
           }
         `}
         bordered
-        dataSource={group.announcements}
-        renderItem={(item, index) => (
+        dataSource={Object.entries(group.announcements)}
+        renderItem={([date, item], index) => (
           <List.Item
             actions={[
               <Button
@@ -75,13 +77,14 @@ export const GroupAnnouncement = ({ group }) => {
                 danger
                 size="small"
                 icon={<TrashIcon />}
-                onClick={() => handleDeleteAnnouncement(index)}
-                loading={deleting === item}
+                onClick={() => handleDeleteAnnouncement(date)}
+                loading={deleting === date}
               />,
             ]}
           >
             <List.Item.Meta
               title={item}
+              description={<small>{date}</small>}
               avatar={
                 <Typography.Text type="secondary">{index + 1}.</Typography.Text>
               }

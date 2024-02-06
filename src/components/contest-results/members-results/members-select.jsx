@@ -1,8 +1,17 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Select } from "antd";
-import { MembersApi } from "../../../services/members/api";
-import { getFullName } from "../../../util/user-utils";
+import React, {useEffect, useMemo, useState} from "react";
+import {Select} from "antd";
+import {MembersApi} from "../../../services/members/api";
+import {getFullName} from "../../../util/user-utils";
 
+/**
+ *
+ * @param role
+ * @param valueField
+ * @param excludeUsernames
+ * @param {import('antd').SelectProps} props
+ * @returns {Element}
+ * @constructor
+ */
 export const MembersSelect = ({
   role,
   valueField = "id",

@@ -5,8 +5,10 @@ import { colors } from "../../styles";
 import { useTranslation } from "react-i18next";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import { ContestsApi } from "../../services/contests/api";
-import { App, Button, Empty, Form, Input, Modal, Spin } from "antd";
+import { App, Button, Empty, Form, Input, Modal, Spin, Typography } from "antd";
 import { useNavigation, useRevalidator } from "react-router-dom";
+import dayjs from "dayjs";
+import { css } from "@emotion/css";
 
 const StyledAnnouncementWrapper = styled.div`
   width: 100%;
@@ -53,11 +55,13 @@ export const StyledAnnouncementsList = styled.ul`
     }
 
     &:first-child {
-      border-radius: 8px 8px 0 0;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
     }
 
     &:last-child {
-      border-radius: 0 0 8px 8px;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
     }
   }
 `;
@@ -78,10 +82,11 @@ export const ManageAnnouncements = () => {
     try {
       setSubmitting(true);
       const newAnnouncement = values.announcement.trim();
-      const newAnnouncements = [
+      const newAnnouncementKey = dayjs().format("YYYY-MM-DD HH:mm:ss");
+      const newAnnouncements = {
         ...currentContest.announcements,
-        newAnnouncement,
-      ];
+        [newAnnouncementKey]: newAnnouncement,
+      };
       await ContestsApi.updateContest(currentContest.id, {
         announcements: newAnnouncements,
       });
@@ -112,12 +117,11 @@ export const ManageAnnouncements = () => {
     }
   };
 
-  const handleAnnouncementDelete = async (index) => {
+  const handleAnnouncementDelete = async (key) => {
     try {
-      setDeleting((prev) => ({ ...prev, [index]: true }));
-      const newAnnouncements = currentContest.announcements.filter(
-        (_, i) => i !== index,
-      );
+      setDeleting((prev) => ({ ...prev, [key]: true }));
+      const newAnnouncements = { ...currentContest.announcements };
+      delete newAnnouncements[key];
       await ContestsApi.updateContest(currentContest.id, {
         announcements: newAnnouncements,
       });
@@ -143,20 +147,36 @@ export const ManageAnnouncements = () => {
         ) : (
           <Spin spinning={navigation.state !== "idle"}>
             <StyledAnnouncementsList>
-              {currentContest.announcements.map((announcement, index) => (
-                <li key={index}>
-                  {announcement}
-                  <Button
-                    type="text"
-                    danger
-                    size="small"
-                    onClick={() => handleAnnouncementDelete(index)}
-                    loading={deleting[index]}
-                  >
-                    <TrashIcon />
-                  </Button>
-                </li>
-              ))}
+              {Object.entries(currentContest.announcements).map(
+                ([date, announcement]) => (
+                  <li key={date}>
+                    <div
+                      className={css`
+                        display: flex;
+                        flex-direction: column;
+                        gap: 4px;
+                      `}
+                    >
+                      <Typography.Text
+                        type="secondary"
+                        style={{ fontSize: 10 }}
+                      >
+                        {dayjs(date).format("DD MMM YYYY HH:mm")}
+                      </Typography.Text>
+                      {announcement}
+                    </div>
+                    <Button
+                      type="text"
+                      danger
+                      size="small"
+                      onClick={() => handleAnnouncementDelete(date)}
+                      loading={deleting[date]}
+                    >
+                      <TrashIcon />
+                    </Button>
+                  </li>
+                ),
+              )}
             </StyledAnnouncementsList>
           </Spin>
         )}

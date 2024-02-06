@@ -66,9 +66,15 @@ export const GroupMembers = ({ group, members }) => {
     setAdding(true);
     setFormErrors({});
     try {
+      const userIds = values.contest_person;
+      const body = userIds.map((id) => ({
+        contest_person: id,
+        group_role: values.group_role,
+      }));
+
       await GroupsApi.addGroupMember({
         groupId: group.id,
-        body: values,
+        body,
       });
       message.success(t("group-updated"));
       revalidator.revalidate();
@@ -139,6 +145,7 @@ export const GroupMembers = ({ group, members }) => {
                 currentUser.username,
                 ...members.map((m) => m.person.username),
               ]}
+              mode="multiple"
             />
           </Form.Item>
           <Form.Item name="group_role" initialValue={2}>
