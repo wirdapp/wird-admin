@@ -1,5 +1,5 @@
 export default {
-  students: "Participants ",
+  participants: "Participants",
   "accepted-participants": "Accepted Participants ",
   delete: "Delete",
   reactive: "Reactive",
@@ -70,4 +70,7 @@ export default {
   "user-details": "User Details",
   email: "Email",
   all: "All",
+  "add-user": "Add User",
+  "change-role-to": "Change to",
+  "show-results": "Results",
 };

@@ -9,7 +9,6 @@ import {
 import { ReactComponent as WirdLogo } from "assets/icons/Shared/wirdLogo.svg";
 import { ReactComponent as HomeIcon } from "assets/icons/home.svg";
 import { ReactComponent as CompInfoIcon } from "assets/icons/competition-information.svg";
-import { ReactComponent as ContestModeratorsIcon } from "assets/icons/admin.svg";
 import { ReactComponent as CriteriaIcon } from "assets/icons/criterias.svg";
 import { ReactComponent as ParticipantsIcon } from "assets/icons/students.svg";
 import { ReactComponent as ResultsIcon } from "assets/icons/results.svg";
@@ -53,17 +52,13 @@ function Sidebar() {
             <CriteriaIcon />
             <MenuItem>{t("criterias")}</MenuItem>
           </MenuLink>
-          <MenuLink to="/dashboard/students" title={t("students")}>
+          <MenuLink to="/dashboard/participants" title={t("participants")}>
             <ParticipantsIcon />
-            <MenuItem>{t("students")}</MenuItem>
+            <MenuItem>{t("participants")}</MenuItem>
           </MenuLink>
           <MenuLink to="/dashboard/groups" title={t("groups-page")}>
             <GroupsIcon />
             <MenuItem>{t("groups-page")}</MenuItem>
-          </MenuLink>
-          <MenuLink to="/dashboard/admins" title={t("admins")}>
-            <ContestModeratorsIcon />
-            <MenuItem>{t("admins")}</MenuItem>
           </MenuLink>
         </MenuContainer>
       </div>

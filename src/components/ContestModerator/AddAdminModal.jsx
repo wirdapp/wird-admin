@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDom from "react-dom";
-import Container, { AddButton, Overlay } from "../Students/ButtonsModal.styled";
+import Container, { AddButton, Overlay } from "../users/ButtonsModal.styled";
 import { useTranslation } from "react-i18next";
 import { updateContestPeopleRole } from "../../services/adminsServices";
 

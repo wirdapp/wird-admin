@@ -3,7 +3,7 @@ export default {
   "contest-information": "معلومات المسابقة",
   "leaders-board": "الأوائل",
   admins: "المسؤولون",
-  students: "الطلاب",
+  participants: "المشاركين",
   criterias: "المعايير",
   "text-inputs": "مراجعة المدخلات النصية",
   "results-page": "مشاهدة النتائج",

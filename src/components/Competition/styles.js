@@ -35,3 +35,59 @@ export const ContestDetailBox = styled.div`
     }
   }
 `;
+
+export const StyledAnnouncementWrapper = styled.div`
+  width: 100%;
+
+  > div {
+    padding: 24px;
+    background-color: ${colors.warmWheat};
+    border-radius: 24px;
+    height: 100%;
+  }
+
+  h2 {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .announcement-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+`;
+
+export const StyledAnnouncementsList = styled.ul`
+  list-style: none;
+  padding: 16px 0;
+  margin: 0;
+  display: flex;
+  gap: 2px;
+  flex-direction: column;
+
+  li {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: ${colors.white};
+    padding: 12px;
+    border-radius: 0;
+    white-space: pre-wrap;
+
+    button {
+      min-width: 0;
+    }
+
+    &:first-child {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+  }
+`;

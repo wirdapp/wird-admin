@@ -68,8 +68,8 @@ export const ParticipantSearchContainer = styled.div`
 
 export const ParticipantsNumbers = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: start;
+  gap: 12px;
   background: #fbf9f7;
   padding: 24px;
   width: 100%;
@@ -86,7 +86,6 @@ export const ShortedName = styled.div`
   border-radius: 12px;
   padding: 18px;
   font-weight: 700;
-  align-self: center;
 `;
 
 export const CardButton = styled.button`

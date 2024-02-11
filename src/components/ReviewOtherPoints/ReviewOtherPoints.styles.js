@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { DropdownDiv } from "../Students/setPasswordStudent/SetPasswordStudent.styles";
+import { DropdownDiv } from "../users/setPasswordStudent/SetPasswordStudent.styles";
 import { DropdownList as List } from "../shared/styles";
 
 export const TxtArea = styled.textarea`

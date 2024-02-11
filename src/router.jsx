@@ -6,7 +6,7 @@ import EditProfile from "./components/EditProfile";
 import ContestModerator from "./components/ContestModerator";
 import Competition from "./components/Competition";
 import Leaderboard from "./components/leaderboard";
-import Students from "./components/Students";
+import Students from "./components/users";
 import Groups from "./components/Groups";
 import ContestCriteria from "./components/ContestCriteria";
 import ReviewOtherPoints from "./components/ReviewOtherPoints";
@@ -99,9 +99,9 @@ export const router = createBrowserRouter([
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "students",
+            path: "participants",
             loader: () => ({
-              title: "students",
+              title: "participants",
             }),
             element: <Students />,
             errorElement: <ErrorBoundary />,

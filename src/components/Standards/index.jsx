@@ -13,7 +13,7 @@ import {
   DropdownListItem,
   Span,
 } from "../Admins/Admins.styles";
-import { H5 } from "../Students/setPasswordStudent/SetPasswordStudent.styles";
+import { H5 } from "../users/setPasswordStudent/SetPasswordStudent.styles";
 import Loader from "../Loader";
 import { isSuperAdmin } from "../../util/ContestPeople_Role";
 import { useDashboardData } from "../../util/routes-data";

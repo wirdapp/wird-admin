@@ -10,7 +10,7 @@ import { DivPass as DefaultDivPass } from "../shared/styles";
 import {
   DivFileField as DefaultDivFileField,
   FileFormInput as DefaultFileFormInput,
-} from "../Students/setPasswordStudent/SetPasswordStudent.styles";
+} from "../users/setPasswordStudent/SetPasswordStudent.styles";
 import { colors } from "../../styles";
 
 export default styled.div`

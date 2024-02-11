@@ -1,0 +1,82 @@
+import { MembersApi } from "services/members/api";
+
+import { App, Button, Dropdown } from "antd";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import {
+  isAdmin,
+  isDeactivated,
+  isMember,
+  isMemberReadOnly,
+  isOwner,
+  isPending,
+  isSuperAdmin,
+  Role,
+} from "util/ContestPeople_Role";
+
+const DropDownMenu = ({ student, onChange }) => {
+  const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+  const { message } = App.useApp();
+
+  const studentRole = student?.contest_role;
+
+  const dropDownItems = [
+    !isSuperAdmin(studentRole) && {
+      label: t("role.1"),
+      key: Role.SUPER_ADMIN,
+    },
+    !isAdmin(studentRole) && {
+      label: t("role.2"),
+      key: Role.ADMIN,
+    },
+    !isMember(studentRole) && {
+      label: t("role.3"),
+      key: Role.MEMBER,
+    },
+    !isMemberReadOnly(studentRole) && {
+      label: t("role.4"),
+      key: Role.READ_ONLY_MEMBER,
+    },
+    !isPending(studentRole) && {
+      label: t("role.5"),
+      key: Role.PENDING,
+    },
+    !isDeactivated(studentRole) && {
+      label: t("role.6"),
+      key: Role.DEACTIVATED,
+    },
+  ];
+
+  const updateRole = async (role) => {
+    try {
+      const res = await MembersApi.updateUserContestRole({
+        role,
+        username: student.person_info.username,
+      });
+      message.success(t("notification.success"));
+      onChange?.(res);
+    } catch (error) {
+      message.error(t("notification.error"));
+    }
+  };
+
+  const menuProps = {
+    items: dropDownItems,
+    onClick: ({ key }) => updateRole(key),
+  };
+
+  return !isOwner(student?.contest_role) ? (
+    <Dropdown
+      menu={menuProps}
+      trigger={["click"]}
+      placement={i18n.dir() === "rtl" ? "bottomLeft" : "bottomRight"}
+    >
+      <Button size="small" style={{ flexDirection: "row-reverse" }}>
+        {t("change-role-to")}
+      </Button>
+    </Dropdown>
+  ) : null;
+};
+
+export default DropDownMenu;

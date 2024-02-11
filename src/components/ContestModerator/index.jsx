@@ -11,7 +11,7 @@ import ModeratorCard from "./ModeratorCard";
 // import {retrieveContestInfo} from "../../services/competitionsServices";
 import { useDashboardData } from "../../util/routes-data";
 import { MembersApi } from "../../services/members/api";
-import { AddParticipantContainer } from "../Students/Students.styles";
+import { AddParticipantContainer } from "../users/Students.styles";
 import { App, Button, Empty, Flex, Form, Input, Skeleton, Tooltip } from "antd";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { css } from "@emotion/css";

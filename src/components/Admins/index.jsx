@@ -8,12 +8,13 @@ import AdminsDefault, {
 import Tabs from "../shared/Tabs";
 import Modal from "../shared/Modal";
 import { deleteAdmin, retrieveAdmins } from "../../services/adminsServices";
-import { H5 } from "../Students/setPasswordStudent/SetPasswordStudent.styles";
+import { H5 } from "../users/setPasswordStudent/SetPasswordStudent.styles";
 import Loader from "../Loader";
 import { isSuperAdmin } from "../../util/ContestPeople_Role";
 import { useDashboardData } from "../../util/routes-data";
 
 import { useTranslation } from "react-i18next";
+
 export default function Admins() {
   const { t } = useTranslation();
 
@@ -47,7 +48,11 @@ export default function Admins() {
     let labels = [];
     let contents = [];
 
-    if (currentUser && !isSuperAdmin(currentUser?.role) && admins.length === 0) {
+    if (
+      currentUser &&
+      !isSuperAdmin(currentUser?.role) &&
+      admins.length === 0
+    ) {
       setAdmins([...currentUser]);
     }
 
@@ -156,9 +161,10 @@ export default function Admins() {
                             {t("deleteBtn")}
                           </Button>
                           {admin.person_info.first_name?.length > 0 ||
-                            admin.person_info.last_name?.length > 0 ? (
+                          admin.person_info.last_name?.length > 0 ? (
                             <Span>
-                              {admin.person_info.first_name} {admin.person_info.last_name}
+                              {admin.person_info.first_name}{" "}
+                              {admin.person_info.last_name}
                             </Span>
                           ) : (
                             <Span>{admin.person_info.username}</Span>
@@ -167,9 +173,10 @@ export default function Admins() {
                       ) : (
                         <>
                           {admin.person_info.first_name?.length > 0 ||
-                            admin.person_info.last_name?.length > 0 ? (
+                          admin.person_info.last_name?.length > 0 ? (
                             <Span style={{ width: "100%" }}>
-                              {admin.person_info.first_name} {admin.person_info.last_name}
+                              {admin.person_info.first_name}{" "}
+                              {admin.person_info.last_name}
                             </Span>
                           ) : (
                             <Span style={{ width: "100%" }}>

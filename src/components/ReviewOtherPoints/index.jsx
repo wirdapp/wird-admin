@@ -7,7 +7,7 @@ import {
 import { DropDownDiv, DropdownList, TxtArea } from "./ReviewOtherPoints.styles";
 import { DropdownDivSelect as Box } from "../Groups/Groups.styles";
 import Tabs from "../shared/Tabs";
-import { H5 } from "../Students/setPasswordStudent/SetPasswordStudent.styles";
+import { H5 } from "../users/setPasswordStudent/SetPasswordStudent.styles";
 import { Span } from "../Login/login.styles";
 import {
   DivPass,

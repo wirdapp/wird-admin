@@ -66,4 +66,7 @@ export default {
   "user-details": "تفاصيل المستخدم",
   email: "البريد الإلكتروني",
   all: "الكل",
+  "add-user": "إضافة مستخدم",
+  "change-role-to": "تغيير إلى",
+  "show-results": "النتائج",
 };

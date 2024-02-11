@@ -17,6 +17,10 @@ export const isSuperAdmin = (role) => {
   return Role.SUPER_ADMIN === role;
 };
 
+export const isAtLeastSuperAdmin = (role) => {
+  return isSuperAdmin(role) || isOwner(role);
+};
+
 export const isAdmin = (role) => {
   return Role.ADMIN === role;
 };

@@ -7,6 +7,9 @@ import { ManageAnnouncements } from "./manage-announcements";
 import styled from "@emotion/styled";
 import { AnimatedPage } from "../../ui/animated-page";
 import { ContestDetailsBox } from "./contest-details-box";
+import { Alert } from "antd";
+import { useTranslation } from "react-i18next";
+import { StyledAnnouncementWrapper } from "./styles";
 
 const StyledContestEditWrapper = styled.div`
   display: flex;
@@ -18,6 +21,7 @@ const StyledContestEditWrapper = styled.div`
 `;
 
 export default function Competition() {
+  const { t } = useTranslation();
   const { currentContest } = useDashboardData();
 
   return (
@@ -27,7 +31,14 @@ export default function Competition() {
 
         <ContestMembers contest={currentContest} />
         <StyledContestEditWrapper>
-          <ManageAnnouncements />
+          <StyledAnnouncementWrapper>
+            <Alert.ErrorBoundary
+              message={t("something-went-wrong")}
+              description=""
+            >
+              <ManageAnnouncements />
+            </Alert.ErrorBoundary>
+          </StyledAnnouncementWrapper>
           <EditCompetitionForm contest={currentContest} />
         </StyledContestEditWrapper>
       </ContestModeratorDefault>
