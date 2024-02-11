@@ -11,6 +11,8 @@ import { ContestsApi } from "../../../services/contests/api";
 import { css } from "@emotion/css";
 import { useRevalidator } from "react-router-dom";
 import dayjs from "dayjs";
+import { isAtLeastSuperAdmin } from "../../../util/ContestPeople_Role";
+import { useDashboardData } from "../../../util/routes-data";
 
 export default function EditCompetitionForm({ contest }) {
   const { message } = App.useApp();
@@ -19,6 +21,7 @@ export default function EditCompetitionForm({ contest }) {
   const [classColor, setClassColor] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const revalidator = useRevalidator();
+  const { currentUser } = useDashboardData();
 
   const handleUpdateContest = async (values) => {
     try {
@@ -47,6 +50,8 @@ export default function EditCompetitionForm({ contest }) {
     }
   };
 
+  const canEdit = isAtLeastSuperAdmin(currentUser.role);
+
   return (
     <EditContestFormWrapper>
       <ParticipantsNumbers>
@@ -60,7 +65,7 @@ export default function EditCompetitionForm({ contest }) {
           wrapperCol={{ span: 18 }}
           initialValues={contest}
           style={{ width: "100%" }}
-          disabled={submitting}
+          disabled={!canEdit || submitting}
           validateMessages={{
             required: t("requiredField"),
           }}
@@ -132,14 +137,16 @@ export default function EditCompetitionForm({ contest }) {
             </Form.Item>
           )}
 
-          <Form.Item wrapperCol={{ offset: 4, span: 20 }}>
-            <Space>
-              <Button htmlType="submit" type="primary" loading={submitting}>
-                {t("update")}
-              </Button>
-              <Button htmlType="reset">{t("reset")}</Button>
-            </Space>
-          </Form.Item>
+          {canEdit && (
+            <Form.Item wrapperCol={{ offset: 4, span: 20 }}>
+              <Space>
+                <Button htmlType="submit" type="primary" loading={submitting}>
+                  {t("update")}
+                </Button>
+                <Button htmlType="reset">{t("reset")}</Button>
+              </Space>
+            </Form.Item>
+          )}
         </Form>
       </ParticipantsNumbers>
     </EditContestFormWrapper>

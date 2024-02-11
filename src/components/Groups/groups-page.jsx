@@ -7,7 +7,6 @@ import {
   defer,
   Outlet,
   useLoaderData,
-  useNavigation,
   useParams,
   useRevalidator,
 } from "react-router-dom";
@@ -19,6 +18,8 @@ import { CreateGroupPopup } from "./create-group-popup";
 import { GroupsList } from "./groups-list";
 import { colors } from "../../styles";
 import useBreakpoint from "antd/es/grid/hooks/useBreakpoint";
+import { useDashboardData } from "../../util/routes-data";
+import { isAtLeastSuperAdmin } from "../../util/ContestPeople_Role";
 
 export function groupsPageLoader() {
   const groups = GroupsApi.getGroups();
@@ -35,8 +36,10 @@ export function Group() {
   const { groupId } = useParams();
   const [createGroupPopupOpen, setCreateGroupPopupOpen] = React.useState(false);
   const screens = useBreakpoint();
-  const navigation = useNavigation();
   const revalidator = useRevalidator();
+  const { currentUser } = useDashboardData();
+
+  const isSuperAdmin = isAtLeastSuperAdmin(currentUser.role);
 
   return (
     <AnimatedPage
@@ -71,12 +74,14 @@ export function Group() {
                       <Typography.Title level={4} style={{ marginBottom: 0 }}>
                         {t("select")}:
                       </Typography.Title>
-                      <Button
-                        onClick={() => setCreateGroupPopupOpen(true)}
-                        icon={<PlusIcon />}
-                      >
-                        {t("create-group")}
-                      </Button>
+                      {isSuperAdmin && (
+                        <Button
+                          onClick={() => setCreateGroupPopupOpen(true)}
+                          icon={<PlusIcon />}
+                        >
+                          {t("create-group")}
+                        </Button>
+                      )}
                     </Flex>
                     <GroupsList groups={groups} selected={groupId} />
                   </Spin>
@@ -110,12 +115,14 @@ export function Group() {
                   <Typography.Text type="secondary">
                     {t("groups-description")}
                   </Typography.Text>
-                  <Button
-                    icon={<PlusIcon />}
-                    onClick={() => setCreateGroupPopupOpen(true)}
-                  >
-                    {t("create-group")}
-                  </Button>
+                  {isSuperAdmin && (
+                    <Button
+                      icon={<PlusIcon />}
+                      onClick={() => setCreateGroupPopupOpen(true)}
+                    >
+                      {t("create-group")}
+                    </Button>
+                  )}
                 </Space>
               </Empty>
             )

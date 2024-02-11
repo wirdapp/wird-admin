@@ -3,16 +3,14 @@ import { Role } from "../../util/ContestPeople_Role";
 import { Select } from "antd";
 import { useTranslation } from "react-i18next";
 
-export const RolesSelect = ({ value, onChange, showAll }) => {
+export const RolesSelect = ({ value, onChange, showAll, style }) => {
   const { t } = useTranslation();
 
   return (
     <Select
       value={value}
       onChange={onChange}
-      style={{
-        flex: "1",
-      }}
+      style={style}
       options={[
         showAll && { label: t("all"), value: -1 },
         { label: t("role.0"), value: Role.CONTEST_OWNER },

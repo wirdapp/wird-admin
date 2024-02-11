@@ -5,12 +5,17 @@ import ParticipantCards, {
   ColumnContainer,
   LightText,
   ParticipantsNumbers,
-  ShortedName,
+  StyledParticipantInfo,
 } from "./ParticipantCard.styles";
 import { getFullName, getInitials } from "../../util/user-utils";
-import { isAtLeastSuperAdmin, isMember } from "../../util/ContestPeople_Role";
+import {
+  isAtLeastSuperAdmin,
+  isMember,
+  isOwner,
+  Role,
+} from "../../util/ContestPeople_Role";
 import { useDashboardData } from "../../util/routes-data";
-import { App, Button, Popconfirm, Space } from "antd";
+import { App, Avatar, Badge, Button, Popconfirm, Space } from "antd";
 import { ReactComponent as ResultsIcon } from "assets/icons/results.svg";
 import { useNavigate } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -43,23 +48,31 @@ const ParticipantCard = ({ student, onChange }) => {
   return (
     <ParticipantCards data-person-id={student.id}>
       <ParticipantsNumbers>
-        <ShortedName>{getInitials(student?.person_info)}</ShortedName>
-        <ColumnContainer>
-          <BoldText>{student?.person_info.username}</BoldText>
-          <LightText>{getFullName(student?.person_info)}</LightText>
-          <LightText>
-            {t("mainRole")}:{" "}
-            <span
-              style={{
-                color:
-                  student?.contest_role == 5 || student?.contest_role == 6
-                    ? "red"
-                    : "green",
-              }}
-            >
-              {t(`role.${student?.contest_role}`)}{" "}
-            </span>{" "}
-          </LightText>
+        <Avatar
+          src={student?.person_info.avatar}
+          style={{ background: "#FDD561", color: "black" }}
+        >
+          {getInitials(student?.person_info)}
+        </Avatar>
+        <StyledParticipantInfo>
+          <ColumnContainer>
+            <BoldText>{getFullName(student?.person_info)}</BoldText>
+            <Space wrap>
+              <LightText>{student?.person_info.username}</LightText>
+              <LightText>
+                <Badge
+                  count={t(`role.${student?.contest_role}`)}
+                  color={
+                    student?.contest_role === Role.DEACTIVATED
+                      ? "red"
+                      : student?.contest_role === Role.PENDING
+                        ? "orange"
+                        : "green"
+                  }
+                />
+              </LightText>
+            </Space>
+          </ColumnContainer>
 
           <Space style={{ marginTop: 8 }}>
             {canEdit && <DropDownMenu student={student} onChange={onChange} />}
@@ -76,26 +89,28 @@ const ParticipantCard = ({ student, onChange }) => {
                 {t("show-results")}
               </Button>
             )}
-            {student?.person_info.username !== currentUser.username && (
-              <Popconfirm
-                title={t("are-you-sure")}
-                onConfirm={() =>
-                  removeUserFromContest(student?.person_info.username)
-                }
-              >
-                <Button
-                  size="small"
-                  type="text"
-                  danger
-                  icon={<XMarkIcon />}
-                  loading={deleting}
+            {canEdit &&
+              student?.person_info.username !== currentUser.username &&
+              !isOwner(student.contest_role) && (
+                <Popconfirm
+                  title={t("are-you-sure")}
+                  onConfirm={() =>
+                    removeUserFromContest(student?.person_info.username)
+                  }
                 >
-                  {t("remove")}
-                </Button>
-              </Popconfirm>
-            )}
+                  <Button
+                    size="small"
+                    type="text"
+                    danger
+                    icon={<XMarkIcon />}
+                    loading={deleting}
+                  >
+                    {t("remove")}
+                  </Button>
+                </Popconfirm>
+              )}
           </Space>
-        </ColumnContainer>
+        </StyledParticipantInfo>
       </ParticipantsNumbers>
     </ParticipantCards>
   );

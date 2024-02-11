@@ -16,10 +16,13 @@ import { ReactComponent as LeaderBoard } from "assets/icons/leaderBoard.svg";
 import { ReactComponent as GroupsIcon } from "assets/icons/group.svg";
 import { useTranslation } from "react-i18next";
 import { useDashboardData } from "../../../util/routes-data";
+import { isAtLeastSuperAdmin } from "../../../util/ContestPeople_Role";
 
 function Sidebar() {
   const { currentUser } = useDashboardData();
   const { t } = useTranslation();
+
+  const isSuperAdmin = isAtLeastSuperAdmin(currentUser.role);
 
   return (
     <SideBarContainer>
@@ -40,6 +43,11 @@ function Sidebar() {
             <CompInfoIcon />
             <MenuItem>{t("contest-information")}</MenuItem>
           </MenuLink>
+          <MenuLink to="/dashboard/groups" title={t("groups-page")}>
+            <GroupsIcon />
+            <MenuItem>{t("groups-page")}</MenuItem>
+          </MenuLink>
+
           <MenuLink to="/dashboard/results/overview" title={t("results-page")}>
             <ResultsIcon />
             <MenuItem>{t("results-page")}</MenuItem>
@@ -48,18 +56,16 @@ function Sidebar() {
             <LeaderBoard />
             <MenuItem>{t("leaders-board")}</MenuItem>
           </MenuLink>
-          <MenuLink to="/dashboard/contest-criteria" title={t("criterias")}>
-            <CriteriaIcon />
-            <MenuItem>{t("criterias")}</MenuItem>
-          </MenuLink>
           <MenuLink to="/dashboard/participants" title={t("participants")}>
             <ParticipantsIcon />
             <MenuItem>{t("participants")}</MenuItem>
           </MenuLink>
-          <MenuLink to="/dashboard/groups" title={t("groups-page")}>
-            <GroupsIcon />
-            <MenuItem>{t("groups-page")}</MenuItem>
-          </MenuLink>
+          {isSuperAdmin && (
+            <MenuLink to="/dashboard/contest-criteria" title={t("criterias")}>
+              <CriteriaIcon />
+              <MenuItem>{t("criterias")}</MenuItem>
+            </MenuLink>
+          )}
         </MenuContainer>
       </div>
     </SideBarContainer>

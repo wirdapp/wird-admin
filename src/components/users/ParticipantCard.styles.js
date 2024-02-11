@@ -57,6 +57,10 @@ export const LightText = styled.span`
   @media (max-width: 550px) {
     font-size: smaller;
   }
+
+  .ant-badge-count {
+    font-weight: 600;
+  }
 `;
 
 export const ParticipantSearchContainer = styled.div`
@@ -77,6 +81,19 @@ export const ParticipantsNumbers = styled.div`
 
   @media (max-width: 900px) {
     max-width: inherit;
+  }
+`;
+
+export const StyledParticipantInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex: 1;
+
+  @media (min-width: 768px) {
+    align-items: center;
+    flex-direction: row;
   }
 `;
 

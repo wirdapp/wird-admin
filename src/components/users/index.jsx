@@ -1,37 +1,24 @@
-import {
-  App,
-  Button,
-  Empty,
-  Flex,
-  Form,
-  Input,
-  Skeleton,
-  Typography,
-} from "antd";
+import { Button, Empty, Flex, Skeleton, Typography } from "antd";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MembersApi } from "../../services/members/api";
 import ParticipantCard from "./ParticipantCard";
-import StudentsContainer, {
-  AddModeratorSpan,
-  AddParticipantContainer,
-  ContentContainer,
-  SearchInputContainer,
-} from "./Students.styles";
+import StudentsContainer, { ContentContainer } from "./Students.styles";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { AnimatePresence, motion } from "framer-motion";
 import { css } from "@emotion/css";
 import { RolesSelect } from "./roles-select";
-import { Role } from "../../util/ContestPeople_Role";
+import { AddUserPopup } from "./add-user-popup";
+import { isAtLeastSuperAdmin } from "../../util/ContestPeople_Role";
+import { useDashboardData } from "../../util/routes-data";
 
 export default function Students() {
-  const { message } = App.useApp();
   const { t } = useTranslation();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState(-1);
-  const [form] = Form.useForm();
-  const [formError, setFormError] = useState();
+  const [showAddUserPopup, setShowAddUserPopup] = useState(false);
+  const { currentUser } = useDashboardData();
 
   const callMembersData = async (role) => {
     setLoading(true);
@@ -67,42 +54,36 @@ export default function Students() {
     }, 5);
   };
 
-  const onAddFormFinish = async (values) => {
-    if (!values.username.length) return;
-
-    try {
-      const res = await MembersApi.addUserToContest({
-        role: values.role,
-        username: values.username,
-      });
-      message.success(t("notification.addStudent"));
-      onStudentChange(res);
-    } catch (error) {
-      message.error(t("notification.errorStudent"));
-      setFormError(error?.response?.data?.detail);
-    }
-  };
-
   return (
     <StudentsContainer>
       <ContentContainer>
         <Flex
           vertical
-          gap={12}
+          gap={20}
           style={{
             width: "100%",
           }}
         >
-          <Flex
-            gap={8}
-            align="center"
-            style={{
-              marginBottom: 16,
-              padding: "0 24px",
-            }}
-          >
+          <Flex justify="space-between" align="center">
+            <Typography.Title level={3}>{t("participants")}</Typography.Title>
+            {isAtLeastSuperAdmin(currentUser.role) && (
+              <Button
+                type="primary"
+                onClick={() => setShowAddUserPopup(role)}
+                icon={<PlusIcon />}
+              >
+                {t("add-user")}
+              </Button>
+            )}
+          </Flex>
+          <Flex gap={8} align="center">
             <Typography.Text type="secondary">{t("show")}:</Typography.Text>
-            <RolesSelect showAll value={role} onChange={setRole} />
+            <RolesSelect
+              showAll
+              value={role}
+              onChange={setRole}
+              style={{ width: "100%", maxWidth: 300 }}
+            />
           </Flex>
           <AnimatePresence mode="wait">
             {students.length === 0 ? (
@@ -142,37 +123,12 @@ export default function Students() {
             )}
           </AnimatePresence>
         </Flex>
-
-        <AddParticipantContainer>
-          <AddModeratorSpan>{t("addParticipantManually")}</AddModeratorSpan>
-          <SearchInputContainer>
-            <Form
-              form={form}
-              style={{ width: "100%" }}
-              onFinish={onAddFormFinish}
-            >
-              <Form.Item
-                name="username"
-                rules={[{ required: true, message: t("requiredField") }]}
-                validateStatus={formError ? "error" : undefined}
-                help={formError}
-              >
-                <Input placeholder={t("username")} type="text" />
-              </Form.Item>
-              <Form.Item
-                name="role"
-                rules={[{ required: true, message: t("requiredField") }]}
-                initialValue={Role.MEMBER}
-              >
-                <RolesSelect />
-              </Form.Item>
-              <Button type="primary" htmlType="submit" icon={<PlusIcon />}>
-                {t("add-user")}
-              </Button>
-            </Form>
-          </SearchInputContainer>
-        </AddParticipantContainer>
       </ContentContainer>
+      <AddUserPopup
+        open={showAddUserPopup}
+        onClose={() => setShowAddUserPopup(false)}
+        onAdded={onStudentChange}
+      />
     </StudentsContainer>
   );
 }

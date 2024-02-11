@@ -11,12 +11,18 @@ import { getFullName } from "../../util/user-utils";
 import { useDashboardData } from "../../util/routes-data";
 import { GroupUserAddForm } from "./group-user-add-form";
 import { GroupRole } from "../../services/groups/consts";
+import { isAtLeastSuperAdmin } from "../../util/ContestPeople_Role";
 
 const MemberActions = ({ groupId, member }) => {
   const { t } = useTranslation();
   const { message } = App.useApp();
   const revalidator = useRevalidator();
   const [submitting, setSubmitting] = React.useState(false);
+  const { currentUser } = useDashboardData();
+
+  const isSuperAdmin = isAtLeastSuperAdmin(currentUser.role);
+
+  if (!isSuperAdmin || currentUser.username === member.username) return null;
 
   const removeMember = async () => {
     setSubmitting(true);

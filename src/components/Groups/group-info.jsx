@@ -4,6 +4,8 @@ import { TrashIcon } from "@heroicons/react/20/solid";
 import { useNavigate, useParams, useRevalidator } from "react-router-dom";
 import { GroupsApi } from "../../services/groups/api";
 import { useTranslation } from "react-i18next";
+import { useDashboardData } from "../../util/routes-data";
+import { isAtLeastSuperAdmin } from "../../util/ContestPeople_Role";
 
 export const GroupInfo = ({ group }) => {
   const { message } = App.useApp();
@@ -13,8 +15,12 @@ export const GroupInfo = ({ group }) => {
   const [deleting, setDeleting] = React.useState();
   const revalidator = useRevalidator();
   const navigate = useNavigate();
+  const { currentUser } = useDashboardData();
+
+  const isSuperAdmin = isAtLeastSuperAdmin(currentUser.role);
 
   const onUpdateName = async (values) => {
+    if (!isSuperAdmin) return;
     setUpdating(true);
     try {
       await GroupsApi.updateGroup({
@@ -31,6 +37,7 @@ export const GroupInfo = ({ group }) => {
   };
 
   const deleteGroup = async () => {
+    if (!isSuperAdmin) return;
     setDeleting(true);
     try {
       await GroupsApi.deleteGroup({
@@ -53,7 +60,7 @@ export const GroupInfo = ({ group }) => {
       initialValues={group}
       layout="vertical"
       onFinish={onUpdateName}
-      disabled={updating}
+      disabled={!isSuperAdmin || updating}
     >
       <Form.Item
         label={t("name")}
@@ -62,20 +69,22 @@ export const GroupInfo = ({ group }) => {
       >
         <Input />
       </Form.Item>
-      <Flex gap={16} justify="space-between">
-        <Button type="primary" htmlType="submit" loading={updating}>
-          {t("save")}
-        </Button>
-        <Popconfirm
-          title={t("delete-group-confirm")}
-          onConfirm={deleteGroup}
-          placement="topRight"
-        >
-          <Button danger type="text" icon={<TrashIcon />} loading={deleting}>
-            {t("delete")}
+      {isSuperAdmin && (
+        <Flex gap={16} justify="space-between">
+          <Button type="primary" htmlType="submit" loading={updating}>
+            {t("save")}
           </Button>
-        </Popconfirm>
-      </Flex>
+          <Popconfirm
+            title={t("delete-group-confirm")}
+            onConfirm={deleteGroup}
+            placement="topRight"
+          >
+            <Button danger type="text" icon={<TrashIcon />} loading={deleting}>
+              {t("delete")}
+            </Button>
+          </Popconfirm>
+        </Flex>
+      )}
     </Form>
   );
 };
