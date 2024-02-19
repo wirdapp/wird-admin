@@ -8,10 +8,11 @@ import { useTranslation } from "react-i18next";
 import { colors } from "../../../styles";
 import { css } from "@emotion/css";
 
-export const CriteriaTypeSelect = ({ value, onChange }) => {
+export const CriteriaTypeSelect = ({ value, onChange, ...props }) => {
   const { t } = useTranslation();
   return (
     <Select
+      {...props}
       value={value}
       onChange={onChange}
       options={FieldTypesOptions.map((o) => {

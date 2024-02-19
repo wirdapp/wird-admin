@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Alert,
   Button,
   Checkbox,
   Flex,
@@ -16,18 +17,26 @@ import { TrashIcon } from "@heroicons/react/20/solid";
 import { v4 as uuidv4 } from "uuid";
 import { css } from "@emotion/css";
 
-export const CriteriaTypeFields = ({ form }) => {
+export const CriteriaTypeFields = ({ form, isEdit }) => {
   const { t } = useTranslation();
   const selectedType = Form.useWatch("resourcetype", form);
 
   return (
     <>
+      {isEdit && (
+        <Alert
+          showIcon
+          type="info"
+          message={t("criteria-type-change-warning")}
+          style={{ marginBottom: 16 }}
+        />
+      )}
       <Form.Item
         label={t("criteria-type")}
         name="resourcetype"
         rules={[{ required: true }]}
       >
-        <CriteriaTypeSelect />
+        <CriteriaTypeSelect disabled={isEdit} />
       </Form.Item>
       {selectedType === FieldTypes.Text && (
         <Form.Item

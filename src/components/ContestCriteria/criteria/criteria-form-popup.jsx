@@ -22,6 +22,8 @@ export const CriteriaFormPopup = ({
   const [form] = Form.useForm();
   const { actions } = useContestCriteria({ sectionId: section.id });
 
+  const isEdit = !!criterionId;
+
   useEffect(() => {
     if (!open) return;
     if (criterionId) {
@@ -76,9 +78,9 @@ export const CriteriaFormPopup = ({
     <Modal
       open={open}
       onCancel={handleClose}
-      title={criterionId ? t("update-criteria") : t("add-criteria")}
+      title={isEdit ? t("update-criteria") : t("add-criteria")}
       onOk={() => form.submit()}
-      okText={criterionId ? t("update") : t("add")}
+      okText={isEdit ? t("update") : t("add")}
       cancelText={t("cancel")}
       okButtonProps={{
         loading: submitting,
@@ -109,7 +111,7 @@ export const CriteriaFormPopup = ({
               {
                 label: t("criteria-type"),
                 key: "type",
-                children: <CriteriaTypeFields form={form} />,
+                children: <CriteriaTypeFields form={form} isEdit={isEdit} />,
               },
               {
                 label: t("criteria-advanced"),

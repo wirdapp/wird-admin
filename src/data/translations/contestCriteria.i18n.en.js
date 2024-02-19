@@ -104,4 +104,8 @@ export default {
   "delete-section-confirm-description":
     "All criteria recorded in this section will be deleted",
   "section-delete-failed": "Failed to delete the section",
+  "criteria-type-change-warning":
+    "Criteria type cannot be changed after creation",
+  "partial-points": "Partial points",
+  "is-correct": "Is correct",
 };

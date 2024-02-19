@@ -104,4 +104,7 @@ export default {
   "delete-section-confirm-description":
     "سيتم حذف جميع المعايير المسجلة في هذا القسم",
   "section-delete-failed": "فشل حذف القسم",
+  "criteria-type-change-warning": "لا يمكن تغيير نوع المعيار بعد إنشائه",
+  "partial-points": "النقاط جزئية",
+  "is-correct": "إجابة صحيحة",
 };
