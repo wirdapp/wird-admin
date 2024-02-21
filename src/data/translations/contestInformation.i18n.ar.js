@@ -18,6 +18,9 @@ export default {
   "active-announcements": "الإعلانات المنشورة مسبقًا",
   save: "حفظ",
   readonly: "قراءة فقط",
+  "days-to-record-in-past": "السماح بتسجيل لغاية",
+  "days-to-record-in-past-msg":
+    "لكم يوم يستطيع الطالب تسجيل نقاط بعد انتهاء ذلك اليوم",
   "no-contest-yet-msg": "ليس لديك أي مسابقات نشطة",
   "no-contest-yet": "ليس لديك مسابقات",
   "delete-this-announcement": "حذف هذا الإعلان",
@@ -64,4 +67,5 @@ export default {
   "show-leaderboard-for-students": "عرض لوحة الأوائل للطلاب",
   country: "الدولة",
   "code-error": "كود غير صالح",
+  days: "أيام",
 };

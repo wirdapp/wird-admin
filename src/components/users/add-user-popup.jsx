@@ -58,7 +58,7 @@ export const AddUserPopup = ({ open, onClose, onAdded }) => {
           rules={[{ required: true, message: t("requiredField") }]}
           initialValue={Role.MEMBER}
         >
-          <RolesSelect />
+          <RolesSelect minRole={currentUser.role} />
         </Form.Item>
         <Button type="primary" htmlType="submit" icon={<PlusIcon />}>
           {t("add-user")}

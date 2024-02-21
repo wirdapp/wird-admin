@@ -18,6 +18,9 @@ export default {
   "active-announcements": "Active Announcements",
   save: "Save",
   readonly: "Read Only",
+  "days-to-record-in-past": "Allow recording for",
+  "days-to-record-in-past-msg":
+    "How many days a student can record points after that day",
   "no-contest-yet-msg": "You don't have any active contests",
   "no-contest-yet": "No contests",
   "delete-this-announcement": "Delete this announcement",
@@ -64,4 +67,5 @@ export default {
   "show-leaderboard-for-students": "Show Leaderboard for Students",
   country: "Country",
   "code-error": "Invalid code",
+  days: "Days",
 };

@@ -6,7 +6,17 @@ import {
   EditContestFormWrapper,
   ParticipantsNumbers,
 } from "./EditCompetition.styles";
-import { Alert, App, Button, Checkbox, Form, Input, Select, Space } from "antd";
+import {
+  Alert,
+  App,
+  Button,
+  Checkbox,
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  Space,
+} from "antd";
 import { ContestsApi } from "../../../services/contests/api";
 import { css } from "@emotion/css";
 import { useRevalidator } from "react-router-dom";
@@ -69,8 +79,8 @@ export default function EditCompetitionForm({ contest }) {
 
         <Form
           onFinish={handleUpdateContest}
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 18 }}
+          labelCol={{ span: 7 }}
+          wrapperCol={{ span: 15 }}
           initialValues={contest}
           style={{ width: "100%" }}
           disabled={!canEdit || submitting}
@@ -117,9 +127,18 @@ export default function EditCompetitionForm({ contest }) {
           >
             <Input type="date" />
           </Form.Item>
+
+          <Form.Item
+            name="days_to_record_in_past"
+            label={t("days-to-record-in-past")}
+            extra={t("days-to-record-in-past-msg")}
+          >
+            <InputNumber min={1} addonAfter={t("days")} />
+          </Form.Item>
+
           <Form.Item
             name="show_standings"
-            wrapperCol={{ offset: 4, span: 18 }}
+            wrapperCol={{ offset: 7, span: 15 }}
             valuePropName="checked"
             style={{ marginBottom: "0px" }}
           >
@@ -127,7 +146,7 @@ export default function EditCompetitionForm({ contest }) {
           </Form.Item>
           <Form.Item
             name="readonly_mode"
-            wrapperCol={{ offset: 4, span: 18 }}
+            wrapperCol={{ offset: 7, span: 15 }}
             valuePropName="checked"
           >
             <Checkbox>{t("readonly")}</Checkbox>
@@ -135,7 +154,7 @@ export default function EditCompetitionForm({ contest }) {
 
           {messages.length > 0 && (
             <Form.Item
-              wrapperCol={{ offset: 4, span: 18 }}
+              wrapperCol={{ offset: 7, span: 15 }}
               style={{ marginBottom: "4px" }}
             >
               <Alert
@@ -153,7 +172,7 @@ export default function EditCompetitionForm({ contest }) {
           )}
 
           {canEdit && (
-            <Form.Item wrapperCol={{ offset: 4, span: 20 }}>
+            <Form.Item wrapperCol={{ offset: 7, span: 15 }}>
               <Space>
                 <Button htmlType="submit" type="primary" loading={submitting}>
                   {t("update")}
