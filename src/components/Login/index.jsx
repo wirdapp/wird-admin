@@ -106,7 +106,7 @@ function Login() {
             </Space>
             <Button
               size="small"
-              href={`//www.wird.app/${i18n.language}/user/forgot-password`}
+              href={`${process.env.REACT_APP_MAIN_URL}/${i18n.language}/user/forgot-password`}
               type="link"
             >
               {t("forgetPassOrUsername")}

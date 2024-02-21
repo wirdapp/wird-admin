@@ -59,7 +59,10 @@ export const UserInfoMenu = () => {
             label: t("help"),
             icon: <QuestionMarkCircleIcon />,
             onClick: () => {
-              window.open(`//wird.app/${i18n.language}/help`, "_blank");
+              window.open(
+                `${process.env.REACT_APP_MAIN_URL}/${i18n.language}/help`,
+                "_blank",
+              );
             },
           },
           {
