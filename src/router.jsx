@@ -3,7 +3,6 @@ import Login from "./components/Login";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 import Home from "./components/Home";
 import EditProfile from "./components/EditProfile";
-import ContestModerator from "./components/ContestModerator";
 import Competition from "./components/Competition";
 import Leaderboard from "./components/leaderboard";
 import Students from "./components/users";
@@ -63,6 +62,7 @@ export const router = createBrowserRouter([
             errorElement: <ErrorBoundary />,
           },
           {
+            id: "profile",
             path: "profile",
             loader: () => ({
               title: "edit-profile",
@@ -107,14 +107,6 @@ export const router = createBrowserRouter([
                 errorElement: <ErrorBoundary />,
               },
             ],
-          },
-          {
-            path: "admins",
-            loader: () => ({
-              title: "admins",
-            }),
-            element: <ContestModerator />,
-            errorElement: <ErrorBoundary />,
           },
           {
             path: "contest-criteria",

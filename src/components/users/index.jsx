@@ -2,7 +2,7 @@ import { Button, Empty, Flex, Input, Skeleton, Typography } from "antd";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MembersApi } from "../../services/members/api";
-import ParticipantCard from "./ParticipantCard";
+import UserListItem from "./user-list-item";
 import StudentsContainer, { ContentContainer } from "./Students.styles";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { AnimatePresence, motion } from "framer-motion";
@@ -130,7 +130,7 @@ export default function Students() {
               >
                 {students?.map?.((student, idx) => {
                   return (
-                    <ParticipantCard
+                    <UserListItem
                       key={idx}
                       student={student}
                       onChange={onStudentChange}

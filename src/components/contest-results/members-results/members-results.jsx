@@ -23,6 +23,7 @@ import { MemberScorePerDayChart } from "./member-score-per-day-chart";
 import { MemberScorePerCategoryChart } from "./member-score-per-category-chart";
 import { DailyUserSubmissions } from "./daily-user-submissions";
 import { Role } from "../../../util/ContestPeople_Role";
+import { css } from "@emotion/css";
 
 export const MembersResults = () => {
   const [form] = Form.useForm();
@@ -77,7 +78,7 @@ export const MembersResults = () => {
       </div>
       <div className="main-content">
         {result || loading ? (
-          <Flex vertical gap={48}>
+          <Flex vertical gap={32}>
             {loading ? (
               <Space size="large" align="center">
                 <Skeleton.Avatar active size={64} />
@@ -104,26 +105,40 @@ export const MembersResults = () => {
                 </Space>
               </Space>
             )}
-            <Row gutter={16}>
-              <Col xs={24} sm={12} xl={6} style={{ paddingBottom: 16 }}>
-                <Card bordered={false} style={{ height: "100%" }}>
-                  <Statistic
-                    title={t("totalPoints")}
-                    value={result?.total_points || 0}
-                    loading={loading}
-                  />
-                </Card>
-              </Col>
-              <Col xs={24} sm={12} xl={6} style={{ paddingBottom: 16 }}>
-                <Card bordered={false} style={{ height: "100%" }}>
-                  <Statistic
-                    title={t("rank")}
-                    value={result?.rank}
-                    loading={loading}
-                  />
-                </Card>
-              </Col>
-            </Row>
+            <Flex wrap="wrap" gap={16}>
+              <Card
+                bordered={false}
+                className={css`
+                  width: 100%;
+                  flex-shrink: 0;
+                  @media (min-width: 768px) {
+                    max-width: 300px;
+                  }
+                `}
+              >
+                <Statistic
+                  title={t("totalPoints")}
+                  value={result?.total_points || 0}
+                  loading={loading}
+                />
+              </Card>
+              <Card
+                bordered={false}
+                className={css`
+                  width: 100%;
+                  flex-shrink: 0;
+                  @media (min-width: 768px) {
+                    max-width: 300px;
+                  }
+                `}
+              >
+                <Statistic
+                  title={t("rank")}
+                  value={result?.rank}
+                  loading={loading}
+                />
+              </Card>
+            </Flex>
             <Row gutter={16}>
               <Col xs={24} lg={12} style={{ paddingBottom: 24 }}>
                 <Card

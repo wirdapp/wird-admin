@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import DropDownMenu from "./DropDown";
+import ChangeRoleDropdown from "./ChangeRoleDropdown";
 import ParticipantCards, {
   BoldText,
   ColumnContainer,
@@ -22,14 +22,16 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { MembersApi } from "../../services/members/api";
 import { useState } from "react";
 
-const ParticipantCard = ({ student, onChange }) => {
+const UserListItem = ({ student, onChange }) => {
   const { message } = App.useApp();
   const { currentUser } = useDashboardData();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [deleting, setDeleting] = useState(false);
 
-  const canEdit = isAtLeastSuperAdmin(currentUser.role);
+  const canEdit =
+    student.contest_role > currentUser.role &&
+    isAtLeastSuperAdmin(currentUser.role);
 
   const removeUserFromContest = async (username) => {
     setDeleting(true);
@@ -75,7 +77,9 @@ const ParticipantCard = ({ student, onChange }) => {
           </ColumnContainer>
 
           <Space style={{ marginTop: 8 }}>
-            {canEdit && <DropDownMenu student={student} onChange={onChange} />}
+            {canEdit && (
+              <ChangeRoleDropdown student={student} onChange={onChange} />
+            )}
             {isMember(student.contest_role) && (
               <Button
                 size="small"
@@ -114,4 +118,4 @@ const ParticipantCard = ({ student, onChange }) => {
   );
 };
 
-export default ParticipantCard;
+export default UserListItem;

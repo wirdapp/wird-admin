@@ -77,4 +77,12 @@ export const GroupsApi = {
     );
     return data;
   },
+
+  async leaderboard({ groupId, contestId }) {
+    const cid = contestId ?? getCurrentContestId();
+    const { data } = await axios.get(
+      `/admin_panel/${cid}/groups/${groupId}/leaderboard/`,
+    );
+    return data;
+  },
 };

@@ -22,6 +22,7 @@ export const StyledLeaderboardList = styled.div`
 export const StyledLeaderboardItem = styled.div`
   align-items: center;
   background-color: ${colors.warmWheat};
+  border: 2px solid ${colors.white};
   display: flex;
   padding: 16px 24px;
   flex-direction: row;

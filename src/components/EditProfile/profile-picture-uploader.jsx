@@ -41,7 +41,7 @@ export const ProfilePictureUploader = ({ onSubmit }) => {
 
   const uploadButton = (
     <button style={{ border: 0, background: "none" }} type="button">
-      {loading ? <Spin /> : <PlusIcon />}
+      {loading ? <Spin /> : <PlusIcon style={{ width: 20, height: 20 }} />}
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>
   );

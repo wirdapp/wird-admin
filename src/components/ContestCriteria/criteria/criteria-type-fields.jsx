@@ -18,8 +18,28 @@ import { v4 as uuidv4 } from "uuid";
 import { css } from "@emotion/css";
 
 export const CriteriaTypeFields = ({ form, isEdit }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const selectedType = Form.useWatch("resourcetype", form);
+
+  const onCheckboxChecked = (e, index) => {
+    if (selectedType !== FieldTypes.Radio) return;
+    if (e.target.checked) {
+      form.setFieldsValue({
+        options: form.getFieldsValue().options.map((option, i) => {
+          if (i !== index) {
+            return {
+              ...option,
+              is_correct: false,
+            };
+          }
+          return {
+            ...option,
+            is_correct: true,
+          };
+        }),
+      });
+    }
+  };
 
   return (
     <>
@@ -118,14 +138,19 @@ export const CriteriaTypeFields = ({ form, isEdit }) => {
                         >
                           <Input size="small" placeholder={t("option")} />
                         </Form.Item>
-                        <Tooltip title={t("is-correct")}>
+                        <Tooltip
+                          title={t("is-correct")}
+                          placement={i18n.dir() === "ltr" ? "right" : "left"}
+                        >
                           <div>
                             <Form.Item
                               noStyle
                               name={[field.name, "is_correct"]}
                               valuePropName="checked"
                             >
-                              <Checkbox />
+                              <Checkbox
+                                onChange={(e) => onCheckboxChecked(e, index)}
+                              />
                             </Form.Item>
                           </div>
                         </Tooltip>

@@ -56,4 +56,6 @@ export default {
   "change-role-to-admin": "تغيير الدور إلى مسؤول",
   remove: "إزالة",
   select: "اختر",
+  "add-members": "إضافة أعضاء",
+  "add-admins": "إضافة مسؤولين",
 };

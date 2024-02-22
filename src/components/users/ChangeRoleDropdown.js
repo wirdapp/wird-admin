@@ -1,8 +1,7 @@
-import { MembersApi } from "services/members/api";
+import { MembersApi } from "../../services/members/api";
 
 import { App, Button, Dropdown } from "antd";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import {
   isAdmin,
   isDeactivated,
@@ -12,20 +11,22 @@ import {
   isPending,
   isSuperAdmin,
   Role,
-} from "util/ContestPeople_Role";
+} from "../../util/ContestPeople_Role";
+import { useDashboardData } from "../../util/routes-data";
 
-const DropDownMenu = ({ student, onChange }) => {
-  const navigate = useNavigate();
+const ChangeRoleDropdown = ({ student, onChange }) => {
   const { t, i18n } = useTranslation();
   const { message } = App.useApp();
+  const { currentUser } = useDashboardData();
 
   const studentRole = student?.contest_role;
 
   const dropDownItems = [
-    !isSuperAdmin(studentRole) && {
-      label: t("role.1"),
-      key: Role.SUPER_ADMIN,
-    },
+    isOwner(currentUser) &&
+      !isSuperAdmin(studentRole) && {
+        label: t("role.1"),
+        key: Role.SUPER_ADMIN,
+      },
     !isAdmin(studentRole) && {
       label: t("role.2"),
       key: Role.ADMIN,
@@ -79,4 +80,4 @@ const DropDownMenu = ({ student, onChange }) => {
   ) : null;
 };
 
-export default DropDownMenu;
+export default ChangeRoleDropdown;

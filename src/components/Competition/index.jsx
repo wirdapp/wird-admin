@@ -1,13 +1,12 @@
 import React from "react";
 import EditCompetitionForm from "./EditCompetitionForm";
 import ContestMembers from "./ContestMembers";
-import ContestModeratorDefault from "../ContestModerator/ContestModerator.styles";
 import { useDashboardData } from "../../util/routes-data";
 import { ManageAnnouncements } from "./manage-announcements";
 import styled from "@emotion/styled";
 import { AnimatedPage } from "../../ui/animated-page";
 import { ContestDetailsBox } from "./contest-details-box";
-import { Alert } from "antd";
+import { Alert, Flex } from "antd";
 import { useTranslation } from "react-i18next";
 import { StyledAnnouncementWrapper } from "./styles";
 
@@ -26,7 +25,7 @@ export default function Competition() {
 
   return (
     <AnimatedPage>
-      <ContestModeratorDefault>
+      <Flex vertical gap={24}>
         <ContestDetailsBox />
 
         <ContestMembers contest={currentContest} />
@@ -41,7 +40,7 @@ export default function Competition() {
           </StyledAnnouncementWrapper>
           <EditCompetitionForm contest={currentContest} />
         </StyledContestEditWrapper>
-      </ContestModeratorDefault>
+      </Flex>
     </AnimatedPage>
   );
 }

@@ -11,6 +11,7 @@ import { GroupMembers } from "./group-members";
 import { GroupInfo } from "./group-info";
 import { colors } from "../../styles";
 import { isAxiosError } from "axios";
+import { LeaderboardList } from "../leaderboard/leaderboard-list";
 
 export async function groupDetailPageLoader({ params }) {
   try {
@@ -20,10 +21,12 @@ export async function groupDetailPageLoader({ params }) {
       : [];
 
     const groupMembers = GroupsApi.getGroupMembers({ groupId: params.groupId });
+    const groupLeaderboard = GroupsApi.leaderboard({ groupId: params.groupId });
 
     return defer({
       group,
       groupMembers,
+      groupLeaderboard,
       title: "groups",
     });
   } catch (e) {
@@ -35,7 +38,7 @@ export async function groupDetailPageLoader({ params }) {
 }
 
 export const GroupDetailPage = () => {
-  const { group, groupMembers } = useLoaderData();
+  const { group, groupMembers, groupLeaderboard } = useLoaderData();
   const { t } = useTranslation();
   const { groupId } = useParams();
 
@@ -58,6 +61,17 @@ export const GroupDetailPage = () => {
               key: "announcements",
               label: t("announcements"),
               children: <GroupAnnouncement group={group} />,
+            },
+            {
+              key: "leaderboard",
+              label: t("leaders-board"),
+              children: (
+                <Await resolve={groupLeaderboard}>
+                  {(groupLeaderboard) => (
+                    <LeaderboardList topStudents={groupLeaderboard ?? []} />
+                  )}
+                </Await>
+              ),
             },
             {
               key: "members",

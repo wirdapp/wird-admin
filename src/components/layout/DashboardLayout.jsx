@@ -2,7 +2,7 @@ import React from "react";
 import Sidebar from "../shared/Sidebar";
 import { Container, DashboardFooter, MainContent } from "./layout.styles";
 import Navbar from "../shared/Navbar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useMatches } from "react-router-dom";
 import { useDashboardData } from "../../util/routes-data";
 import { NoContestYet } from "../Competition/no-contest-yet";
 import { useTranslation } from "react-i18next";
@@ -13,28 +13,22 @@ import { Result } from "antd";
 export const DashboardLayout = () => {
   const { t } = useTranslation();
   const { currentContest, currentUser } = useDashboardData();
+  const matches = useMatches();
+  const isProfilePage = matches.some((match) => match.id === "profile");
 
-  const canAccessAdminPanel = isAtLeastAdmin(currentUser?.role);
+  const canAccessAdminPanel =
+    isProfilePage || !currentContest || isAtLeastAdmin(currentUser?.role);
 
   return (
     <Container>
       <Sidebar />
       <MainContent>
         <Navbar />
+        {!currentUser.email_verified && <EmailNotVerifiedAlert />}
         {canAccessAdminPanel ? (
-          <>
-            {!currentUser.email_verified && <EmailNotVerifiedAlert />}
-            <div className="page-content">
-              {currentContest ? <Outlet /> : <NoContestYet />}
-            </div>
-            <DashboardFooter>
-              <div className="footer-content">
-                <span>
-                  {t("copyrightFooterMsg", { year: new Date().getFullYear() })}
-                </span>
-              </div>
-            </DashboardFooter>
-          </>
+          <div className="page-content">
+            {isProfilePage || currentContest ? <Outlet /> : <NoContestYet />}
+          </div>
         ) : (
           <div className="page-content">
             <Result
@@ -44,6 +38,13 @@ export const DashboardLayout = () => {
             />
           </div>
         )}
+        <DashboardFooter>
+          <div className="footer-content">
+            <span>
+              {t("copyrightFooterMsg", { year: new Date().getFullYear() })}
+            </span>
+          </div>
+        </DashboardFooter>
       </MainContent>
     </Container>
   );
