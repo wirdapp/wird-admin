@@ -1,6 +1,6 @@
 {
-  "short_name": "Wird",
-  "name": "Wird.app contest",
+  "short_name": "Wird Admin",
+  "name": "Wird contests - Admin Panel",
   "icons": [
     {
       "src": "favicon.png",
@@ -8,18 +8,13 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
+      "src": "logo.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#FB6D3B",
   "background_color": "#ffffff"
 }
