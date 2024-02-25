@@ -57,4 +57,6 @@ export default {
   "change-role-to-admin": "Change Role to Admin",
   remove: "Remove",
   select: "Select",
+  "add-admins": "Add Admins",
+  "add-members": "Add Members",
 };

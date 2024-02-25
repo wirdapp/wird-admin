@@ -15,7 +15,7 @@ export default {
   "announcement-placeholder": "Enter announcement content here",
   "success-to-add-new-announcement-msg": "New announcement added successfully",
   "fail-to-add-new-announcement-msg": "Failed to add new announcement",
-  "active-announcements": "Active Announcements",
+  "active-announcements": "Contest Announcements",
   save: "Save",
   readonly: "Read Only",
   "days-to-record-in-past": "Allow recording for",

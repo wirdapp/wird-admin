@@ -66,13 +66,7 @@ function Signup() {
           <Form.Item
             label={t("userNameKey")}
             required
-            rules={[
-              { required: true },
-              {
-                pattern: usernameRegex,
-                message: t("userNameDisclimar"),
-              },
-            ]}
+            rules={[{ required: true }]}
             name="username"
             validateStatus={errors.username ? "error" : undefined}
             help={errors.username}

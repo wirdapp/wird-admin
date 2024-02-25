@@ -109,4 +109,6 @@ export default {
   "partial-points": "Partial points",
   "is-correct": "Is correct",
   option: "Option",
+  "contest-started-warning":
+    "Cannot delete sections and criteria after the contest starts",
 };

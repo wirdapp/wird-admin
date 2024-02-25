@@ -108,4 +108,5 @@ export default {
   "partial-points": "النقاط جزئية",
   "is-correct": "إجابة صحيحة",
   option: "خيار",
+  "contest-started-warning": "لا يمكن حذف الأقسام والمعايير بعد بدء المسابقة",
 };

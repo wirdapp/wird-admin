@@ -68,7 +68,7 @@ export const ContestPreview = () => {
                 {sectionCriteria.length === 0 && (
                   <Empty
                     image={Empty.PRESENTED_IMAGE_SIMPLE}
-                    description={t("no-criteria")}
+                    description={t("no-criterias-added")}
                   />
                 )}
                 {sectionCriteria.map((c) => (

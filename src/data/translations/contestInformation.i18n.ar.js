@@ -15,7 +15,7 @@ export default {
   "announcement-placeholder": "أدخل محتوى الإعلان هنا",
   "success-to-add-new-announcement-msg": "تم إضافة إعلان جديد بنجاح",
   "fail-to-add-new-announcement-msg": " لم يتم إضافة إعلان جديد",
-  "active-announcements": "الإعلانات المنشورة مسبقًا",
+  "active-announcements": "إعلانات المسابقة",
   save: "حفظ",
   readonly: "قراءة فقط",
   "days-to-record-in-past": "تسجيل نقاط لغاية",
