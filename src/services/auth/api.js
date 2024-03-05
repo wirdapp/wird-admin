@@ -1,7 +1,7 @@
 import axios from "../../util/axios";
 import Cookies from "js-cookie";
 
-const LAST_EMAIL_RESEND_KEY = "wj3TrwBaUsM5Sc6dpPMlGhxoNA0n7plv";
+const LAST_EMAIL_RESEND_KEY = "wj3TrwBaUsM5Sc6dpPMlGhxoNA0n7plv2";
 
 export async function doLogin(username, password) {
   const res = await axios.post("/auth/login/", {
@@ -56,7 +56,7 @@ export async function resendVerificationEmail(email) {
 
   // 15 minutes
   Cookies.set(LAST_EMAIL_RESEND_KEY, email, { expires: 1 / 96 });
-  const { data } = await axios.post("/auth/registration/resend-email/", {
+  const { data } = await axios.post("/auth/user/resend_confirmation_email/", {
     email,
   });
 
