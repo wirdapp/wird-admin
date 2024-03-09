@@ -40,7 +40,7 @@ function TopRanks({
               {t("participants")}
             </ParticipantsTitelsAtHome>
 
-            <SeeAll href="/dashboard/students" target="_blank">
+            <SeeAll to="/dashboard/participants">
               <SeeAllP>{t("see-all")}</SeeAllP>
               <SeeAllIcon src={SeeMore} Alt="" />
             </SeeAll>

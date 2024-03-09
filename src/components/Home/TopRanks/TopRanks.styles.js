@@ -92,7 +92,7 @@ export const ParticipantsTitelsAtHome = styled.div`
   }
 `;
 
-export const SeeAll = styled.a`
+export const SeeAll = styled(Link)`
   text-decoration: none;
   display: flex;
   flex-direction: row;
