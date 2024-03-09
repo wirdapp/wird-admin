@@ -15,7 +15,6 @@ import { SectionCriteriaList } from "../criteria/section-criteria-list";
 import { colors } from "../../../styles";
 import { useContestSections } from "./use-contest-sections";
 import { motion } from "framer-motion";
-import { ContestStatus } from "../../../services/contests/utils";
 import { useDashboardData } from "../../../util/routes-data";
 
 const expandIconClassName = (isActive, isRtl) => css`
@@ -153,22 +152,20 @@ export const SectionListItem = ({ section, index }) => {
                         `}
                         icon={<Bars2Icon />}
                       />
-                      {currentContest.status === ContestStatus.NOT_STARTED && (
-                        <Popconfirm
-                          title={t("delete-section-confirm")}
-                          description={t("delete-section-confirm-description")}
-                          onConfirm={onDelete}
-                          okText={t("yes")}
-                          cancelText={t("no")}
-                        >
-                          <Button
-                            size="small"
-                            type="text"
-                            danger
-                            icon={<TrashIcon />}
-                          />
-                        </Popconfirm>
-                      )}
+                      <Popconfirm
+                        title={t("delete-section-confirm")}
+                        description={t("delete-section-confirm-description")}
+                        onConfirm={onDelete}
+                        okText={t("yes")}
+                        cancelText={t("no")}
+                      >
+                        <Button
+                          size="small"
+                          type="text"
+                          danger
+                          icon={<TrashIcon />}
+                        />
+                      </Popconfirm>
                     </Space>
                   ),
                   children: <SectionCriteriaList section={section} />,

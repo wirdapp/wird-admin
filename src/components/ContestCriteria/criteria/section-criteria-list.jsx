@@ -19,7 +19,6 @@ import { Bars2Icon } from "@heroicons/react/24/solid";
 import { useContestCriteria } from "./use-contest-criteria";
 import { reorder } from "../../../util/contest-utils";
 import { useDashboardData } from "../../../util/routes-data";
-import { ContestStatus } from "../../../services/contests/utils";
 
 export const SectionCriteriaList = ({ section }) => {
   const { currentContest } = useDashboardData();
@@ -127,22 +126,20 @@ export const SectionCriteriaList = ({ section }) => {
                                 setAddCriteriaVisible(true);
                               }}
                             />,
-                            currentContest.status ===
-                              ContestStatus.NOT_STARTED && (
-                              <Popconfirm
-                                title={t("delete-confirm")}
-                                onConfirm={() => handleDelete(item.id)}
-                                okText={t("delete")}
-                                cancelText={t("cancel")}
-                              >
-                                <Button
-                                  size="small"
-                                  type="text"
-                                  danger
-                                  icon={<TrashIcon />}
-                                />
-                              </Popconfirm>
-                            ),
+
+                            <Popconfirm
+                              title={t("delete-confirm")}
+                              onConfirm={() => handleDelete(item.id)}
+                              okText={t("delete")}
+                              cancelText={t("cancel")}
+                            >
+                              <Button
+                                size="small"
+                                type="text"
+                                danger
+                                icon={<TrashIcon />}
+                              />
+                            </Popconfirm>,
                           ].filter(Boolean)}
                         >
                           <List.Item.Meta

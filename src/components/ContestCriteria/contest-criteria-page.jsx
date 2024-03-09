@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatedPage } from "../../ui/animated-page";
-import { Alert, Col, Result, Row, Typography } from "antd";
+import { Col, Result, Row, Typography } from "antd";
 import { css } from "@emotion/css";
 import { SectionsList } from "./sections/sections-list";
 import { ContestCriteriaProvider } from "./contest-criteria-context";
@@ -27,17 +27,6 @@ export function ContestCriteria() {
                 margin-bottom: 16px;
               `}
             >
-              <div
-                className={css`
-                  padding: 4px;
-                `}
-              >
-                <Alert
-                  message={t("contest-started-warning")}
-                  type="info"
-                  showIcon
-                />
-              </div>
               <SectionsList />
             </Col>
             <Col span={24} lg={10}>
