@@ -56,7 +56,7 @@ export async function resendVerificationEmail(email) {
 
   // 15 minutes
   Cookies.set(LAST_EMAIL_RESEND_KEY, email, { expires: 1 / 96 });
-  const { data } = await axios.post("/auth/user/resend_confirmation_email/", {
+  const { data } = await axios.post("/auth/registration/resend-email/", {
     email,
   });
 
