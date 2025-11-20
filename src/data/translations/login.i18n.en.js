@@ -1,4 +1,4 @@
-export default {
+const loginI18nEn = {
   login: "Login",
   signUp: "Sign up",
   alreadyHaveAccount: "Already have an account?",
@@ -38,3 +38,5 @@ export default {
   requiredField: "This field is required",
   copyrightFooterMsg: "\u00A9 All rights reserved Wird.app - {{year}}",
 };
+
+export default loginI18nEn;

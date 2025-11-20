@@ -6,7 +6,7 @@ import useBreakpoint from "antd/es/grid/hooks/useBreakpoint";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 export const GroupsList = ({ groups, selected }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const screens = useBreakpoint();
 
   const selectedGroup = groups.find((group) => group.id === selected);

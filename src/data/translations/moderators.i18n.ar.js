@@ -1,4 +1,4 @@
-export default {
+const moderatorsI18nAr = {
   "add-moderator-manually": "إضافة مسؤول يدويًا",
   go: "أضف",
   deactivate: "إلغاء تنشيط",
@@ -14,3 +14,5 @@ export default {
     errorModerator: "يرجى التحقق من الاسم",
   },
 };
+
+export default moderatorsI18nAr;

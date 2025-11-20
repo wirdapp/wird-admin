@@ -8,7 +8,7 @@ import { ContestCriteriaApi } from "../../../services/contest-criteria/api";
 import { DailySubmissionsTable } from "./daily-submissions-table";
 
 export const DailyUserSubmissions = ({ onUpdated, userId }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { currentContest } = useDashboardData();
   const [loading, setLoading] = useState(false);
   const [submissions, setSubmissions] = useState([]);
@@ -27,7 +27,7 @@ export const DailyUserSubmissions = ({ onUpdated, userId }) => {
   useEffect(() => {
     setSubmissions([]);
     form.resetFields();
-  }, [userId]);
+  }, [userId, form]);
 
   const loadSubmissions = async (date) => {
     setLoading(true);

@@ -1,4 +1,4 @@
-export default {
+const sharedENI18nEn = {
   username: "Username",
   delete: "Delete",
   "create-contest": "Create Contest",
@@ -22,3 +22,5 @@ export default {
   "write-contest-code": "Write {{code}} to confirm deletion",
   "contest-removed": "Contest has been removed",
 };
+
+export default sharedENI18nEn;

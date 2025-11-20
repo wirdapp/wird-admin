@@ -42,7 +42,7 @@ export const CriteriaFormPopup = ({
     } else {
       form.resetFields();
     }
-  }, [open, criterionId, form]);
+  }, [open, criterionId, form, actions]);
 
   const handleFormSubmit = async (values) => {
     setSubmitting(true);

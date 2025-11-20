@@ -30,7 +30,7 @@ export const MembersResults = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(undefined);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const loadMemberResults = async (userId) => {
     try {

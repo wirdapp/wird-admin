@@ -1,4 +1,4 @@
-export default {
+const adminI18nEn = {
   addAdmin: "Add it as main administrator",
   addNewAdmin: "Add a new administrator",
   notAddAdminMSG: "Administrator not added",
@@ -13,3 +13,5 @@ export default {
   adminsLabel: "Officials",
   notAdmins: "There are no officials",
 };
+
+export default adminI18nEn;

@@ -6,7 +6,6 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useTranslation } from "react-i18next";
 import { GroupsApi } from "../../services/groups/api";
 import { useRevalidator } from "react-router-dom";
-import useBreakpoint from "antd/es/grid/hooks/useBreakpoint";
 import { getFullName } from "../../util/user-utils";
 import { useDashboardData } from "../../util/routes-data";
 import { GroupUserAddForm } from "./group-user-add-form";
@@ -57,9 +56,6 @@ const MemberActions = ({ groupId, member }) => {
 
 export const GroupMembers = ({ group, members }) => {
   const { t } = useTranslation();
-  const [adding, setAdding] = React.useState(false);
-  const screens = useBreakpoint();
-  const { currentUser } = useDashboardData();
 
   return (
     <Flex vertical gap={28}>

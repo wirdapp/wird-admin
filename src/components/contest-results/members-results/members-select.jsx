@@ -39,7 +39,7 @@ export const MembersSelect = ({
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [role, valueField]);
 
   const filteredMembers = useMemo(
     () =>

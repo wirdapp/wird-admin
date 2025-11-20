@@ -1,4 +1,4 @@
-export default {
+const editProfileI18nAr = {
   save: "حفظ",
   "profile-photo": "صورة شخصية",
   "phone-number": "رقم الهاتف",
@@ -21,3 +21,5 @@ export default {
   "profile-has-been-edited-successfully": "تم تعديل الملف الشخصي بنجاح",
   "something-went-wrong": "حدث خطأ ما",
 };
+
+export default editProfileI18nAr;

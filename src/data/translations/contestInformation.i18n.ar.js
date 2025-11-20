@@ -1,4 +1,4 @@
-export default {
+const contestInformationI18nAr = {
   add: "اضف",
   "double-click-to-edit": "أنقر مرتين للتعديل",
   "must-select-contest": "يجب عليك اختيار مسابقة",
@@ -69,3 +69,5 @@ export default {
   "code-error": "كود غير صالح",
   days: "أيام",
 };
+
+export default contestInformationI18nAr;

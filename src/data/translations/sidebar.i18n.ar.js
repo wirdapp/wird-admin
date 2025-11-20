@@ -1,4 +1,4 @@
-export default {
+const sidebarI18nAr = {
   "home-page": "الصفحة الرئيسية",
   "contest-information": "معلومات المسابقة",
   "leaders-board": "الأوائل",
@@ -27,3 +27,5 @@ export default {
   participantsKey: "مشاركون",
   loading: "جاري التحميل",
 };
+
+export default sidebarI18nAr;

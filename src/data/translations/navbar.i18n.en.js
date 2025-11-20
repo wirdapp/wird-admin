@@ -1,4 +1,4 @@
-export default {
+const navbarI18nEn = {
   logout: "Logout",
   emailNotVerified: "Email not verified",
   emailNotVerifiedDescription:
@@ -9,3 +9,5 @@ export default {
   emailAlreadySent:
     "You need to wait 15 minutes before resending the verification email",
 };
+
+export default navbarI18nEn;

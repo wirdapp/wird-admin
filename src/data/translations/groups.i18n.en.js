@@ -1,4 +1,4 @@
-export default {
+const groupsI18nEn = {
   "add-group": "Add Group",
   groups: "Groups",
   "delete-confirm": "Confirm deletion",
@@ -60,3 +60,5 @@ export default {
   "add-admins": "Add Admins",
   "add-members": "Add Members",
 };
+
+export default groupsI18nEn;

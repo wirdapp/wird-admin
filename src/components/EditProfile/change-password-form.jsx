@@ -2,13 +2,11 @@ import React from "react";
 import { Fieldset } from "./EditProfile.styled";
 import { css } from "@emotion/css";
 import { App, Button, Form, Input, Space } from "antd";
-import { useDashboardData } from "../../util/routes-data";
 import { useTranslation } from "react-i18next";
 import { changePassword } from "../../services/auth/api";
 
 export const ChangePasswordForm = () => {
   const { message } = App.useApp();
-  const { currentUser } = useDashboardData();
   const { t } = useTranslation();
   const [form] = Form.useForm();
 

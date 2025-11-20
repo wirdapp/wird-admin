@@ -12,8 +12,6 @@ import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 import { AuthPageFooter } from "../shared/auth-page-footer";
 import { ReactComponent as WirdLogo } from "assets/icons/Shared/wirdLogo.svg";
 
-const usernameRegex = new RegExp("^[\u0621-\u064Aa-zA-Z0-9+-.@_]*$");
-
 function Signup() {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);

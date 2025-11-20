@@ -1,4 +1,4 @@
-export default {
+const contestInformationI18nEn = {
   add: "Add",
   "double-click-to-edit": "Double click to edit",
   "must-select-contest": "You must select a contest first",
@@ -69,3 +69,5 @@ export default {
   "code-error": "Invalid code",
   days: "Days",
 };
+
+export default contestInformationI18nEn;

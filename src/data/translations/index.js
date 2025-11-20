@@ -25,7 +25,7 @@ import contestResultsI18nAr from "./contest-results.i18n.ar";
 import navbarI18nAr from "./navbar.i18n.ar";
 import navbarI18nEn from "./navbar.i18n.en";
 
-export default {
+const translations = {
   en: {
     translation: {
       ...loginEn,
@@ -61,3 +61,5 @@ export default {
     },
   },
 };
+
+export default translations;

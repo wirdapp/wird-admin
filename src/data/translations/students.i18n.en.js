@@ -1,4 +1,4 @@
-export default {
+const studentsI18nEn = {
   participants: "Participants",
   "accepted-participants": "Accepted Participants ",
   delete: "Delete",
@@ -74,3 +74,5 @@ export default {
   "change-role-to": "Change to",
   "show-results": "Results",
 };
+
+export default studentsI18nEn;

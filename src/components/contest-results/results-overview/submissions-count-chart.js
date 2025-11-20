@@ -44,7 +44,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 const CustomizedCross = (props) => {
-  const { width, height, stroke, fill, formattedGraphicalItems } = props;
+  const { width, height, fill, formattedGraphicalItems } = props;
   // get first series in chart
   const firstSeries = formattedGraphicalItems[0];
   // get any point at any index in chart
@@ -70,7 +70,7 @@ const CustomizedCross = (props) => {
 };
 
 export const SubmissionsCountChart = ({ chartData }) => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   return chartData ? (
     <ResponsiveContainer height={100} style={{ marginBottom: "32px" }}>

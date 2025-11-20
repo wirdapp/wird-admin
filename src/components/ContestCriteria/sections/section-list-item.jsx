@@ -15,7 +15,6 @@ import { SectionCriteriaList } from "../criteria/section-criteria-list";
 import { colors } from "../../../styles";
 import { useContestSections } from "./use-contest-sections";
 import { motion } from "framer-motion";
-import { useDashboardData } from "../../../util/routes-data";
 
 const expandIconClassName = (isActive, isRtl) => css`
   transform: rotate(${isActive ? (isRtl ? -90 : 90) : 0}deg);
@@ -35,7 +34,6 @@ const ExpandIcon = ({ isActive }) => {
 };
 
 export const SectionListItem = ({ section, index }) => {
-  const { currentContest } = useDashboardData();
   const { message } = App.useApp();
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(true);

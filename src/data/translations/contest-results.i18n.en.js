@@ -1,4 +1,4 @@
-export default {
+const contestResultsI18nEn = {
   "results-overview": "Overview",
   "results-members": "Members",
   "contest-submissions": "Submissions throughout the contest",
@@ -39,3 +39,5 @@ export default {
   back: "Back",
   showResults: "Show results",
 };
+
+export default contestResultsI18nEn;

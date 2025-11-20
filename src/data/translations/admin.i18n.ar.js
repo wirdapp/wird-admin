@@ -1,4 +1,4 @@
-export default {
+const adminI18nAr = {
   addAdmin: "إضافته كمسؤول رئيسي",
   addNewAdmin: "إضافة مسؤول جديد",
   notAddAdminMSG: "لم تمت إضافة المسؤول",
@@ -14,3 +14,5 @@ export default {
   adminsLabel: "المسؤولون",
   notAdmins: "لا يوجد مسؤولون",
 };
+
+export default adminI18nAr;

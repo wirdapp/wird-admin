@@ -1,4 +1,4 @@
-export default {
+const contestCriteriaI18nEn = {
   "enter-title": "Enter Title ",
   "criteria-order": "Criteria order in section",
   "choose-type": "Choose type",
@@ -113,3 +113,5 @@ export default {
     "Cannot delete sections and criteria after the contest starts",
   "correct-option-required": "At least one correct option is required",
 };
+
+export default contestCriteriaI18nEn;

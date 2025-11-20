@@ -3,7 +3,6 @@ import { HomeContainer } from "./home.styles";
 import HomeBanner from "./HomeBanner";
 import TopRanks from "./TopRanks";
 import { useDashboardData } from "../../util/routes-data";
-import { useTranslation } from "react-i18next";
 import { MembersApi } from "../../services/members/api";
 import { getFullName } from "../../util/user-utils";
 import { ContestResultsApi } from "../../services/contest-results/api";
@@ -11,7 +10,6 @@ import { ContestDetailsBox } from "../Competition/contest-details-box";
 
 function Home() {
   const { currentUser, currentContest } = useDashboardData();
-  const { t } = useTranslation();
   const [studentsLoading, setStudentsLoading] = useState(false);
   const [topMembersLoading, setTopMembersLoading] = useState(false);
   const [students, setStudents] = useState([]);
@@ -49,6 +47,7 @@ function Home() {
     if (!currentContest) return;
     initStudents();
     initTopMembers();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentContest]);
 
   return (

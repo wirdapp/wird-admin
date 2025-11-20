@@ -1,4 +1,4 @@
-export default {
+const studentsI18nAr = {
   "accepted-participants": "المشاركون",
   addParticipantManually: "إضافة مشترك يدوياً",
   deactivatedStudents: "المشاركون غير المفعلين",
@@ -70,3 +70,5 @@ export default {
   "change-role-to": "تغيير إلى",
   "show-results": "النتائج",
 };
+
+export default studentsI18nAr;

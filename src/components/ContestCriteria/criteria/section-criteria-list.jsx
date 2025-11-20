@@ -18,10 +18,8 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { Bars2Icon } from "@heroicons/react/24/solid";
 import { useContestCriteria } from "./use-contest-criteria";
 import { reorder } from "../../../util/contest-utils";
-import { useDashboardData } from "../../../util/routes-data";
 
 export const SectionCriteriaList = ({ section }) => {
-  const { currentContest } = useDashboardData();
   const { message } = App.useApp();
   const { t } = useTranslation();
   const { criteriaItems, actions } = useContestCriteria({

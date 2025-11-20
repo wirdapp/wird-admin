@@ -1,4 +1,4 @@
-export default {
+const sharedARI18nAr = {
   username: "اسم المستخدم",
   delete: "حذف",
   "create-contest": "إنشاء مسابقة",
@@ -23,3 +23,5 @@ export default {
   "write-contest-code": "اكتب {{code}} لتأكيد الحذف",
   "contest-removed": "تم حذف المسابقة",
 };
+
+export default sharedARI18nAr;

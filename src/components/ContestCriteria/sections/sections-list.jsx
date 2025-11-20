@@ -11,7 +11,7 @@ import { AnimatePresence } from "framer-motion"; // a little function to help us
 
 export const SectionsList = () => {
   const { t } = useTranslation();
-  const { sections, loading, actions } = useContestSections();
+  const { sections, actions } = useContestSections();
   const [adding, setAdding] = React.useState(false);
   const [form] = Form.useForm();
 

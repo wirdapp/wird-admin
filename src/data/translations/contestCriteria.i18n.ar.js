@@ -1,4 +1,4 @@
-export default {
+const contestCriteriaI18nAr = {
   "enter-title": "ادخل العنوان",
   "criteria-order": "ترتيب المعيار داخل القسم",
   "choose-type": "اختر نوع النموذج",
@@ -111,3 +111,5 @@ export default {
   "contest-started-warning": "لا يمكن حذف الأقسام والمعايير بعد بدء المسابقة",
   "correct-option-required": "يجب اختيار إجابة صحيحة",
 };
+
+export default contestCriteriaI18nAr;

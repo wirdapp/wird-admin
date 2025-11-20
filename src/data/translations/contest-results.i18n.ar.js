@@ -1,4 +1,4 @@
-export default {
+const contestResultsI18nAr = {
   "results-overview": "نظرة عامة",
   "results-members": "الأعضاء",
   "contest-submissions": "المشاركات خلال أيام المسابقة",
@@ -39,3 +39,5 @@ export default {
   back: "رجوع",
   showResults: "عرض النتائج",
 };
+
+export default contestResultsI18nAr;

@@ -36,7 +36,8 @@ export default function Leaderboard() {
   useEffect(() => {
     if (isContestNotStarted) return;
     loadTopStudents();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isContestNotStarted]);
 
   if (loading) {
     return <Loader />;

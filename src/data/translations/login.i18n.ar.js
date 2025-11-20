@@ -1,4 +1,4 @@
-export default {
+const loginI18nAr = {
   login: "تسجيل الدخول",
   signUp: "انشاء حساب",
   alreadyHaveAccount: "    هل لديك حساب؟",
@@ -37,3 +37,5 @@ export default {
   requiredField: "هذا الحقل مطلوب",
   copyrightFooterMsg: "\u00A9 جميع الحقوق محفوظة لتطبيق ورد - {{year}}",
 };
+
+export default loginI18nAr;

@@ -1,4 +1,4 @@
-export default {
+const navbarI18nAr = {
   logout: "تسجيل الخروج",
   emailNotVerified: "لم يتم تأكيد البريد الإلكتروني",
   emailNotVerifiedDescription:
@@ -8,3 +8,5 @@ export default {
   verificationEmailSent: "تم إرسال رسالة التأكيد",
   emailAlreadySent: "يجب عليك الانتظار 15 دقيقة قبل إعادة إرسال رسالة التأكيد",
 };
+
+export default navbarI18nAr;

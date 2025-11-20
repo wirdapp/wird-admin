@@ -1,4 +1,4 @@
-export default {
+const groupsI18nAr = {
   groups: "المجموعات",
   "add-group": "إضافة مجموعة",
   "delete-confirm": "تأكيد الحذف",
@@ -59,3 +59,5 @@ export default {
   "add-members": "إضافة أعضاء",
   "add-admins": "إضافة مسؤولين",
 };
+
+export default groupsI18nAr;

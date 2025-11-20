@@ -3,12 +3,10 @@ import { useTranslation } from "react-i18next";
 import { ContestsApi } from "../../services/contests/api";
 import { Form, Input, Modal } from "antd";
 import { changeCurrentContest } from "../../services/contests/utils";
-import { useRevalidator } from "react-router-dom";
 
 export const JoinContestPopup = ({ visible, onClose }) => {
   const { t } = useTranslation();
   const [form] = Form.useForm();
-  const revalidator = useRevalidator();
   const [submitting, setSubmitting] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
 

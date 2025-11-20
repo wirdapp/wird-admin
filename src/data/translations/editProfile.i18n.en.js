@@ -1,4 +1,4 @@
-export default {
+const editProfileI18nEn = {
   save: "Save",
   "profile-photo": "Profile Photo",
   "phone-number": "Phone Number",
@@ -22,3 +22,5 @@ export default {
     "Profile has been edited successfully",
   "something-went-wrong": "Something went wrong",
 };
+
+export default editProfileI18nEn;

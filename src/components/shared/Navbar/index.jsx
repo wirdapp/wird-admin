@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./NavStyle.css";
 import {
   Container,
@@ -8,10 +8,9 @@ import {
   SidebarMenu,
   StyledPageTitle,
 } from "./navbar.styles";
-import { isSuperAdmin } from "../../../util/ContestPeople_Role";
 import { ReactComponent as SidebarIcon } from "assets/icons/sidebarIcon.svg";
 import Sidebar from "../Sidebar";
-import { useDashboardData, usePageTitle } from "../../../util/routes-data";
+import { usePageTitle } from "../../../util/routes-data";
 import { ContestInfoMenu } from "./contest-info-menu";
 import { Button } from "antd";
 import { UserInfoMenu } from "./user-info-menu";
@@ -19,18 +18,12 @@ import { useTranslation } from "react-i18next";
 
 function Nav() {
   const { t } = useTranslation();
-  const { currentUser } = useDashboardData();
-  const [hasPermission, setPermission] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const title = usePageTitle();
 
   const handleToggle = () => {
     setSidebarOpen(!sidebarOpen);
   };
-
-  useEffect(() => {
-    setPermission(currentUser && isSuperAdmin(currentUser?.role));
-  }, [currentUser]);
 
   return (
     <header>

@@ -1,4 +1,4 @@
-export default {
+const reviewI18nAr = {
   reviewText: "مراجعة المدخلات النصية",
   selectStudent: "اختر الطالب",
   chooseDay: "اختر اليوم",
@@ -19,3 +19,5 @@ export default {
   joinKey: "ينضم",
   newContest: "اسم المسابقة الجديد",
 };
+
+export default reviewI18nAr;

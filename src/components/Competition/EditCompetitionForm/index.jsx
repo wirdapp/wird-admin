@@ -29,7 +29,6 @@ export default function EditCompetitionForm({ contest }) {
   const { message } = App.useApp();
   const { t, i18n } = useTranslation();
   const [messages, setMessages] = useState([]);
-  const [classColor, setClassColor] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const revalidator = useRevalidator();
   const { currentUser } = useDashboardData();
@@ -43,7 +42,6 @@ export default function EditCompetitionForm({ contest }) {
 
   const handleUpdateContest = async (values) => {
     try {
-      setClassColor("");
       setMessages([]);
       setSubmitting(true);
       await ContestsApi.updateContest(contest.id, {
@@ -61,7 +59,6 @@ export default function EditCompetitionForm({ contest }) {
           errMessages.push(obj[e]);
         });
       }
-      setClassColor("red");
       setMessages(errMessages);
     } finally {
       setSubmitting(false);

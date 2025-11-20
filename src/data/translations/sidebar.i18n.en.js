@@ -1,4 +1,4 @@
-export default {
+const sidebarI18nEn = {
   "home-page": "Creator Dashboard",
   "contest-information": "Contest Information",
   "leaders-board": "Leaderboard",
@@ -27,3 +27,5 @@ export default {
   participantsKey: "Participants",
   loading: "Loading",
 };
+
+export default sidebarI18nEn;
