@@ -51,22 +51,34 @@ export const requestInterceptor = (config) => {
 };
 
 export const errorInterceptor = async (error) => {
-  // if error is not about token invalid, reject normally
-  if (error.response?.data?.code !== "token_not_valid")
-    return Promise.reject(error);
+  const originalRequest = error.config;
 
-  // if not in SkipAuthHeader, reject normally
-  if (SkipAuthHeader.includes(error.config.url)) return Promise.reject(error);
+  // Check if error is token-related (401 or 403 with token_not_valid code)
+  const isTokenError =
+    (error.response?.status === 401 || error.response?.status === 403) &&
+    error.response?.data?.code === "token_not_valid";
 
-  // if no refresh token, reject normally
+  // If not a token error, reject normally
+  if (!isTokenError) return Promise.reject(error);
+
+  // If already retried, reject to prevent infinite loop
+  if (originalRequest._retry) return Promise.reject(error);
+
+  // If request is to auth endpoints, reject normally
+  if (SkipAuthHeader.includes(originalRequest.url)) return Promise.reject(error);
+
+  // If no refresh token, reject normally
   const { refreshToken } = getSession();
   if (!refreshToken) return Promise.reject(error);
 
-  // if refresh token, try to refresh token
+  // Mark as retried to prevent infinite loop
+  originalRequest._retry = true;
+
+  // Try to refresh token and retry the original request
   try {
     const token = await tryRefreshTokens(refreshToken);
-    error.config.headers["Authorization"] = `Bearer ${token}`;
-    return axios.request(error.config);
+    originalRequest.headers["Authorization"] = `Bearer ${token}`;
+    return axios.request(originalRequest);
   } catch (e) {
     destroySession();
     return Promise.reject(error);

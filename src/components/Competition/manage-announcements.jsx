@@ -1,8 +1,7 @@
 import { useDashboardData } from "../../util/routes-data";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { TrashIcon } from "@heroicons/react/20/solid";
-import { ContestsApi } from "../../services/contests/api";
+import { NotificationsApi } from "../../services/notifications/api";
 import { App, Button, Empty, Form, Input, Modal, Spin, Typography } from "antd";
 import { useNavigation, useRevalidator } from "react-router-dom";
 import dayjs from "dayjs";
@@ -12,12 +11,11 @@ import { isAtLeastSuperAdmin } from "../../util/ContestPeople_Role";
 
 export const ManageAnnouncements = () => {
   const { message } = App.useApp();
-  const { currentContest, currentUser } = useDashboardData();
+  const { currentContest, currentUser, notifications } = useDashboardData();
   const { t } = useTranslation();
   const [errors, setErrors] = useState([]);
   const [form] = Form.useForm();
   const [submitting, setSubmitting] = useState(false);
-  const [deleting, setDeleting] = useState([]);
   const [announcementFormVisible, setAnnouncementFormVisible] = useState(false);
   const revalidator = useRevalidator();
   const navigation = useNavigation();
@@ -25,12 +23,9 @@ export const ManageAnnouncements = () => {
   const onFormFinish = async (values) => {
     try {
       setSubmitting(true);
-      const newAnnouncement = {
-        text: values.announcement.trim(),
-        date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-      };
-      await ContestsApi.updateContest(currentContest.id, {
-        announcements: [...currentContest.announcements, newAnnouncement],
+      await NotificationsApi.createNotification(currentContest.id, {
+        title: values.title.trim(),
+        body: values.body.trim(),
       });
       revalidator.revalidate();
       setAnnouncementFormVisible(false);
@@ -59,22 +54,6 @@ export const ManageAnnouncements = () => {
     }
   };
 
-  const handleAnnouncementDelete = async (index) => {
-    try {
-      setDeleting((prev) => [...prev, index]);
-      const newAnnouncements = [...currentContest.announcements];
-      newAnnouncements.splice(index, 1);
-      await ContestsApi.updateContest(currentContest.id, {
-        announcements: newAnnouncements,
-      });
-      revalidator.revalidate();
-      setDeleting((prev) => prev.filter((i) => i !== index));
-    } catch (err) {
-      console.log(err);
-      message.error(t("something-went-wrong"));
-    }
-  };
-
   const canManageAnnouncements = isAtLeastSuperAdmin(currentUser.role);
 
   return (
@@ -89,13 +68,13 @@ export const ManageAnnouncements = () => {
             </Button>
           )}
         </div>
-        {currentContest.announcements.length === 0 ? (
+        {notifications.length === 0 ? (
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         ) : (
           <Spin spinning={navigation.state !== "idle"}>
             <StyledAnnouncementsList>
-              {currentContest.announcements.map((announcement, index) => (
-                <li key={announcement.date}>
+              {notifications.map((notification) => (
+                <li key={notification.id}>
                   <div
                     className={css`
                       display: flex;
@@ -104,21 +83,13 @@ export const ManageAnnouncements = () => {
                     `}
                   >
                     <Typography.Text type="secondary" style={{ fontSize: 10 }}>
-                      {dayjs(announcement.date).format("DD MMM YYYY HH:mm")}
+                      {notification.sent_at
+                        ? dayjs(notification.sent_at).format("DD MMM YYYY HH:mm")
+                        : t("not-sent-yet")}
                     </Typography.Text>
-                    {announcement.text}
+                    <Typography.Text strong>{notification.title}</Typography.Text>
+                    <Typography.Text>{notification.body}</Typography.Text>
                   </div>
-                  {canManageAnnouncements && (
-                    <Button
-                      type="text"
-                      danger
-                      size="small"
-                      onClick={() => handleAnnouncementDelete(index)}
-                      loading={deleting.includes(index)}
-                    >
-                      <TrashIcon />
-                    </Button>
-                  )}
                 </li>
               ))}
             </StyledAnnouncementsList>
@@ -136,9 +107,17 @@ export const ManageAnnouncements = () => {
           loading: submitting,
         }}
       >
-        <Form onFinish={onFormFinish} form={form}>
+        <Form onFinish={onFormFinish} form={form} layout="vertical">
           <Form.Item
-            name="announcement"
+            name="title"
+            label={t("notification-title")}
+            rules={[{ required: true, message: t("requiredField") }]}
+          >
+            <Input placeholder={t("notification-title-placeholder")} />
+          </Form.Item>
+          <Form.Item
+            name="body"
+            label={t("notification-body")}
             rules={[{ required: true, message: t("requiredField") }]}
             validateStatus={errors.length > 0 ? "error" : undefined}
             help={
@@ -148,7 +127,7 @@ export const ManageAnnouncements = () => {
             }
           >
             <Input.TextArea
-              placeholder={t("announcement-placeholder")}
+              placeholder={t("notification-body-placeholder")}
               rows={5}
             />
           </Form.Item>

@@ -7,6 +7,7 @@ import { redirect } from "react-router-dom";
 import * as AuthApi from "../../services/auth/api";
 import { ContestsApi } from "../../services/contests/api";
 import { getCurrentContest } from "../../services/contests/utils";
+import { NotificationsApi } from "../../services/notifications/api";
 
 export async function dashboardLoader({ request }) {
   const redirectTo = new URL(request.url).pathname;
@@ -28,14 +29,22 @@ export async function dashboardLoader({ request }) {
     data.contests = await ContestsApi.getContests();
     data.currentContest = await getCurrentContest(data.contests);
     data.currentUser.role = data.currentContest?.person_contest_role;
-    data.currentContest.announcements = Array.isArray(
-      data.currentContest.announcements,
-    )
-      ? data.currentContest.announcements
-      : [];
   } catch (e) {
     console.log(`Failed to get current contest: ${e}`);
     data.currentContest = null;
+  }
+
+  if (data.currentContest) {
+    try {
+      data.notifications = await NotificationsApi.getNotifications(
+        data.currentContest.id,
+      );
+    } catch (e) {
+      console.log(`Failed to get notifications: ${e}`);
+      data.notifications = [];
+    }
+  } else {
+    data.notifications = [];
   }
 
   return data;
