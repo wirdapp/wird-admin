@@ -14,7 +14,7 @@ import { AuthPageFooter } from "../shared/auth-page-footer";
 import { ReactComponent as WirdLogo } from "assets/icons/Shared/wirdLogo.svg";
 
 function Login() {
-	const { t, i18n } = useTranslation();
+	const { t } = useTranslation();
 	let navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
 	const location = useLocation();
