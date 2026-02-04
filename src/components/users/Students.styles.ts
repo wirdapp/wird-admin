@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import { colors } from "styles";
 import { AnimatedPage } from "../../ui/animated-page";
 
@@ -58,7 +58,7 @@ export const StudentSearchContainer = styled.div`
 `;
 
 interface SearchInputProps {
-  isExpanded?: boolean;
+	isExpanded?: boolean;
 }
 
 export const SearchInput = styled.input<SearchInputProps>`
@@ -79,8 +79,8 @@ export const SearchInput = styled.input<SearchInputProps>`
     width: 17rem;
 
     ${(props) =>
-      props.isExpanded &&
-      css`
+			props.isExpanded &&
+			css`
         width: 19rem;
       `}
   }
@@ -89,8 +89,8 @@ export const SearchInput = styled.input<SearchInputProps>`
     width: 15rem;
 
     ${(props) =>
-      props.isExpanded &&
-      css`
+			props.isExpanded &&
+			css`
         width: 18rem;
       `}
   }

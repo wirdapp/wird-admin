@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
-import {
-  DivForDropdownList as DefaultDropdownList,
-  DropdownDivSelect as DefaultDropdownDivSelect,
-} from "../shared/styles";
 import { AnimatedPage } from "../../ui/animated-page"; // Old Content
+import {
+	DropdownDivSelect as DefaultDropdownDivSelect,
+	DivForDropdownList as DefaultDropdownList,
+} from "../shared/styles";
 
 // Old Content
 

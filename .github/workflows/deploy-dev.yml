@@ -25,14 +25,13 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - name: Build
-        run: npm run build-dev
+        run: npm run build:dev
         env:
-          NODE_ENV: dev
-          REACT_APP_API_URL: ${{ vars.DEV_API_URL }}
-          REACT_APP_MAIN_URL: ${{ vars.DEV_MAIN_URL }}
+          VITE_API_URL: ${{ vars.DEV_API_URL }}
+          VITE_MAIN_URL: ${{ vars.DEV_MAIN_URL }}
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy build --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }} --branch=main
+          command: pages deploy dist --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }} --branch=main

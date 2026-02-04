@@ -1,21 +1,21 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
+import type React from "react";
+import { useTranslation } from "react-i18next";
 import { colors } from "../../styles";
 import { ContestStatus } from "../../types";
 
 interface ContestBadgeProps {
-  status: ContestStatus;
+	status: ContestStatus;
 }
 
 interface StyledBadgeProps {
-  status: ContestStatus;
+	status: ContestStatus;
 }
 
 const statusColors: Record<ContestStatus, string> = {
-  [ContestStatus.NOT_STARTED]: "#f3a100",
-  [ContestStatus.STARTED]: "#009af5",
-  [ContestStatus.FINISHED]: "#00bf76",
+	[ContestStatus.NOT_STARTED]: "#f3a100",
+	[ContestStatus.STARTED]: "#009af5",
+	[ContestStatus.FINISHED]: "#00bf76",
 };
 
 const StyledBadge = styled.div<StyledBadgeProps>`
@@ -32,9 +32,7 @@ const StyledBadge = styled.div<StyledBadgeProps>`
 `;
 
 export const ContestBadge: React.FC<ContestBadgeProps> = ({ status }) => {
-  const { t } = useTranslation();
+	const { t } = useTranslation();
 
-  return (
-    <StyledBadge status={status}>{t(`contestStatus.${status}`)}</StyledBadge>
-  );
+	return <StyledBadge status={status}>{t(`contestStatus.${status}`)}</StyledBadge>;
 };

@@ -1,15 +1,15 @@
-import React from "react";
-import EditCompetitionForm from "./EditCompetitionForm";
-import ContestMembers from "./ContestMembers";
-import { useDashboardData } from "../../util/routes-data";
-import { ManageAnnouncements } from "./manage-announcements";
 import styled from "@emotion/styled";
-import { AnimatedPage } from "../../ui/animated-page";
-import { ContestDetailsBox } from "./contest-details-box";
 import { Alert, Flex } from "antd";
+import type React from "react";
 import { useTranslation } from "react-i18next";
-import { StyledAnnouncementWrapper } from "./styles";
+import { AnimatedPage } from "../../ui/animated-page";
+import { useDashboardData } from "../../util/routes-data";
+import ContestMembers from "./ContestMembers";
 import { ContestDeleteSection } from "./ContestMembers/contest-delete-section";
+import { ContestDetailsBox } from "./contest-details-box";
+import EditCompetitionForm from "./EditCompetitionForm";
+import { ManageAnnouncements } from "./manage-announcements";
+import { StyledAnnouncementWrapper } from "./styles";
 
 const StyledContestEditWrapper = styled.div`
   display: flex;
@@ -21,34 +21,31 @@ const StyledContestEditWrapper = styled.div`
 `;
 
 const Competition: React.FC = () => {
-  const { t } = useTranslation();
-  const { currentContest } = useDashboardData();
+	const { t } = useTranslation();
+	const { currentContest } = useDashboardData();
 
-  if (!currentContest) {
-    return null;
-  }
+	if (!currentContest) {
+		return null;
+	}
 
-  return (
-    <AnimatedPage>
-      <Flex vertical gap={24}>
-        <ContestDetailsBox />
+	return (
+		<AnimatedPage>
+			<Flex vertical gap={24}>
+				<ContestDetailsBox />
 
-        <ContestMembers />
-        <StyledContestEditWrapper>
-          <EditCompetitionForm contest={currentContest} />
-          <StyledAnnouncementWrapper>
-            <Alert.ErrorBoundary
-              message={t("something-went-wrong")}
-              description=""
-            >
-              <ManageAnnouncements />
-            </Alert.ErrorBoundary>
-            <ContestDeleteSection />
-          </StyledAnnouncementWrapper>
-        </StyledContestEditWrapper>
-      </Flex>
-    </AnimatedPage>
-  );
+				<ContestMembers />
+				<StyledContestEditWrapper>
+					<EditCompetitionForm contest={currentContest} />
+					<StyledAnnouncementWrapper>
+						<Alert.ErrorBoundary message={t("something-went-wrong")} description="">
+							<ManageAnnouncements />
+						</Alert.ErrorBoundary>
+						<ContestDeleteSection />
+					</StyledAnnouncementWrapper>
+				</StyledContestEditWrapper>
+			</Flex>
+		</AnimatedPage>
+	);
 };
 
 export default Competition;

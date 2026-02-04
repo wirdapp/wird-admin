@@ -1,12 +1,12 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors } from "styles";
-import { css } from "@emotion/react";
 
 interface PopUpModalProps {
-  position: {
-    top: number;
-    left: number;
-  };
+	position: {
+		top: number;
+		left: number;
+	};
 }
 
 export default styled.div<PopUpModalProps>`

@@ -1,10 +1,10 @@
-import styled from '@emotion/styled';
-import { blankUserBackgroundColors, colors } from 'styles';
+import styled from "@emotion/styled";
+import { blankUserBackgroundColors, colors } from "styles";
 
 export const UserBlankImage = styled.div`
-  background-color: ${blankUserBackgroundColors[
-    Math.floor(Math.random() * blankUserBackgroundColors.length)
-  ]};
+  background-color: ${
+		blankUserBackgroundColors[Math.floor(Math.random() * blankUserBackgroundColors.length)]
+	};
   padding: 1rem;
   border-radius: 1rem;
   color: ${colors.white};

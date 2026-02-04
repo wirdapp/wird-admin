@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
-import { colors } from "styles";
-import {
-  Top2Img as DefaultTop2Img,
-  Top2Name as DefaultTop2Name,
-  Top3RankDiv as DefaultTop3RankDiv,
-} from "../Home/TopRanks/TopRanks.styles";
-import { AnimatedPage } from "../../ui/animated-page";
 import { Link } from "react-router-dom";
+import { colors } from "styles";
+import { AnimatedPage } from "../../ui/animated-page";
+import {
+	Top2Img as DefaultTop2Img,
+	Top2Name as DefaultTop2Name,
+	Top3RankDiv as DefaultTop3RankDiv,
+} from "../Home/TopRanks/TopRanks.styles";
 
 export const StyledLeaderboardList = styled.div`
   width: auto;

@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
 import {
-  IntroductionDiv as DefaultIntroductionDiv,
-  BorderBottom as DefaultBorderBottom,
-  IntroductionSection as DefaultIntroductionSection,
-  IntroductionSectionDiv as DefaultIntroductionSectionDiv,
-  WirdMinIntroduction as DefaultWirdMinIntroduction,
-  Introduction as DefaultIntroduction,
-  WirdLogoInHome as DefaultWirdLogoInHome,
+	BorderBottom as DefaultBorderBottom,
+	Introduction as DefaultIntroduction,
+	IntroductionDiv as DefaultIntroductionDiv,
+	IntroductionSection as DefaultIntroductionSection,
+	IntroductionSectionDiv as DefaultIntroductionSectionDiv,
+	WirdLogoInHome as DefaultWirdLogoInHome,
+	WirdMinIntroduction as DefaultWirdMinIntroduction,
 } from "../../shared/styles";
 
 export const Stylecom = styled.div``;

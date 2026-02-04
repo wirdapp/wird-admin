@@ -87,15 +87,15 @@ export const MenuLink = styled(NavLink)`
 `;
 
 interface MenuItemProps {
-  isSidebarCollapsed?: boolean;
+	isSidebarCollapsed?: boolean;
 }
 
 export const MenuItem = styled.span<MenuItemProps>`
   display: ${({ isSidebarCollapsed }) => {
-    if (isSidebarCollapsed === true) return "none";
-    if (isSidebarCollapsed === false) return "flex";
-    return "";
-  }};
+		if (isSidebarCollapsed === true) return "none";
+		if (isSidebarCollapsed === false) return "flex";
+		return "";
+	}};
   cursor: pointer;
   padding: 0;
   border: none;

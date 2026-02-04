@@ -1,8 +1,8 @@
-import { colors } from "styles";
 import { css } from "@emotion/react";
+import { colors } from "styles";
 
 export default (theme) => {
-  return css`
+	return css`
     // theme can be black or white / arabic or english
     :root {
       // ****************** Goal: provide variables that will be used when changing from Arabic to English + to make the styles sharable and easily changeable  ************************

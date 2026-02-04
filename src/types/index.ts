@@ -1,2 +1,2 @@
-export * from './api.types';
-export * from './component.types';
+export * from "./api.types";
+export * from "./component.types";

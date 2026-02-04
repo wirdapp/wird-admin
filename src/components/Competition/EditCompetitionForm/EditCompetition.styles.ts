@@ -2,10 +2,10 @@ import styled from "@emotion/styled";
 import { colors } from "styles";
 
 import {
-  ParticipantsMember as DefaultParticipantsMember,
-  ParticipantsNumbers as DefaultParticipantsNumbers,
-  ParticipantsTitels as DefaultParticipantsTitels,
-  SeeAllP as DefaultSeeAllP,
+	ParticipantsMember as DefaultParticipantsMember,
+	ParticipantsNumbers as DefaultParticipantsNumbers,
+	ParticipantsTitels as DefaultParticipantsTitels,
+	SeeAllP as DefaultSeeAllP,
 } from "../ContestMembers/ContestMembers.styles";
 
 export default styled.div`
@@ -28,7 +28,7 @@ export const ParticipantsNumbers = styled(DefaultParticipantsNumbers)`
 `;
 
 interface TypeSpaceProps {
-  inside?: boolean;
+	inside?: boolean;
 }
 
 export const TypeSpace = styled.div<TypeSpaceProps>`

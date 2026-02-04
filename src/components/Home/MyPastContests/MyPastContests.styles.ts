@@ -3,15 +3,15 @@ import styled from "@emotion/styled";
 import { RightLeftArrow as DefaultRightLeftArrow } from "../DaysSlider/DaysSlider.styles";
 
 import {
-  ParticipantsMember as DefaultParticipantsMember,
-  ParticipantsNumbers as DefaultParticipantsNumbers,
-  ParticipantsNumbersRanks as DefaultParticipantsNumbersRanks,
-  Top1Img as DefaultTop1Img,
-  Top1Name as DefaultTop1Name,
-  Top2Name as DefaultTop2Name,
-  Top3RankDiv as DefaultTop3RankDiv,
-  TopRanksAndParticipants as DefaultTopRanksAndParticipants,
-  TopRanksSection as DefaultTopRanksSection,
+	ParticipantsMember as DefaultParticipantsMember,
+	ParticipantsNumbers as DefaultParticipantsNumbers,
+	ParticipantsNumbersRanks as DefaultParticipantsNumbersRanks,
+	Top1Img as DefaultTop1Img,
+	Top1Name as DefaultTop1Name,
+	Top2Name as DefaultTop2Name,
+	Top3RankDiv as DefaultTop3RankDiv,
+	TopRanksAndParticipants as DefaultTopRanksAndParticipants,
+	TopRanksSection as DefaultTopRanksSection,
 } from "../TopRanks/TopRanks.styles";
 
 export default styled.div`

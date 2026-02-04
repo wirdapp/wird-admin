@@ -2,9 +2,9 @@ import styled from "@emotion/styled";
 import { colors } from "../../styles";
 
 import {
-  Form as DefaultForm,
-  FormInput as DefaultFormInput,
-  InputSubmit as DefaultInputSubmit,
+	Form as DefaultForm,
+	FormInput as DefaultFormInput,
+	InputSubmit as DefaultInputSubmit,
 } from "../shared/styles";
 
 export default styled.div`

@@ -1,23 +1,23 @@
+import type { FormProps } from "antd";
+import { Button, Flex, Form, Input, Space, Typography } from "antd";
+import { ReactComponent as WirdLogo } from "assets/icons/Shared/wirdLogo.svg";
+import { useHandleError } from "hooks/handleError";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router-dom";
+import { login } from "../../services/auth/session";
+import type { LoginFormValues } from "../../types";
+import { AuthPageFooter } from "../shared/auth-page-footer";
 import LoginFormContainer, {
 	DivCenter,
 	HeadLogIn,
 	StyledErrorsList,
 	TitleLogin,
 } from "./login.styles";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { login } from "../../services/auth/session";
-import { useHandleError } from "hooks/handleError";
-import { Button, Flex, Form, Input, Space, Typography } from "antd";
-import type { FormProps } from "antd";
-import { AuthPageFooter } from "../shared/auth-page-footer";
-import { ReactComponent as WirdLogo } from "assets/icons/Shared/wirdLogo.svg";
-import { LoginFormValues } from "../../types";
 
 function Login() {
 	const { t } = useTranslation();
-	let navigate = useNavigate();
+	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
 	const location = useLocation();
 
@@ -100,9 +100,7 @@ function Login() {
 							{t("login")}
 						</Button>
 						<Space>
-							<Typography.Text type="secondary">
-								{t("notAccount")}
-							</Typography.Text>
+							<Typography.Text type="secondary">{t("notAccount")}</Typography.Text>
 							<Button type="link" size="small" href="/signup">
 								{t("signUpKey")}
 							</Button>

@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import {
-  BorderBottom as DefaultBorderBottom,
-  Introduction as DefaultIntroduction,
-  WirdMinIntroduction as DefaultWirdMinIntroduction,
-} from "../shared/styles";
 import { AnimatedPage } from "../../ui/animated-page";
+import {
+	BorderBottom as DefaultBorderBottom,
+	Introduction as DefaultIntroduction,
+	WirdMinIntroduction as DefaultWirdMinIntroduction,
+} from "../shared/styles";
 
 export const HomeContainer = styled(AnimatedPage)`
   display: flex;

@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import SignupFormContainer, { DivCenter } from "../Signup/Signup.styles";
-import { HeadLogIn, StyledErrorsList, TitleLogin } from "../Login/login.styles";
-import { AuthService } from "../../services/auth/auth.service";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { login } from "../../services/auth/session";
-import { Button, Flex, Form, Input, Space, Typography, Upload } from "antd";
-import type { FormProps, UploadFile } from "antd";
-import { isAxiosError } from "axios";
 import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
-import { AuthPageFooter } from "../shared/auth-page-footer";
+import type { FormProps, UploadFile } from "antd";
+import { Button, Flex, Form, Input, Space, Typography, Upload } from "antd";
 import { ReactComponent as WirdLogo } from "assets/icons/Shared/wirdLogo.svg";
+import { isAxiosError } from "axios";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { AuthService } from "../../services/auth/auth.service";
+import { login } from "../../services/auth/session";
+import { HeadLogIn, StyledErrorsList, TitleLogin } from "../Login/login.styles";
+import SignupFormContainer, { DivCenter } from "../Signup/Signup.styles";
+import { AuthPageFooter } from "../shared/auth-page-footer";
 
 interface SignupFormValues {
 	username: string;
@@ -118,9 +118,7 @@ function Signup() {
 									if (!value || getFieldValue("password1") === value) {
 										return Promise.resolve();
 									}
-									return Promise.reject(
-										new Error(t("retypePasswordDisclimar")),
-									);
+									return Promise.reject(new Error(t("retypePasswordDisclimar")));
 								},
 							}),
 						]}
@@ -227,9 +225,7 @@ function Signup() {
 							{t("signUp")}
 						</Button>
 						<Space>
-							<Typography.Text type="secondary">
-								{t("alreadyHaveAccount")}
-							</Typography.Text>
+							<Typography.Text type="secondary">{t("alreadyHaveAccount")}</Typography.Text>
 							<Button type="link" href="/login">
 								{t("loginNow")}
 							</Button>

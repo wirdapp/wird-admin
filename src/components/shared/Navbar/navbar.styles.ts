@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import { colors } from "styles";
 import { Link } from "react-router-dom";
+import { colors } from "styles";
 
 export default styled.header`
   z-index: 2;
@@ -214,7 +214,7 @@ export const CloseIcon = styled.i`
 `;
 
 interface ProfilePictureProps {
-  src?: string;
+	src?: string;
 }
 
 export const ProfilePicture = styled.div<ProfilePictureProps>`

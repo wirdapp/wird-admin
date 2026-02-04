@@ -1,60 +1,58 @@
 html {
-  direction: ltr;
-  font-size: 14px;
+	direction: ltr;
+	font-size: 14px;
 }
 
 html[dir="rtl"] {
-  direction: rtl;
+	direction: rtl;
 }
 
 body {
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 
-  font-family: "IBM Plex Sans Arabic", "Montserrat",
-  sans-serif;
+	font-family: "IBM Plex Sans Arabic", "Montserrat", sans-serif;
 
-  background-color: #FBF9F7;
+	background-color: #fbf9f7;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-  monospace;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 .error-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-height: 100vh;
-  gap: 16px;
-  background-color: #fefefe;
-  padding: 16px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	max-height: 100vh;
+	gap: 16px;
+	background-color: #fefefe;
+	padding: 16px;
 }
 
 .error-page hr {
-  min-width: 100px;
+	min-width: 100px;
 }
 
 .ant-btn {
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+	justify-content: center;
+	vertical-align: middle;
 
-  .ant-btn-icon {
-    margin: 0 !important;
-  }
+	.ant-btn-icon {
+		margin: 0 !important;
+	}
 
-  svg {
-    width: 16px;
-    height: 16px;
-  }
+	svg {
+		width: 16px;
+		height: 16px;
+	}
 }
 
 a.ant-btn {
-  text-decoration: none;
+	text-decoration: none;
 }

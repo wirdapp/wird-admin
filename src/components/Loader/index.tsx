@@ -1,11 +1,11 @@
-import React from 'react';
-import Container from './loder.styles';
-import { Spin } from 'antd';
+import { Spin } from "antd";
+import React from "react";
+import Container from "./loder.styles";
 
 export default function Loader() {
-  return (
-    <Container>
-      <Spin size="large" />
-    </Container>
-  );
+	return (
+		<Container>
+			<Spin size="large" />
+		</Container>
+	);
 }

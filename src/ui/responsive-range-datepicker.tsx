@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
-import styled from '@emotion/styled';
-import { DatePicker } from 'antd';
-import type { RangePickerProps } from 'antd/es/date-picker';
+import styled from "@emotion/styled";
+import { DatePicker } from "antd";
+import type { RangePickerProps } from "antd/es/date-picker";
+import React, { type ReactNode } from "react";
 
 const StyleWrapperDatePicker = styled.div`
   .ant-picker-panel {
@@ -42,10 +42,10 @@ const StyleWrapperDatePicker = styled.div`
 `;
 
 export const RangeDatePicker = (props: RangePickerProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const panelRender = (panelNode: ReactNode) => (
-    <StyleWrapperDatePicker>{panelNode as any}</StyleWrapperDatePicker>
-  );
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const panelRender = (panelNode: ReactNode) => (
+		<StyleWrapperDatePicker>{panelNode as any}</StyleWrapperDatePicker>
+	);
 
-  return <DatePicker.RangePicker panelRender={panelRender} {...props} />;
+	return <DatePicker.RangePicker panelRender={panelRender} {...props} />;
 };

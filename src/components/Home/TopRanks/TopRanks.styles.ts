@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import { colors } from "../../../styles";
 import { Link } from "react-router-dom";
+import { colors } from "../../../styles";
 
 export default styled.div`
   display: flex;

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import { DivCenter as DefaultDivCenter } from "../Login/login.styles";
 import { colors } from "../../styles";
+import { DivCenter as DefaultDivCenter } from "../Login/login.styles";
 
 export default styled.div`
   background: #fdfdfb;

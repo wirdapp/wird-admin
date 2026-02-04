@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import { useDashboardData } from '../../../util/routes-data';
+import { css } from "@emotion/css";
+import styled from "@emotion/styled";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import {
-  ArrowsRightLeftIcon,
-  PlusCircleIcon,
-  Squares2X2Icon,
-  UserPlusIcon,
-} from '@heroicons/react/24/outline';
-import styled from '@emotion/styled';
-import { colors } from '../../../styles';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { CreateContestPopup } from '../../Competition/create-contest-popup';
-import { JoinContestPopup } from '../../Competition/join-contest-popup';
-import { useTranslation } from 'react-i18next';
-import { changeCurrentContest } from '../../../services/contests/utils';
-import { Button, Menu, Popover, Space, Typography } from 'antd';
-import { css } from '@emotion/css';
-import { ContestBadge } from '../../Competition/contest-badge';
-import type { ContestRaw } from '../../../types';
+	ArrowsRightLeftIcon,
+	PlusCircleIcon,
+	Squares2X2Icon,
+	UserPlusIcon,
+} from "@heroicons/react/24/outline";
+import { Button, Menu, Popover, Space, Typography } from "antd";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { changeCurrentContest } from "../../../services/contests/utils";
+import { colors } from "../../../styles";
+import type { ContestRaw } from "../../../types";
+import { useDashboardData } from "../../../util/routes-data";
+import { ContestBadge } from "../../Competition/contest-badge";
+import { CreateContestPopup } from "../../Competition/create-contest-popup";
+import { JoinContestPopup } from "../../Competition/join-contest-popup";
 
 const StyledContestName = styled.span`
   @media (max-width: 500px) {
@@ -85,58 +85,56 @@ const StyledCurrentContestWrapper = styled.div`
 `;
 
 export const ContestInfoMenu = () => {
-  const { currentContest, contests } = useDashboardData();
-  const [createContestOpen, setCreateContestOpen] = useState(false);
-  const [joinContestOpen, setJoinContestOpen] = useState(false);
-  const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
+	const { currentContest, contests } = useDashboardData();
+	const [createContestOpen, setCreateContestOpen] = useState(false);
+	const [joinContestOpen, setJoinContestOpen] = useState(false);
+	const { t } = useTranslation();
+	const [open, setOpen] = useState(false);
 
-  const otherContests = contests.filter(
-    (contest) => contest.id !== currentContest?.id,
-  );
+	const otherContests = contests.filter((contest) => contest.id !== currentContest?.id);
 
-  const switchContest = async (contest: ContestRaw) => {
-    try {
-      await changeCurrentContest(contest.id);
-      window.location.reload();
-    } catch (err) {
-      console.error(err);
-      console.log(`Failed to switch contest: ${err}`);
-    }
-  };
+	const switchContest = async (contest: ContestRaw) => {
+		try {
+			await changeCurrentContest(contest.id);
+			window.location.reload();
+		} catch (err) {
+			console.error(err);
+			console.log(`Failed to switch contest: ${err}`);
+		}
+	};
 
-  return (
-    <>
-      <Popover
-        open={open}
-        onOpenChange={setOpen}
-        trigger={['click']}
-        overlayClassName={css`
+	return (
+		<>
+			<Popover
+				open={open}
+				onOpenChange={setOpen}
+				trigger={["click"]}
+				overlayClassName={css`
           width: 290px;
         `}
-        content={
-          <>
-            {currentContest && (
-              <StyledCurrentContestWrapper>
-                <div className="contest-details">
-                  <Typography.Title level={5} style={{ margin: 0 }}>
-                    {currentContest?.name}
-                  </Typography.Title>
-                  <ContestBadge status={currentContest?.status} />
-                  <Space>
-                    {t('join-code')}:
-                    <Typography.Text code copyable>
-                      {currentContest?.contest_id}
-                    </Typography.Text>
-                  </Space>
-                </div>
-              </StyledCurrentContestWrapper>
-            )}
-            <Menu
-              selectable={false}
-              mode="inline"
-              inlineIndent={12}
-              className={css`
+				content={
+					<>
+						{currentContest && (
+							<StyledCurrentContestWrapper>
+								<div className="contest-details">
+									<Typography.Title level={5} style={{ margin: 0 }}>
+										{currentContest?.name}
+									</Typography.Title>
+									<ContestBadge status={currentContest?.status} />
+									<Space>
+										{t("join-code")}:
+										<Typography.Text code copyable>
+											{currentContest?.contest_id}
+										</Typography.Text>
+									</Space>
+								</div>
+							</StyledCurrentContestWrapper>
+						)}
+						<Menu
+							selectable={false}
+							mode="inline"
+							inlineIndent={12}
+							className={css`
                 border: none !important;
 
                 .ant-menu-item,
@@ -152,64 +150,58 @@ export const ContestInfoMenu = () => {
                   color: ${colors.orange} !important;
                 }
               `}
-              items={[
-                otherContests.length > 0
-                  ? {
-                      key: 'switch',
-                      label: t('switch-contest'),
-                      icon: <ArrowsRightLeftIcon />,
-                      children: otherContests?.map?.((contest) => ({
-                        key: contest?.id,
-                        label: contest?.name,
-                        onClick: () => switchContest(contest),
-                      })),
-                    }
-                  : null,
-                {
-                  key: 'create',
-                  label: t('create-contest'),
-                  icon: <PlusCircleIcon />,
-                  onClick: () => {
-                    setOpen(false);
-                    setCreateContestOpen(true);
-                  },
-                },
-                {
-                  key: 'join',
-                  label: t('join-contest'),
-                  icon: <UserPlusIcon />,
-                  onClick: () => {
-                    setOpen(false);
-                    setJoinContestOpen(true);
-                  },
-                },
-              ].filter(Boolean)}
-            />
-          </>
-        }
-      >
-        <Button shape="round">
-          <Space size={8} align="center">
-            {currentContest ? (
-              <>
-                <Squares2X2Icon style={{ width: 16, display: 'block' }} />
-                <StyledContestName>{currentContest?.name}</StyledContestName>
-              </>
-            ) : (
-              t('no-contest-yet')
-            )}
-            <ChevronDownIcon style={{ width: 16, display: 'block' }} />
-          </Space>
-        </Button>
-      </Popover>
-      <CreateContestPopup
-        visible={createContestOpen}
-        onClose={() => setCreateContestOpen(false)}
-      />
-      <JoinContestPopup
-        visible={joinContestOpen}
-        onClose={() => setJoinContestOpen(false)}
-      />
-    </>
-  );
+							items={[
+								otherContests.length > 0
+									? {
+											key: "switch",
+											label: t("switch-contest"),
+											icon: <ArrowsRightLeftIcon />,
+											children: otherContests?.map?.((contest) => ({
+												key: contest?.id,
+												label: contest?.name,
+												onClick: () => switchContest(contest),
+											})),
+										}
+									: null,
+								{
+									key: "create",
+									label: t("create-contest"),
+									icon: <PlusCircleIcon />,
+									onClick: () => {
+										setOpen(false);
+										setCreateContestOpen(true);
+									},
+								},
+								{
+									key: "join",
+									label: t("join-contest"),
+									icon: <UserPlusIcon />,
+									onClick: () => {
+										setOpen(false);
+										setJoinContestOpen(true);
+									},
+								},
+							].filter(Boolean)}
+						/>
+					</>
+				}
+			>
+				<Button shape="round">
+					<Space size={8} align="center">
+						{currentContest ? (
+							<>
+								<Squares2X2Icon style={{ width: 16, display: "block" }} />
+								<StyledContestName>{currentContest?.name}</StyledContestName>
+							</>
+						) : (
+							t("no-contest-yet")
+						)}
+						<ChevronDownIcon style={{ width: 16, display: "block" }} />
+					</Space>
+				</Button>
+			</Popover>
+			<CreateContestPopup visible={createContestOpen} onClose={() => setCreateContestOpen(false)} />
+			<JoinContestPopup visible={joinContestOpen} onClose={() => setJoinContestOpen(false)} />
+		</>
+	);
 };
