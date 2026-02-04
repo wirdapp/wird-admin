@@ -9,30 +9,44 @@ Wird Admin Dashboard - React admin interface for managing contests, participants
 ## Development Commands
 
 ```bash
-npm start          # Start dev server (local environment)
-npm run build      # Build for production
-npm test           # Run tests in watch mode
+bun dev            # Start dev server
+bun run build      # Build for production
+bun run build:dev  # Build for development
+bun test           # Run tests with Vitest
+bun run lint       # Lint with Biome
+bun run lint:fix   # Lint and fix with Biome
+bun run format     # Format with Biome
+bun run check      # Run all Biome checks
+bun run check:fix  # Run all Biome checks and fix
 ```
-
-Environment is configured via `.env-cmdrc` with `local`, `dev`, and `prod` configurations.
 
 ## Architecture
 
 ### Tech Stack
-- React 18 with Create React App
-- React Router v6 (with loader/action patterns)
-- Ant Design for UI components
-- Emotion for CSS-in-JS styling
-- i18next for internationalization (Arabic default, English supported)
-- Axios for HTTP requests
+- **Runtime:** Bun
+- **Build:** Vite with TypeScript
+- **Framework:** React 18 with React Router v6
+- **Data Fetching:** TanStack Query (React Query)
+- **UI:** Ant Design
+- **Styling:** Emotion CSS-in-JS
+- **i18n:** i18next (Arabic default, English supported)
+- **HTTP:** Axios
+- **Linting/Formatting:** Biome
+- **Testing:** Vitest
+
+### Path Aliases
+Configured in `vite.config.ts` and `tsconfig.json`:
+- `assets/*`, `components/*`, `services/*`, `util/*`, `hooks/*`, `ui/*`, `styles/*`, `data/*`, `types/*`
 
 ### Directory Structure
 ```
 src/
 ├── components/          # Feature-based components (Competition, Groups, Users, etc.)
-│   ├── layout/          # DashboardLayout, loaders
+│   ├── layout/          # DashboardLayout, providers
+│   ├── providers/       # App-wide providers (React Query, etc.)
 │   └── shared/          # Reusable components (Navbar, Sidebar, Modal)
-├── services/            # API layer - one file per domain (auth/, contests/, groups/)
+├── services/            # API layer - one folder per domain with service + queries files
+├── types/               # TypeScript type definitions
 ├── util/                # Utilities (axios config, colors, role helpers)
 ├── styles/              # Global styles and theme configuration
 ├── hooks/               # Custom React hooks (useHandleError)
@@ -43,18 +57,18 @@ src/
 ### Key Patterns
 
 **Routing & Data Loading:**
-- Routes defined in `src/router.jsx`
-- `dashboardLoader` in `src/components/layout/dashboard-loader.js` pre-fetches user data
-- Use `useDashboardData()` from `src/util/routes-data.js` to access loader data
+- Routes defined in `src/router.tsx`
+- Use `useDashboardData()` from `src/util/routes-data.ts` to access dashboard context
 
 **API Services:**
-- Centralized axios instance at `src/util/axios.js` with auth interceptors
-- Services export async functions: `AuthApi.doLogin()`, `ContestsApi.getContests()`
+- Centralized axios instance at `src/util/axios.ts` with auth interceptors
+- Services organized by domain: `services/auth/`, `services/contests/`, `services/groups/`
+- Each domain has `*.service.ts` (API calls) and `queries.ts` (TanStack Query hooks)
 - Token refresh handled automatically via interceptors
 
 **Authentication:**
-- Session stored in cookies (`wird-session` key)
-- Role checks via `src/util/ContestPeople_Role.js`: `isOwner()`, `isAdmin()`, `isMember()`
+- Session managed in `src/services/auth/session.ts`
+- Role checks via `src/util/roles.ts`
 
 **Internationalization:**
 - Default language: Arabic
