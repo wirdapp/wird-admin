@@ -19,13 +19,12 @@ jobs:
       deployments: write
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
+          bun-version: latest
+      - run: bun install --frozen-lockfile
       - name: Build
-        run: npm run build:dev
+        run: bun run build:dev
         env:
           VITE_API_URL: ${{ vars.DEV_API_URL }}
           VITE_MAIN_URL: ${{ vars.DEV_MAIN_URL }}
