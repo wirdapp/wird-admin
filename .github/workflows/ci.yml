@@ -10,30 +10,38 @@ concurrency:
 
 jobs:
   lint:
-    name: Lint
+    name: Lint & Format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
-      - name: Lint
-        run: npm run lint
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - name: Biome Check
+        run: bunx biome check src/ --diagnostic-level=error
+
+  typecheck:
+    name: Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - name: Type Check
+        run: bunx tsc --noEmit
 
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: lint
+    needs: [lint, typecheck]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
+          bun-version: latest
+      - run: bun install --frozen-lockfile
       - name: Build
-        run: npm run build
-        env:
-          NODE_ENV: prod
+        run: bun run build

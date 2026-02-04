@@ -1,0 +1,210 @@
+import { css } from "@emotion/css";
+import { TrashIcon } from "@heroicons/react/20/solid";
+import { EyeSlashIcon, PencilSquareIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { Bars2Icon } from "@heroicons/react/24/solid";
+import { App, Button, Divider, Flex, List, Popconfirm, Tooltip } from "antd";
+import type React from "react";
+import { useState } from "react";
+// @ts-expect-error - react-beautiful-dnd types not installed
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { useTranslation } from "react-i18next";
+import { FieldTypes, FieldTypesIcons } from "../../../services/contest-criteria/consts";
+import { colors } from "../../../styles";
+import type { Criterion, Section, UUID } from "../../../types";
+import { reorder } from "../../../util/contest-utils";
+import { CriteriaFormPopup } from "./criteria-form-popup";
+import { useContestCriteria } from "./use-contest-criteria";
+
+interface SectionCriteriaListProps {
+	section: Section;
+}
+
+export const SectionCriteriaList: React.FC<SectionCriteriaListProps> = ({ section }) => {
+	const { message } = App.useApp();
+	const { t } = useTranslation();
+	const { criteriaItems, actions } = useContestCriteria({
+		sectionId: section.id,
+	});
+	const [addCriteriaVisible, setAddCriteriaVisible] = useState(false);
+	const [activeCriterion, setActiveCriterion] = useState<UUID | null>(null);
+
+	const handleDelete = async (id: UUID): Promise<void> => {
+		try {
+			await actions.remove(id);
+			message.success(t("criteria-deleted"));
+		} catch (e: any) {
+			console.error(e);
+			let errorMessage = t("criteria-delete-failed");
+			if (e.response?.data?.detail) {
+				if (e.response?.data?.detail.includes("cannot edit contest after its start date")) {
+					errorMessage = t("cannot-edit-contest-after-start");
+				} else {
+					errorMessage = e.response?.data?.detail;
+				}
+			}
+			message.error(errorMessage);
+		}
+	};
+
+	const onDragEnd = async (result: any): Promise<void> => {
+		// dropped outside the list
+		if (!result.destination) {
+			return;
+		}
+
+		if (result.destination.index === result.source.index) {
+			return;
+		}
+
+		const items = reorder(criteriaItems, result.source.index, result.destination.index);
+
+		await actions.updateOrder(items);
+	};
+
+	return (
+		<DragDropContext onDragEnd={onDragEnd}>
+			<Flex vertical gap={16}>
+				<Droppable droppableId="criteria-droparea">
+					{(provided: any, snapshot: any) => (
+						<div
+							ref={provided.innerRef}
+							{...provided.droppableProps}
+							className={css`
+                background-color: #fff;
+                ${snapshot.isDraggingOver && `background-color: ${colors.lightGrey};`}
+              `}
+						>
+							<List
+								dataSource={criteriaItems}
+								renderItem={(item: Criterion, index: number) => {
+									const Icon =
+										FieldTypesIcons[(item as any).resourcetype] ?? FieldTypesIcons[FieldTypes.Text];
+									return (
+										<Draggable key={item.id} draggableId={item.id} index={index}>
+											{(provided: any, _snapshot: any) => (
+												<List.Item
+													ref={provided.innerRef}
+													{...provided.draggableProps}
+													key={item.id}
+													className={css`
+                            ${(item as any).archived ? `opacity: 0.5;` : ""}
+                          `}
+													actions={[
+														<Button
+															size="small"
+															type="text"
+															key={item.id}
+															{...provided.dragHandleProps}
+															className={css`
+                                cursor: grab;
+                              `}
+															icon={<Bars2Icon />}
+														/>,
+														<Button
+															size="small"
+															type="text"
+															icon={<PencilSquareIcon />}
+															onClick={() => {
+																setActiveCriterion(item.id);
+																setAddCriteriaVisible(true);
+															}}
+															key="edit"
+														/>,
+
+														<Popconfirm
+															title={t("delete-confirm")}
+															onConfirm={() => handleDelete(item.id)}
+															okText={t("delete")}
+															cancelText={t("cancel")}
+															key="delete"
+														>
+															<Button size="small" type="text" danger icon={<TrashIcon />} />
+														</Popconfirm>,
+													].filter(Boolean)}
+												>
+													<List.Item.Meta
+														title={
+															<Flex
+																align="center"
+																gap="small"
+																className={css`
+                                  svg {
+                                    width: 16px;
+                                  }
+                                `}
+															>
+																{item.label}
+																{!(item as any).visible && (
+																	<Tooltip title={t("criteria-not-visible")}>
+																		<EyeSlashIcon />
+																	</Tooltip>
+																)}
+															</Flex>
+														}
+														description={
+															<Flex align="center">
+																<div
+																	className={css`
+                                    white-space: nowrap;
+                                  `}
+																>
+																	{t("points", { count: (item as any).points })}
+																</div>
+																<Divider type="vertical" />
+																<div
+																	className={css`
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                    flex-grow: 0;
+                                  `}
+																>
+																	{item.description}
+																</div>
+															</Flex>
+														}
+														avatar={
+															<Icon
+																className={css`
+                                  width: 24px;
+                                  height: 24px;
+                                `}
+															/>
+														}
+													/>
+													{provided.placeholder}
+												</List.Item>
+											)}
+										</Draggable>
+									);
+								}}
+							/>
+							{provided.placeholder}
+						</div>
+					)}
+				</Droppable>
+				<Button
+					size="small"
+					icon={<PlusIcon />}
+					type="dashed"
+					onClick={() => {
+						setActiveCriterion(null);
+						setAddCriteriaVisible(true);
+					}}
+				>
+					{t("add-criteria")}
+				</Button>
+				<CriteriaFormPopup
+					criterionId={activeCriterion}
+					section={section}
+					index={criteriaItems.length}
+					open={addCriteriaVisible}
+					onClose={() => {
+						setAddCriteriaVisible(false);
+						setActiveCriterion(null);
+					}}
+				/>
+			</Flex>
+		</DragDropContext>
+	);
+};

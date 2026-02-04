@@ -1,4 +1,4 @@
 export const GroupRole = Object.freeze({
-  ADMIN: 1,
-  MEMBER: 2,
+	ADMIN: 1,
+	MEMBER: 2,
 });
