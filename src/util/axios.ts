@@ -51,7 +51,7 @@ export const requestInterceptor = (
 	const token = session?.token;
 	config.withCredentials = true;
 	if (token) {
-		config.headers["Authorization"] = `Bearer ${token}`;
+		config.headers.Authorization = `Bearer ${token}`;
 	}
 	return config;
 };
@@ -96,9 +96,9 @@ export const errorInterceptor = async (error: AxiosError<ApiErrorResponse>): Pro
 
 	try {
 		const token = await tryRefreshTokens(refreshToken);
-		originalRequest.headers["Authorization"] = `Bearer ${token}`;
+		originalRequest.headers.Authorization = `Bearer ${token}`;
 		return axios.request(originalRequest) as never;
-	} catch (e) {
+	} catch {
 		destroySession();
 		redirectToLogin();
 		return Promise.reject(error);

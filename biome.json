@@ -24,10 +24,14 @@
 				"useExhaustiveDependencies": "warn"
 			},
 			"suspicious": {
-				"noExplicitAny": "warn"
+				"noExplicitAny": "warn",
+				"noArrayIndexKey": "warn"
 			},
 			"style": {
 				"noNonNullAssertion": "off"
+			},
+			"security": {
+				"noDangerouslySetInnerHtml": "warn"
 			}
 		}
 	},

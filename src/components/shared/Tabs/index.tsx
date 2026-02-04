@@ -29,6 +29,7 @@ export default function Tabs(props: TabsProps) {
 						{props.labels.map((label, index) => {
 							return (
 								<button
+									type="button"
 									className={toggleState === index ? "tabs active-tabs" : "tabs"}
 									onClick={() => toggleTab(index)}
 									key={index}

@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Spin } from "antd";
-import React, { createContext, type ReactNode, useCallback, useContext, useMemo } from "react";
+import { createContext, type ReactNode, useCallback, useContext, useMemo } from "react";
 import {
 	contestCriteriaKeys,
 	useCriteria,

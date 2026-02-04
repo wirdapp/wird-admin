@@ -39,7 +39,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
 	if (active && payload && payload.length) {
 		return (
 			<StyledChartTooltip>
-				<label>{dayjs(label).format("DD MMM YYYY")}</label>
+				<span>{dayjs(label).format("DD MMM YYYY")}</span>
 				{payload.map((p) => (
 					<Fragment key={p.value}>
 						{dayjs().isSame(p.payload.date, "day") && <small> ({t("today")})</small>}

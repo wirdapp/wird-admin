@@ -12,11 +12,21 @@ export const ResultsOverviewSkeleton: React.FC = () => {
 				<PresentationChartLineIcon style={{ height: 24, width: 24, color: colors.lightGrey }} />
 			</Skeleton.Node>
 			<div className="skeleton-list">
-				<Skeleton.Node active className="skeleton-list-item" children={false} />
-				<Skeleton.Node active className="skeleton-list-item" children={false} />
-				<Skeleton.Node active className="skeleton-list-item" children={false} />
-				<Skeleton.Node active className="skeleton-list-item" children={false} />
-				<Skeleton.Node active className="skeleton-list-item" children={false} />
+				<Skeleton.Node active className="skeleton-list-item">
+					{false}
+				</Skeleton.Node>
+				<Skeleton.Node active className="skeleton-list-item">
+					{false}
+				</Skeleton.Node>
+				<Skeleton.Node active className="skeleton-list-item">
+					{false}
+				</Skeleton.Node>
+				<Skeleton.Node active className="skeleton-list-item">
+					{false}
+				</Skeleton.Node>
+				<Skeleton.Node active className="skeleton-list-item">
+					{false}
+				</Skeleton.Node>
 			</div>
 		</StyledSkeletonWrapper>
 	);

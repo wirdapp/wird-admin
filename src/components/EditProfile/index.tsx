@@ -1,6 +1,5 @@
 import { App, Flex, Grid, Space, Typography } from "antd";
 import type { AxiosError } from "axios";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { useUpdateUserInfo } from "../../services/auth/queries";
 import { useDashboardData } from "../../util/routes-data";

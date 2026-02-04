@@ -30,9 +30,9 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
 	if (active && payload && payload.length) {
 		return (
 			<Card className="custom-tooltip">
-				<label>
+				<span>
 					{t("day")} {Number(label)}
-				</label>
+				</span>
 				<Flex gap={8} align="center">
 					<span
 						className={css`

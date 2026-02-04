@@ -1,5 +1,4 @@
 import { css } from "@emotion/css";
-import type { FormInstance } from "antd";
 import { App, Button, Empty, Form, Input, Modal, Spin, Typography } from "antd";
 import dayjs from "dayjs";
 import React, { useState } from "react";

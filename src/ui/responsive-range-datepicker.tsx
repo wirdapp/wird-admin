@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { DatePicker } from "antd";
 import type { RangePickerProps } from "antd/es/date-picker";
-import React, { type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 const StyleWrapperDatePicker = styled.div`
   .ant-picker-panel {

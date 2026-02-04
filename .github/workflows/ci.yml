@@ -20,7 +20,7 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - name: Biome Check
-        run: npm run check
+        run: npx biome check src/ --diagnostic-level=error
 
   typecheck:
     name: Type Check

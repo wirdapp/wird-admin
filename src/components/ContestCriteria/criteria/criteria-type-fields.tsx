@@ -95,72 +95,70 @@ export const CriteriaTypeFields: React.FC<CriteriaTypeFieldsProps> = ({ form, is
 				</Form.Item>
 			)}
 			{(selectedType === FieldTypes.Radio || selectedType === FieldTypes.MultipleChoices) && (
-				<>
-					<Form.List name="options">
-						{(fields, { add, remove }) => (
-							<>
-								<Typography.Text>{t("options")}:</Typography.Text>
-								<ol>
-									{fields.map((field, index) => (
-										<li
-											key={field.key}
-											className={css`
+				<Form.List name="options">
+					{(fields, { add, remove }) => (
+						<>
+							<Typography.Text>{t("options")}:</Typography.Text>
+							<ol>
+								{fields.map((field, index) => (
+									<li
+										key={field.key}
+										className={css`
                         margin-bottom: 16px;
                       `}
-										>
-											<Flex gap="small" align="center">
-												<Form.Item hidden name={[field.name, "id"]} />
-												<Form.Item
-													name={[field.name, "label"]}
-													rules={[{ required: true }]}
-													style={{ width: "100%" }}
-													noStyle
-												>
-													<Input size="small" placeholder={t("option")} />
-												</Form.Item>
-												<Tooltip
-													title={t("is-correct")}
-													placement={i18n.dir() === "ltr" ? "right" : "left"}
-												>
-													<div>
-														<Form.Item
-															noStyle
-															name={[field.name, "is_correct"]}
-															valuePropName="checked"
-														>
-															<Checkbox onChange={(e) => onCheckboxChecked(e, index)} />
-														</Form.Item>
-													</div>
-												</Tooltip>
-												<Button
-													onClick={() => remove(index)}
-													type="text"
-													size="small"
-													danger
-													icon={<TrashIcon />}
-												/>
-											</Flex>
-										</li>
-									))}
-								</ol>
-								<Button
-									type="dashed"
-									size="small"
-									onClick={() =>
-										add({
-											id: uuidv4(),
-											label: "",
-											is_correct: false,
-										})
-									}
-									block
-								>
-									{t("add-option")}
-								</Button>
-							</>
-						)}
-					</Form.List>
-				</>
+									>
+										<Flex gap="small" align="center">
+											<Form.Item hidden name={[field.name, "id"]} />
+											<Form.Item
+												name={[field.name, "label"]}
+												rules={[{ required: true }]}
+												style={{ width: "100%" }}
+												noStyle
+											>
+												<Input size="small" placeholder={t("option")} />
+											</Form.Item>
+											<Tooltip
+												title={t("is-correct")}
+												placement={i18n.dir() === "ltr" ? "right" : "left"}
+											>
+												<div>
+													<Form.Item
+														noStyle
+														name={[field.name, "is_correct"]}
+														valuePropName="checked"
+													>
+														<Checkbox onChange={(e) => onCheckboxChecked(e, index)} />
+													</Form.Item>
+												</div>
+											</Tooltip>
+											<Button
+												onClick={() => remove(index)}
+												type="text"
+												size="small"
+												danger
+												icon={<TrashIcon />}
+											/>
+										</Flex>
+									</li>
+								))}
+							</ol>
+							<Button
+								type="dashed"
+								size="small"
+								onClick={() =>
+									add({
+										id: uuidv4(),
+										label: "",
+										is_correct: false,
+									})
+								}
+								block
+							>
+								{t("add-option")}
+							</Button>
+						</>
+					)}
+				</Form.List>
 			)}
 		</>
 	);
