@@ -1,26 +1,28 @@
-import { ContestCriteriaApi } from "../../../services/contest-criteria/api";
 import { useContestCriteriaContext } from "../contest-criteria-context";
+import {
+  useAddSection,
+  useUpdateSection,
+  useDeleteSection,
+  useUpdateSectionsOrder,
+} from "../../../services/contest-criteria/queries";
 
 export function useContestSections() {
   const { sections } = useContestCriteriaContext();
+  const addSectionMutation = useAddSection();
+  const updateSectionMutation = useUpdateSection();
+  const deleteSectionMutation = useDeleteSection();
+  const updateSectionsOrderMutation = useUpdateSectionsOrder();
 
   const add = async (section) => {
-    const sectionData = await ContestCriteriaApi.addSection({ section });
-    sections.setItems([...sections.items, sectionData]);
+    await addSectionMutation.mutateAsync(section);
   };
 
   const update = async (id, section) => {
-    const sectionData = await ContestCriteriaApi.updateSection({ id, section });
-    const index = sections.items.findIndex((section) => section.id === id);
-    const newSections = [...sections.items];
-    newSections[index] = sectionData;
-    sections.setItems(newSections);
+    await updateSectionMutation.mutateAsync({ id, section });
   };
 
   const remove = async (id) => {
-    await ContestCriteriaApi.deleteSection({ id });
-    const newSections = sections.items.filter((section) => section.id !== id);
-    sections.setItems(newSections);
+    await deleteSectionMutation.mutateAsync(id);
   };
 
   const updateSectionsOrder = async (newSections) => {
@@ -28,10 +30,7 @@ export function useContestSections() {
       ...section,
       position: index,
     }));
-    sections.setItems(newSectionsWithPositions);
-    return await ContestCriteriaApi.updateSectionsOrder({
-      newSections: newSectionsWithPositions,
-    });
+    return await updateSectionsOrderMutation.mutateAsync(newSectionsWithPositions);
   };
 
   return {

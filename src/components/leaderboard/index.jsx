@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Loader from "../Loader";
 import { LeaderBoardMain } from "./TopStudents.styles";
 import { useDashboardData } from "../../util/routes-data";
-import { ContestResultsApi } from "../../services/contest-results/api";
 import { ContestStatus } from "../../services/contests/utils";
 import { LeaderboardList } from "./leaderboard-list";
+import { useLeaderboard } from "../../services/contest-results/queries";
 
 export const colors = ["#503E9D", "#FB862C", "#FF5367", "#FDD561", "#FFBAC2"];
 
@@ -13,33 +13,15 @@ export function getColor(index) {
 }
 
 export default function Leaderboard() {
-  const [topStudents, setTopStudents] = useState([]);
-  const [loading, setLoading] = useState(false);
   const { currentContest } = useDashboardData();
   const isContestNotStarted =
     currentContest?.status === ContestStatus.NOT_STARTED;
 
-  const loadTopStudents = async () => {
-    setLoading(true);
-    try {
-      const result = await ContestResultsApi.leaderboard({
-        contestId: currentContest.id,
-      });
-      setTopStudents(result);
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: topStudents = [], isLoading } = useLeaderboard(currentContest?.id, {
+    enabled: !isContestNotStarted && !!currentContest?.id,
+  });
 
-  useEffect(() => {
-    if (isContestNotStarted) return;
-    loadTopStudents();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isContestNotStarted]);
-
-  if (loading) {
+  if (isLoading) {
     return <Loader />;
   }
 

@@ -4,39 +4,33 @@ import { css } from "@emotion/css";
 import { colors } from "../../styles";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useTranslation } from "react-i18next";
-import { GroupsApi } from "../../services/groups/api";
-import { useRevalidator } from "react-router-dom";
 import { getFullName } from "../../util/user-utils";
 import { useDashboardData } from "../../util/routes-data";
 import { GroupUserAddForm } from "./group-user-add-form";
 import { GroupRole } from "../../services/groups/consts";
 import { isAtLeastSuperAdmin } from "../../util/ContestPeople_Role";
+import { useRemoveGroupMember } from "../../services/groups/queries";
 
 const MemberActions = ({ groupId, member }) => {
   const { t } = useTranslation();
   const { message } = App.useApp();
-  const revalidator = useRevalidator();
-  const [submitting, setSubmitting] = React.useState(false);
   const { currentUser } = useDashboardData();
+  const removeGroupMember = useRemoveGroupMember();
 
   const isSuperAdmin = isAtLeastSuperAdmin(currentUser.role);
 
   if (!isSuperAdmin || currentUser.username === member.username) return null;
 
   const removeMember = async () => {
-    setSubmitting(true);
     try {
-      await GroupsApi.removeGroupMember({
+      await removeGroupMember.mutateAsync({
         groupId: groupId,
         memberId: member.id,
       });
       message.success(t("group-member-removed"));
-      revalidator.revalidate();
     } catch (e) {
       console.error(e);
       message.error(t("something-went-wrong"));
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -46,7 +40,7 @@ const MemberActions = ({ groupId, member }) => {
       size="small"
       danger
       icon={<XMarkIcon />}
-      loading={submitting}
+      loading={removeGroupMember.isPending}
       onClick={removeMember}
     >
       {t("remove")}

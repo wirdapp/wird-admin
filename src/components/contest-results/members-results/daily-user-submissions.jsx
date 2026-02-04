@@ -3,59 +3,37 @@ import { Button, DatePicker, Form } from "antd";
 import { useTranslation } from "react-i18next";
 import { useDashboardData } from "../../../util/routes-data";
 import dayjs from "dayjs";
-import { ContestResultsApi } from "../../../services/contest-results/api";
-import { ContestCriteriaApi } from "../../../services/contest-criteria/api";
 import { DailySubmissionsTable } from "./daily-submissions-table";
+import { useMemberDaySubmissions } from "../../../services/contest-results/queries";
+import { useCriteria } from "../../../services/contest-criteria/queries";
 
 export const DailyUserSubmissions = ({ onUpdated, userId }) => {
   const { t } = useTranslation();
   const { currentContest } = useDashboardData();
-  const [loading, setLoading] = useState(false);
-  const [submissions, setSubmissions] = useState([]);
   const [form] = Form.useForm();
-  const [criteria, setCriteria] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const { data: criteriaData = [] } = useCriteria(currentContest?.id);
+  const { data: submissionsData, isLoading: loading, refetch } = useMemberDaySubmissions(
+    userId,
+    selectedDate,
+    currentContest?.id
+  );
+
+  const submissions = submissionsData?.points ?? [];
 
   useEffect(() => {
-    if (!currentContest) return;
-    ContestCriteriaApi.getCriteria({ contestId: currentContest.id }).then(
-      (res) => {
-        setCriteria(res);
-      },
-    );
-  }, [currentContest]);
-
-  useEffect(() => {
-    setSubmissions([]);
+    setSelectedDate(null);
     form.resetFields();
   }, [userId, form]);
 
-  const loadSubmissions = async (date) => {
-    setLoading(true);
-    try {
-      const res = await ContestResultsApi.getMemberDaySubmissions({
-        userId,
-        date: date.format("YYYY-MM-DD"),
-      });
-      setSubmissions(res.points);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const onFormFinish = async (values) => {
-    await loadSubmissions(values.date);
+    setSelectedDate(values.date.format("YYYY-MM-DD"));
   };
 
-  const afterRecordUpdate = (record) => {
-    const index = submissions.findIndex((r) => r.id === record.id);
-    if (index !== -1) {
-      const newSubmissions = [...submissions];
-      newSubmissions[index] = record;
-      setSubmissions(newSubmissions);
-    }
-    onUpdated?.(record);
+  const afterRecordUpdate = () => {
+    refetch();
+    onUpdated?.();
   };
 
   return (
@@ -91,7 +69,7 @@ export const DailyUserSubmissions = ({ onUpdated, userId }) => {
       </Form>
       <DailySubmissionsTable
         submissions={submissions}
-        criteria={criteria}
+        criteria={criteriaData}
         onUpdated={afterRecordUpdate}
       />
     </div>

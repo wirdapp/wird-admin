@@ -1,25 +1,23 @@
 import React from "react";
-import { GroupsApi } from "../../services/groups/api";
 import { App, Button, Flex, Form, Space } from "antd";
 import { css } from "@emotion/css";
 import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { MembersSelect } from "../contest-results/members-results/members-select";
 import { useTranslation } from "react-i18next";
-import { useRevalidator } from "react-router-dom";
 import { GroupRole } from "../../services/groups/consts";
 import useBreakpoint from "antd/es/grid/hooks/useBreakpoint";
 import { useDashboardData } from "../../util/routes-data";
 import { Role } from "../../util/ContestPeople_Role";
+import { useAddGroupMember } from "../../services/groups/queries";
 
 export const GroupUserAddForm = ({ groupId, groupMembers, role }) => {
   const { currentUser } = useDashboardData();
   const { message } = App.useApp();
   const { t } = useTranslation();
-  const revalidator = useRevalidator();
-  const [adding, setAdding] = React.useState(false);
   const [formErrors, setFormErrors] = React.useState({});
   const [form] = Form.useForm();
   const screens = useBreakpoint();
+  const addGroupMember = useAddGroupMember();
 
   const fillErrors = (errors) => {
     if (errors) {
@@ -40,7 +38,6 @@ export const GroupUserAddForm = ({ groupId, groupMembers, role }) => {
   };
 
   const addUsersToGroup = async (values) => {
-    setAdding(true);
     setFormErrors({});
     try {
       const body = values.contest_person.map((id) => ({
@@ -48,7 +45,7 @@ export const GroupUserAddForm = ({ groupId, groupMembers, role }) => {
         group_role: role,
       }));
 
-      const data = await GroupsApi.addGroupMember({
+      const data = await addGroupMember.mutateAsync({
         groupId: groupId,
         body,
       });
@@ -63,13 +60,10 @@ export const GroupUserAddForm = ({ groupId, groupMembers, role }) => {
         message.success(t("group-updated"));
         form.resetFields();
       }
-      revalidator.revalidate();
     } catch (e) {
       console.error(e);
       message.error(t("something-went-wrong"));
       fillErrors(e.response?.data?.errors ?? e.response?.data);
-    } finally {
-      setAdding(false);
     }
   };
 
@@ -110,7 +104,7 @@ export const GroupUserAddForm = ({ groupId, groupMembers, role }) => {
         <Button
           type="primary"
           htmlType="submit"
-          loading={adding}
+          loading={addGroupMember.isPending}
           icon={<PlusIcon />}
         >
           {t("add")}

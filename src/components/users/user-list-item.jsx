@@ -19,31 +19,27 @@ import { App, Avatar, Badge, Button, Popconfirm, Space } from "antd";
 import { ReactComponent as ResultsIcon } from "assets/icons/results.svg";
 import { useNavigate } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { MembersApi } from "../../services/members/api";
-import { useState } from "react";
+import { useRemoveUserFromContest } from "../../services/members/queries";
 
 const UserListItem = ({ student, onChange }) => {
   const { message } = App.useApp();
   const { currentUser } = useDashboardData();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [deleting, setDeleting] = useState(false);
+  const removeUserFromContestMutation = useRemoveUserFromContest();
 
   const canEdit =
     student.contest_role > currentUser.role &&
     isAtLeastSuperAdmin(currentUser.role);
 
   const removeUserFromContest = async (userId) => {
-    setDeleting(true);
     try {
-      await MembersApi.removeUserFromContest({ userId });
+      await removeUserFromContestMutation.mutateAsync(userId);
       message.success(t("user-removed"));
       onChange?.();
     } catch (error) {
       console.error(error);
       message.error(t("something-went-wrong"));
-    } finally {
-      setDeleting(false);
     }
   };
 
@@ -103,7 +99,7 @@ const UserListItem = ({ student, onChange }) => {
                     type="text"
                     danger
                     icon={<XMarkIcon />}
-                    loading={deleting}
+                    loading={removeUserFromContestMutation.isPending}
                   >
                     {t("remove")}
                   </Button>

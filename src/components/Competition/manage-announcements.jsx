@@ -1,33 +1,30 @@
 import { useDashboardData } from "../../util/routes-data";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NotificationsApi } from "../../services/notifications/api";
 import { App, Button, Empty, Form, Input, Modal, Spin, Typography } from "antd";
-import { useNavigation, useRevalidator } from "react-router-dom";
 import dayjs from "dayjs";
 import { css } from "@emotion/css";
 import { StyledAnnouncementsList } from "./styles";
 import { isAtLeastSuperAdmin } from "../../util/ContestPeople_Role";
+import { useCreateNotification, useNotifications } from "../../services/notifications/queries";
 
 export const ManageAnnouncements = () => {
   const { message } = App.useApp();
-  const { currentContest, currentUser, notifications } = useDashboardData();
+  const { currentContest, currentUser } = useDashboardData();
   const { t } = useTranslation();
   const [errors, setErrors] = useState([]);
   const [form] = Form.useForm();
-  const [submitting, setSubmitting] = useState(false);
   const [announcementFormVisible, setAnnouncementFormVisible] = useState(false);
-  const revalidator = useRevalidator();
-  const navigation = useNavigation();
+  const createNotification = useCreateNotification();
+  const { data: notifications = [], isFetching } = useNotifications(currentContest?.id);
 
   const onFormFinish = async (values) => {
     try {
-      setSubmitting(true);
-      await NotificationsApi.createNotification(currentContest.id, {
+      await createNotification.mutateAsync({
+        contestId: currentContest.id,
         title: values.title.trim(),
         body: values.body.trim(),
       });
-      revalidator.revalidate();
       setAnnouncementFormVisible(false);
       form.resetFields();
     } catch (err) {
@@ -49,8 +46,6 @@ export const ManageAnnouncements = () => {
           </React.Fragment>
         )),
       );
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -71,7 +66,7 @@ export const ManageAnnouncements = () => {
         {notifications.length === 0 ? (
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         ) : (
-          <Spin spinning={navigation.state !== "idle"}>
+          <Spin spinning={isFetching}>
             <StyledAnnouncementsList>
               {notifications.map((notification) => (
                 <li key={notification.id}>
@@ -104,7 +99,7 @@ export const ManageAnnouncements = () => {
         okText={t("add")}
         cancelText={t("cancel")}
         okButtonProps={{
-          loading: submitting,
+          loading: createNotification.isPending,
         }}
       >
         <Form onFinish={onFormFinish} form={form} layout="vertical">

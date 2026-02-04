@@ -1,25 +1,23 @@
 import React, { useCallback, useMemo } from "react";
 import { App, Table } from "antd";
 import { useTranslation } from "react-i18next";
-import { ContestResultsApi } from "../../../services/contest-results/api";
-import { useDashboardData } from "../../../util/routes-data";
 import { css } from "@emotion/css";
 import { CriterionRecordAnswer } from "./criterion-record-answer";
 import { CriterionRecordPoints } from "./criterion-record-points";
 import useBreakpoint from "antd/es/grid/hooks/useBreakpoint";
 import dayjs from "dayjs";
+import { useUpdatePointRecord } from "../../../services/contest-results/queries";
 
 export const DailySubmissionsTable = ({ submissions, onUpdated, criteria }) => {
   const { message } = App.useApp();
   const { t } = useTranslation();
-  const { currentContest } = useDashboardData();
   const screens = useBreakpoint();
+  const updatePointRecord = useUpdatePointRecord();
 
   const onUpdateRecord = useCallback(
     async ({ record, data }) => {
       try {
-        const updatedRecord = await ContestResultsApi.updatePointRecord({
-          contestId: currentContest.id,
+        const updatedRecord = await updatePointRecord.mutateAsync({
           recordId: record.id,
           date: record.record_date,
           userId: record.person,
@@ -33,7 +31,7 @@ export const DailySubmissionsTable = ({ submissions, onUpdated, criteria }) => {
       }
       return record;
     },
-    [currentContest, message, onUpdated, t],
+    [updatePointRecord, message, onUpdated, t],
   );
 
   const columns = useMemo(

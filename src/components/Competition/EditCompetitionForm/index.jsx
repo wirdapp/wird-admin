@@ -17,21 +17,19 @@ import {
   Select,
   Space,
 } from "antd";
-import { ContestsApi } from "../../../services/contests/api";
 import { css } from "@emotion/css";
-import { useRevalidator } from "react-router-dom";
 import dayjs from "dayjs";
 import { isAtLeastSuperAdmin } from "../../../util/ContestPeople_Role";
 import { useDashboardData } from "../../../util/routes-data";
 import { allCountries } from "../../../data/countries";
+import { useUpdateContest } from "../../../services/contests/queries";
 
 export default function EditCompetitionForm({ contest }) {
   const { message } = App.useApp();
   const { t, i18n } = useTranslation();
   const [messages, setMessages] = useState([]);
-  const [submitting, setSubmitting] = useState(false);
-  const revalidator = useRevalidator();
   const { currentUser } = useDashboardData();
+  const updateContest = useUpdateContest();
 
   const countries = useMemo(() => {
     return allCountries(i18n.language).map((country) => ({
@@ -43,25 +41,24 @@ export default function EditCompetitionForm({ contest }) {
   const handleUpdateContest = async (values) => {
     try {
       setMessages([]);
-      setSubmitting(true);
-      await ContestsApi.updateContest(contest.id, {
-        ...values,
-        start_date: values.start_date.format("YYYY-MM-DD"),
-        end_date: values.end_date.format("YYYY-MM-DD"),
+      await updateContest.mutateAsync({
+        id: contest.id,
+        data: {
+          ...values,
+          start_date: values.start_date.format("YYYY-MM-DD"),
+          end_date: values.end_date.format("YYYY-MM-DD"),
+        },
       });
-      revalidator.revalidate();
       message.success(t("contest-has-been-edited-successfully"));
     } catch (err) {
       let errMessages = [];
-      if (err.response.data) {
+      if (err.response?.data) {
         let obj = err.response.data;
         Object.keys(obj).forEach((e) => {
           errMessages.push(obj[e]);
         });
       }
       setMessages(errMessages);
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -80,7 +77,7 @@ export default function EditCompetitionForm({ contest }) {
           wrapperCol={{ span: 15 }}
           initialValues={contest}
           style={{ width: "100%" }}
-          disabled={!canEdit || submitting}
+          disabled={!canEdit || updateContest.isPending}
           validateMessages={{
             required: t("requiredField"),
           }}
@@ -171,7 +168,7 @@ export default function EditCompetitionForm({ contest }) {
           {canEdit && (
             <Form.Item wrapperCol={{ offset: 7, span: 15 }}>
               <Space>
-                <Button htmlType="submit" type="primary" loading={submitting}>
+                <Button htmlType="submit" type="primary" loading={updateContest.isPending}>
                   {t("update")}
                 </Button>
                 <Button htmlType="reset">{t("reset")}</Button>

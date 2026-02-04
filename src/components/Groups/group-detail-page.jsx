@@ -1,7 +1,6 @@
 import React from "react";
-import { Await, defer, useLoaderData, useParams } from "react-router-dom";
-import { GroupsApi } from "../../services/groups/api";
-import { Tabs, Typography } from "antd";
+import { useParams } from "react-router-dom";
+import { Spin, Tabs, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { css } from "@emotion/css";
 import { AnimatedPage } from "../../ui/animated-page";
@@ -10,37 +9,29 @@ import { GroupAnnouncement } from "./group-announcement";
 import { GroupMembers } from "./group-members";
 import { GroupInfo } from "./group-info";
 import { colors } from "../../styles";
-import { isAxiosError } from "axios";
 import { LeaderboardList } from "../leaderboard/leaderboard-list";
-
-export async function groupDetailPageLoader({ params }) {
-  try {
-    const group = await GroupsApi.getGroup({ id: params.groupId });
-    group.announcements = Array.isArray(group.announcements)
-      ? group.announcements
-      : [];
-
-    const groupMembers = GroupsApi.getGroupMembers({ groupId: params.groupId });
-    const groupLeaderboard = GroupsApi.leaderboard({ groupId: params.groupId });
-
-    return defer({
-      group,
-      groupMembers,
-      groupLeaderboard,
-      title: "groups",
-    });
-  } catch (e) {
-    if (isAxiosError(e)) {
-      throw new Response(e.response.data, { status: e.response.status });
-    }
-    throw e;
-  }
-}
+import {
+  useGroup,
+  useGroupMembers,
+  useGroupLeaderboard,
+} from "../../services/groups/queries";
+import Loader from "../Loader";
 
 export const GroupDetailPage = () => {
-  const { group, groupMembers, groupLeaderboard } = useLoaderData();
   const { t } = useTranslation();
   const { groupId } = useParams();
+
+  const { data: group, isLoading: groupLoading } = useGroup(groupId);
+  const { data: groupMembers, isLoading: membersLoading } = useGroupMembers(groupId);
+  const { data: groupLeaderboard, isLoading: leaderboardLoading } = useGroupLeaderboard(groupId);
+
+  if (groupLoading) {
+    return <Loader />;
+  }
+
+  if (!group) {
+    return null;
+  }
 
   return (
     <AnimatePresence mode="wait">
@@ -65,26 +56,22 @@ export const GroupDetailPage = () => {
             {
               key: "leaderboard",
               label: t("leaders-board"),
-              children: (
-                <Await resolve={groupLeaderboard}>
-                  {(groupLeaderboard) => (
-                    <LeaderboardList topStudents={groupLeaderboard ?? []} />
-                  )}
-                </Await>
+              children: leaderboardLoading ? (
+                <Spin />
+              ) : (
+                <LeaderboardList topStudents={groupLeaderboard ?? []} />
               ),
             },
             {
               key: "members",
               label: t("members"),
-              children: (
-                <Await resolve={groupMembers}>
-                  {(groupMembers) => (
-                    <GroupMembers
-                      group={group}
-                      members={groupMembers?.results ?? []}
-                    />
-                  )}
-                </Await>
+              children: membersLoading ? (
+                <Spin />
+              ) : (
+                <GroupMembers
+                  group={group}
+                  members={groupMembers?.results ?? []}
+                />
               ),
             },
             {

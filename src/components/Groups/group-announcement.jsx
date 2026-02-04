@@ -15,9 +15,8 @@ import { css } from "@emotion/css";
 import { colors } from "../../styles";
 import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useTranslation } from "react-i18next";
-import { useRevalidator } from "react-router-dom";
-import { GroupsApi } from "../../services/groups/api";
 import dayjs from "dayjs";
+import { useUpdateGroup } from "../../services/groups/queries";
 
 export const GroupAnnouncement = ({ group }) => {
   const { message } = App.useApp();
@@ -25,16 +24,15 @@ export const GroupAnnouncement = ({ group }) => {
   const { t } = useTranslation();
   const [adding, setAdding] = React.useState(false);
   const [deleting, setDeleting] = React.useState();
-  const revalidator = useRevalidator();
+  const updateGroup = useUpdateGroup();
 
   const handleSaveAnnouncement = async (announcements) => {
     try {
-      await GroupsApi.updateGroup({
+      await updateGroup.mutateAsync({
         id: group.id,
         body: { announcements },
       });
       message.success(t("group-updated"));
-      revalidator.revalidate();
     } catch (e) {
       console.error(e);
       message.error(t("something-went-wrong"));

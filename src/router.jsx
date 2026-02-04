@@ -13,14 +13,10 @@ import Signup from "./components/Signup";
 import React from "react";
 import "dayjs/locale/ar";
 import "dayjs/locale/en";
-import { dashboardLoader } from "./components/layout/dashboard-loader";
+import { DashboardDataProvider } from "./components/layout/DashboardDataProvider";
 import { MainLayout } from "./ui/main-layout";
 import { ErrorBoundary } from "./ui/error-boundary";
-import { groupsPageLoader } from "./components/Groups/groups-page";
-import {
-  GroupDetailPage,
-  groupDetailPageLoader,
-} from "./components/Groups/group-detail-page";
+import { GroupDetailPage } from "./components/Groups/group-detail-page";
 
 export const router = createBrowserRouter([
   {
@@ -49,8 +45,11 @@ export const router = createBrowserRouter([
       {
         id: "dashboard",
         path: "dashboard",
-        loader: dashboardLoader,
-        element: <DashboardLayout />,
+        element: (
+          <DashboardDataProvider>
+            <DashboardLayout />
+          </DashboardDataProvider>
+        ),
         errorElement: <ErrorBoundary />,
         children: [
           {
@@ -96,14 +95,14 @@ export const router = createBrowserRouter([
           },
           {
             path: "groups",
-            loader: groupsPageLoader,
+            loader: () => ({ title: "groups" }),
             element: <Groups />,
             errorElement: <ErrorBoundary />,
             children: [
               {
                 path: ":groupId",
                 element: <GroupDetailPage />,
-                loader: groupDetailPageLoader,
+                loader: () => ({ title: "groups" }),
                 errorElement: <ErrorBoundary />,
               },
             ],

@@ -1,5 +1,3 @@
-import { MembersApi } from "../../services/members/api";
-
 import { App, Button, Dropdown } from "antd";
 import { useTranslation } from "react-i18next";
 import {
@@ -13,11 +11,13 @@ import {
   Role,
 } from "../../util/ContestPeople_Role";
 import { useDashboardData } from "../../util/routes-data";
+import { useUpdateUserContestRole } from "../../services/members/queries";
 
 const ChangeRoleDropdown = ({ student, onChange }) => {
   const { t, i18n } = useTranslation();
   const { message } = App.useApp();
   const { currentUser } = useDashboardData();
+  const updateUserContestRole = useUpdateUserContestRole();
 
   const studentRole = student?.contest_role;
 
@@ -51,7 +51,7 @@ const ChangeRoleDropdown = ({ student, onChange }) => {
 
   const updateRole = async (role) => {
     try {
-      const res = await MembersApi.updateUserContestRole({
+      const res = await updateUserContestRole.mutateAsync({
         role,
         userId: student.id,
       });

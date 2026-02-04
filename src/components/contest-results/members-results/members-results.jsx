@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { MembersSelect } from "./members-select";
 import {
   Avatar,
@@ -14,7 +14,6 @@ import {
   Typography,
 } from "antd";
 import { useSearchParams } from "react-router-dom";
-import { ContestResultsApi } from "../../../services/contest-results/api";
 import { StyledMembersResultsWrapper } from "./members-results.styles";
 import { getFullName, getInitials } from "../../../util/user-utils";
 import { colors } from "../../../styles";
@@ -24,43 +23,29 @@ import { MemberScorePerCategoryChart } from "./member-score-per-category-chart";
 import { DailyUserSubmissions } from "./daily-user-submissions";
 import { Role } from "../../../util/ContestPeople_Role";
 import { css } from "@emotion/css";
+import { useMemberResults } from "../../../services/contest-results/queries";
 
 export const MembersResults = () => {
   const [form] = Form.useForm();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(undefined);
   const { t } = useTranslation();
+  const userId = searchParams.get("userId");
 
-  const loadMemberResults = async (userId) => {
-    try {
-      const res = await ContestResultsApi.getMemberResults({ userId });
-      setResult(res);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { data: result, isLoading: loading, refetch } = useMemberResults(userId);
 
   const reload = async () => {
-    return loadMemberResults(searchParams.get("userId"));
+    return refetch();
   };
 
   const onValuesChange = async (_, values) => {
     setSearchParams(new URLSearchParams(values));
-    setLoading(true);
-    await loadMemberResults(values.userId);
-    setLoading(false);
   };
 
   useEffect(() => {
-    if (searchParams.has("userId")) {
-      form.setFieldsValue({ userId: searchParams.get("userId") });
-      setLoading(true);
-      loadMemberResults(searchParams.get("userId")).finally(() =>
-        setLoading(false),
-      );
+    if (userId) {
+      form.setFieldsValue({ userId });
     }
-  }, [form, searchParams]);
+  }, [form, userId]);
 
   return (
     <StyledMembersResultsWrapper>

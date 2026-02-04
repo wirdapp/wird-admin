@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { App, Button, Form, Input, Modal } from "antd";
-import { MembersApi } from "../../services/members/api";
 import { useDashboardData } from "../../util/routes-data";
 import { useTranslation } from "react-i18next";
 import { RolesSelect } from "./roles-select";
 import { Role } from "../../util/ContestPeople_Role";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import { useAddUserToContest } from "../../services/members/queries";
 
 export const AddUserPopup = ({ open, onClose, onAdded }) => {
   const { t } = useTranslation();
@@ -13,12 +13,13 @@ export const AddUserPopup = ({ open, onClose, onAdded }) => {
   const [form] = Form.useForm();
   const [formError, setFormError] = useState();
   const { currentUser } = useDashboardData();
+  const addUserToContest = useAddUserToContest();
 
   const onAddFormFinish = async (values) => {
     if (!values.username.length) return;
 
     try {
-      const res = await MembersApi.addUserToContest({
+      const res = await addUserToContest.mutateAsync({
         role: values.role,
         username: values.username,
       });

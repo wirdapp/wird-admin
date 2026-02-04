@@ -1,36 +1,34 @@
-import { ContestCriteriaApi } from "../../../services/contest-criteria/api";
 import { useContestCriteriaContext } from "../contest-criteria-context";
 import { useMemo } from "react";
+import {
+  useAddCriteria,
+  useUpdateCriteria,
+  useDeleteCriteria,
+  useUpdateCriteriaOrder,
+} from "../../../services/contest-criteria/queries";
+import { ContestCriteriaApi } from "../../../services/contest-criteria/api";
 
 export function useContestCriteria({ sectionId } = {}) {
   const { criteria } = useContestCriteriaContext();
+  const addCriteriaMutation = useAddCriteria();
+  const updateCriteriaMutation = useUpdateCriteria();
+  const deleteCriteriaMutation = useDeleteCriteria();
+  const updateCriteriaOrderMutation = useUpdateCriteriaOrder();
 
   const getById = async (id) => {
     return await ContestCriteriaApi.getById({ id });
   };
 
   const add = async (criterion) => {
-    const criteriaData = await ContestCriteriaApi.addCriteria({ criterion });
-    criteria.setItems([...criteria.items, criteriaData]);
+    await addCriteriaMutation.mutateAsync(criterion);
   };
 
   const update = async (id, criterion) => {
-    const criteriaData = await ContestCriteriaApi.updateCriteria({
-      id,
-      criterion,
-    });
-    const index = criteria.items.findIndex((c) => c.id === id);
-    const newCriteriaItems = [...criteria.items];
-    newCriteriaItems[index] = criteriaData;
-    criteria.setItems(newCriteriaItems);
+    await updateCriteriaMutation.mutateAsync({ id, criterion });
   };
 
   const remove = async (id) => {
-    await ContestCriteriaApi.deleteCriteria({ id });
-    const newCriteriaItems = criteria.items.filter(
-      (criteria) => criteria.id !== id,
-    );
-    criteria.setItems(newCriteriaItems);
+    await deleteCriteriaMutation.mutateAsync(id);
   };
 
   const updateOrder = async (newCriteriaItems) => {
@@ -42,21 +40,18 @@ export function useContestCriteria({ sectionId } = {}) {
           newIndex !== -1 ? newIndex : criterion.order_in_section,
       };
     });
-    criteria.setItems(newCriteriaItemsWithPositions);
-    return await ContestCriteriaApi.updateCriteriaOrder({
-      newCriteriaItems: newCriteriaItemsWithPositions,
-    });
+    return await updateCriteriaOrderMutation.mutateAsync(newCriteriaItemsWithPositions);
   };
 
   const criteriaItems = useMemo(() => {
     if (!criteria.items) return [];
-    let criteriaItems = criteria.items;
+    let items = criteria.items;
     if (sectionId) {
-      criteriaItems = criteria.items.filter(
+      items = criteria.items.filter(
         (s) => s.section_info.id === sectionId,
       );
     }
-    return criteriaItems.sort(
+    return items.sort(
       (a, b) => a.order_in_section - b.order_in_section,
     );
   }, [criteria.items, sectionId]);

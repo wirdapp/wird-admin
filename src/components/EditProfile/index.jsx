@@ -1,29 +1,27 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { updateUserInfo } from "../../services/auth/api";
 import { App, Flex, Grid, Space, Typography } from "antd";
 import { useDashboardData } from "../../util/routes-data";
 import { ChangePasswordForm } from "./change-password-form";
 import { ProfilePictureUploader } from "./profile-picture-uploader";
-import { useRevalidator } from "react-router-dom";
 import { getFullName } from "../../util/user-utils";
 import { UserDetailsForm } from "./user-details-form";
+import { useUpdateUserInfo } from "../../services/auth/queries";
 
 function EditProfile() {
   const { message } = App.useApp();
   const { currentUser } = useDashboardData();
   const { t } = useTranslation();
-  const revalidator = useRevalidator();
   const screens = Grid.useBreakpoint();
+  const updateUserInfo = useUpdateUserInfo();
 
   const handleSubmit = async (values) => {
     try {
-      await updateUserInfo(values);
-      revalidator.revalidate();
+      await updateUserInfo.mutateAsync(values);
       message.success(t("profile-has-been-edited-successfully"));
     } catch (err) {
       let errMessages = [];
-      if (err.response.data) {
+      if (err.response?.data) {
         let obj = err.response.data;
         Object.keys(obj).forEach((e) => {
           errMessages.push(`${obj[e]} : ${e}`);

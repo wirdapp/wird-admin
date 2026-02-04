@@ -1,7 +1,6 @@
 import { Button, Empty, Flex, Input, Skeleton, Typography } from "antd";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { MembersApi } from "../../services/members/api";
 import UserListItem from "./user-list-item";
 import StudentsContainer, { ContentContainer } from "./Students.styles";
 import { PlusIcon } from "@heroicons/react/24/outline";
@@ -12,44 +11,28 @@ import { AddUserPopup } from "./add-user-popup";
 import { isAtLeastSuperAdmin } from "../../util/ContestPeople_Role";
 import { useDashboardData } from "../../util/routes-data";
 import { debounce } from "../../util/utils";
+import { useMembers } from "../../services/members/queries";
 
 export default function Students() {
   const { t } = useTranslation();
-  const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [role, setRole] = useState(-1);
   const [showAddUserPopup, setShowAddUserPopup] = useState(false);
   const { currentUser } = useDashboardData();
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  const callMembersData = async (role, search = "") => {
-    setLoading(true);
+  const { data: students = [], isLoading, refetch } = useMembers({
+    role: role > -1 ? role : undefined,
+    search: debouncedSearch,
+  });
 
-    try {
-      const data = await MembersApi.getUsers({
-        role: role > -1 ? role : undefined,
-        search,
-      });
-      setStudents(data);
-    } catch (e) {
-      console.log("student error", e);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const debouncedCallMembersData = useMemo(
-    () => debounce(callMembersData, 500),
+  const debouncedSetSearch = useMemo(
+    () => debounce((value) => setDebouncedSearch(value), 500),
     [],
   );
 
-  useEffect(() => {
-    setStudents([]);
-    callMembersData(role);
-  }, [role]);
-
   const onStudentChange = async (res) => {
-    await callMembersData(role);
+    await refetch();
     setTimeout(() => {
       if (res?.id) {
         const studentElement = document.querySelector(
@@ -93,26 +76,26 @@ export default function Students() {
               style={{ width: "100%", maxWidth: 300 }}
             />
             <span>
-              {(!loading &&
+              {(!isLoading &&
                 students.length &&
                 `${t("showing")} ${students.length}`) ||
                 ""}
             </span>
           </Flex>
           <Input.Search
-            onSearch={callMembersData}
+            onSearch={(value) => setDebouncedSearch(value)}
             value={search}
             onChange={(e) => {
               const value = e.target.value;
               setSearch(value);
-              debouncedCallMembersData(role, value);
+              debouncedSetSearch(value);
             }}
             placeholder={t("search")}
           />
           <AnimatePresence mode="wait">
             {students.length === 0 ? (
               <>
-                {loading ? (
+                {isLoading ? (
                   <Skeleton active />
                 ) : (
                   <Empty

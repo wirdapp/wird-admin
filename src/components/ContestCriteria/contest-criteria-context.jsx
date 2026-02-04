@@ -1,6 +1,12 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { ContestCriteriaApi } from "../../services/contest-criteria/api";
+import { createContext, useContext, useMemo, useCallback } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Spin } from "antd";
+import {
+  useSections,
+  useCriteria,
+  contestCriteriaKeys,
+} from "../../services/contest-criteria/queries";
+import { getCurrentContestId } from "../../services/contests/utils";
 
 const ContestCriteriaContext = createContext({
   sections: {
@@ -22,38 +28,26 @@ export const useContestCriteriaContext = () =>
   useContext(ContestCriteriaContext);
 
 export const ContestCriteriaProvider = ({ children }) => {
-  const [sections, setSections] = useState([]);
-  const [criteria, setCriteria] = useState([]);
-  const [sectionsLoading, setSectionsLoading] = useState(false);
-  const [criteriaLoading, setCriteriaLoading] = useState(false);
+  const queryClient = useQueryClient();
+  const contestId = getCurrentContestId();
 
-  const loadSections = async () => {
-    setSectionsLoading(true);
-    try {
-      const data = await ContestCriteriaApi.getSections();
-      setSections(data.sort((a, b) => a.position - b.position));
-    } finally {
-      setSectionsLoading(false);
-    }
-  };
+  const { data: sections = [], isLoading: sectionsLoading } = useSections();
+  const { data: criteria = [], isLoading: criteriaLoading } = useCriteria();
 
-  const loadCriteriaItems = async () => {
-    setCriteriaLoading(true);
-    try {
-      const data = await ContestCriteriaApi.getCriteria();
-      setCriteria(data);
-    } finally {
-      setCriteriaLoading(false);
-    }
-  };
+  // These setItems functions update the query cache directly for optimistic updates
+  const setSections = useCallback((newSections) => {
+    queryClient.setQueryData(
+      contestCriteriaKeys.sectionsList(contestId),
+      (prev) => typeof newSections === 'function' ? newSections(prev) : newSections
+    );
+  }, [queryClient, contestId]);
 
-  useEffect(() => {
-    loadCriteriaItems();
-  }, []);
-
-  useEffect(() => {
-    loadSections();
-  }, []);
+  const setCriteria = useCallback((newCriteria) => {
+    queryClient.setQueryData(
+      contestCriteriaKeys.criteriaList(contestId),
+      (prev) => typeof newCriteria === 'function' ? newCriteria(prev) : newCriteria
+    );
+  }, [queryClient, contestId]);
 
   const contextValue = useMemo(
     () => ({
@@ -61,17 +55,17 @@ export const ContestCriteriaProvider = ({ children }) => {
         items: sections,
         setItems: setSections,
         loading: sectionsLoading,
-        setLoading: setSectionsLoading,
+        setLoading: () => {},
       },
       criteria: {
         items: criteria,
         setItems: setCriteria,
         loading: criteriaLoading,
-        setLoading: setCriteriaLoading,
+        setLoading: () => {},
       },
       loading: sectionsLoading || criteriaLoading,
     }),
-    [sections, criteria, sectionsLoading, criteriaLoading],
+    [sections, criteria, sectionsLoading, criteriaLoading, setSections, setCriteria],
   );
 
   return (

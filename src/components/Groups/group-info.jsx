@@ -1,35 +1,31 @@
 import React from "react";
 import { App, Button, Flex, Form, Input, Popconfirm } from "antd";
 import { TrashIcon } from "@heroicons/react/20/solid";
-import { useNavigate, useParams, useRevalidator } from "react-router-dom";
-import { GroupsApi } from "../../services/groups/api";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDashboardData } from "../../util/routes-data";
 import { isAtLeastSuperAdmin } from "../../util/ContestPeople_Role";
+import { useUpdateGroup, useDeleteGroup } from "../../services/groups/queries";
 
 export const GroupInfo = ({ group }) => {
   const { message } = App.useApp();
   const { t } = useTranslation();
   const { groupId } = useParams();
-  const [updating, setUpdating] = React.useState(false);
-  const [deleting, setDeleting] = React.useState();
-  const revalidator = useRevalidator();
   const navigate = useNavigate();
   const { currentUser } = useDashboardData();
+  const updateGroup = useUpdateGroup();
+  const deleteGroupMutation = useDeleteGroup();
 
   const isSuperAdmin = isAtLeastSuperAdmin(currentUser.role);
 
   const onUpdateName = async (values) => {
     if (!isSuperAdmin) return;
-    setUpdating(true);
     try {
-      await GroupsApi.updateGroup({
+      await updateGroup.mutateAsync({
         id: groupId,
         body: { name: values.name },
       });
-      setUpdating(false);
       message.success(t("group-updated"));
-      revalidator.revalidate();
     } catch (e) {
       console.error(e);
       message.error(t("something-went-wrong"));
@@ -38,20 +34,13 @@ export const GroupInfo = ({ group }) => {
 
   const deleteGroup = async () => {
     if (!isSuperAdmin) return;
-    setDeleting(true);
     try {
-      await GroupsApi.deleteGroup({
-        id: groupId,
-      });
-      setUpdating(false);
+      await deleteGroupMutation.mutateAsync(groupId);
       message.success(t("group-deleted"));
       navigate("/dashboard/groups");
-      revalidator.revalidate();
     } catch (e) {
       console.error(e);
       message.error(t("something-went-wrong"));
-    } finally {
-      setDeleting(false);
     }
   };
 
@@ -60,7 +49,7 @@ export const GroupInfo = ({ group }) => {
       initialValues={group}
       layout="vertical"
       onFinish={onUpdateName}
-      disabled={!isSuperAdmin || updating}
+      disabled={!isSuperAdmin || updateGroup.isPending}
     >
       <Form.Item
         label={t("name")}
@@ -71,7 +60,7 @@ export const GroupInfo = ({ group }) => {
       </Form.Item>
       {isSuperAdmin && (
         <Flex gap={16} justify="space-between">
-          <Button type="primary" htmlType="submit" loading={updating}>
+          <Button type="primary" htmlType="submit" loading={updateGroup.isPending}>
             {t("save")}
           </Button>
           <Popconfirm
@@ -79,7 +68,7 @@ export const GroupInfo = ({ group }) => {
             onConfirm={deleteGroup}
             placement="topRight"
           >
-            <Button danger type="text" icon={<TrashIcon />} loading={deleting}>
+            <Button danger type="text" icon={<TrashIcon />} loading={deleteGroupMutation.isPending}>
               {t("delete")}
             </Button>
           </Popconfirm>
