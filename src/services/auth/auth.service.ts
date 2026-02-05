@@ -37,6 +37,7 @@ class AuthServiceClass {
 	async googleLogin(code: string): Promise<Session> {
 		const res = await this.axios.post<GoogleSocialLoginResponse>("/auth/social/google/", {
 			code,
+			redirect_uri: "postmessage",
 		});
 
 		return {
