@@ -1,5 +1,7 @@
 import adminI18nAr from "./admin.i18n.ar";
 import adminI18nEn from "./admin.i18n.en";
+import publicI18nAr from "./public.i18n.ar";
+import publicI18nEn from "./public.i18n.en";
 import contestResultsI18nAr from "./contest-results.i18n.ar";
 import contestResultsI18nEn from "./contest-results.i18n.en";
 import contestCriteriaI18nAr from "./contestCriteria.i18n.ar";
@@ -41,6 +43,7 @@ const translations = {
 			...reviewI18nEn,
 			...contestResultsI18nEn,
 			...navbarI18nEn,
+			...publicI18nEn,
 		},
 	},
 	ar: {
@@ -58,6 +61,7 @@ const translations = {
 			...reviewI18nAr,
 			...contestResultsI18nAr,
 			...navbarI18nAr,
+			...publicI18nAr,
 		},
 	},
 };

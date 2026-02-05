@@ -56,6 +56,27 @@ class AuthServiceClass {
 		await this.axios.post("/auth/password/change/", formData);
 	}
 
+	async requestPasswordReset(username: string, email: string): Promise<void> {
+		await this.axios.post("/auth/password/reset/", { username, email });
+	}
+
+	async confirmPasswordReset(data: {
+		new_password1: string;
+		new_password2: string;
+		token: string;
+		uid: string;
+	}): Promise<void> {
+		await this.axios.post("/auth/password/reset/confirm/", data);
+	}
+
+	async requestUsernameEmail(email: string): Promise<void> {
+		await this.axios.post("/auth/username/reset/", { email });
+	}
+
+	async verifyEmail(key: string): Promise<void> {
+		await this.axios.post("/auth/registration/verify-email/", { key });
+	}
+
 	async resendVerificationEmail(email: string): Promise<void> {
 		const lastEmailResend = Cookies.get(LAST_EMAIL_RESEND_KEY);
 		if (lastEmailResend === email) {

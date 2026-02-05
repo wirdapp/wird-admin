@@ -86,7 +86,7 @@ export function NavUser() {
 							</DropdownMenuItem>
 							<DropdownMenuItem
 								onClick={() => {
-									window.open(`${import.meta.env.VITE_MAIN_URL}/help`, "_blank");
+									navigate("/help");
 								}}
 							>
 								<HelpCircle className="me-2 size-4" />

@@ -743,3 +743,14 @@ export function isMultiCheckboxPointRecord(
 export function isUserInputPointRecord(record: PointRecord): record is UserInputPointRecord {
 	return record.resourcetype === "userinputcriterion";
 }
+
+// ============================================================================
+// GENERAL STATS (Public)
+// ============================================================================
+
+export type GeneralStats = {
+	members_count: number;
+	contest_count: number;
+	submission_count: number;
+	countries: { country: string; country_count: number }[];
+};

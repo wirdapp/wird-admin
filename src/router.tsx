@@ -14,6 +14,14 @@ import "dayjs/locale/ar";
 import "dayjs/locale/en";
 import { GroupDetailPage } from "./components/Groups/group-detail-page";
 import { DashboardDataProvider } from "./components/layout/DashboardDataProvider";
+import { PublicLayout } from "./components/public/layouts/PublicLayout";
+import { EmailConfirmPage } from "./pages/public/EmailConfirmPage";
+import { ForgotPasswordPage } from "./pages/public/ForgotPasswordPage";
+import { ForgotUsernamePage } from "./pages/public/ForgotUsernamePage";
+import { HelpPage } from "./pages/public/HelpPage";
+import { HomePage } from "./pages/public/HomePage";
+import { PolicyPage } from "./pages/public/PolicyPage";
+import { ResetPasswordPage } from "./pages/public/ResetPasswordPage";
 import { ErrorBoundary } from "./ui/error-boundary";
 import { MainLayout } from "./ui/main-layout";
 
@@ -27,10 +35,20 @@ export const router = createBrowserRouter([
 		element: <MainLayout />,
 		errorElement: <ErrorBoundary />,
 		children: [
+			// Public pages (no auth required)
 			{
-				index: true,
-				loader: () => redirect("/dashboard"),
+				element: <PublicLayout />,
+				children: [
+					{ index: true, element: <HomePage /> },
+					{ path: "help", element: <HelpPage /> },
+					{ path: "policy", element: <PolicyPage /> },
+					{ path: "user/email-confirm", element: <EmailConfirmPage /> },
+					{ path: "user/forgot-password", element: <ForgotPasswordPage /> },
+					{ path: "user/forgot-username", element: <ForgotUsernamePage /> },
+					{ path: "user/reset-password", element: <ResetPasswordPage /> },
+				],
 			},
+			// Auth pages
 			{
 				path: "login",
 				loader: () => {
@@ -45,6 +63,7 @@ export const router = createBrowserRouter([
 				path: "signup",
 				element: <Signup />,
 			},
+			// Dashboard (auth required)
 			{
 				id: "dashboard",
 				path: "dashboard",

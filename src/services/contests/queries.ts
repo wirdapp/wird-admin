@@ -1,5 +1,5 @@
 import { type UseQueryOptions, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { Contest, ContestCreateData, ContestRaw, ContestUpdateData } from "../../types";
+import type { Contest, ContestCreateData, ContestRaw, ContestUpdateData, GeneralStats } from "../../types";
 import { ContestsService } from "./contests.service";
 import { changeCurrentContest, getCurrentContestId } from "./utils";
 
@@ -8,6 +8,7 @@ export const contestKeys = {
 	lists: () => [...contestKeys.all, "list"] as const,
 	details: () => [...contestKeys.all, "detail"] as const,
 	detail: (id: string) => [...contestKeys.details(), id] as const,
+	generalStats: () => [...contestKeys.all, "generalStats"] as const,
 };
 
 export function useContests(
@@ -48,6 +49,16 @@ export function useCurrentContest(
 	}
 
 	return useContestDetails(contestId, options);
+}
+
+export function useGeneralStats(
+	options: Omit<UseQueryOptions<GeneralStats, Error>, "queryKey" | "queryFn"> = {},
+) {
+	return useQuery({
+		queryKey: contestKeys.generalStats(),
+		queryFn: () => ContestsService.getGeneralStats(),
+		...options,
+	});
 }
 
 export function useCreateContest() {

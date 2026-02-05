@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import type { Contest, ContestCreateData, ContestRaw, ContestUpdateData } from "../../types";
+import type { Contest, ContestCreateData, ContestRaw, ContestUpdateData, GeneralStats } from "../../types";
 import { BaseService } from "../base.service";
 import { getContestStatus } from "./utils";
 
@@ -38,6 +38,11 @@ class ContestsServiceClass extends BaseService {
 			daterange: [dayjs(data.start_date), dayjs(data.end_date)],
 			status: getContestStatus(data),
 		};
+	}
+
+	async getGeneralStats(): Promise<GeneralStats> {
+		const { data } = await this.axios.get<GeneralStats>("/general_stats/");
+		return data;
 	}
 
 	async drop(id: string, confirmed: boolean): Promise<void> {

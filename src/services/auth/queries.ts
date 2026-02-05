@@ -35,3 +35,29 @@ export function useChangePassword() {
 		mutationFn: (formData: ChangePasswordFormData) => AuthService.changePassword(formData),
 	});
 }
+
+export function useRequestPasswordReset() {
+	return useMutation({
+		mutationFn: ({ username, email }: { username: string; email: string }) =>
+			AuthService.requestPasswordReset(username, email),
+	});
+}
+
+export function useConfirmPasswordReset() {
+	return useMutation({
+		mutationFn: (data: { new_password1: string; new_password2: string; token: string; uid: string }) =>
+			AuthService.confirmPasswordReset(data),
+	});
+}
+
+export function useRequestUsernameEmail() {
+	return useMutation({
+		mutationFn: (email: string) => AuthService.requestUsernameEmail(email),
+	});
+}
+
+export function useVerifyEmail() {
+	return useMutation({
+		mutationFn: (key: string) => AuthService.verifyEmail(key),
+	});
+}

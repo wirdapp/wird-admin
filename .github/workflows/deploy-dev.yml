@@ -27,7 +27,6 @@ jobs:
         run: bun run build:dev
         env:
           VITE_API_URL: ${{ vars.DEV_API_URL }}
-          VITE_MAIN_URL: ${{ vars.DEV_MAIN_URL }}
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:

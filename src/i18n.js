@@ -5,7 +5,12 @@ import translations from "./data/translations";
 
 // Arabic is default language if no value in the local storage OR someone inserted non-desired value
 const VALID_LANGUAGES = ["ar", "en"];
-let selectedLanguage = localStorage.getItem("lang");
+
+// Support ?locale= querystring from wird.app URLs
+const urlParams = new URLSearchParams(window.location.search);
+const queryLocale = urlParams.get("locale");
+
+let selectedLanguage = queryLocale || localStorage.getItem("lang");
 if (!selectedLanguage || !VALID_LANGUAGES.includes(selectedLanguage)) selectedLanguage = "ar";
 
 i18n
@@ -18,6 +23,10 @@ i18n
 		},
 		lng: selectedLanguage,
 		resources: translations,
+		detection: {
+			lookupQuerystring: "locale",
+			lookupLocalStorage: "lang",
+		},
 	});
 
 export default i18n;

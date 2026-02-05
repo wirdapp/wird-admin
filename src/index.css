@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
+@plugin "tailwindcss-logical";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -171,6 +172,26 @@
   --sidebar-ring: oklch(0.68 0.18 38);
 }
 
+/* Public pages theme overrides */
+.public-theme {
+  --primary: oklch(0.91 0.12 95);
+  --primary-foreground: oklch(0.145 0 0);
+  --secondary: oklch(0.74 0.15 55);
+  --secondary-foreground: oklch(1 0 0);
+  --accent: oklch(0.74 0.15 55);
+  --accent-foreground: oklch(1 0 0);
+  --ring: oklch(0.74 0.15 55);
+}
+
+/* Font classes for public pages */
+body.font-arabic {
+  font-family: "IBM Plex Sans Arabic", sans-serif;
+}
+
+body.font-english {
+  font-family: "Montserrat", sans-serif;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -184,6 +205,47 @@
   }
   html[dir="rtl"] {
     direction: rtl;
+  }
+}
+
+@layer components {
+  .page-content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      @apply font-bold text-black mt-5 mb-3;
+    }
+
+    h1 {
+      @apply text-3xl;
+    }
+
+    h2 {
+      @apply text-2xl;
+    }
+
+    h3 {
+      @apply text-xl;
+    }
+
+    h4 {
+      @apply text-lg;
+    }
+
+    h5 {
+      @apply text-base;
+    }
+
+    h6 {
+      @apply text-base;
+    }
+
+    p {
+      @apply text-base mb-4;
+    }
   }
 }
 

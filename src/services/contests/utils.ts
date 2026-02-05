@@ -18,7 +18,9 @@ export function removeCurrentContest(): void {
 	Cookies.remove("currentContest");
 }
 
-export async function getCurrentContest(contests: ContestRaw[] = []): Promise<Contest | null> {
+export async function getCurrentContest(
+	contests: ContestRaw[] = [],
+): Promise<Contest | null> {
 	// Import dynamically to avoid circular dependency
 	const { ContestsService } = await import("./contests.service");
 
@@ -33,10 +35,6 @@ export async function getCurrentContest(contests: ContestRaw[] = []): Promise<Co
 	return ContestsService.getContestDetails(currentContestId);
 }
 
-export function getInviteLink(contestId: string): string {
-	return `${import.meta.env.VITE_MAIN_URL}/contest/${contestId}`;
-}
-
 export function getContestStatus(contest: ContestRaw): ContestStatus {
 	const now = dayjs();
 	if (dayjs(contest.end_date).isBefore(now)) return ContestStatus.FINISHED;
@@ -48,6 +46,8 @@ export const isUserAdminOnAnyContest = (
 	contests: Array<{ person_contest_role?: Role }>,
 ): boolean => {
 	return contests.some(
-		(contest) => contest.person_contest_role !== undefined && isAdmin(contest.person_contest_role),
+		(contest) =>
+			contest.person_contest_role !== undefined &&
+			isAdmin(contest.person_contest_role),
 	);
 };

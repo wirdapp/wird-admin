@@ -117,12 +117,12 @@ function Login() {
 								</Button>
 							</div>
 
-							<a
-								href={`${import.meta.env.VITE_MAIN_URL}/user/forgot-password`}
+							<Link
+								to="/user/forgot-password"
 								className="text-primary underline-offset-4 hover:underline p-0 h-auto text-sm font-medium"
 							>
 								{t("forgetPassOrUsername")}
-							</a>
+							</Link>
 						</div>
 					</form>
 				</Form>
