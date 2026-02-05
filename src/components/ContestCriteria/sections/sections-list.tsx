@@ -1,8 +1,13 @@
+import {
+	DragDropContext,
+	Droppable,
+	type DroppableProvided,
+	type DroppableStateSnapshot,
+	type DropResult,
+} from "@hello-pangea/dnd";
 import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "motion/react";
 import React from "react";
-// @ts-expect-error - react-beautiful-dnd types not installed
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -45,7 +50,7 @@ export const SectionsList: React.FC = () => {
 		}
 	};
 
-	const onDragEnd = async (result: any): Promise<void> => {
+	const onDragEnd = async (result: DropResult): Promise<void> => {
 		// dropped outside the list
 		if (!result.destination) {
 			return;
@@ -64,7 +69,7 @@ export const SectionsList: React.FC = () => {
 		<div className="flex flex-col gap-4">
 			<DragDropContext onDragEnd={onDragEnd}>
 				<Droppable droppableId="droppable">
-					{(provided: any, snapshot: any) => (
+					{(provided: DroppableProvided, snapshot: DroppableStateSnapshot) => (
 						<div
 							{...provided.droppableProps}
 							ref={provided.innerRef}

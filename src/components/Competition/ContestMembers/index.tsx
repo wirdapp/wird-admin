@@ -2,7 +2,7 @@ import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import SeeMore from "../../../assets/icons/Home/SeeMore.svg";
 import { GroupsService } from "../../../services/groups/groups.service";
 import { MembersService } from "../../../services/members/members.service";

@@ -1,4 +1,4 @@
-import { type HTMLMotionProps, motion } from "framer-motion";
+import { type HTMLMotionProps, motion } from "motion/react";
 import type { ReactNode } from "react";
 
 interface AnimatedPageProps extends HTMLMotionProps<"div"> {

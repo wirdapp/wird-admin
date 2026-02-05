@@ -1,7 +1,7 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Empty } from "@/components/ui/empty";
 import { Spinner } from "@/components/ui/spinner";

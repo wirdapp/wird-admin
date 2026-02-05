@@ -1,4 +1,4 @@
-import { createBrowserRouter, redirect } from "react-router-dom";
+import { createBrowserRouter, redirect } from "react-router";
 import Competition from "./components/Competition";
 import ContestCriteria from "./components/ContestCriteria";
 import { ContestResults } from "./components/contest-results";

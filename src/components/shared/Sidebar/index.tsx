@@ -7,7 +7,7 @@ import { ReactComponent as ResultsIcon } from "assets/icons/results.svg";
 import { ReactComponent as WirdLogo } from "assets/icons/Shared/wirdLogo.svg";
 import { ReactComponent as ParticipantsIcon } from "assets/icons/students.svg";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import { cn } from "@/lib/utils";
 import { isAtLeastSuperAdmin } from "../../../util/roles";
 import { useDashboardData } from "../../../util/routes-data";

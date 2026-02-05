@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import "dayjs/locale/ar";
 import "dayjs/locale/en";
 import { DirectionProvider } from "@base-ui/react/direction-provider";
-import { Helmet } from "react-helmet";
-import { Outlet } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { Outlet } from "react-router";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 

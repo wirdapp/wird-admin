@@ -2,7 +2,7 @@ import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import type React from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import StudentBannerimg2 from "../../../assets/icons/studentImgAtBanner/studentBanner2.svg";
 import StudentBannerimg1 from "../../../assets/icons/studentImgAtBanner/studentBanner3.svg";

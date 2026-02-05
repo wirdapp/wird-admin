@@ -1,7 +1,7 @@
 import { ArrowLeft, ArrowRight, Crown } from "lucide-react";
 import type React from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { Empty } from "@/components/ui/empty";
 import { cn } from "@/lib/utils";
 import { ContestStatus } from "../../services/contests/utils";

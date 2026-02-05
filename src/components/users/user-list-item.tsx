@@ -3,7 +3,7 @@ import { ReactComponent as ResultsIcon } from "assets/icons/results.svg";
 import type React from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import {
 	AlertDialog,

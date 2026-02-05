@@ -1,5 +1,5 @@
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { AnimatePresence, type MotionProps, motion } from "framer-motion";
+import { AnimatePresence, type MotionProps, motion } from "motion/react";
 import type React from "react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

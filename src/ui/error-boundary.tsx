@@ -1,5 +1,5 @@
 import { ReactComponent as WirdLogo } from "assets/icons/Shared/wirdLogo.svg";
-import { useRouteError } from "react-router-dom";
+import { useRouteError } from "react-router";
 import { Error404 } from "./error-404";
 
 interface RouteError {

@@ -6,7 +6,7 @@ import { ReactComponent as LeaderBoard } from "assets/icons/leaderBoard.svg";
 import { ReactComponent as ResultsIcon } from "assets/icons/results.svg";
 import { ReactComponent as ParticipantsIcon } from "assets/icons/students.svg";
 import { useTranslation } from "react-i18next";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router";
 import {
 	SidebarGroup,
 	SidebarGroupContent,

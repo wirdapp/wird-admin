@@ -1,11 +1,10 @@
+import { Draggable, type DraggableProvided, type DraggableStateSnapshot } from "@hello-pangea/dnd";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import { CheckIcon, ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Bars2Icon } from "@heroicons/react/24/solid";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import type React from "react";
 import { useEffect, useState } from "react";
-// @ts-expect-error - react-beautiful-dnd types not installed
-import { Draggable } from "react-beautiful-dnd";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import {
@@ -80,7 +79,7 @@ export const SectionListItem: React.FC<SectionListItemProps> = ({ section, index
 			exit={{ opacity: 0, y: -20 }}
 		>
 			<Draggable draggableId={section.id} index={index}>
-				{(provided: any, snapshot: any) => (
+				{(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
 					<div ref={provided.innerRef} {...provided.draggableProps} key={section.id}>
 						<div
 							className="rounded-lg border"
@@ -175,7 +174,6 @@ export const SectionListItem: React.FC<SectionListItemProps> = ({ section, index
 								</AccordionItem>
 							</Accordion>
 						</div>
-						{provided.placeholder}
 					</div>
 				)}
 			</Draggable>

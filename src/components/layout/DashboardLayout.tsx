@@ -1,7 +1,7 @@
 import { ShieldX } from "lucide-react";
 import type React from "react";
 import { useTranslation } from "react-i18next";
-import { Outlet, useMatches } from "react-router-dom";
+import { Outlet, useMatches } from "react-router";
 import { Result } from "@/components/ui/result";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";

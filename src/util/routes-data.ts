@@ -1,4 +1,4 @@
-import { useMatches } from "react-router-dom";
+import { useMatches } from "react-router";
 
 // Re-export from DashboardDataProvider for backwards compatibility
 export { useDashboardData } from "../components/layout/DashboardDataProvider";
