@@ -21,6 +21,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { login } from "../../services/auth/session";
 import type { LoginFormValues } from "../../types";
 import { AuthPageFooter } from "../shared/auth-page-footer";
+import { SocialLoginSection } from "../shared/social-login-buttons";
 
 function Login() {
 	const { t } = useTranslation();
@@ -109,6 +110,11 @@ function Login() {
 							<Button type="submit" className="w-full h-12 mt-6" disabled={loading}>
 								{loading ? t("loading") : t("login")}
 							</Button>
+
+							<SocialLoginSection
+								mode="login"
+								onError={(err) => handleError(err as Parameters<typeof handleError>[0])}
+							/>
 
 							<div className="flex items-center gap-2">
 								<span className="text-muted-foreground">{t("notAccount")}</span>

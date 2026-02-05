@@ -37,6 +37,11 @@ const loginI18nEn = {
 	reviewText: "Review text entries",
 	requiredField: "This field is required",
 	copyrightFooterMsg: "\u00A9 All rights reserved Wird.app - {{year}}",
+	signInWithGoogle: "Sign in with Google",
+	signUpWithGoogle: "Sign up with Google",
+	signInWithApple: "Sign in with Apple",
+	signUpWithApple: "Sign up with Apple",
+	comingSoon: "Coming soon",
 };
 
 export default loginI18nEn;

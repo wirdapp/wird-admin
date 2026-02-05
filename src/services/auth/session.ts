@@ -66,3 +66,9 @@ export const login = async (username: string, password: string): Promise<void> =
 	const session = await AuthService.doLogin(username, password);
 	saveSession(session);
 };
+
+export const loginWithGoogle = async (code: string): Promise<void> => {
+	const { AuthService } = await import("./auth.service");
+	const session = await AuthService.googleLogin(code);
+	saveSession(session);
+};

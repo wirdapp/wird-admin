@@ -1,5 +1,11 @@
 import Cookies from "js-cookie";
-import type { ChangePasswordFormData, LoginResponse, SignupFormData, User } from "../../types";
+import type {
+	ChangePasswordFormData,
+	GoogleSocialLoginResponse,
+	LoginResponse,
+	SignupFormData,
+	User,
+} from "../../types";
 import axios from "../../util/axios";
 import type { Session } from "./session";
 
@@ -19,6 +25,18 @@ class AuthServiceClass {
 		const res = await this.axios.post<LoginResponse>("/auth/login/", {
 			username,
 			password,
+		});
+
+		return {
+			token: res.data.access,
+			refreshToken: res.data.refresh,
+			user: res.data.user,
+		};
+	}
+
+	async googleLogin(code: string): Promise<Session> {
+		const res = await this.axios.post<GoogleSocialLoginResponse>("/auth/social/google/", {
+			code,
 		});
 
 		return {

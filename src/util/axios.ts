@@ -26,7 +26,12 @@ const axios = Axios.create({
 	},
 });
 
-export const SkipAuthHeader = ["/auth/login/", "/auth/registration/", "/auth/token/refresh/"];
+export const SkipAuthHeader = [
+	"/auth/login/",
+	"/auth/registration/",
+	"/auth/token/refresh/",
+	"/auth/social/google/",
+];
 
 export async function tryRefreshTokens(refreshToken: string): Promise<string> {
 	const { data } = await axios.post<TokenRefreshResponse>("/auth/token/refresh/", {

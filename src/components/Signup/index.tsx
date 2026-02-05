@@ -23,6 +23,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { AuthService } from "../../services/auth/auth.service";
 import { login } from "../../services/auth/session";
 import { AuthPageFooter } from "../shared/auth-page-footer";
+import { SocialLoginSection } from "../shared/social-login-buttons";
 
 interface SignupFormValues {
 	username: string;
@@ -314,6 +315,17 @@ function Signup() {
 							<Button type="submit" className="w-full h-12" disabled={loading}>
 								{loading ? t("loading") : t("signUp")}
 							</Button>
+
+							<SocialLoginSection
+								mode="signup"
+								onError={(err) => {
+									if (isAxiosError(err)) {
+										setServerErrors(err.response?.data ?? {});
+									} else {
+										setServerErrors({ non_field_errors: [(err as Error).message] });
+									}
+								}}
+							/>
 
 							<div className="flex items-center gap-2">
 								<span className="text-muted-foreground">{t("alreadyHaveAccount")}</span>

@@ -35,6 +35,11 @@ const loginI18nAr = {
 	wirdSupport: "دعم وِرد",
 	requiredField: "هذا الحقل مطلوب",
 	copyrightFooterMsg: "\u00A9 جميع الحقوق محفوظة لتطبيق ورد - {{year}}",
+	signInWithGoogle: "تسجيل الدخول بحساب جوجل",
+	signUpWithGoogle: "إنشاء حساب بحساب جوجل",
+	signInWithApple: "تسجيل الدخول بحساب أبل",
+	signUpWithApple: "إنشاء حساب بحساب أبل",
+	comingSoon: "قريباً",
 };
 
 export default loginI18nAr;
