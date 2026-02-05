@@ -27,6 +27,7 @@ jobs:
         run: bun run build
         env:
           VITE_API_URL: ${{ vars.DEV_API_URL }}
+          VITE_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
