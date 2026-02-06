@@ -1,7 +1,8 @@
 import { Select as SelectPrimitive } from "@base-ui/react/select";
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, ListX } from "lucide-react";
 import * as React from "react";
 
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
 const Select = SelectPrimitive.Root;
@@ -65,24 +66,58 @@ const SelectContent = React.forwardRef<
 	React.ComponentPropsWithoutRef<"div"> & {
 		position?: string;
 	}
->(({ className, children, position: _position, ...props }, ref) => (
-	<SelectPrimitive.Portal>
-		<SelectPrimitive.Positioner className="z-[51]">
-			<SelectPrimitive.Popup
-				ref={ref}
-				className={cn(
-					"relative z-50 max-h-[var(--available-height)] min-w-[calc(var(--anchor-width)+4px)] overflow-y-auto overflow-x-hidden rounded-lg border bg-popover text-popover-foreground data-[open]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[open]:fade-in-0 data-[closed]:zoom-out-95 data-[open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 p-1.5",
-					className,
-				)}
-				{...props}
-			>
-				<SelectScrollUpButton />
-				<SelectPrimitive.List>{children}</SelectPrimitive.List>
-				<SelectScrollDownButton />
-			</SelectPrimitive.Popup>
-		</SelectPrimitive.Positioner>
-	</SelectPrimitive.Portal>
-));
+>(({ className, children, position: _position, ...props }, ref) => {
+	const isMobile = useIsMobile();
+
+	const listContent = React.Children.count(children) > 0 ? (
+		children
+	) : (
+		<div className="flex flex-col items-center justify-center gap-1.5 py-6 text-muted-foreground">
+			<ListX className="h-5 w-5" />
+			<span className="text-sm">Empty list</span>
+		</div>
+	);
+
+	if (isMobile) {
+		return (
+			<SelectPrimitive.Portal>
+				<SelectPrimitive.Backdrop className="fixed inset-0 z-50 bg-black/30 backdrop-blur-[2px] data-[open]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[open]:fade-in-0" />
+				<SelectPrimitive.Positioner className="!fixed !inset-x-0 !bottom-0 !top-auto !w-full !transform-none z-[51]">
+					<SelectPrimitive.Popup
+						ref={ref}
+						className={cn(
+							"w-full max-h-[70vh] overflow-y-auto overflow-x-hidden rounded-t-2xl border-t bg-popover text-popover-foreground p-1.5 pb-6 data-[open]:animate-in data-[closed]:animate-out data-[open]:slide-in-from-bottom data-[closed]:slide-out-to-bottom data-[open]:duration-300 data-[closed]:duration-200",
+							className,
+						)}
+						{...props}
+					>
+						<div className="mx-auto mt-2 mb-3 h-1 w-8 rounded-full bg-muted-foreground/30" />
+						<SelectPrimitive.List>{listContent}</SelectPrimitive.List>
+					</SelectPrimitive.Popup>
+				</SelectPrimitive.Positioner>
+			</SelectPrimitive.Portal>
+		);
+	}
+
+	return (
+		<SelectPrimitive.Portal>
+			<SelectPrimitive.Positioner className="z-[51]">
+				<SelectPrimitive.Popup
+					ref={ref}
+					className={cn(
+						"relative z-50 max-h-[var(--available-height)] min-w-[calc(var(--anchor-width)+4px)] overflow-y-auto overflow-x-hidden rounded-lg border bg-popover text-popover-foreground data-[open]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[open]:fade-in-0 data-[closed]:zoom-out-95 data-[open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 p-1.5",
+						className,
+					)}
+					{...props}
+				>
+					<SelectScrollUpButton />
+					<SelectPrimitive.List>{listContent}</SelectPrimitive.List>
+					<SelectScrollDownButton />
+				</SelectPrimitive.Popup>
+			</SelectPrimitive.Positioner>
+		</SelectPrimitive.Portal>
+	);
+});
 SelectContent.displayName = "SelectContent";
 
 const SelectLabel = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<"div">>(

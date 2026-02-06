@@ -29,7 +29,7 @@ const AlertDialogOverlay = React.forwardRef<HTMLDivElement, React.ComponentProps
 	({ className, ...props }, ref) => (
 		<DialogPrimitive.Backdrop
 			className={cn(
-				"fixed inset-0 z-50 bg-gray-500/30 backdrop-blur-[2px] data-[open]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[open]:fade-in-0",
+				"fixed inset-0 z-50 bg-black/30 backdrop-blur-[2px] data-[open]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[open]:fade-in-0",
 				className,
 			)}
 			{...props}

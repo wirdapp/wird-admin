@@ -26,7 +26,9 @@ export function NavUser() {
 	const { currentUser } = useDashboardData();
 	const navigate = useNavigate();
 	const { t, i18n } = useTranslation();
-	const { isMobile } = useSidebar();
+	const { isMobile, setOpenMobile } = useSidebar();
+
+	const closeMobileSidebar = () => setOpenMobile(false);
 
 	return (
 		<SidebarMenu>
@@ -80,13 +82,14 @@ export function NavUser() {
 						</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
-							<DropdownMenuItem onClick={() => navigate("/dashboard/profile")}>
+							<DropdownMenuItem onClick={() => { navigate("/dashboard/profile"); closeMobileSidebar(); }}>
 								<User className="me-2 size-4" />
 								{t("profile")}
 							</DropdownMenuItem>
 							<DropdownMenuItem
 								onClick={() => {
 									navigate("/help");
+									closeMobileSidebar();
 								}}
 							>
 								<HelpCircle className="me-2 size-4" />
@@ -95,6 +98,7 @@ export function NavUser() {
 							<DropdownMenuItem
 								onClick={() => {
 									changeLanguage(i18n.language === "ar" ? "en" : "ar");
+									closeMobileSidebar();
 								}}
 							>
 								<Languages className="me-2 size-4" />
@@ -106,6 +110,7 @@ export function NavUser() {
 							onClick={() => {
 								destroySession();
 								navigate("/login");
+								closeMobileSidebar();
 							}}
 						>
 							<LogOut className="me-2 size-4" />

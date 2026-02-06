@@ -1,5 +1,4 @@
 import { Check, ChevronsUpDown, Copy, LayoutGrid, PlusCircle, UserPlus } from "lucide-react";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import {
@@ -20,15 +19,18 @@ import { changeCurrentContest } from "../../../services/contests/utils";
 import type { ContestRaw } from "../../../types";
 import { useDashboardData } from "../../../util/routes-data";
 import { ContestBadge } from "../../Competition/contest-badge";
-import { CreateContestPopup } from "../../Competition/create-contest-popup";
-import { JoinContestPopup } from "../../Competition/join-contest-popup";
 
-export function ContestSwitcher() {
+interface ContestSwitcherProps {
+	onCreateContest: () => void;
+	onJoinContest: () => void;
+}
+
+export function ContestSwitcher({ onCreateContest, onJoinContest }: ContestSwitcherProps) {
 	const { currentContest, contests } = useDashboardData();
-	const [createContestOpen, setCreateContestOpen] = useState(false);
-	const [joinContestOpen, setJoinContestOpen] = useState(false);
 	const { t, i18n } = useTranslation();
-	const { isMobile } = useSidebar();
+	const { isMobile, setOpenMobile } = useSidebar();
+
+	const closeMobileSidebar = () => setOpenMobile(false);
 
 	const otherContests = contests.filter((contest) => contest.id !== currentContest?.id);
 
@@ -90,7 +92,7 @@ export function ContestSwitcher() {
 										<span className="font-medium">{currentContest.name}</span>
 										<Check className="ms-auto size-4" />
 									</DropdownMenuItem>
-									<DropdownMenuItem onClick={copyJoinCode} className="gap-2 p-2">
+									<DropdownMenuItem onClick={() => { copyJoinCode(); }} className="gap-2 p-2">
 										<Copy className="size-4 text-muted-foreground" />
 										<span className="text-muted-foreground">{t("join-code")}:</span>
 										<code className="bg-muted px-1 py-0.5 rounded text-xs">
@@ -120,11 +122,11 @@ export function ContestSwitcher() {
 									<DropdownMenuSeparator />
 								</>
 							)}
-							<DropdownMenuItem onClick={() => setCreateContestOpen(true)} className="gap-2 p-2">
+              <DropdownMenuItem onClick={() => { onCreateContest(); closeMobileSidebar();}} className="gap-2 p-2">
 								<PlusCircle className="size-4 text-brand-orange" />
 								{t("create-contest")}
 							</DropdownMenuItem>
-							<DropdownMenuItem onClick={() => setJoinContestOpen(true)} className="gap-2 p-2">
+              <DropdownMenuItem onClick={() => { onJoinContest(); closeMobileSidebar(); }} className="gap-2 p-2">
 								<UserPlus className="size-4 text-brand-orange" />
 								{t("join-contest")}
 							</DropdownMenuItem>
@@ -132,8 +134,6 @@ export function ContestSwitcher() {
 					</DropdownMenu>
 				</SidebarMenuItem>
 			</SidebarMenu>
-			<CreateContestPopup visible={createContestOpen} onClose={() => setCreateContestOpen(false)} />
-			<JoinContestPopup visible={joinContestOpen} onClose={() => setJoinContestOpen(false)} />
 		</>
 	);
 }
