@@ -37,9 +37,11 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ onSubmit }) =>
 	};
 
 	useEffect(() => {
-		resetForm();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [resetForm]);
+		form.reset({
+			first_name: currentUser?.first_name ?? "",
+			last_name: currentUser?.last_name ?? "",
+		});
+	}, [currentUser, form]);
 
 	const handleFormSubmit = (values: UserDetailsFormValues) => {
 		onSubmit(values);
