@@ -69,14 +69,15 @@ const SelectContent = React.forwardRef<
 >(({ className, children, position: _position, ...props }, ref) => {
 	const isMobile = useIsMobile();
 
-	const listContent = React.Children.count(children) > 0 ? (
-		children
-	) : (
-		<div className="flex flex-col items-center justify-center gap-1.5 py-6 text-muted-foreground">
-			<ListX className="h-5 w-5" />
-			<span className="text-sm">Empty list</span>
-		</div>
-	);
+	const listContent =
+		React.Children.count(children) > 0 ? (
+			children
+		) : (
+			<div className="flex flex-col items-center justify-center gap-1.5 py-6 text-muted-foreground">
+				<ListX className="h-5 w-5" />
+				<span className="text-sm">Empty list</span>
+			</div>
+		);
 
 	if (isMobile) {
 		return (

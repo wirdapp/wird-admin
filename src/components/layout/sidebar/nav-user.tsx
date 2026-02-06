@@ -82,7 +82,12 @@ export function NavUser() {
 						</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
-							<DropdownMenuItem onClick={() => { navigate("/dashboard/profile"); closeMobileSidebar(); }}>
+							<DropdownMenuItem
+								onClick={() => {
+									navigate("/dashboard/profile");
+									closeMobileSidebar();
+								}}
+							>
 								<User className="me-2 size-4" />
 								{t("profile")}
 							</DropdownMenuItem>
