@@ -13,6 +13,7 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
+	useSidebar,
 } from "@/components/ui/sidebar";
 import { isAtLeastSuperAdmin } from "../../../util/roles";
 import { useDashboardData } from "../../../util/routes-data";
@@ -30,6 +31,7 @@ export function NavMain() {
 	const { currentUser } = useDashboardData();
 	const { t } = useTranslation();
 	const location = useLocation();
+	const { setOpenMobile } = useSidebar();
 
 	const isSuperAdmin = isAtLeastSuperAdmin(currentUser?.role);
 
@@ -51,7 +53,7 @@ export function NavMain() {
 								isActive={isActive(item.to, item.end)}
 								tooltip={t(item.labelKey)}
 							>
-								<NavLink to={item.to} end={item.end}>
+								<NavLink to={item.to} end={item.end} onClick={() => setOpenMobile(false)}>
 									<item.icon className="size-5" />
 									<span>{t(item.labelKey)}</span>
 								</NavLink>
@@ -65,7 +67,7 @@ export function NavMain() {
 								isActive={isActive("/dashboard/contest-criteria")}
 								tooltip={t("criterias")}
 							>
-								<NavLink to="/dashboard/contest-criteria">
+								<NavLink to="/dashboard/contest-criteria" onClick={() => setOpenMobile(false)}>
 									<CriteriaIcon className="size-5" />
 									<span>{t("criterias")}</span>
 								</NavLink>
