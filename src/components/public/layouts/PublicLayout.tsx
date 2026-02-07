@@ -12,7 +12,7 @@ export function PublicLayout() {
 	useEffect(() => {
 		if (!locale) return;
 		i18n.changeLanguage(locale);
-	}, [locale, i18n.changeLanguage]);
+	}, [locale, i18n.changeLanguage, i18n]);
 
 	useEffect(() => {
 		document.documentElement.lang = i18n.language;
@@ -21,7 +21,7 @@ export function PublicLayout() {
 		// Apply font class based on locale
 		document.body.classList.remove("font-arabic", "font-english");
 		document.body.classList.add(i18n.language === "ar" ? "font-arabic" : "font-english");
-	}, [i18n.language, i18n.dir]);
+	}, [i18n.language, i18n.dir, i18n]);
 
 	return (
 		<div className="public-theme flex flex-col min-h-screen bg-[#fbf9f7]">

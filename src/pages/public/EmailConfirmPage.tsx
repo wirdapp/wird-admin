@@ -24,7 +24,7 @@ export function EmailConfirmPage() {
 		}
 		// Only run on mount
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [searchParams, verifyEmail]);
 
 	if (emailConfirmed === null) {
 		return (
