@@ -91,7 +91,7 @@ export const MembersSelect: React.FC<MembersSelectProps> = ({
 					<SelectValue placeholder={placeholder} />
 				)}
 			</SelectTrigger>
-			<SelectContent>
+			<SelectContent title={placeholder}>
 				{filteredMembers.map((member) => (
 					<SelectItem key={member.value} value={member.value}>
 						{member.label}

@@ -68,6 +68,7 @@ const SelectContent = React.forwardRef<
 		align?: "start" | "center" | "end";
 		side?: "top" | "right" | "bottom" | "left" | "inline-start" | "inline-end";
 		sideOffset?: number;
+		title?: string;
 	}
 >(
 	(
@@ -78,6 +79,7 @@ const SelectContent = React.forwardRef<
 			align = "start",
 			side = "bottom",
 			sideOffset = 4,
+			title,
 			...props
 		},
 		ref,
@@ -102,12 +104,15 @@ const SelectContent = React.forwardRef<
 						<SelectPrimitive.Popup
 							ref={ref}
 							className={cn(
-								"w-full max-h-[70vh] overflow-y-auto overflow-x-hidden rounded-t-2xl border-t bg-popover text-popover-foreground p-1.5 pb-6 data-[open]:animate-in data-[closed]:animate-out data-[open]:slide-in-from-bottom data-[closed]:slide-out-to-bottom data-[open]:duration-300 data-[closed]:duration-200",
+								"w-full min-h-[50vh] max-h-[70vh] overflow-y-auto overflow-x-hidden rounded-t-2xl border-t bg-popover text-popover-foreground p-1.5 pb-6 data-[open]:animate-in data-[closed]:animate-out data-[open]:slide-in-from-bottom data-[closed]:slide-out-to-bottom data-[open]:duration-300 data-[closed]:duration-200",
 								className,
 							)}
 							{...props}
 						>
 							<div className="mx-auto mt-2 mb-3 h-1 w-8 rounded-full bg-muted-foreground/30" />
+							{title && (
+								<div className="px-3 py-2 text-base font-semibold text-foreground">{title}</div>
+							)}
 							<SelectPrimitive.List>{listContent}</SelectPrimitive.List>
 						</SelectPrimitive.Popup>
 					</SelectPrimitive.Positioner>

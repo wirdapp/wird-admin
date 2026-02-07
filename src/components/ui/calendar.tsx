@@ -21,10 +21,9 @@ function Calendar({
 	return (
 		<DayPicker
 			showOutsideDays={showOutsideDays}
+			dir="ltr"
 			className={cn(
 				"bg-background group/calendar p-3 [--cell-size:2rem] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
-				String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
-				String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
 				className,
 			)}
 			captionLayout={captionLayout}
@@ -106,7 +105,15 @@ function Calendar({
 			}}
 			components={{
 				Root: ({ className, rootRef, ...props }) => {
-					return <div data-slot="calendar" ref={rootRef} className={cn(className)} {...props} />;
+					return (
+						<div
+							data-slot="calendar"
+							dir="ltr"
+							ref={rootRef}
+							className={cn(className)}
+							{...props}
+						/>
+					);
 				},
 				Chevron: ({ className, orientation, ...props }) => {
 					if (orientation === "left") {

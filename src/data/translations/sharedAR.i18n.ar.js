@@ -22,6 +22,7 @@ const sharedARI18nAr = {
 	"contest-removed": "تم حذف المسابقة",
 	"current-contest": "المسابقة الحالية",
 	profile: "الملف الشخصي",
+	"select-date": "اختر التاريخ",
 };
 
 export default sharedARI18nAr;

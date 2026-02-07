@@ -53,7 +53,7 @@ export const GroupsList: React.FC<GroupsListProps> = ({ groups, selected }) => {
 			<SelectTrigger>
 				<SelectValue placeholder={t("select-group")} />
 			</SelectTrigger>
-			<SelectContent>
+			<SelectContent title={t("select-group")}>
 				{groups.map((group) => (
 					<SelectItem key={group.id} value={group.id}>
 						{group.name}

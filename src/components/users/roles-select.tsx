@@ -17,6 +17,7 @@ interface RolesSelectProps {
 	showAll?: boolean;
 	className?: string;
 	minRole?: number;
+	title?: string;
 }
 
 interface RoleOption {
@@ -30,6 +31,7 @@ export const RolesSelect: React.FC<RolesSelectProps> = ({
 	showAll,
 	className,
 	minRole = -1,
+	title,
 }) => {
 	const { t } = useTranslation();
 
@@ -55,7 +57,7 @@ export const RolesSelect: React.FC<RolesSelectProps> = ({
 			<SelectTrigger className={cn("w-full", className)}>
 				<SelectValue />
 			</SelectTrigger>
-			<SelectContent>
+			<SelectContent title={title}>
 				{options.map((option) => (
 					<SelectItem key={option.value} value={option.value.toString()}>
 						{option.label}

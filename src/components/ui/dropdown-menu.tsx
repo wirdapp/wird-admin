@@ -73,7 +73,7 @@ const DropdownMenuSubContent = React.forwardRef<
 					<Menu.Popup
 						ref={ref}
 						className={cn(
-							"mobile-drawer w-full max-h-[70vh] overflow-y-auto overflow-x-hidden rounded-t-2xl border-t bg-popover text-popover-foreground p-1.5 pb-6 data-[open]:animate-in data-[closed]:animate-out data-[open]:slide-in-from-bottom data-[closed]:slide-out-to-bottom data-[open]:duration-300 data-[closed]:duration-200",
+							"mobile-drawer w-full min-h-[50vh] max-h-[70vh] overflow-y-auto overflow-x-hidden rounded-t-2xl border-t bg-popover text-popover-foreground p-1.5 pb-6 data-[open]:animate-in data-[closed]:animate-out data-[open]:slide-in-from-bottom data-[closed]:slide-out-to-bottom data-[open]:duration-300 data-[closed]:duration-200",
 							className,
 						)}
 						{...props}
@@ -123,7 +123,7 @@ const DropdownMenuContent = React.forwardRef<
 					<Menu.Popup
 						ref={ref}
 						className={cn(
-							"mobile-drawer w-full max-h-[70vh] overflow-y-auto overflow-x-hidden rounded-t-2xl border-t bg-popover text-popover-foreground p-1.5 pb-6 data-[open]:animate-in data-[closed]:animate-out data-[open]:slide-in-from-bottom data-[closed]:slide-out-to-bottom data-[open]:duration-300 data-[closed]:duration-200",
+							"mobile-drawer w-full min-h-[50vh] max-h-[70vh] overflow-y-auto overflow-x-hidden rounded-t-2xl border-t bg-popover text-popover-foreground p-1.5 pb-6 data-[open]:animate-in data-[closed]:animate-out data-[open]:slide-in-from-bottom data-[closed]:slide-out-to-bottom data-[open]:duration-300 data-[closed]:duration-200",
 							className,
 						)}
 						{...props}

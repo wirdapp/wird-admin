@@ -14,12 +14,14 @@ interface CriteriaTypeSelectProps {
 	value?: string;
 	onChange?: (value: string) => void;
 	disabled?: boolean;
+	title?: string;
 }
 
 export const CriteriaTypeSelect: React.FC<CriteriaTypeSelectProps> = ({
 	value,
 	onChange,
 	disabled,
+	title,
 }) => {
 	const { t } = useTranslation();
 	const items = FieldTypesOptions.map((o) => ({ value: o.value, label: t(o.label) }));
@@ -34,7 +36,7 @@ export const CriteriaTypeSelect: React.FC<CriteriaTypeSelectProps> = ({
 			<SelectTrigger>
 				<SelectValue />
 			</SelectTrigger>
-			<SelectContent>
+			<SelectContent title={title}>
 				{FieldTypesOptions.map((o) => {
 					const Icon = FieldTypesIcons[o.value];
 					return (

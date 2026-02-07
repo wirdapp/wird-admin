@@ -76,7 +76,13 @@ export default function Students(): React.ReactElement {
 					</div>
 					<div className="flex gap-4 items-center flex-wrap">
 						<span className="text-muted-foreground">{t("show")}:</span>
-						<RolesSelect showAll value={role} onChange={setRole} className="w-full max-w-[300px]" />
+						<RolesSelect
+							showAll
+							value={role}
+							onChange={setRole}
+							className="w-full max-w-[300px]"
+							title={t("show")}
+						/>
 						<span className="text-sm text-muted-foreground">
 							{(!isLoading && students.length && `${t("showing")} ${students.length}`) || ""}
 						</span>

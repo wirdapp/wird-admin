@@ -81,7 +81,12 @@ export const CriteriaTypeFields: React.FC<CriteriaTypeFieldsProps> = ({ isEdit }
 					<FormItem>
 						<FormLabel>{t("criteria-type")}</FormLabel>
 						<FormControl>
-							<CriteriaTypeSelect value={field.value} onChange={field.onChange} disabled={isEdit} />
+							<CriteriaTypeSelect
+								value={field.value}
+								onChange={field.onChange}
+								disabled={isEdit}
+								title={t("criteria-type")}
+							/>
 						</FormControl>
 						<FormMessage />
 					</FormItem>

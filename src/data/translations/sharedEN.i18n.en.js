@@ -22,6 +22,7 @@ const sharedENI18nEn = {
 	"contest-removed": "Contest has been removed",
 	"current-contest": "Current Contest",
 	profile: "Profile",
+	"select-date": "Select Date",
 };
 
 export default sharedENI18nEn;

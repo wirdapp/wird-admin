@@ -223,7 +223,7 @@ export const CreateContestPopup: React.FC<CreateContestPopupProps> = ({ visible,
 													<SelectValue placeholder={t("country")} />
 												</SelectTrigger>
 											</FormControl>
-											<SelectContent>
+											<SelectContent title={t("country")}>
 												{countries.map((country) => (
 													<SelectItem key={country.value} value={country.value}>
 														{country.label}

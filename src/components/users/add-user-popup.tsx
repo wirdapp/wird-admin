@@ -115,6 +115,7 @@ export const AddUserPopup: React.FC<AddUserPopupProps> = ({ open, onClose, onAdd
 											value={field.value}
 											onChange={field.onChange}
 											minRole={currentUser!.role!}
+											title={t("mainRole")}
 										/>
 									</FormControl>
 									<FormMessage />
