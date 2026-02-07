@@ -45,12 +45,10 @@ export const CriterionField: React.FC<CriterionFieldProps> = ({ criterion }) => 
 				/>
 			)}
 			{criterion.resourcetype === FieldTypes.Checkbox && (
-				<div className="flex items-center gap-2">
-					<Switch />
-					<span className="text-sm text-muted-foreground">
-						{criterion.checked_label ?? t("yes")} / {criterion.unchecked_label ?? t("no")}
-					</span>
-				</div>
+				<Switch
+					checkedText={criterion.checked_label ?? t("yes")}
+					uncheckedText={criterion.unchecked_label ?? t("no")}
+				/>
 			)}
 			{criterion.resourcetype === FieldTypes.MultipleChoices && (
 				<div className="flex flex-col gap-2">
