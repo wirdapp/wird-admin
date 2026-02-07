@@ -55,27 +55,17 @@ function isRtl() {
 
 const Switch = React.forwardRef<HTMLElement, SwitchProps>(
 	(
-		{
-			className,
-			checkedText,
-			uncheckedText,
-			checked,
-			defaultChecked,
-			onCheckedChange,
-			...props
-		},
+		{ className, checkedText, uncheckedText, checked, defaultChecked, onCheckedChange, ...props },
 		ref,
 	) => {
 		const hasText = checkedText || uncheckedText;
 		const layout = useTextSwitchLayout(checkedText, uncheckedText);
 
 		const isControlled = checked !== undefined;
-		const [internalChecked, setInternalChecked] = React.useState(
-			defaultChecked ?? false,
-		);
+		const [internalChecked, setInternalChecked] = React.useState(defaultChecked ?? false);
 		const isChecked = isControlled ? checked : internalChecked;
 
-		const handleCheckedChange: typeof onCheckedChange = React.useCallback(
+		const handleCheckedChange = React.useCallback<NonNullable<SwitchProps["onCheckedChange"]>>(
 			(val, event) => {
 				if (!isControlled) setInternalChecked(val);
 				onCheckedChange?.(val, event);
@@ -87,9 +77,7 @@ const Switch = React.forwardRef<HTMLElement, SwitchProps>(
 			hasText && layout
 				? (() => {
 						const dir = isRtl() ? -1 : 1;
-						const px = isChecked
-							? dir * layout.travel
-							: dir * THUMB_REST;
+						const px = isChecked ? dir * layout.travel : dir * THUMB_REST;
 						return `translateX(${px}px)`;
 					})()
 				: undefined;
@@ -119,11 +107,7 @@ const Switch = React.forwardRef<HTMLElement, SwitchProps>(
 						!hasText &&
 							"data-[checked]:translate-x-5 data-[unchecked]:translate-x-0.5 rtl:data-[checked]:-translate-x-5 rtl:data-[unchecked]:-translate-x-0.5",
 					)}
-					style={
-						thumbTransform
-							? { transform: thumbTransform }
-							: undefined
-					}
+					style={thumbTransform ? { transform: thumbTransform } : undefined}
 				/>
 				{hasText && (
 					<span className="pointer-events-none absolute inset-y-0 end-2 flex select-none items-center text-[10px] font-medium leading-none text-muted-foreground transition-opacity duration-200 group-data-[checked]:opacity-0 group-data-[unchecked]:opacity-100">
