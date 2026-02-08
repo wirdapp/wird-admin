@@ -567,10 +567,11 @@ export interface PointRecordUpdateData {
 /** Leaderboard person entry */
 export interface LeaderboardPerson {
 	id: UUID;
-	person_info: PersonInfo;
 	total_points: number;
-	rank: number;
-	contest_role: Role;
+	person__username: string;
+	person__first_name: string;
+	person__last_name: string;
+	person__profile_photo: string;
 }
 
 /** Legacy LeaderboardEntry alias */

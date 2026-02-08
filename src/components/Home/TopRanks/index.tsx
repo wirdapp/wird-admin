@@ -1,12 +1,13 @@
+import { User } from "lucide-react";
 import type React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 import SeeMore from "../../../assets/icons/Home/SeeMore.svg";
 import type { ContestPerson, LeaderboardEntry } from "../../../types";
-import { getFullName, getInitials } from "../../../util/user-utils";
+import { getFullName, getInitials, getLeaderboardFullName } from "../../../util/user-utils";
 import NumberAndAbbreviationOfNames from "../../shared/NumberAndAbbreviationOfNames";
 
 interface TopRanksProps {
@@ -102,6 +103,13 @@ function TopRanks({
 													i === 2 && "bg-[#fb6d3b]/25",
 												)}
 											>
+												{topMember.person__profile_photo && (
+													<AvatarImage
+														src={topMember.person__profile_photo}
+														alt={getLeaderboardFullName(topMember)}
+														className="rounded-xl"
+													/>
+												)}
 												<AvatarFallback
 													className={cn(
 														"rounded-xl text-sm font-bold",
@@ -110,11 +118,11 @@ function TopRanks({
 														i === 2 && "bg-[#fb6d3b]/25",
 													)}
 												>
-													{getInitials(topMember.person_info)}
+													<User className="h-5 w-5" />
 												</AvatarFallback>
 											</Avatar>
 											<div className="font-bold text-base leading-5">
-												{getFullName(topMember.person_info)}
+												{getLeaderboardFullName(topMember)}
 											</div>
 										</Link>
 									))}

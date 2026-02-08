@@ -42,7 +42,7 @@ export const SubmissionsList: React.FC<SubmissionsListProps> = ({ results }) => 
 	}, []);
 
 	const navigateToUserResults = (user: TopThreeUser): void => {
-		navigate(`../results/members?user_id=${user.id}`);
+		navigate(`../results/members?userId=${user.id}`);
 	};
 
 	return (

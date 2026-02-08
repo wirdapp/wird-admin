@@ -85,7 +85,7 @@ const Switch = React.forwardRef<HTMLElement, SwitchProps>(
 		return (
 			<SwitchPrimitive.Root
 				className={cn(
-					"group peer inline-flex shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[checked]:bg-primary data-[unchecked]:bg-input",
+					"group peer inline-flex shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-disabled:cursor-not-allowed data-disabled:opacity-50 data-[checked]:bg-primary data-[unchecked]:bg-input",
 					hasText ? "relative h-7 overflow-hidden" : "h-7 w-12",
 					className,
 				)}
