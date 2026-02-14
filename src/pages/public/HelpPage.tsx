@@ -13,14 +13,13 @@ export function HelpPage() {
 				ogTitle={`${t("help")} - ${t("wird")}`}
 				ogDescription={t("adminPanelHelpText")}
 			/>
-			<div className="max-w-5xl mx-auto w-full py-10">
+			<div className="max-w-5xl mx-auto w-full py-10 px-4">
 				<h1 className="text-3xl font-bold mb-8 text-gray-700">{t("help")}</h1>
 				<h2 className="text-xl font-bold mb-8 text-gray-700">{t("adminPanelHelp")}</h2>
 				<p className="mb-4">{t("adminPanelHelpText")}</p>
 				{locale === "ar" ? (
 					<iframe
-						width="560"
-						height="315"
+						className="w-full aspect-video rounded-lg"
 						src="https://www.youtube.com/embed/videoseries?si=5mEH8TTChJZNjlOc&amp;list=PLh7mINmitSDXo2A2G6LqA8zRxZZJuhzvs"
 						title="YouTube video player"
 						frameBorder="0"
@@ -29,8 +28,7 @@ export function HelpPage() {
 					/>
 				) : (
 					<iframe
-						width="560"
-						height="315"
+						className="w-full aspect-video rounded-lg"
 						src="https://www.youtube.com/embed/videoseries?si=ztRGDPgN8vWw5EZ2&amp;list=PLh7mINmitSDWIaTMeL0saoYNEFsCV8Wow"
 						title="YouTube video player"
 						frameBorder="0"
