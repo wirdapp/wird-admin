@@ -32,14 +32,24 @@ export const CriteriaTypeFields: React.FC<CriteriaTypeFieldsProps> = ({ isEdit }
 	const options: CriterionOption[] = form.watch("options") || [];
 
 	const onCheckboxChecked = (checked: boolean, index: number): void => {
-		if (selectedType !== FieldTypes.Radio) return;
-		if (checked) {
-			const currentOptions: CriterionOption[] = form.getValues("options") ?? [];
+		const currentOptions: CriterionOption[] = form.getValues("options") ?? [];
+
+		if (selectedType === FieldTypes.Radio) {
+			if (checked) {
+				form.setValue(
+					"options",
+					currentOptions.map((option, i) => ({
+						...option,
+						is_correct: i === index,
+					})),
+				);
+			}
+		} else if (selectedType === FieldTypes.MultipleChoices) {
 			form.setValue(
 				"options",
 				currentOptions.map((option, i) => ({
 					...option,
-					is_correct: i === index,
+					is_correct: i === index ? checked : option.is_correct,
 				})),
 			);
 		}
