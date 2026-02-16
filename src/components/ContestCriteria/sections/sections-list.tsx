@@ -1,12 +1,19 @@
 import {
-	DragDropContext,
-	Droppable,
-	type DroppableProvided,
-	type DroppableStateSnapshot,
-	type DropResult,
-} from "@hello-pangea/dnd";
+	closestCenter,
+	DndContext,
+	type DragEndEvent,
+	KeyboardSensor,
+	PointerSensor,
+	useSensor,
+	useSensors,
+} from "@dnd-kit/core";
+import {
+	arrayMove,
+	SortableContext,
+	sortableKeyboardCoordinates,
+	verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { AnimatePresence } from "motion/react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -14,8 +21,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
-import { reorder } from "../../../util/contest-utils";
 import { SectionListItem } from "./section-list-item";
 import { useContestSections } from "./use-contest-sections";
 
@@ -50,44 +55,33 @@ export const SectionsList: React.FC = () => {
 		}
 	};
 
-	const onDragEnd = async (result: DropResult): Promise<void> => {
-		// dropped outside the list
-		if (!result.destination) {
-			return;
-		}
+	const sensors = useSensors(
+		useSensor(PointerSensor),
+		useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+	);
 
-		if (result.destination.index === result.source.index) {
-			return;
-		}
+	const onDragEnd = async (event: DragEndEvent): Promise<void> => {
+		const { active, over } = event;
+		if (!over || active.id === over.id) return;
 
-		const items = reorder(sections, result.source.index, result.destination.index);
+		const oldIndex = sections.findIndex((s) => s.id === active.id);
+		const newIndex = sections.findIndex((s) => s.id === over.id);
+		const items = arrayMove(sections, oldIndex, newIndex);
 
 		await actions.updateSectionsOrder(items);
 	};
 
 	return (
 		<div className="flex flex-col gap-4">
-			<DragDropContext onDragEnd={onDragEnd}>
-				<Droppable droppableId="droppable">
-					{(provided: DroppableProvided, snapshot: DroppableStateSnapshot) => (
-						<div
-							{...provided.droppableProps}
-							ref={provided.innerRef}
-							className={cn(
-								"p-1 flex flex-col gap-4 transition-colors",
-								snapshot.isDraggingOver && "bg-muted/50",
-							)}
-						>
-							<AnimatePresence>
-								{sections.map((section, index) => (
-									<SectionListItem key={section.id} section={section} index={index} />
-								))}
-							</AnimatePresence>
-							{provided.placeholder}
-						</div>
-					)}
-				</Droppable>
-			</DragDropContext>
+			<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+				<SortableContext items={sections.map((s) => s.id)} strategy={verticalListSortingStrategy}>
+					<div className="p-1 flex flex-col gap-4">
+						{sections.map((section, index) => (
+							<SectionListItem key={section.id} section={section} index={index} />
+						))}
+					</div>
+				</SortableContext>
+			</DndContext>
 			<Card className="border-dashed">
 				<CardContent className="pt-6">
 					<form onSubmit={handleSubmit(handleAddSection)} className="space-y-4">
