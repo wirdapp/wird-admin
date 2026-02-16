@@ -90,7 +90,7 @@ export function WirdStats() {
 										dangerouslySetInnerHTML={{
 											__html: t("wirdStats.contestsCount", {
 												count: sortedCountries
-													.slice(2)
+													.slice(3)
 													.reduce((acc: number, c) => acc + c.country_count, 0),
 											}),
 										}}
