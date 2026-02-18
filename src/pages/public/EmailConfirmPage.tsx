@@ -1,7 +1,7 @@
 import { Paper } from "components/public/paper";
 import { SEO } from "components/public/SEO";
 import { CheckCircle, TriangleAlert } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";
 import { useVerifyEmail } from "services/auth/queries";
@@ -11,10 +11,13 @@ export function EmailConfirmPage() {
 	const { t } = useTranslation();
 	const [emailConfirmed, setEmailConfirmed] = useState<boolean | null>(null);
 	const verifyEmail = useVerifyEmail();
+	const hasVerified = useRef(false);
 
 	useEffect(() => {
+		if (hasVerified.current) return;
 		const key = searchParams.get("key");
 		if (key) {
+			hasVerified.current = true;
 			verifyEmail
 				.mutateAsync(key)
 				.then(() => setEmailConfirmed(true))
@@ -22,8 +25,6 @@ export function EmailConfirmPage() {
 		} else {
 			setEmailConfirmed(false);
 		}
-		// Only run on mount
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [searchParams, verifyEmail]);
 
 	if (emailConfirmed === null) {
