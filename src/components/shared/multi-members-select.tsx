@@ -14,6 +14,7 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 import { MembersService } from "../../services/members/members.service";
+import { createNormalizedFilter } from "../../util/normalize-text";
 import type { Role } from "../../util/roles";
 import { getFullName } from "../../util/user-utils";
 
@@ -42,6 +43,10 @@ export const MultiMembersSelect: React.FC<MultiMembersSelectProps> = ({
 	className,
 	disabled,
 }) => {
+	const memberFilter = useMemo(
+		() => createNormalizedFilter<MemberOption>((item) => `${item.label} ${item.username}`),
+		[],
+	);
 	const [members, setMembers] = useState<MemberOption[]>([]);
 	const [loading, setLoading] = useState(false);
 
@@ -91,6 +96,7 @@ export const MultiMembersSelect: React.FC<MultiMembersSelectProps> = ({
 		<Combobox
 			items={filteredMembers}
 			itemToStringValue={(item: MemberOption) => `${item.label} ${item.username}`}
+			filter={memberFilter}
 			multiple
 			value={selectedOptions}
 			onValueChange={(items: MemberOption[]) => {

@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/combobox";
 import { FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { getContestDays } from "../../../util/contest-utils";
+import { createNormalizedFilter } from "../../../util/normalize-text";
 import { useDashboardData } from "../../../util/routes-data";
 
 interface DateOption {
@@ -27,6 +28,7 @@ export const CriteriaAdvancedFields: React.FC = () => {
 	const { t } = useTranslation();
 	const { currentContest } = useDashboardData();
 	const form = useFormContext();
+	const dateFilter = useMemo(() => createNormalizedFilter<DateOption>((item) => item.label), []);
 	const activateOnDates: string[] | undefined = form.watch("activate_on_dates");
 	const deactivateOnDates: string[] | undefined = form.watch("deactivate_on_dates");
 
@@ -91,6 +93,7 @@ export const CriteriaAdvancedFields: React.FC = () => {
 							<Combobox
 								items={activateOnDatesOptions}
 								itemToStringValue={(item: DateOption) => item.label}
+								filter={dateFilter}
 								multiple
 								value={
 									field.value
@@ -141,6 +144,7 @@ export const CriteriaAdvancedFields: React.FC = () => {
 							<Combobox
 								items={deactivateOnDatesOptions}
 								itemToStringValue={(item: DateOption) => item.label}
+								filter={dateFilter}
 								multiple
 								value={
 									field.value

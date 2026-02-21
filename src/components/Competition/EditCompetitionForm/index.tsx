@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import type React from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -20,18 +20,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
-import { allCountries } from "../../../data/countries";
 import { useUpdateContest } from "../../../services/contests/queries";
 import type { Contest } from "../../../types";
 import { isAtLeastSuperAdmin } from "../../../util/roles";
 import { useDashboardData } from "../../../util/routes-data";
+import { CountrySelect } from "../../shared/country-select";
 
 interface EditCompetitionFormProps {
 	contest: Contest;
@@ -44,7 +37,7 @@ interface ApiErrorResponse {
 }
 
 const EditCompetitionForm: React.FC<EditCompetitionFormProps> = ({ contest }) => {
-	const { t, i18n } = useTranslation();
+	const { t } = useTranslation();
 	const [messages, setMessages] = useState<string[]>([]);
 	const { currentUser } = useDashboardData();
 	const updateContest = useUpdateContest();
@@ -89,15 +82,6 @@ const EditCompetitionForm: React.FC<EditCompetitionFormProps> = ({ contest }) =>
 			readonly_mode: contest.readonly_mode ?? false,
 		});
 	}, [contest, form]);
-
-	const countries = useMemo(() => {
-		return allCountries(i18n.language)
-			.filter((country): country is { code: string; name: string } => Boolean(country))
-			.map((country) => ({
-				label: country.name,
-				value: country.code,
-			}));
-	}, [i18n.language]);
 
 	const handleUpdateContest = async (values: FormValues): Promise<void> => {
 		try {
@@ -173,25 +157,12 @@ const EditCompetitionForm: React.FC<EditCompetitionFormProps> = ({ contest }) =>
 							render={({ field }) => (
 								<FormItem className="grid grid-cols-1 gap-2 md:grid-cols-[180px_1fr] md:items-center">
 									<FormLabel>{t("country")}</FormLabel>
-									<Select
-										onValueChange={field.onChange}
+									<CountrySelect
 										value={field.value}
+										onValueChange={field.onChange}
+										placeholder={t("country")}
 										disabled={!canEdit || updateContest.isPending}
-										items={countries}
-									>
-										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder={t("country")} />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent title={t("country")}>
-											{countries.map((country) => (
-												<SelectItem key={country.value} value={country.value}>
-													{country.label}
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
+									/>
 									<FormMessage className="md:col-start-2" />
 								</FormItem>
 							)}

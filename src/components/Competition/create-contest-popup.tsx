@@ -1,7 +1,7 @@
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isAxiosError } from "axios";
-import React, { useMemo } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -24,18 +24,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Result } from "@/components/ui/result";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { allCountries } from "../../data/countries";
 import { ContestsService } from "../../services/contests/contests.service";
 import { changeCurrentContest } from "../../services/contests/utils";
 import { useDashboardData } from "../../util/routes-data";
+import { CountrySelect } from "../shared/country-select";
 
 interface CreateContestPopupProps {
 	visible: boolean;
@@ -52,7 +45,7 @@ interface FormErrors {
 
 export const CreateContestPopup: React.FC<CreateContestPopupProps> = ({ visible, onClose }) => {
 	const { currentUser } = useDashboardData();
-	const { t, i18n } = useTranslation();
+	const { t } = useTranslation();
 	const [errors, setErrors] = React.useState<FormErrors>({});
 	const [submitting, setSubmitting] = React.useState<boolean>(false);
 
@@ -116,15 +109,6 @@ export const CreateContestPopup: React.FC<CreateContestPopupProps> = ({ visible,
 		form.reset();
 		onClose?.();
 	};
-
-	const countries = useMemo(() => {
-		return allCountries(i18n.language)
-			.filter((country): country is { code: string; name: string } => Boolean(country))
-			.map((country) => ({
-				label: country.name,
-				value: country.code,
-			}));
-	}, [i18n.language]);
 
 	const isEmailVerified = currentUser?.email_verified ?? false;
 
@@ -212,25 +196,12 @@ export const CreateContestPopup: React.FC<CreateContestPopupProps> = ({ visible,
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>{t("country")}</FormLabel>
-										<Select
-											onValueChange={field.onChange}
+										<CountrySelect
 											value={field.value}
+											onValueChange={field.onChange}
+											placeholder={t("country")}
 											disabled={!isEmailVerified || submitting}
-											items={countries}
-										>
-											<FormControl>
-												<SelectTrigger>
-													<SelectValue placeholder={t("country")} />
-												</SelectTrigger>
-											</FormControl>
-											<SelectContent title={t("country")}>
-												{countries.map((country) => (
-													<SelectItem key={country.value} value={country.value}>
-														{country.label}
-													</SelectItem>
-												))}
-											</SelectContent>
-										</Select>
+										/>
 										<FormMessage>{errors.country}</FormMessage>
 									</FormItem>
 								)}
